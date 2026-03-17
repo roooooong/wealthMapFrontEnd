@@ -1,0 +1,77 @@
+.frameCss{
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+.iconbtn{
+  border: none;
+  margin: 40px;
+  margin-bottom: 8px;
+  background-color: white;
+  cursor: pointer;
+}
+
+.iconbtn:hover{
+  border: none;
+  margin: 40px;
+  margin-bottom: 8px;
+  background-color: white;
+  transform: scale(1.1);
+  cursor: pointer;
+}
+
+.notification-box {
+  width: 40%;
+  height: 2px;
+  padding: 15px;
+  background-color: #799dd2; /* 深藍色背景 */
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 2px;
+  font-size: 12px;
+  transition: opacity 0.3s ease; /* 消失時的淡出動畫 */
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.close-btn:hover {
+  color: #b8cae6; /* 懸停時變色 */
+}
+
+.chart-container{
+  width: 400px;
+  height: 300px;
+}
+
+.chart-center-text {
+  position: absolute;
+  top: 50%;
+  left: 46%;
+  transform: translate(-50%, -50%); /* 精準置中 */
+  text-align: center;
+  pointer-events: none; /* 讓滑鼠可以穿過文字，不影響圖表 hover 效果 */
+}
+
+.total-label {
+  display: block;
+  font-size: 14px;
+  color: #666;
+}
+
+.total-amount {
+  display: block;
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+}
+

@@ -1,0 +1,64 @@
+<!-- 使用者才會顯示 -->
+@if( role=="user"){
+  <br>
+<div class="frameCss">
+  <div id="notification" class="notification-box">
+    <span>這裡是可以打叉的個人通知！</span>
+    <button class="close-btn" (click)="closeNotice()">&times;</button>
+  </div>
+</div>
+<div class="frameCss">
+<div class="chart-container">
+  <canvas id="chart"></canvas>
+  <div class="chart-center-text">
+    <span class="total-label">總資產</span>
+    <span class="total-amount">$10,000</span>
+  </div>
+</div>
+</div>
+
+}
+<!-- 父層 -->
+<div class="frameCss">
+  <!-- 子層 -->
+  <div style="position: absolute;">
+    <button class="iconbtn">
+      <img style="width: 80px;height: 60px;" src="16220.png">
+      <br><br>
+      <label style="font-size: 16px;">我的資產</label>
+    </button>
+    <button class="iconbtn">
+      <img style="width: 90px;height: 90px;" src="9274 (1).png">
+      <br><br>
+      <label style="font-size: 16px;">財務健康</label>
+    </button>
+    <button class="iconbtn">
+      <img style="width: 120px;height: 70px;" src="9289.png">
+      <br><br>
+      <label style="font-size: 16px;">投資策略</label>
+    </button>
+    <button class="iconbtn">
+      <img style="width: 90px;height: 80px;" src="12260.png">
+      <br><br>
+      <label style="font-size: 16px;">財務目標</label>
+    </button>
+    <button class="iconbtn">
+      <img style="width: 100px;height: 70px;" src="9179.png">
+      <br><br>
+      <label style="font-size: 16px;">風險評估</label>
+    </button>
+    <hr>
+  </div>
+</div>
+
+<br><br><br><br><br><br><br><br><br><br><br><br><br>
+<!-- 新聞 -->
+<div class="frameCss">
+  <div style="width: 70%;height: 400px;background-color: #b8cae6;">相關新聞</div>
+</div>
+<br>
+<!-- 系統通知 -->
+<div style="position: relative;">
+  <div style="position: absolute;left:187px;width: 40%;height: 200px;background-color: #b8cae6;">系統通知</div>
+</div>
+<br><br><br><br><br><br><br><br><br><br><br><br><br>

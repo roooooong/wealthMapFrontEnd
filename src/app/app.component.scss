@@ -1,0 +1,48 @@
+.frameCss{
+  display: flex;
+  justify-content: center;
+}
+
+.headerCss{
+  position: relative;
+  width: 80%;
+  height:60px;
+  border-radius: 10px;
+  background: linear-gradient(45deg, #799CD2, #2F5FA9);
+}
+
+.logo{
+  position: absolute;
+  left:40px;
+  bottom:10px;
+  font-size: 16px;
+  color: white;
+  font-size: 32px;
+}
+
+.loginBtn{
+  background-color: #799CD2;
+  color: white;
+  position: absolute;
+  right:40px;
+  top:12px;
+  width: 90px;
+  height: 35px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px
+}
+
+.loginBtn:hover{
+  background-color: rgb(22, 60, 118);
+  color: white;
+}
+
+.headerText{
+  position: absolute;
+  right:40px;
+  bottom:10px;
+  font-size: 16px;
+  letter-spacing: 2px;
+  color: white;
+}
