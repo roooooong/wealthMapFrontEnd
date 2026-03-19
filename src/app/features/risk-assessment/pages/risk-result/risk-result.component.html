@@ -1,0 +1,42 @@
+<div class="result-container" *ngIf="resultData">
+
+    <h2 class="main-title">您的專屬風險評估結果</h2>
+
+    <div class="result-layout">
+
+        <div class="info-panel">
+
+            <div class="level-card" [ngClass]="translateLevel(resultData['userLevel'])">
+                <p class="label">經系統評估，您的風險屬性為</p>
+
+                <h1 class="level-text">{{ translateLevel(resultData['userLevel']) }}</h1>
+
+                <div class="risk-warning" *ngIf="resultData['isRiskOverMatch']">
+                    <span>⚠️ 您的承受度高於年齡基準，投資請謹慎。</span>
+                </div>
+            </div>
+
+            <div class="advice-card">
+                <h3>💡 專家投資建議</h3>
+                <p class="advice-text">{{ resultData['advice'] }}</p>
+            </div>
+
+            <div class="action-area">
+                <button class="btn-secondary" (click)="retryTest()">重新測驗</button>
+                <button class="btn-primary" (click)="goToPortfolios()">觀看推薦組合</button>
+            </div>
+        </div>
+
+        <div class="chart-panel">
+            <h3>建議資產配置比例 (%)</h3>
+            <div class="chart-wrapper">
+                <canvas id="allocationChart"></canvas>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="loading-container" *ngIf="!resultData">
+    <h3>正在讀取評估結果，請稍候...</h3>
+</div>

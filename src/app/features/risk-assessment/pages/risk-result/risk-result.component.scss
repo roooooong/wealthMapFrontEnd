@@ -1,0 +1,182 @@
+.result-container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+    font-family: "微軟正黑體", sans-serif;
+}
+
+.main-title {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 40px;
+    font-weight: bold;
+}
+
+.result-layout {
+    display: flex;
+    gap: 30px;
+
+
+    @media (max-width: 992px) {
+        flex-direction: column;
+    }
+}
+
+
+.info-panel {
+    flex: 1; // 佔 1/2 寬度
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.level-card {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    text-align: center;
+    border-top: 8px solid #99B3E4; // 預設藍色
+
+    .label {
+        color: #7f8c8d;
+        margin: 0 0 10px 0;
+        font-size: 16px;
+    }
+
+    .level-text {
+        color: #2c3e50;
+        margin: 0;
+        font-size: 48px;
+        font-weight: bolder;
+    }
+
+    // 動態樣式 (依據等級換顏色)
+    &.積極型 {
+        border-top-color: #fbb6c9;
+
+        .level-text {
+            color: #fbb6c9;
+        }
+    }
+
+    &.穩健型 {
+        border-top-color: #FFF7AE;
+
+        .level-text {
+            color: #fbb6c9;
+        }
+    }
+
+    // 黃色通常配紅字較清楚
+    &.保守型 {
+        border-top-color: #bdffe0;
+
+        .level-text {
+            color: #7f8c8d;
+        }
+    }
+
+    .risk-warning {
+        margin-top: 15px;
+        padding: 8px;
+        background-color: #fff3cd;
+        color: #856404;
+        border-radius: 5px;
+        font-size: 14px;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+    }
+}
+
+.advice-card {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+
+    h3 {
+        margin-top: 0;
+        color: #34495e;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 10px;
+    }
+
+    .advice-text {
+        color: #555;
+        line-height: 1.8;
+        font-size: 16px;
+        white-space: pre-wrap; // 保持後端的換行
+    }
+}
+
+.action-area {
+    display: flex;
+    gap: 15px;
+    margin-top: 10px;
+
+    button {
+        flex: 1;
+        padding: 15px;
+        font-size: 16px;
+        font-weight: bold;
+        border: none;
+        border-radius: 30px;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+
+    .btn-primary {
+        background-color: #99B3E4;
+        color: white;
+
+        &:hover {
+            background-color: #7a9fd6;
+            box-shadow: 0 4px 10px rgba(122, 159, 214, 0.4);
+        }
+    }
+
+    .btn-secondary {
+        background-color: #f8f9fa;
+        color: #555;
+        border: 1px solid #ddd;
+
+        &:hover {
+            background-color: #e2e6ea;
+        }
+    }
+}
+
+
+.chart-panel {
+    flex: 1;
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+
+    h3 {
+        text-align: center;
+        margin-top: 0;
+        color: #34495e;
+        margin-bottom: 20px;
+    }
+
+    .chart-wrapper {
+        flex: 1;
+        min-height: 350px;
+        position: relative;
+    }
+}
+
+.loading-container {
+    text-align: center;
+    margin-top: 100px;
+    color: #7f8c8d;
+}
