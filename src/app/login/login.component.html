@@ -1,0 +1,35 @@
+<div class="whole">
+  <div class="left-box">
+    <p>個人財務</p>
+    <p>與資產配置平台</p>
+  </div>
+
+  <div class="right-box">
+    <div class="right-content">
+      <h1>登 入</h1>
+      <div class="input-email">
+        <label>電子郵件 : </label><input type="email" [(ngModel)]="email" placeholder="請輸入電子郵件">
+        <div *ngIf="isEmailInvalid" style="color: red;">
+          <small>⚠️ 電子郵件格式不正確</small>
+        </div>
+      </div>
+      <div class="input-password">
+        <label>密 碼 : </label><input type="password" [(ngModel)]="password" placeholder="請輸入密碼">
+        <div *ngIf="isPasswordLengthInvalid" style="color: red;">
+          <small>⚠️ 密碼長度須為 8-12 位 (目前: {{ password.length }} 位)</small>
+        </div>
+        <button type="button" (click)="togglePassword()"></button>
+      </div>
+
+
+      <div class="options">
+        <label><input type="checkbox" [(ngModel)]="rememberMe" class="checkbox"> 自動登入</label>
+        <a routerLink="/forgot" routerLinkActive="forgot-link" class="link-text">忘記密碼?</a>
+      </div>
+      <div class="btn">
+        <button (click)="login()" class="btn-google">登入</button>
+      </div>
+      <div class="footer-text">還沒有帳號嗎? <a routerLink="/register" routerLinkActive="register-link" class="link-text">註冊</a></div>
+    </div>
+  </div>
+</div>

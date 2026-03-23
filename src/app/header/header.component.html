@@ -1,0 +1,27 @@
+
+<br>
+<!-- 置中 -->
+<div style=" display: flex; justify-content: center; ">
+  <!-- header -->
+  <div style="position: relative;width: 1100px; height:60px; border-radius: 10px;
+            background: linear-gradient(45deg, #799CD2, #2F5FA9);">
+
+            <!-- logo的位置 -->
+            <label style="position: absolute;left:40px;bottom:10px;
+                          font-size: 16px;color: white;font-size: 32px;">WM</label>
+
+            @if( role== "visitor" ){
+            <button class="btn"
+                    style="position: absolute; right:40px; top:12px;
+                            width: 90px; height: 35px;
+                           border: none; border-radius: 5px; font-size: 16px">登&nbsp;入</button>
+            }
+            @else{
+            <label style="position: absolute;right:40px;bottom:10px;
+                          font-size: 16px;letter-spacing: 2px; color: white;">XXX，歡迎使用</label>
+            }
+  </div>
+</div>
+
+
+

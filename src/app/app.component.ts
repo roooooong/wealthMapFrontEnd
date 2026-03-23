@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -12,4 +12,22 @@ export class AppComponent {
 
   // 三種身分 visitor;user;admin
   role :string = "visitor";
+
+  constructor (private router:Router){}
+
+  login(){
+    this.router.navigate(['/login']);
+  }
+  register(){
+    this.router.navigate(['/register']);
+  }
+  main(){
+    this.router.navigate(['/main']);
+  }
+  health(){
+    this.router.navigate(['/health']);
+  }
+  strategy(){
+    this.router.navigate(['/strategy']);
+  }
 }

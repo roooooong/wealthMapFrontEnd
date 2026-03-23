@@ -1,0 +1,98 @@
+/* 全域重置 */
+* { box-sizing: border-box; margin: 0; padding: 0;}
+
+.whole {
+  justify-content: center;
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  background-color: aliceblue;
+}
+
+.left-box {
+  // font-size: 36px;
+  flex: 0 0 40%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 22px;
+}
+.right-box {
+  flex: 0 0 60%;
+  display: flex;
+  align-items: center;
+}
+.right-content {
+  margin-top: 60px;
+  justify-content: center;
+  width: 800px;
+  height: 450px;
+  padding: 40px;
+  background: linear-gradient(165deg, #799CD2, #2F5FA9);
+  // background-color: rgb(57, 129, 177);
+  color: white;
+  border-radius: 10px;
+  box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+}
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.input-email {
+  width: 100%;
+  margin: 15px 5px;
+  justify-content: flex-end;
+  label{
+    font-size: 16px;
+    margin: 15px;
+  }
+  input{
+    width: 250px;height: 40px;
+    padding: 10px;align-items:end;
+    // margin-left: 30px;
+    border-radius: 5px; border: none;
+  }
+}
+.input-password,.input-name {
+  width: 100%;
+  margin: 15px 5px;
+  justify-content: flex-end;
+  label{
+    font-size: 16px;
+    display: inline-block;
+    width: 80px;
+    margin: 15px;
+  }
+  input{
+    width: 250px;height: 40px;
+    padding: 10px;align-items:end;
+    // margin-left: 60px;
+    border-radius: 5px; border: none;
+  }
+}
+.btn{
+  text-align:center;
+}
+.btn-google {
+  justify-content: center;
+  width: 240px;
+  border: none;
+  box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  padding: 10px;
+  margin: 15px 55px;
+  cursor: pointer;
+  &:hover{
+    background-color: #cbced2;
+  }
+}
+
+/* 全域字體 20px */
+.right-content label, .right-content input, .right-content button, .right-content p {
+  font-size: 16px;
+}
+

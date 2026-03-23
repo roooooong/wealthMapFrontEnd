@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Router, RouterOutlet } from '@angular/router';
+
 import Chart from 'chart.js/auto';
 
 @Component({
@@ -10,10 +12,16 @@ import Chart from 'chart.js/auto';
 export class MainComponent {
   // 三種身分 visitor;user;admin
   role: string = "user";
-
+  constructor (private router:Router){}
   closeNotice() {
     const notice = document.getElementById('notification');
     notice?.remove();
+  }
+  health(){
+    this.router.navigate(['/health']);
+  }
+  strategy(){
+    this.router.navigate(['/strategy']);
   }
 
   ngAfterViewInit() {

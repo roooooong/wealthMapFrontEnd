@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "wealthMap": {
+    "wealthmap": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/wealth-map",
+            "outputPath": "dist/wealthmap",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -32,10 +32,7 @@
               }
             ],
             "styles": [
-<<<<<<< HEAD
-=======
               "@angular/material/prebuilt-themes/azure-blue.css",
->>>>>>> carly/code
               "src/styles.scss"
             ],
             "scripts": []
@@ -68,10 +65,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "wealthMap:build:production"
+              "buildTarget": "wealthmap:build:production"
             },
             "development": {
-              "buildTarget": "wealthMap:build:development"
+              "buildTarget": "wealthmap:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -95,10 +92,7 @@
               }
             ],
             "styles": [
-<<<<<<< HEAD
-=======
               "@angular/material/prebuilt-themes/azure-blue.css",
->>>>>>> carly/code
               "src/styles.scss"
             ],
             "scripts": []
@@ -108,3 +102,4 @@
     }
   }
 }
+
