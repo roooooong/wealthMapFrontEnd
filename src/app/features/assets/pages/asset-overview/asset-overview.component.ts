@@ -3,6 +3,7 @@ import { CommonModule, CurrencyPipe } from '@angular/common';
 import { Chart } from 'chart.js/auto';
 import { AssetService } from '../../services/asset.service';
 import { AssetDTO, AssetAllocationDto, AssetType } from '../../models/asset.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-asset-overview',
@@ -21,7 +22,8 @@ export class AssetOverviewComponent implements OnInit, AfterViewInit {
 
   constructor(
     private assetService: AssetService,
-    private currencyPipe: CurrencyPipe
+    private currencyPipe: CurrencyPipe,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
@@ -104,6 +106,10 @@ export class AssetOverviewComponent implements OnInit, AfterViewInit {
         }
       }]
     });
+  }
+
+  backToHome(): void {
+    this.router.navigate(['/main']);
   }
 
   // 轉成中文

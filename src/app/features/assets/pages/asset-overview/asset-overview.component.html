@@ -1,7 +1,9 @@
 <div class="asset-container">
 
-    <h2 class="main-title">我的資產</h2>
-
+    <div class="page-header">
+        <h2 class="main-title">我的資產</h2>
+        <button class="back-btn" (click)="backToHome()">回首頁</button>
+    </div>
     <p class="subtitle">這裡可以放說明這裡可以放說明</p>
     <p class="subtitle">這裡可以放說明這裡可以放說明這裡可以放說明</p>
 
@@ -11,7 +13,7 @@
             <div class="chart-wrapper">
                 <canvas id="assetAllocationChart"></canvas>
             </div>
-            <p class="chart-caption">流動資產 & 投資型資產</p>
+
         </div>
 
         <div class="panel list-panel">
