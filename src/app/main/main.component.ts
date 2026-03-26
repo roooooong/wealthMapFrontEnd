@@ -17,8 +17,8 @@ import { HttpClientService } from '../@service/http-client.service';
 export class MainComponent {
   // 三種身分 visitor;user;admin
   // role!:string ;
-  role = 'visitor';
-  page=1;
+  role = 'user';
+  page = 1;
   constructor(private router: Router,
     private exampleService: ExampleService,
     private httpClientService: HttpClientService,
@@ -60,7 +60,7 @@ export class MainComponent {
 
   // 點擊事件：現在只負責換網址
   detail(pageId: number) {
-  this.router.navigate(['/notification', pageId]);
+    this.router.navigate(['/notification', pageId]);
 
   }
 
@@ -114,7 +114,6 @@ export class MainComponent {
     this.router.navigate(['/risk-test']);
   }
 
-  //首頁跳轉我的資產
   goToAssets() {
     this.router.navigate(['/assets']);
   }
@@ -216,31 +215,31 @@ export class MainComponent {
 
   ngOnInit() {
 
-     console.log(this.activatedRoute.snapshot.paramMap.get('pageId'));
-     this.activatedRoute.params.subscribe(params => {
-    const pageId = params['pageId']; // 確保這裡的名稱跟 AppRoutingModule 定義一致
- //取得公告列表
-    this.httpClientService.getApi(`http://localhost:8080/api/notifications/list`)
-      .subscribe((notificationList: any) => {
-        console.log(notificationList);
-        this.notificationList = notificationList;
-      })
+    console.log(this.activatedRoute.snapshot.paramMap.get('pageId'));
+    this.activatedRoute.params.subscribe(params => {
+      const pageId = params['pageId']; // 確保這裡的名稱跟 AppRoutingModule 定義一致
+      //取得公告列表
+      this.httpClientService.getApi(`http://localhost:8080/api/notifications/list`)
+        .subscribe((notificationList: any) => {
+          console.log(notificationList);
+          this.notificationList = notificationList;
+        })
 
-    //page=1 -> 公告列表 http://localhost:4200/admin-notification-set
-    //page=2 -> 公告詳情 http://localhost:4200/admin-notification-set/pageId (後面會接pageId)
-    if (pageId) {
-      // this.page = 2;
-      this.fetchNotificationDetail(pageId);
-    } else {
-      this.page = 1;
-      this.notificationIdDetail = null;
-    }
-  });
-
-    this.exampleService.role$.subscribe(newRole => {
-      this.role = newRole;
-      console.log('MainComponent 收到身分變更：', this.role);
+      //page=1 -> 公告列表 http://localhost:4200/admin-notification-set
+      //page=2 -> 公告詳情 http://localhost:4200/admin-notification-set/pageId (後面會接pageId)
+      if (pageId) {
+        // this.page = 2;
+        this.fetchNotificationDetail(pageId);
+      } else {
+        this.page = 1;
+        this.notificationIdDetail = null;
+      }
     });
+    //3/26 下面3行註解起來，固定身分做按鍵功能
+    //this.exampleService.role$.subscribe(newRole => {
+    //this.role = newRole;
+    //console.log('MainComponent 收到身分變更：', this.role);
+    //});
     console.log('現在身分', this.role);
 
     // 每 5 秒自動切換下一則新聞

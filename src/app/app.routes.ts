@@ -26,7 +26,8 @@ export const routes: Routes = [
   { path: "risk-cover", component: RiskCoverComponent },
   { path: "risk-test", component: RiskTestComponent },
   { path: "risk-result", component: RiskResultComponent },
-
+  { path: 'assets', loadComponent: () => import('./features/assets/pages/asset-overview/asset-overview.component').then(m => m.AssetOverviewComponent) },
+  { path: 'portfolio-recommendation', loadComponent: () => import('./features/risk-assessment/pages/portfolio-recommendation/portfolio-recommendation.component').then(m => m.PortfolioRecommendationComponent) },
   // path如果是** 是用來設定錯誤畫面的 component也是設定要呈現甚麼內容
   // 要記得如果要設定錯誤畫面要放在路由的最底下
   // { path: "**", component: PageNotFoundComponent}

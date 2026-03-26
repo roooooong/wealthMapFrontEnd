@@ -106,7 +106,7 @@
 
   <div class="iconbox">
     @if(role=="user"){
-    <button class="iconbtn">
+    <button class="iconbtn" (click)="goToAssets()" style="cursor: pointer;">
       <img style="width: 80px;height: 60px;" src="16220 (1).png">
       <br><br>
       <label style="font-size: 16px;">我的資產</label>
@@ -155,16 +155,15 @@
 <div class="frameCss" style="margin: 20px;">
   <div style="width: 70%; border-color: #4091c9;">
     @for(notification of notificationList?.data ; track $index){
-    @if(notification.scheduledDate<=gettoday){
-    <div class="system">
+    @if(notification.scheduledDate<=gettoday){ <div class="system">
       <label class="notification-tag" (click)="detail(notification.id!)">{{notification.tag}}</label>
       <label class="notification-title" (click)="detail(notification.id!)">{{notification.title}}</label>
       <label style="position: absolute;right:20px"
         (click)="detail(notification.id!)">{{notification.scheduledDate}}</label>
-    </div>
-    }
-    }
   </div>
+  }
+  }
+</div>
 </div>
 <br><br><br><br>
 
