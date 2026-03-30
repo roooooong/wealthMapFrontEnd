@@ -215,15 +215,18 @@ export class MainComponent {
 
   ngOnInit() {
 
+
     console.log(this.activatedRoute.snapshot.paramMap.get('pageId'));
     this.activatedRoute.params.subscribe(params => {
       const pageId = params['pageId']; // 確保這裡的名稱跟 AppRoutingModule 定義一致
+
       //取得公告列表
       this.httpClientService.getApi(`http://localhost:8080/api/notifications/list`)
         .subscribe((notificationList: any) => {
           console.log(notificationList);
           this.notificationList = notificationList;
         })
+
 
       //page=1 -> 公告列表 http://localhost:4200/admin-notification-set
       //page=2 -> 公告詳情 http://localhost:4200/admin-notification-set/pageId (後面會接pageId)

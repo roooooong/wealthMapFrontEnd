@@ -12,12 +12,13 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { HeaderComponent } from './header/header.component';
 import { NotificationComponent } from './notification/notification.component';
+import { PersonalNotificationComponent } from './personal-notification/personal-notification.component';
 
 
 export const routes: Routes = [
 
   { path: "main", component: MainComponent },
-  { path: "admin-main", component: AdminMainComponent },
+  // { path: "admin-main", component: AdminMainComponent},
   { path: "admin-information-set", component: AdminInformationSetComponent },
   { path: "admin-notification-set", component: AdminNotificationSetComponent },
   { path: "admin-notification-set/:pageId", component: AdminNotificationSetComponent },
@@ -35,7 +36,11 @@ export const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'header', component: HeaderComponent },
   { path: 'notification', component: NotificationComponent },
-  { path: 'notification/:pageId', component: NotificationComponent }
+  { path: 'notification/:pageId', component: NotificationComponent },
+  { path: 'personal-notification', component: PersonalNotificationComponent },
+  { path: 'personal-notification/:pageId', component: PersonalNotificationComponent },
   // { path: 'forgot', component: ForgotComponent },
 
+  // 🚀 關鍵：萬用路由（必須放在陣列的最下方）
+  { path: '**', redirectTo: 'main', pathMatch: 'full' }
 ];

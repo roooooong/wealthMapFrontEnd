@@ -1,4 +1,4 @@
-<div class="frameCss">
+<!-- <div class="frameCss">
   <div class="headerCss">
 
     <label class="logo">WM</label>
@@ -8,14 +8,8 @@
     <button class="registerBtn" (click)="register()">註&nbsp;冊</button>
     }
     @else{
-    <!-- <label class="headerText">XXX，歡迎使用</label> -->
-    <!-- <div class="user-notification-container">
-      <div  (click)="toggleMenu($event)">
-        <span class="click-notification"><mat-icon>circle_notifications</mat-icon></span>
-      </div>
-    </div> -->
 
-    <!-- 通知 -->
+    通知
     <div class="user-notification-container">
       <div class="notification-trigger" (click)="toggleNotification($event)">
         <mat-icon>notifications_none</mat-icon>
@@ -28,28 +22,35 @@
             <div class="tab-item" [class.active]="activeTab === 'system'" (click)="activeTab = 'system'">系統通知</div>
           </div>
 
-          <!-- 個人訊息 -->
+          個人訊息
           <div class="tab-content">
             @if (activeTab === 'personal') {
             <ul class="msg-list">
               <li>您的資產配置已更新</li>
               <li>本月預算達成率 90%</li>
             </ul>
-            <!-- 系統通知 -->
+
+            系統通知
             } @else {
             <ul class="msg-list">
-              <li class="system-msg">系統維護通知：週六凌晨 2:00</li>
-              <li class="system-msg">WealthMap 新功能上線！</li>
+              @for(notification of notificationList?.data ; track $index){
+              @if(notification.scheduledDate<=gettoday){
+                <li class="system-msg" (click)="detail(notification.id!)">{{notification.title}}</li>
+                }
+              }
             </ul>
             }
           </div>
-          <div class="tab-footer" routerLink="/notifications">查看全部通知</div>
+          <div class="tab-footer"
+     [routerLink]="activeTab === 'personal' ? '/main' : '/notification'">
+  查看全部{{ activeTab === 'personal' ? '個人' : '系統' }}通知
+</div>
         </div>
         }
       </div>
     </div>
 
-    <!-- 登出與個人檔案 -->
+    登出與個人檔案
     <div class="user-menu-container">
       <div class="menu-trigger" (click)="toggleMenu($event)">
         <span class="click-menu">XXX，歡迎使用</span>
@@ -70,7 +71,7 @@
     </div>
     }
   </div>
-</div>
+</div> -->
 
 @if( role=="user"){
 <div class="frameCss">
@@ -146,7 +147,8 @@
 </div>
 <br>
 
-
+<!-- visitor才能在首頁看到系統通知(user的在鈴鐺裡) -->
+@if( role== "visitor" ){
 <!-- 系統通知 -->
 <div class="frameCss">
   <div style="font-size: 18px;">系統通知</div>
@@ -166,6 +168,7 @@
 </div>
 </div>
 <br><br><br><br>
+}
 
 <!-- 可以打叉的個人通知 -->
 <!-- <div class="frameCss">

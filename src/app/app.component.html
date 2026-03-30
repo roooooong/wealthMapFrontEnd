@@ -1,5 +1,17 @@
 <!-- <button (click)="login()">登 入</button>
 <button (click)="register()">註 冊</button> -->
+<div class="frameCss">
+  <div class="headerCss">
+    <label class="logo" (click)="home()">WM</label>
+    @if (role === 'admin') {
+      <app-header-admin></app-header-admin>
+    } @else if (role === 'user') {
+      <app-header-user></app-header-user>
+    } @else {
+      <app-header-visitor></app-header-visitor>
+    }
+  </div>
+</div>
 
 
 <router-outlet></router-outlet>

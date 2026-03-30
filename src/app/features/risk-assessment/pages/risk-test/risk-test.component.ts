@@ -1,9 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, inject} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RiskService } from '../../services/risk.service';
 import { RiskAssessmentRequest } from '../../models/risk.model';
+import { MatDialog } from '@angular/material/dialog';
+import { InvalidComponent } from '../../../../@dialog/invalid/invalid.component';
 
 @Component({
   selector: 'app-risk-test',
@@ -32,10 +34,12 @@ export class RiskTestComponent {
     });
   }
 
+readonly dialog = inject(MatDialog);
   submitTest() {
     if (this.riskForm.invalid) {
       this.riskForm.markAllAsTouched();
-      alert('您還有題目未作答喔！請確認 6 題都已選擇。');
+      // alert('您還有題目未作答喔！請確認 6 題都已選擇。');
+      this.showDialog();
       return;
     }
 
@@ -66,5 +70,28 @@ export class RiskTestComponent {
         this.isSubmitting = false;
       }
     });
+  }
+
+
+  showDialog() {
+    // 單選
+    //let dialogRef 是宣告一個變數 讓系統知道我們現在要接收哪個dialog
+    //(要開啟的dialog頁面的名稱, {要傳遞的值和設定})
+    let dialogRef = this.dialog.open(InvalidComponent, {
+      // data: {choise:choise,id:this.notificationList.data[index].id},
+      data:'allen',
+      width: '250px',
+      height: '180px'
+    });
+    //去偵測dialogRef這個dialog甚麼時候關閉
+    //如果dialog結束有傳值出來 res就是那個值
+    dialogRef.afterClosed().subscribe((res) => {
+      //如果有值傳遞出來
+      if (res) {
+        // setTimeout(()=>{
+        console.log(res);
+        // },3000)
+      }
+    })
   }
 }

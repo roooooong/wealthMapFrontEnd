@@ -10,4 +10,5 @@ export interface Data {
   scheduledDate: string
   tag: string
   title: string
+  hasRead: boolean;
 }

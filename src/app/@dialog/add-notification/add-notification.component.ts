@@ -80,14 +80,16 @@ export class AddNotificationComponent {
       tag: '',
       title: '',
       content: '',
-      scheduledDate: ''
+      scheduledDate: '',
+      hasRead: false
     };
     //給初始值
     this.editNotificationList = {
       tag: '',
       title: '',
       content: '',
-      scheduledDate: ''
+      scheduledDate: '',
+      hasRead: false
     };
     this.tag = '';
     this.title ='';

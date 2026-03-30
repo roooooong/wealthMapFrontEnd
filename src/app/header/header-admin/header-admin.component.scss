@@ -1,0 +1,98 @@
+.loginText{
+  position: absolute;
+  right:40px;
+  bottom:10px;
+  font-size: 16px;
+  letter-spacing: 2px;
+  color: white;
+}
+
+.user-menu-container {
+  position: absolute;
+  /* 💡 變成絕對定位 */
+  right: 40px;
+  /* 💡 與右邊界保持距離，建議跟 loginBtn 一樣 */
+  bottom: 10px;
+  /* 💡 與底部保持距離，建議跟 logo 一樣 */
+  display: inline-block;
+  z-index: 1000;
+  /* 確保不會被其他元件蓋住 */
+
+  .menu-trigger {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    cursor: pointer;
+    color: white; // 配合你的 Header 顏色
+    user-select: none; // 防止連點時選取到文字
+
+    mat-icon {
+      transition: transform 0.3s;
+
+      &.rotated {
+        transform: rotate(180deg);
+      }
+    }
+  }
+}
+
+.click-menu {
+  white-space: nowrap;
+  font-size: 16px;
+  letter-spacing: 2px;
+}
+
+.click-menu:hover {
+  color:#ddf4fd;
+}
+
+.custom-dropdown {
+  position: absolute;
+  top: calc(100% + 15px); // 與按鈕保持一點間距
+  right: 0;
+  top:40px;
+  width: 150px;
+  background-color: white;
+  border-radius: 2px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  list-style: none;
+  padding: 0; // 💡 關鍵：設為 0，絕對沒有灰色區塊
+  margin: 0;
+  z-index: 9999; // 確保在最上層，不被其他元件擋住
+  overflow: hidden;
+
+  .menu-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    font-size: 14px;
+    color: #333;
+    cursor: pointer;
+    transition: background 0.2s;
+
+    &:hover {
+      background-color: #fedfd43a; // 滑鼠移上去時的淡色
+    }
+
+    mat-icon {
+      font-size: 20px;
+      color: #666;
+    }
+
+    &.logout {
+      color: #e74c3c;
+      mat-icon {
+        color: #e74c3c;
+      }
+    }
+  }
+
+  .divider {
+    height: 1px;
+    background-color: #eee;
+    margin: 4px 0;
+  }
+}
+
