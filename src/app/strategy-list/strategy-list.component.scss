@@ -1,0 +1,164 @@
+.headerCss{
+  position: relative;
+  width: 100%;
+  height:60px;
+  background: linear-gradient(45deg, #9dcee2, #4091c9);
+}
+
+.logo{
+  position: absolute;
+  left:40px;
+  bottom:10px;
+  font-size: 16px;
+  color: white;
+  font-size: 32px;
+}
+
+.headerText{
+  position: absolute;
+  right:40px;
+  bottom:10px;
+  font-size: 16px;
+  letter-spacing: 2px;
+  color: white;
+}
+
+.frameCss{
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+.titleCss{
+  font-size: 24px;
+  color: #033270;
+}
+
+.containerCss{
+  width: 75%;
+  height: 500px;
+  border-radius: 5px;
+  border: solid 5px #1368AA;
+}
+
+.toolbar{
+  width: 75%;
+  justify-content:flex-start;
+}
+
+img:hover{
+  border: 0.5px dashed gray;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+/* 容器佈局 */
+.container-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+  padding: 20px 0;
+}
+/* 基礎卡片樣式 */
+.card {
+  background: 9DCEE2;
+  border-radius: 12px;
+  padding: 20px;
+  min-height: 200px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+/* --- 空的框樣式 --- */
+.empty-card {
+  border: 2px dashed #cbd5e0; /* 灰色虛線 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #a0aec0;
+}
+
+.empty-card:hover {
+  border-color: #4a90e2; /* 懸停變藍色 */
+  color: #4a90e2;
+  background: #f7fafc;
+}
+
+.empty-content {
+  text-align: center;
+}
+
+.plus-icon {
+  font-size: 40px;
+  display: block;
+  margin-bottom: 10px;
+}
+
+/* --- 新增後的項目框樣式 --- */
+.item-card {
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.item-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.stock-tag {
+  background: #edf2f7;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-weight: bold;
+  color: #2d3748;
+}
+
+/* 數字輸入框樣式 (隱藏預設箭頭，呈現乾淨感) */
+input[type="number"] {
+  width: 60px;
+  padding: 5px;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  text-align: center;
+}
+
+/* 自定義 Switch 開關 */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 20px;
+}
+
+.switch input { opacity: 0; width: 0; height: 0; }
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #ccc;
+  transition: .4s;
+  border-radius: 20px;
+}
+
+input:checked + .slider { background-color: #48bb78; }
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 16px; width: 16px;
+  left: 2px; bottom: 2px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider:before { transform: translateX(20px); }
+

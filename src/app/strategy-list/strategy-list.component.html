@@ -1,0 +1,57 @@
+<!-- 置中 -->
+<div class="frameCss">
+  <div class="toolbar">
+    <img src="/delete.png" (click)="onDeleteMode()">
+    <img src="/add.png" (click)="addStrategy()">
+  </div>
+</div>
+<div class="frameCss">
+  <div class="container-grid">
+    @if (strategies.length === 0) {
+      <div class="card empty-card" (click)="addStrategy()">
+        <div class="empty-content">
+          <span class="plus-icon">＋</span>
+          <p>尚未設定策略，點擊新增</p>
+        </div>
+      </div>
+    } @else {
+      <div class="strategy-list">
+        @for ( strategy of strategies;track $index) {
+          <div class="card item-card">
+            <div class="card-top">
+              <span class="stock-tag">{{ strategy.symbol }}</span>
+              <label class="switch">
+                <input type="checkbox" [checked]="strategy.isActive" (change)="toggleActive(strategy.symbol)">
+                <span class="slider"></span>
+              </label>
+            </div>
+
+            <div class="card-info">
+              <div class="price-row">
+                <span class="label">現價</span>
+                <span class="value">{{ strategy.currentPrice }}</span>
+              </div>
+              <div class="bias-row">
+                <span class="label">當前乖離</span>
+                <!-- <span class="value" [class.danger]="(strategy.currentBias ?? 0) < -2">{{ strategy.currentBias }}%</span> -->
+              </div>
+            </div>
+
+            <div class="card-settings">
+              <div class="input-group">
+                <label>加碼門檻</label>
+                <input type="number" [(ngModel)]="strategy.buyThreshold" step="0.5">
+              </div>
+              <div class="input-group">
+                <label>減碼門檻</label>
+                <input type="number" [(ngModel)]="strategy.sellThreshold" step="0.5">
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    }
+  </div>
+
+</div>
+<br><br>
