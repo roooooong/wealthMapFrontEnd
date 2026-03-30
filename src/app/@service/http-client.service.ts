@@ -34,7 +34,7 @@ export class HttpClientService {
   }
 
   //新增
-  postApi(url:string,postData:any){
+  postApi(url:string,postData:any={}){
     return this.httpClient.post(url,postData);
   }
 

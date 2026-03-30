@@ -1,27 +1,81 @@
-<!-- 置中 -->
-<div class="frameCss">
-  <!-- header -->
+<!-- <div class="frameCss">
   <div class="headerCss">
 
-    <!-- logo的位置 -->
     <label class="logo">WM</label>
 
     @if( role== "visitor" ){
     <button class="loginBtn" (click)="login()">登&nbsp;入</button>
-    <button class="registerBtn" (click)="login()">註&nbsp;冊</button>
+    <button class="registerBtn" (click)="register()">註&nbsp;冊</button>
     }
     @else{
-    <label class="headerText">XXX，歡迎使用</label>
+
+    通知
+    <div class="user-notification-container">
+      <div class="notification-trigger" (click)="toggleNotification($event)">
+        <mat-icon>notifications_none</mat-icon>
+        @if (hasNewMessage) { <span class="badge"></span> }
+
+        @if (isNotificationOpen) {
+        <div class="notification-panel" (click)="$event.stopPropagation()">
+          <div class="tab-header">
+            <div class="tab-item" [class.active]="activeTab === 'personal'" (click)="activeTab = 'personal'">個人訊息</div>
+            <div class="tab-item" [class.active]="activeTab === 'system'" (click)="activeTab = 'system'">系統通知</div>
+          </div>
+
+          個人訊息
+          <div class="tab-content">
+            @if (activeTab === 'personal') {
+            <ul class="msg-list">
+              <li>您的資產配置已更新</li>
+              <li>本月預算達成率 90%</li>
+            </ul>
+
+            系統通知
+            } @else {
+            <ul class="msg-list">
+              @for(notification of notificationList?.data ; track $index){
+              @if(notification.scheduledDate<=gettoday){
+                <li class="system-msg" (click)="detail(notification.id!)">{{notification.title}}</li>
+                }
+              }
+            </ul>
+            }
+          </div>
+          <div class="tab-footer"
+     [routerLink]="activeTab === 'personal' ? '/main' : '/notification'">
+  查看全部{{ activeTab === 'personal' ? '個人' : '系統' }}通知
+</div>
+        </div>
+        }
+      </div>
+    </div>
+
+    登出與個人檔案
+    <div class="user-menu-container">
+      <div class="menu-trigger" (click)="toggleMenu($event)">
+        <span class="click-menu">XXX，歡迎使用</span>
+        <mat-icon [class.rotated]="isMenuOpen">expand_more</mat-icon>
+      </div>
+
+      @if (isMenuOpen) {
+      <ul class="custom-dropdown" (click)="$event.stopPropagation()">
+        <li class="menu-item" routerLink="/profile" (click)="isMenuOpen = false">
+          <span>個人檔案</span>
+        </li>
+        <div class="divider"></div>
+        <li class="menu-item logout" (click)="logout()">
+          <span>登出</span>
+        </li>
+      </ul>
+      }
+    </div>
     }
   </div>
-</div>
+</div> -->
 
-<!-- only user -->
 @if( role=="user"){
-<!-- 個人通知輪播 -->
 <div class="frameCss">
   <div class="personal-carousel">
-    <!-- 切換通知 -->
     <div class="personal-container" [style.transform]="'translateX(' + (-currentIndex * 100) + '%)'">
       @for (personal of personalList; track $index) {
       <div class="personal-item">
@@ -38,7 +92,6 @@
     </div>
   </div>
 </div>
-<!-- 個人頁面圓餅圖 -->
 <div class="frameCss">
   <div class="chart-container">
     <canvas id="chart"></canvas>
@@ -50,10 +103,8 @@
 </div>
 }
 <br>
-<!-- 父層 -->
 <div class="frameCss">
 
-  <!-- 子層 -->
   <div class="iconbox">
     @if(role=="user"){
     <button class="iconbtn">
@@ -77,18 +128,17 @@
       <br><br>
       <label style="font-size: 16px;">財務目標</label>
     </button>
-    <button class="iconbtn">
+
+    <button class="iconbtn" (click)="goToRiskTest()" style="cursor: pointer;">
       <img style="width: 100px;height: 70px;" src="9179 (2).png">
       <br><br>
       <label style="font-size: 16px;">風險評估</label>
     </button>
-    <!-- <hr> -->
   </div>
 </div>
 
 <br><br><br><br><br><br><br><br><br><br><br><br><br>
 
-<!-- 新聞 -->
 <div class="frameCss">
   <div style="font-size: 18px;">相關新聞</div>
 </div>
@@ -96,28 +146,29 @@
   <div style="width: 80%;height: 400px;background-color: #b8cae6;"></div>
 </div>
 <br>
+
+<!-- visitor才能在首頁看到系統通知(user的在鈴鐺裡) -->
+@if( role== "visitor" ){
 <!-- 系統通知 -->
 <div class="frameCss">
   <div style="font-size: 18px;">系統通知</div>
 </div>
+
 <div class="frameCss" style="margin: 20px;">
   <div style="width: 70%; border-color: #4091c9;">
-    @for(system of systemList ; track $index){
-      <div class="system" >
-      <label class="system-tag">{{system.tag}}</label>
-      <label class="system-title">{{system.title}}</label>
-      <label style="position: absolute;right:20px">{{system.date}}</label>
-      </div>
-    }
+    @for(notification of notificationList?.data ; track $index){
+    @if(notification.scheduledDate<=gettoday){ <div class="system">
+      <label class="notification-tag" (click)="detail(notification.id!)">{{notification.tag}}</label>
+      <label class="notification-title" (click)="detail(notification.id!)">{{notification.title}}</label>
+      <label style="position: absolute;right:20px"
+        (click)="detail(notification.id!)">{{notification.scheduledDate}}</label>
   </div>
+  }
+  }
 </div>
-<br><br><br><br><br><br><br><br>
-
-<div class="footerCss">
-  <!-- footer -->
-  <span>© 2026 WealthMap 版權所有</span>
 </div>
-
+<br><br><br><br>
+}
 
 <!-- 可以打叉的個人通知 -->
 <!-- <div class="frameCss">

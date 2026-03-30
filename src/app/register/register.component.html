@@ -8,33 +8,47 @@
       <br>
       <h1>註 冊</h1>
       <div class="input-box">
-        <label>姓 名</label><br><input type="text" (blur)="validate('name')"[(ngModel)]="name" placeholder="請輸入姓名">
+        <label>姓 名</label><br><input type="text" (blur)="validate('name')" [(ngModel)]="name" placeholder="請輸入姓名">
         @if (nameErrorMsg) {
         <span class="error-msg" style="color: red; font-size: 12px;">
           {{ nameErrorMsg }}
         </span>
-      }
+        }
       </div>
 
       <div class="input-box">
         <label>電子郵件</label><br><input type="email" (blur)="validate('email')" [(ngModel)]="email" placeholder="請輸入電子郵件">
-         @if (emailErrorMsg) {
+        @if (emailErrorMsg) {
         <span class="error-msg" style="color: red; font-size: 12px;">
           {{ emailErrorMsg }}
         </span>
-      }
+        }
       </div>
 
       <div class="input-box" style="position: relative;">
-        <label>密 碼</label><br><input [type]="showPassword ? 'text' : 'password'"  (blur)="validate('password')" [(ngModel)]="password" placeholder="請輸入密碼">
-        <button type="button" (click)="togglePassword()" style="background-color: white;border: none; position: absolute;right:40px;bottom: 16px;"><mat-icon class="custom-icon" aria-hidden="false" aria-label="Example home icon">{{ showPassword ? 'visibility' : 'visibility_off' }}</mat-icon></button>
-      @if (passwordErrorMsg) {
-        <span class="error-msg" style="color: red; font-size: 12px;">
-          {{ passwordErrorMsg }}
-        </span>
-      }
-
+        <label>密 碼</label><br><input [type]="showPassword ? 'text' : 'password'" (blur)="validate('password')"
+          [(ngModel)]="password" placeholder="請輸入密碼">
+        <button type="button" (click)="togglePassword()" class="isshowPassword"><mat-icon class="custom-icon"
+            aria-hidden="false" aria-label="Example home icon">{{ showPassword ? 'visibility' :
+            'visibility_off'}}</mat-icon></button>
+        @if (passwordErrorMsg) {
+        <span class="error-msg" style="color: red; font-size: 12px;">{{ passwordErrorMsg }}</span>
+        }
       </div>
+      <!-- <label class="footer-text"style="position: absolute;font-size: 12px;">我已詳閱WealthMap服務條款與WealthMap隱私政策，註冊即代表同意遵守所載之規範事項。</label> -->
+      <div style="position: relative;  left:25px;width: 350px;">
+        <input type="checkbox" [(ngModel)]="isAccept" (change)="validate('isAccept')">
+        <label class="footer-text" style="font-size: 13px;">&nbsp;&nbsp;我已詳閱</label>
+        <a routerLink="/admin-service-set" routerLinkActive="register-link" class="link-text">WealthMap服務條款</a>
+        <label class="footer-text" style="font-size: 13px;">與</label>
+        <a routerLink="/admin-privacy-set" routerLinkActive="register-link" class="link-text">WealthMap隱私政策</a>
+        <label class="footer-text"
+          style="font-size: 13px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;，註冊即代表同意遵守所載之規範事項。</label>
+        @if (termErrorMsg) {
+        <span class="error-msg" style="color: red; font-size: 12px ;position: relative; top:15px;">{{ termErrorMsg }}</span>
+        }
+      </div>
+
       <div class="btn">
         <button (click)="register()" class="btn-google">登入</button>
       </div>

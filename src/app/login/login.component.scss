@@ -7,8 +7,8 @@
 
 .whole {
   display: flex;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   background-color: #9dcee2;
 }
 
@@ -100,10 +100,10 @@ h1 {
   padding: 10px;
   margin: 20px 55px;
   cursor: pointer;
-  background-color: #f29479;
+  background-color: #9dcee2;
   color: white;
   &:hover {
-    background-color: #f26a4f;
+    background-color: #f29479;
   }
 }
 
@@ -168,7 +168,7 @@ h1 {
 }
 
 .isshowPassword{
-  background-color: white;
+  background-color: transparent;
   border: none;
   position: absolute;
   right:40px;

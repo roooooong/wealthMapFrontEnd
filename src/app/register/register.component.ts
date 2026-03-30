@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { WealthService } from '../wealthservice.service';
 import { HttpClient } from '@angular/common/http';
 import { MatIconModule } from '@angular/material/icon';
+import { HttpClientService } from '../@service/http-client.service';
 
 @Component({
   selector: 'app-register',
@@ -21,34 +22,25 @@ export class RegisterComponent {
   emailErrorMsg = '';
   passwordErrorMsg = '';
   nameErrorMsg = '';
+  termErrorMsg = '';
 
-  constructor(
-    private router: Router,
-    // private wealthService:WealthService,
-    // private http: HttpClient
-  ) { }
+  isAccept:boolean= false;
+
+  constructor(private router:Router,
+      private httpClientService: HttpClientService,){
+    }
 
   togglePassword() {
     this.showPassword = !this.showPassword;
   }
-  // get isNameInvalid(): boolean {
-  //   return this.name.length > 0;//可增加字數限制
-  // }
-  // get isEmailInvalid(): boolean {
-  //   const emailRule = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/;
-  //   return this.email.length > 0 && !emailRule.test(this.email);
-  // }
-  // get isPasswordLengthInvalid(): boolean {
-  //   const passRule = /^[a-zA-Z0-9]{8,12}$/;
-  //   return this.password.length > 0;
-  // }
 
-  validate(field: 'name' | 'email' | 'password'): void {
+
+  validate(field: 'name' | 'email' | 'password' | 'isAccept'): void {
     const emailRule = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (field === 'name') {
       if (!this.name) {
-        this.nameErrorMsg = '姓名不能為空';
+        this.nameErrorMsg = '*此為必填欄位';
       } else {
         this.nameErrorMsg = ''; // 格式正確就清空訊息
       }
@@ -56,7 +48,7 @@ export class RegisterComponent {
 
     if (field === 'email') {
       if (!this.email) {
-        this.emailErrorMsg = '電子郵件不能為空';
+        this.emailErrorMsg = '*此為必填欄位';
       } else if (!emailRule.test(this.email)) {
         this.emailErrorMsg = 'Email 格式不正確';
       } else {
@@ -66,11 +58,18 @@ export class RegisterComponent {
 
     if (field === 'password') {
       if (!this.password) {
-        this.passwordErrorMsg = '請輸入密碼';
-      } else if (this.password.length < 8 || this.password.length > 12) {
-        this.passwordErrorMsg = '密碼長度須為 8-12 位';
-      } else {
+        this.passwordErrorMsg = '*此為必填欄位';
+      } else if (this.password.length < 7 || this.password.length > 12) {
+        this.passwordErrorMsg = '密碼長度須為 7-12 位';
+      }else {
         this.passwordErrorMsg = '';
+      }
+    }
+    if (field === 'isAccept') {
+      if (!this.isAccept) {
+        this.termErrorMsg = '*請確認條款內容';
+      }else {
+        this.termErrorMsg = '';
       }
     }
   }
@@ -79,10 +78,28 @@ export class RegisterComponent {
     this.validate('name');
     this.validate('email');
     this.validate('password');
+    this.validate('isAccept');
 
     // 2. 最終檢查：只要兩個錯誤訊息都是空的，就代表格式全部正確
     if (!this.nameErrorMsg && !this.emailErrorMsg && !this.passwordErrorMsg) {
+      const loginData = {
+        name: this.name,
+        email: this.email,    // 左邊是給後端看的「標籤」，右邊是你存的「資料」
+        password: this.password
+      };
       console.log('格式正確，執行登入 API');
+      this.httpClientService.postApi(`http://localhost:8080/api/auth/register`,loginData)
+      .subscribe((register: any) => {
+        if(register.code==409){
+          console.log('已註冊過');
+          this.emailErrorMsg = '此 Email 已註冊過';
+        }
+        else{
+      console.log('註冊成功');
+      this.emailErrorMsg = '';
+        }
+
+      })
 
       // 這裡放原本被註解掉的 Service 呼叫邏輯
       // const loginData = { email: this.email, password: this.password };
@@ -90,23 +107,7 @@ export class RegisterComponent {
     }
   }
 
-  // register(){
-  //   const registerData = {
-  //     name: this.name,
-  //     email: this.email,
-  //     password: this.password
-  //   };
-
-  //   this.wealthService.createUser(registerData).subscribe({
-  //     next: (res) => {
-  //       console.log('註冊成功', res);
-  //       alert('註冊成功！');
-  //       this.router.navigate(['/login']);
-  //     },
-  //     error: (err) => {
-  //       console.error('註冊失敗', err);
-  //       alert('註冊發生錯誤');
-  //     }
-  //   });
-  // }
+  ngOnInit(): void {
+    this.isAccept=false;
+  }
 }

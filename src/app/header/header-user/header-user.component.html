@@ -1,0 +1,76 @@
+<!-- <p>header-user works!</p> -->
+<div class="user-notification-container">
+  <div class="notification-trigger" (click)="toggleNotification($event)">
+    <!-- Angular模板 [matBadge]="systemUnreadCount 直接讀取未讀取數 >0 鈴鐺會有紅點 -->
+      <div [matBadge]="systemUnreadCount"
+         [matBadgeHidden]="systemUnreadCount === 0"
+         matBadgeSize="small"
+         matBadgeColor="warn"
+         class="demo-section">
+      <mat-icon style="position: relative; top:5px">notifications_none</mat-icon>
+    </div>
+    @if (hasNewMessage) { <span class="badge"></span> }
+
+    @if (isNotificationOpen) {
+    <div class="notification-panel" (click)="$event.stopPropagation()">
+      <div class="tab-header">
+        <div class="tab-item" [class.active]="activeTab === 'personal'" (click)="activeTab = 'personal'">個人訊息</div>
+        <div class="tab-item" [class.active]="activeTab === 'system'" (click)="activeTab = 'system'">系統通知&nbsp;
+          @if(systemUnreadCount>0){
+          <label style="background-color: #ef3c2d;color:white;font-size: 11px;width: 20px;border-radius: 10px;">&nbsp;{{systemUnreadCount}}&nbsp;</label>
+        }
+        </div>
+      </div>
+
+      <!-- 個人訊息 -->
+      <div class="tab-content">
+        @if (activeTab === 'personal') {
+        <ul class="msg-list">
+          <li>您的資產配置已更新</li>
+          <li>本月預算達成率 90%</li>
+        </ul>
+        <!-- 系統通知 -->
+        } @else {
+        <ul class="msg-list">
+          @for(notification of notificationList?.data ; track $index){
+          @if(notification.scheduledDate<=gettoday){
+            <li class="system-msg " (click)="detail(notification.id!)">
+           <span class="msg-title">{{notification.title}}</span>
+        @if(!notification.hasRead) {
+          <span class="unread-dot"></span>
+        }
+            </li>
+            }
+            }
+        </ul>
+        }
+      </div>
+      <!-- <div class="tab-footer" routerLink="/notification">查看全部通知</div> -->
+      <div class="tab-footer" [routerLink]="activeTab === 'personal' ? '/personal-notification' : '/notification'">
+        查看全部{{ activeTab === 'personal' ? '個人' : '系統' }}通知
+      </div>
+    </div>
+    }
+  </div>
+</div>
+
+<!-- 登出與個人檔案 -->
+<div class="user-menu-container">
+  <div class="menu-trigger" (click)="toggleMenu($event)">
+    <span class="click-menu">XXX，歡迎使用</span>
+    <mat-icon [class.rotated]="isMenuOpen">expand_more</mat-icon>
+  </div>
+
+  @if (isMenuOpen) {
+  <ul class="custom-dropdown" (click)="$event.stopPropagation()">
+    <li class="menu-item" routerLink="/profile" (click)="isMenuOpen = false">
+      <span>個人檔案</span>
+    </li>
+    <div class="divider"></div>
+    <li class="menu-item logout" (click)="logout()">
+      <span>登出</span>
+    </li>
+  </ul>
+  }
+
+</div>

@@ -1,0 +1,22 @@
+<!-- <p>header-admin works!</p> -->
+
+<!-- <label class="loginText">Admin，歡迎使用</label> -->
+
+<div class="user-menu-container">
+      <div class="menu-trigger" (click)="toggleMenu($event)">
+        <span class="click-menu">Admin，歡迎使用</span>
+        <mat-icon [class.rotated]="isMenuOpen">expand_more</mat-icon>
+      </div>
+
+      @if (isMenuOpen) {
+      <ul class="custom-dropdown" (click)="$event.stopPropagation()">
+        <li class="menu-item" routerLink="/profile" (click)="isMenuOpen = false">
+          <span>個人檔案</span>
+        </li>
+        <div class="divider"></div>
+        <li class="menu-item logout" (click)="logout()">
+          <span>登出</span>
+        </li>
+      </ul>
+      }
+    </div>

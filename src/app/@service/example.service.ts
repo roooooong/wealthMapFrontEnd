@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -10,31 +10,20 @@ import { Injectable } from '@angular/core';
 
 
 export class ExampleService {
-  // 設定service欲傳輸的全域變數
-  sendData!: string;
-  userName!: string;
-  userEmail!: string;
-  userAge!: number;
-
-  //to-do Add
-  // inputNewItem!: Array<string> ;
-  inputNewItem: Array<any> = [
-    {
-      id:"test",
-      state:"incomplete",
-      startDate:"26/1/12, 13:48"
-    },
-    {
-      id:"test1",
-      state:"incomplete",
-      startDate:"26/1/12, 13:49"
-    }];
-  editItem!:Array<any>;
-
-  //weather selected
-  dataInfo!:Array<any>;
-  selectedConent!:string;
-
-
   constructor() { }
+  //  role:string = 'visitor';
+  private roleSource = new BehaviorSubject<string>('visitor');
+
+  // 💡 2. 暴露一個 Observable 讓所有組件監聽
+  role$ = this.roleSource.asObservable();
+
+  // 💡 3. 登入成功時呼叫此方法
+  setRole(newRole: string) {
+    this.roleSource.next(newRole);
+  }
+
+  // 獲取目前數值 (同步)
+  get currentRole() {
+    return this.roleSource.value;
+  }
 }

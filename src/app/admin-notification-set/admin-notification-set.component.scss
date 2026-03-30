@@ -25,6 +25,23 @@
   font-size: 32px;
 }
 
+h1{
+  // margin-left:50px;
+  color: #000000;
+  letter-spacing:5px;
+  font-size: 42px;
+  position: absolute;
+  margin-left: 120px;
+}
+h2{
+  // margin-left:50px;
+  color: #000000;
+  letter-spacing:5px;
+  font-size: 28px;
+  position: absolute;
+  margin-left: 120px;
+}
+
 .loginText{
   position: absolute;
   right:40px;
@@ -32,4 +49,183 @@
   font-size: 16px;
   letter-spacing: 2px;
   color: white;
+}
+
+.headerbtn{
+  position: absolute;
+  height: 60px;
+  // bottom:15px;
+  color:#ddf4fd;
+  font-size: 18px;
+  background-color: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+.headerbtn:hover{
+  position: absolute;
+  height: 60px;
+  color:#ffffff;
+  font-size: 18px;
+  background-color: transparent;
+  cursor: pointer;
+  border-bottom:3px solid #1368aa ;
+}
+.nowheaderbtn{
+  position: absolute;
+  border: none; height: 60px;
+  color:#ffffff;
+  font-size: 19px;
+  background-color: transparent;
+  cursor: pointer;
+  border-bottom:3px solid #1368aa ;
+}
+
+.notification-tag{
+  background-color: #4091c9;
+  color:white;
+  border-radius: 5px;
+  padding:3px 8px 3px 8px;
+  margin-right: 15px;
+  margin-left: 5px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.notification-edit{
+  position: absolute;
+  background-color: transparent;
+  color:#9dcee2;
+  border:none;
+  padding:3px 8px 3px 8px;
+  margin-right: 15px;
+  margin-left: 5px;
+  font-size: 14px;
+  right:-80px;
+  top:5px;
+  cursor: pointer;
+}
+
+.notification-edit:hover{
+  color:#4091c9;
+}
+
+.notification-delete{
+  position: absolute;
+  background-color: transparent;
+  color:#9dcee2;
+  border:none;
+  padding:3px 8px 3px 8px;
+  margin-right: 15px;
+  margin-left: 5px;
+  font-size: 14px;
+  right:-120px;
+  top:5px;
+  cursor: pointer;
+}
+
+.notification-delete:hover{
+  color:#4091c9;
+}
+
+.notification{
+ position: relative;
+//  box-shadow: 5px 5px 15px rgba(109, 163, 234, 0.3);
+  padding: 10px;
+  border-bottom:1px solid #b6e4f6;
+  margin-bottom: 10px;
+  border-radius: 15px;
+  left:-50px;
+  cursor: pointer;
+}
+
+.notification:hover{
+ transform: translateY(-2px);
+ box-shadow: 0 10px 20px rgba(64, 145, 201, 0.2);
+ transition: all 0.3s ease; /* 讓動作變平滑 */
+}
+
+.notification-title {
+    display: inline-block;
+    width: 75%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: bottom; /* 修正與旁邊文字的對齊 */
+  cursor: pointer;
+
+}
+
+// 滑鼠移到item顯示的文字設定
+.tooltip-container {
+  /*讓容器跟著圖片的絕對位置走 */
+  position: absolute;
+  right: 30px;
+  top: 90px;
+  width: 30px;
+  height: 30px;
+}
+// 跟著圖片
+.tooltip-container img {
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  display: block;
+}
+
+.tooltip-text {
+  visibility: hidden;
+  width: 60px;
+  background-color: #f29479;
+  color: #fff;
+  text-align: center;
+  border-radius: 3px;
+  padding: 3px 0;
+  font-size: 12px;
+  letter-spacing: 2px;
+
+  /*定位在圖片上方 */
+  position: absolute;
+  z-index: 1;
+  top: 250%;
+  right: 40%;
+  transform: translateX(-50%);
+
+  /* 淡入效果 */
+  opacity: 0;
+  transition: opacity 0.2s;
+  pointer-events: none; /* 💡 確保滑鼠不會點到文字框 */
+}
+
+/* 滑鼠移入圖片區域顯示文字 */
+.tooltip-container:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+
+.addbtn{
+background-color: transparent;
+border: none;
+}
+
+img{
+position: absolute;
+left: 350px;
+margin-top: 35px;
+width: 30px;
+height: 30px;
+cursor: pointer;
+}
+
+img:hover{
+transform: scale(1.1);
+}
+
+hr{
+  width: 80%;
+  border: none;
+  height: 2px;
+  background-color: #9dcee2;
 }

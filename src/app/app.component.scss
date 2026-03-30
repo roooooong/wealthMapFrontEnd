@@ -1,1 +1,99 @@
+// .headerText {
+//   position: absolute;
+//   right: 40px;
+//   bottom: 10px;
+//   font-size: 16px;
+//   letter-spacing: 2px;
+//   color: white;
+// }
+
+.frameCss {
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+.headerCss {
+  position: relative;
+  width: 100%;
+  height: 60px;
+  background: linear-gradient(45deg, #9dcee2, #4091c9);
+}
+
+.logo {
+  position: absolute;
+  left: 40px;
+  bottom: 10px;
+  font-size: 16px;
+  color: white;
+  font-size: 32px;
+  cursor: pointer;
+}
+// .footerCss {
+//   position: relative;
+//   width: 100%;
+//   height: 80px;
+//   display: flex;
+//   justify-content: center;
+//   font-size: 16px;
+//   background: linear-gradient(45deg, #9dcee2, #4091c9);
+//   background-color: #333; /* 假設的背景色 */
+//   text-align: center;
+//   // padding: 20px 0;
+//   width: 100%;
+//   color:white;
+// }
+.footerCss {
+  position: relative;
+  width: 100%;
+  height: 113px;
+  display: flex;
+  justify-content: center;
+  font-size: 16px;
+  background: linear-gradient(45deg, #9dcee2, #4091c9);
+  background-color: #333; /* 假設的背景色 */
+}
+
+.footerCss span {
+  align-self: center;
+  font-size: 16px;
+  color: white;
+}
+
+/* 💡 核心：讓最外層撐滿螢幕，並使用 Flexbox 直向排列 */
+.app-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* 💡 關鍵：確保容器至少跟螢幕一樣高 */
+}
+
+/* 💡 核心：讓中間內容區「自動伸展」把 Footer 推到底部 */
+.content-area {
+  flex: 1; /* 💡 關鍵：它會吃掉所有剩餘空間 */
+}
+
+.headerbtn{
+  width: 100px;
+  align-self: center;
+  font-size: 16px;
+  color: white;
+  // position: absolute;
+  height: 20px;
+  // bottom:15px;
+  font-size: 16px;
+  color:#ffffff;
+
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+.headerbtn:hover{
+  color:#ddf4fd;
+
+  font-size: 16px;
+  cursor: pointer;
+}
+
 

@@ -34,3 +34,94 @@
   color: white;
 }
 
+.headerbtn{
+  position: absolute;
+  height: 60px;
+  // bottom:15px;
+  color:#ddf4fd;
+  font-size: 18px;
+  background-color: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  cursor: pointer;
+  transition: border-color 0.5s ease;
+}
+
+.headerbtn:hover{
+  position: absolute;
+  height: 60px;
+  color:#ffffff;
+  font-size: 18px;
+  background-color: transparent;
+  cursor: pointer;
+  border-bottom:3px solid #1368aa ;
+}
+
+.nowheaderbtn{
+  position: absolute;
+  border: none; height: 60px;
+  color:#ffffff;
+  font-size: 19px;
+  background-color: transparent;
+  cursor: pointer;
+  border-bottom:3px solid #1368aa ;
+}
+
+h1{
+  // margin-left:50px;
+  color: #000000;
+  letter-spacing:5px;
+  font-size: 42px;
+  position: absolute;
+  margin-left: 120px;
+}
+
+.privacyListtitle{
+ position: absolute;
+ margin-left: 150px;
+ letter-spacing: 1px;
+ color: #1368aa;
+}
+
+.index{
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  left:130px;
+  background-color: #4091c9;
+  color: white;
+  width: 40px;
+  height: 40px;
+  font-size: 28px;
+  border-radius: 2px;
+}
+
+.termstitle{
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  left:190px;
+  bottom: 45px;
+  color:#033270;
+  font-size: 20px;
+  border-radius: 2px;
+}
+
+.termscontent{
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  left:190px;
+  bottom: 45px;
+  font-size: 16px;
+}
+
+.termsitem{
+  position: relative;
+  bottom:40px;
+  left:170px;
+  font-size: 16px;
+}

@@ -1,78 +1,79 @@
-.headerCss{
+.headerCss {
   position: relative;
   width: 100%;
-  height:60px;
+  height: 60px;
   background: linear-gradient(45deg, #9dcee2, #4091c9);
 }
 
-.logo{
+.logo {
   position: absolute;
-  left:40px;
-  bottom:10px;
+  left: 40px;
+  bottom: 10px;
   font-size: 16px;
   color: white;
   font-size: 32px;
 }
 
-.registerBtn{
+.registerBtn {
   background-color: #ffffff;
   color: rgb(0, 0, 0);
   position: absolute;
-  right:40px;
-  top:12px;
-  width: 90px;
-  height: 35px;
+  right: 40px;
+  top: 15px;
+  width: 80px;
+  height: 30px;
   border: none;
   border-radius: 5px;
   font-size: 16px;
   cursor: pointer;
 }
 
-.loginBtn{
+.loginBtn {
   background-color: #ffffff;
   color: rgb(0, 0, 0);
   position: absolute;
-  right:150px;
-  top:12px;
-  width: 90px;
-  height: 35px;
+  right: 140px;
+  top: 15px;
+  width: 80px;
+  height: 30px;
   border: none;
   border-radius: 5px;
   font-size: 16px;
   cursor: pointer;
 }
 
-.loginBtn:hover{
+.loginBtn:hover {
   background-color: #075591;
   color: white;
 }
 
-.registerBtn:hover{
+.registerBtn:hover {
   background-color: #075591;
   color: white;
 }
 
-.headerText{
+.headerText {
   position: absolute;
-  right:40px;
-  bottom:10px;
+  right: 40px;
+  bottom: 10px;
   font-size: 16px;
   letter-spacing: 2px;
   color: white;
 }
 
-.frameCss{
+.frameCss {
   display: flex;
   justify-content: center;
   position: relative;
 }
-.iconbox{
+
+.iconbox {
   position: absolute;
   box-shadow: 5px 5px 15px rgba(3, 50, 112, 0.3);
-   border-radius: 20px;
+  border-radius: 20px;
 }
 
-.iconbtn{
+.iconbtn {
   border: none;
   margin: 40px;
   margin-bottom: 20px;
@@ -80,7 +81,7 @@
   cursor: pointer;
 }
 
-.iconbtn:hover{
+.iconbtn:hover {
   border: none;
   margin: 40px;
   margin-bottom: 8px;
@@ -93,14 +94,16 @@
   width: 100%;
   height: 2px;
   padding: 15px;
-  background-color: #fedfd4; /* 深藍色背景 */
+  background-color: #fedfd4;
+  /* 深藍色背景 */
   color: white;
   display: flex;
   justify-content: space-between;
   align-items: center;
   border-radius: 2px;
   font-size: 12px;
-  transition: opacity 0.3s ease; /* 消失時的淡出動畫 */
+  transition: opacity 0.3s ease;
+  /* 消失時的淡出動畫 */
 }
 
 .close-btn {
@@ -113,10 +116,11 @@
 }
 
 .close-btn:hover {
-  color: #b8cae6; /* 懸停時變色 */
+  color: #b8cae6;
+  /* 懸停時變色 */
 }
 
-.chart-container{
+.chart-container {
   width: 400px;
   height: 300px;
 }
@@ -125,9 +129,11 @@
   position: absolute;
   top: 50%;
   left: 46%;
-  transform: translate(-50%, -50%); /* 精準置中 */
+  transform: translate(-50%, -50%);
+  /* 精準置中 */
   text-align: center;
-  pointer-events: none; /* 讓滑鼠可以穿過文字，不影響圖表 hover 效果 */
+  pointer-events: none;
+  /* 讓滑鼠可以穿過文字，不影響圖表 hover 效果 */
   // z-index: 0;
 }
 
@@ -146,22 +152,6 @@
   z-index: -1;
 }
 
-.footerCss{
-  position: relative;
-  width: 100%;
-  height:80px;
-  display: flex;
-  justify-content: center;
-  font-size: 16px;
- background: linear-gradient(45deg, #9dcee2, #4091c9);
-}
-
-.footerCss span{
-  align-self: center;
-  font-size: 16px;
-  color:white;
-}
-
 .personal-carousel {
   position: relative;
   justify-content: center;
@@ -172,7 +162,8 @@
   background: #fdfdfd;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  overflow: hidden;  /* 💡 必須隱藏超出的部分，ellipsis 才會觸發 */
+  overflow: hidden;
+  /* 💡 必須隱藏超出的部分，ellipsis 才會觸發 */
   display: flex;
   align-items: center;
 }
@@ -197,14 +188,16 @@
   overflow: hidden;
 
   .personal-tag {
-    background: #fedfd4; // 溫暖的配色
+    background: #fedfd4;
     color: #f29479;
     padding: 2px 8px;
     border-radius: 4px;
     font-size: 12px;
     font-weight: bold;
-    margin-right: 15px;    /* 💡 標籤與標題的距離 */
-  flex-shrink: 0;        /* 防止標籤被擠壓變形 */
+    margin-right: 15px;
+    /* 💡 標籤與標題的距離 */
+    flex-shrink: 0;
+    /* 防止標籤被擠壓變形 */
   }
 
   .personal-title {
@@ -229,7 +222,8 @@
     max-width: 80px;
     color: #999;
     font-size: 13px;
-    flex-shrink: 0;   /* 確保日期不會被擠掉 */
+    flex-shrink: 0;
+    /* 確保日期不會被擠掉 */
   }
 }
 
@@ -255,7 +249,260 @@
   }
 }
 
-.system-tag{
+.system-tag {
+  background-color: #4091c9;
+  color: white;
+  border-radius: 5px;
+  padding: 3px 8px 3px 8px;
+  margin-right: 15px;
+  margin-left: 5px;
+  font-size: 14px;
+}
+
+
+.system {
+  position: relative;
+  //  box-shadow: 5px 5px 15px rgba(109, 163, 234, 0.3);
+  padding: 10px;
+  border-bottom: 1px solid #b6e4f6;
+  margin-bottom: 10px;
+  border-radius: 15px;
+}
+
+.system:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(64, 145, 201, 0.2);
+  transition: all 0.3s ease;
+  /* 讓動作變平滑 */
+}
+
+.system-title {
+  display: inline-block;
+  width: 75%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: bottom;
+  /* 修正與旁邊文字的對齊 */
+}
+
+.user-menu-container {
+  position: absolute;
+  /* 💡 變成絕對定位 */
+  right: 40px;
+  /* 💡 與右邊界保持距離，建議跟 loginBtn 一樣 */
+  bottom: 10px;
+  /* 💡 與底部保持距離，建議跟 logo 一樣 */
+  display: inline-block;
+  z-index: 1000;
+  /* 確保不會被其他元件蓋住 */
+
+  .menu-trigger {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    cursor: pointer;
+    color: white; // 配合你的 Header 顏色
+    user-select: none; // 防止連點時選取到文字
+
+    mat-icon {
+      transition: transform 0.3s;
+
+      &.rotated {
+        transform: rotate(180deg);
+      }
+    }
+  }
+}
+
+.click-menu {
+  white-space: nowrap;
+  font-size: 16px;
+  letter-spacing: 2px;
+}
+
+.click-menu:hover {
+  color:#ddf4fd;
+}
+
+.custom-dropdown {
+  position: absolute;
+  top: calc(100% + 15px); // 與按鈕保持一點間距
+  right: 0;
+  top:40px;
+  width: 150px;
+  background-color: white;
+  border-radius: 2px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  list-style: none;
+  padding: 0; // 💡 關鍵：設為 0，絕對沒有灰色區塊
+  margin: 0;
+  z-index: 9999; // 確保在最上層，不被其他元件擋住
+  overflow: hidden;
+
+  .menu-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    font-size: 14px;
+    color: #333;
+    cursor: pointer;
+    transition: background 0.2s;
+
+    &:hover {
+      background-color: #fedfd43a; // 滑鼠移上去時的淡色
+    }
+
+    mat-icon {
+      font-size: 20px;
+      color: #666;
+    }
+
+    &.logout {
+      color: #e74c3c;
+      mat-icon {
+        color: #e74c3c;
+      }
+    }
+  }
+
+  .divider {
+    height: 1px;
+    background-color: #eee;
+    margin: 4px 0;
+  }
+}
+
+.click-notification{
+  position: absolute;
+  top:20px;
+  display: flex;
+  color: white;
+  position: absolute;
+  right: 230px;
+}
+
+.click-notification:hover {
+  color:#ddf4fd;
+}
+
+.user-notification-container {
+  position: absolute;
+  /* 💡 變成絕對定位 */
+  right: 220px;
+  /* 💡 與右邊界保持距離，建議跟 loginBtn 一樣 */
+  bottom: 10px;
+  /* 💡 與底部保持距離，建議跟 logo 一樣 */
+  display: inline-block;
+  z-index: 1000;
+  /* 確保不會被其他元件蓋住 */
+
+  .notification-trigger {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    cursor: pointer;
+    color: white; // 配合你的 Header 顏色
+    user-select: none; // 防止連點時選取到文字
+
+    &:hover{
+        color:#ddf4fd;
+    }
+    mat-icon {
+      transition: transform 0.3s;
+
+      &.rotated {
+        transform: rotate(180deg);
+      }
+    }
+  }
+}
+
+.notification-trigger {
+  position: relative;
+
+  .notification-panel {
+    position: absolute;
+    top: calc(100% + 15px);
+    right: -10px; // 稍微往左偏一點讓它置中於鈴鐺
+  top:40px;
+
+    width: 250px;
+    background: white;
+    border-radius: 2px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    z-index: 9999;
+    overflow: hidden;
+    color: #333;
+  }
+}
+
+.tab-header {
+  display: flex;
+  background: #f8f9fa;
+  border-bottom: 1px solid #eee;
+
+  .tab-item {
+    flex: 1;
+    padding: 12px;
+    text-align: center;
+    font-size: 14px;
+    cursor: pointer;
+    color: #666;
+    transition: all 0.2s;
+
+    &.active {
+      color: #4091c9;
+      font-weight: bold;
+      background: white;
+      border-bottom: 2px solid #4091c9;
+    }
+  }
+}
+
+.tab-content {
+  max-height: 300px;
+  overflow-y: auto;
+
+  .msg-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+      padding: 15px;
+      border-bottom: 1px solid #f0f0f0;
+      font-size: 13px;
+      cursor: pointer;
+      &:hover { background:  #fedfd43a;; }
+      display: inline-block;
+    max-width: 250px;
+    // flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; // 文字太長自動變 ...
+    display: block;
+    cursor: pointer;
+    transition: color 0.2s;
+    font-size: 14px;
+    }
+  }
+}
+
+.tab-footer {
+  padding: 10px;
+  text-align: center;
+  font-size: 12px;
+  color: #999;
+  background: #fcfcfc;
+  cursor: pointer;
+  &:hover { color: #4091c9; }
+}
+
+.notification-tag{
   background-color: #4091c9;
   color:white;
   border-radius: 5px;
@@ -263,29 +510,15 @@
   margin-right: 15px;
   margin-left: 5px;
   font-size: 14px;
+  cursor: pointer;
 }
-
-
-.system{
- position: relative;
-//  box-shadow: 5px 5px 15px rgba(109, 163, 234, 0.3);
-  padding: 10px;
-  border-bottom:1px solid #b6e4f6;
-  margin-bottom: 10px;
-  border-radius: 15px;
-}
-
-.system:hover{
- transform: translateY(-2px);
- box-shadow: 0 10px 20px rgba(64, 145, 201, 0.2);
- transition: all 0.3s ease; /* 讓動作變平滑 */
-}
-
-.system-title {
+.notification-title {
     display: inline-block;
     width: 75%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     vertical-align: bottom; /* 修正與旁邊文字的對齊 */
+  cursor: pointer;
+
 }

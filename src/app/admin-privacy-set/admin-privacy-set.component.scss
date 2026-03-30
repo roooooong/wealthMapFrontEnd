@@ -36,8 +36,137 @@
 
 h1{
   // margin-left:50px;
-  color: #1368aa;
+  color: #000000;
   letter-spacing:5px;
   font-size: 42px;
+  position: absolute;
+  margin-left: 120px;
 }
 
+.headerbtn{
+  position: absolute;
+  height: 60px;
+  // bottom:15px;
+  color:#ddf4fd;
+  font-size: 18px;
+  background-color: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+.headerbtn:hover{
+  position: absolute;
+  height: 60px;
+  color:#ffffff;
+  font-size: 18px;
+  background-color: transparent;
+  cursor: pointer;
+  border-bottom:3px solid #1368aa ;
+}
+.nowheaderbtn{
+  position: absolute;
+  border: none; height: 60px;
+  color:#ffffff;
+  font-size: 19px;
+  background-color: transparent;
+  cursor: pointer;
+  border-bottom:3px solid #1368aa ;
+}
+
+// 滑鼠移到item顯示的文字設定
+.tooltip-container {
+  /*讓容器跟著圖片的絕對位置走 */
+  position: absolute;
+  right: 30px;
+  top: 90px;
+  width: 30px;
+  height: 30px;
+}
+// 跟著圖片
+.tooltip-container img {
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  display: block;
+}
+
+.tooltip-text {
+  visibility: hidden;
+  width: 60px;
+  background-color: #f29479;
+  color: #fff;
+  text-align: center;
+  border-radius: 3px;
+  padding: 3px 0;
+  font-size: 12px;
+  letter-spacing: 2px;
+
+  /*定位在圖片上方 */
+  position: absolute;
+  z-index: 1;
+  top: 250%;
+  right: 40%;
+  transform: translateX(-50%);
+
+  /* 淡入效果 */
+  opacity: 0;
+  transition: opacity 0.2s;
+  pointer-events: none; /* 💡 確保滑鼠不會點到文字框 */
+}
+
+/* 滑鼠移入圖片區域顯示文字 */
+.tooltip-container:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+.privacyListtitle{
+ position: absolute;
+ margin-left: 150px;
+ letter-spacing: 1px;
+ color: #1368aa;
+}
+
+.index{
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  left:130px;
+  background-color: #4091c9;
+  color: white;
+  width: 40px;
+  height: 40px;
+  font-size: 28px;
+  border-radius: 2px;
+}
+
+.termstitle{
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  left:190px;
+  bottom: 45px;
+  color:#033270;
+  font-size: 20px;
+  border-radius: 2px;
+}
+
+.termscontent{
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  left:190px;
+  bottom: 45px;
+  font-size: 16px;
+}
+
+.termsitem{
+  position: relative;
+  bottom:40px;
+  left:170px;
+  font-size: 16px;
+}
