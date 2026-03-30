@@ -41,7 +41,7 @@ export const routes: Routes = [
   {path:'personal-notification/:pageId', component: PersonalNotificationComponent},
   // { path: 'forgot', component: ForgotComponent },
   {path:'investment-manage', component: InvestmentManageComponent },
-  {path:'strategy-list', component: StrategyListComponent}
+  {path:'strategy-list', component: StrategyListComponent},
 
   // 🚀 關鍵：萬用路由（必須放在陣列的最下方）
   { path: '**', redirectTo: 'main', pathMatch: 'full' }
