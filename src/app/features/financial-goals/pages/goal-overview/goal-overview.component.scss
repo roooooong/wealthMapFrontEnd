@@ -1,0 +1,273 @@
+// 外層主要白色容器
+.goal-container {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 40px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    font-family: "微軟正黑體", sans-serif;
+
+    /* 頂部導航與回首頁按鈕 (靠左、淺灰圓角)*/
+    .top-nav-bar {
+        display: flex;
+        justify-content: flex-start;
+        margin-bottom: 25px;
+
+        .back-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            background-color: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            color: #475569;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s ease;
+
+            .icon-chevron {
+                font-size: 16px;
+                line-height: 1;
+                margin-top: -2px;
+            }
+
+            &:hover {
+                background-color: #e2e8f0;
+                color: #1e293b;
+            }
+        }
+    }
+
+    /* 未登入提示卡片 (你剛剛貼的專屬樣式)*/
+    .unauth-card {
+        text-align: center;
+        padding: 80px 20px;
+        background-color: #f8fbfd;
+        border-radius: 15px;
+        border: 2px dashed #dce4ec;
+        margin-top: 20px;
+
+        .icon-lock {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 28px;
+        }
+
+        p {
+            color: #7f8c8d;
+            margin-bottom: 30px;
+            font-size: 16px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .login-btn {
+            padding: 12px 35px;
+            background-color: #69a5e4;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 4px 10px rgba(105, 165, 228, 0.3);
+
+            &:hover {
+                background-color: #558bc4;
+                transform: translateY(-2px);
+            }
+        }
+    }
+
+    /* 已登入時的內容 (總金額、表單、黃色列表)*/
+    .header-section {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 50px;
+        border-bottom: 2px solid #eee;
+        padding-bottom: 30px;
+
+        .main-title {
+            font-size: 36px;
+            color: #000;
+            margin-bottom: 15px;
+            font-weight: normal;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: #333;
+            margin: 5px 0;
+        }
+
+        .total-area {
+            text-align: right;
+
+            .total-label {
+                font-size: 20px;
+                color: #69a5e4;
+                margin-bottom: 5px;
+            }
+
+            .total-number {
+                font-size: 48px;
+                color: #69a5e4;
+                font-weight: normal;
+            }
+        }
+    }
+
+    .action-bar {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 20px;
+
+        .action-text {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .add-btn {
+            background-color: transparent;
+            border: 2px solid #000;
+            color: #000;
+            font-size: 24px;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-weight: bold;
+            line-height: 1;
+
+            &:hover {
+                background-color: #eee;
+            }
+        }
+    }
+
+    .add-form-card {
+        background-color: #f8fbfd;
+        border: 1px solid #dce4ec;
+        padding: 20px;
+        border-radius: 8px;
+        display: flex;
+        gap: 15px;
+        align-items: flex-end;
+        margin-bottom: 30px;
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+
+            label {
+                font-size: 14px;
+                margin-bottom: 5px;
+                color: #555;
+                font-weight: bold;
+            }
+
+            input {
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                font-size: 14px;
+            }
+        }
+
+        .submit-btn {
+            padding: 10px 20px;
+            background-color: #69a5e4;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            height: 40px;
+
+            &:hover {
+                background-color: #558bc4;
+            }
+        }
+    }
+
+    .goal-list-section {
+        .list-header {
+            display: flex;
+            padding: 10px 20px;
+            font-weight: normal;
+            color: #000;
+            margin-bottom: 15px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 30px;
+            color: #888;
+            background: #fafafa;
+            border-radius: 8px;
+        }
+
+        .list-row {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            background-color: #fdf5e6;
+            margin-bottom: 10px;
+            border-radius: 4px;
+        }
+
+        .col-id {
+            width: 50px;
+            text-align: center;
+        }
+
+        .col-name {
+            flex: 2;
+            text-align: center;
+        }
+
+        .col-amount {
+            flex: 2;
+            text-align: center;
+        }
+
+        .col-date {
+            flex: 2;
+            text-align: center;
+        }
+
+        .col-action {
+            width: 60px;
+            text-align: center;
+        }
+
+        .delete-btn {
+            background: #ff4d4f;
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+
+            &:hover {
+                background: #d9363e;
+            }
+        }
+    }
+}

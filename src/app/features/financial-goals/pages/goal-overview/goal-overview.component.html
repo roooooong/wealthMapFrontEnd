@@ -1,0 +1,22 @@
+<div class="goal-container">
+
+    <div class="top-nav-bar">
+        <button class="back-btn" (click)="backToHome()">
+            <span class="icon-chevron">〈</span> 回首頁
+        </button>
+    </div>
+    @if(!isLoggedIn) {
+    <div class="unauth-card">
+        <div class="icon-lock">🔒</div>
+        <h2>專屬財務目標管家</h2>
+        <p>登入後即可開始設定買房、退休等理財目標，我們將為您自動追蹤存錢進度！</p>
+        <button class="login-btn" (click)="goToLogin()">立即登入 / 註冊</button>
+    </div>
+    }
+
+    @else {
+    <div class="header-section">
+    </div>
+    }
+
+</div>

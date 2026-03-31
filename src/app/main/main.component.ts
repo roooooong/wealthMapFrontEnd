@@ -117,6 +117,9 @@ export class MainComponent {
   goToAssets() {
     this.router.navigate(['/assets']);
   }
+  goToGoals() {
+    this.router.navigate(['/goals']);
+  }
 
   closeNotice() {
     const notice = document.getElementById('notification');
