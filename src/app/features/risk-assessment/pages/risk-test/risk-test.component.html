@@ -2,7 +2,7 @@
     <h2 class="title">風險屬性評量問卷</h2>
     <p class="subtitle">請根據您的真實情況作答，系統將為您計算專屬的投資策略。</p>
 
-    <form [formGroup]="riskForm" (ngSubmit)="submitTest()">
+    <form [formGroup]="riskForm" (ngSubmit)="submitTest(1)">
 
         <div class="question-card"
             [class.error-card]="riskForm.get('ageScore')?.invalid && riskForm.get('ageScore')?.touched">

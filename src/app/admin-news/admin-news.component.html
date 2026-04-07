@@ -1,0 +1,60 @@
+<!-- <p>admin-news works!</p> -->
+<br>
+<div style="margin: 20px;">
+  <!-- 標題 -->
+  <div>
+    <h1>新聞管理</h1>
+      <span style="color: #666;padding: 5px;position: absolute;top:120px; left: 340px; margin-top: 35px;">/共 <strong>{{ totalItems }}</strong> 則新聞</span>
+    <select [(ngModel)]="itemsPerPage" (change)="p=1; fetchData()" style="padding: 5px; border-radius: 4px;   border: 1px solid #4091c9;position: absolute;top:125px; right: 160px; margin-top: 35px;">
+      <option [value]="5">5 筆/頁</option>
+      <option [value]="10">10 筆/頁</option>
+      <option [value]="20">20 筆/頁</option>
+    </select>
+  </div>
+</div>
+<br><br><br><br><br>
+<hr>
+<br>
+
+<div class="frameCss" style="margin: 20px;">
+  <div style="width: 80%; border-color: #4091c9;">
+    @for(news of newsList ; track $index){
+    <div class="news" style="display: flex">
+      <!-- 已下架的樣式 -->
+      @if( news.hidden==true){
+      <label class="news-tagNone" (click)="goNewsUrl(news.url)">{{news.sourceName}}</label>
+      <label class="news-titleNone" (click)="goNewsUrl(news.url)">{{news.title}}</label>
+      <label style="position: absolute;right:150px;color:#858585;">{{news.publishedAt.split("T")[0]}}</label>
+      }
+      <!-- 上架中的樣式 -->
+      @else{
+      <label class="news-tag" (click)="goNewsUrl(news.url)">{{news.sourceName}}</label>
+      <label class="news-title" (click)="goNewsUrl(news.url)">{{news.title}}</label>
+      <label style="position: absolute;right:150px">{{news.publishedAt.split("T")[0]}}</label>
+      }
+      <div class="sw-container">
+        <label class="wealth-switch">
+          <input type="checkbox" [checked]="!news.hidden" (change)="onToggle(news)">
+          <span class="slider">
+            <span class="icon on-icon"></span>
+            <span class="icon off-icon"></span>
+          </span>
+        </label>
+        <span class="sw-label" [class.is-hidden]="news.hidden">
+          {{ news.hidden ? '已下架' : '上架中' }}
+        </span>
+      </div>
+    </div>
+    }
+
+    <div
+      style="margin-top: 20px; display: flex; justify-content: space-between; align-items: center; padding: 10px; background: transparent; border-radius: 8px;">
+      <span style="color: #666;"></span>
+      <div class="btns" style="display: flex; align-items: center; gap: 15px;">
+        <button class="page-btn" [disabled]="p === 1" (click)="pageChanged(p - 1)"><mat-icon>chevron_left</mat-icon></button>
+        <span style="font-size: 16px; font-weight: bold; color: #4091c9;">第 {{ p }} / {{ totalPages }} 頁</span>
+        <button class="page-btn" [disabled]="p >= totalPages" (click)="pageChanged(p + 1)"><mat-icon>chevron_right</mat-icon></button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -28,27 +28,30 @@ export class AppComponent {
     this.router.navigate(['/register']);
   }
 
+  homeAdmin() {
+    this.router.navigate(['/admin/notification-set']);
+  }
+
   home() {
     this.router.navigate(['/main']);
   }
 
   setAboutUs() {
     console.log("AboutUs");
-    this.router.navigate(['/admin-information-set']);
+    this.router.navigate(['/information']);
   }
 
   setService() {
     console.log("Term of Service");
-    this.router.navigate(['/admin-service-set']);
+    this.router.navigate(['/service']);
   }
 
   setPrivacyPolicy() {
     console.log("Privacy Policy");
-    this.router.navigate(['/admin-privacy-set']);
+    this.router.navigate(['/privacy']);
   }
 
   ngOnInit() {
-
     this.exampleService.role$.subscribe(newRole => {
       this.role = newRole;
       console.log('MainComponent 收到身分變更：', this.role);

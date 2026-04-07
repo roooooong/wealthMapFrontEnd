@@ -38,22 +38,21 @@ constructor(
 
 setAboutUs(){
     console.log("AboutUs");
-    this.router.navigate(['/admin-information-set']);
+    this.router.navigate(['/information']);
   }
 
   setNotification(){
     console.log("Notify");
-    this.router.navigate(['/admin-notification-set']);
+    this.router.navigate(['/notification']);
   }
 
   setService(){
     console.log("Term of Service");
-    this.router.navigate(['/admin-service-set']);
+    this.router.navigate(['/service']);
   }
 
   setPrivacyPolicy(){
     console.log("Privacy Policy");
-    this.router.navigate(['/admin-privacy-set']);
+    this.router.navigate(['/privacy']);
   }
-
 }

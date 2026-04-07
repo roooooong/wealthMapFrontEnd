@@ -1,0 +1,98 @@
+.frameCss {
+  display: flex;
+  justify-content: center;
+}
+.form-container {
+  /* 這裡可以限制整體寬度 */
+  min-width: 450px;
+}
+
+.form-group {
+  display: flex;       /* 💡 讓內部的 label 和 input 變成 flex 項目 */
+  align-items: center; /* 垂直置中 */
+  margin-bottom: 15px;
+}
+
+label {
+  display: inline-block; /* 確保 width 會生效 */
+  width: 100px;
+  flex-shrink: 0;        /* 防止寬度被壓縮 */
+  text-align: right;
+  margin-right: 20px;
+}
+
+input {
+  width: 250px;
+  height: 30px;
+  padding: 0 10px;
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  box-sizing: border-box; /* 💡 確保 padding 不會撐開寬度 */
+  margin-right: 20px;
+}
+
+
+// input {
+//   width: 250px;
+//   height: 25px;
+//   padding: 0px 5px;
+//   margin-top: 5px;
+//   margin-bottom: 15px;
+//   border: 1px solid #e0e0e0;
+//   border-radius: 5px;
+// }
+
+.name {
+  color: #000000;
+  letter-spacing: 5px;
+  font-size: 42px;
+  margin-left: 120px;
+  margin-right: 15px;
+}
+
+.type {
+  color: #000000;
+  letter-spacing: 3px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #4091c9;
+}
+
+hr {
+  width: 80%;
+  border: none;
+  height: 2px;
+  background-color: #9dcee2;
+}
+
+button {
+  width: 80px;
+  background-color: #ccc;
+  border: none;
+  color: white;
+  height: 25px;
+  border-radius: 5px;
+  cursor: pointer;
+  letter-spacing: 1px;
+  margin-top: 5px;
+  margin-right: 20px;
+}
+
+button:hover {
+  background-color: #9dcee2;
+}
+
+.newTest {
+  margin-left: auto;
+  padding: 0 150px;
+  text-decoration: underline;
+  color: #4091c9;
+  letter-spacing: 2px;
+  font-style: italic;
+  cursor: pointer;
+}
+
+.newTest:hover {
+  color: #1368aa;
+
+}

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, HostListener, inject, signal, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, inject, signal} from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
@@ -87,16 +87,6 @@ export class HeaderUserComponent {
 
   // 取得未讀數量
   refreshUnreadCount() {
-    // this.httpClientService.getApi(`http://localhost:8080/api/notifications/unread-count?userId=${this.userId}`)
-    // this.httpClientService.getApi(`http://localhost:8080/api/notifications/unread-count?userId=5`)
-    //   .subscribe((unreadCount: any) => {
-    //     console.log('系統通知未讀', unreadCount.data);
-    //     if (unreadCount && unreadCount.code === 200) {
-    //       this.systemUnreadCount = unreadCount.data;
-    //       console.log('這裡有存到嗎', this.systemUnreadCount);
-    //       // this.cdr.detectChanges(); // 💡 強制更新畫面
-    //     }
-    //   });
     //新增個人訊息未讀 by Carly
     this.httpClientService.getApi(`http://localhost:8080/api/notifications/unread-count-new?userId=${this.userId}`)
     // this.httpClientService.getApi(`http://localhost:8080/api/notifications/unread-count-new?userId=1`)
@@ -168,19 +158,23 @@ export class HeaderUserComponent {
     this.isMenuOpen = false;
   }
 
+  goProfile(){
+    this.router.navigate(['/profile']);
+  }
   logout() {
     console.log('執行登出');
     this.isMenuOpen = false;
     // 之後要清空使用者資料
     this.exampleService.setRole('visitor');
     this.exampleService.clearUserData(); // 這會清除 localStorage 並廣播 null
-    this.router.navigate(['/login']);
+    this.router.navigate(['/main']);
   }
 
   today = new Date();
   gettoday!: string;
 
   initTodayDate(){
+    //取得今天日期
     if ((new Date().getMonth() + 1) < 10) {
       if (new Date().getDate() < 10) {
         this.gettoday = new Date().getFullYear() + '-0' + (new Date().getMonth() + 1) + '-0' + new Date().getDate()
@@ -199,7 +193,16 @@ export class HeaderUserComponent {
     }
   }
 
+  // 三種身分 visitor;user;admin
+  role: string = "visitor";
+
   ngOnInit() {
+    // // 💡 關鍵：訂閱 Service，確保登入或重新整理後身分正確
+    // this.exampleService.role$.subscribe(newRole => {
+    //   this.role = newRole;
+    // });
+
+
     // 新增抓取個人資訊 by Carly
     this.exampleService.user$.subscribe(user=>{
       if(user && user.role !== 'visitor'){
@@ -227,15 +230,15 @@ export class HeaderUserComponent {
     this.activatedRoute.params.subscribe(params => {
       const pageId = params['pageId']; // 確保這裡的名稱跟 AppRoutingModule 定義一致
 
-    //只要換頁（或點擊列表進入詳情），就收起通知框
-    this.isNotificationOpen = false;
+      //只要換頁（或點擊列表進入詳情），就收起通知框
+      this.isNotificationOpen = false;
 
-      //取得當前使用者的公告列表(含以讀未讀狀態)
-    this.httpClientService.getApi(`http://localhost:8080/api/notifications/list-with-status?userId=5`)
+        //取得當前使用者的公告列表(含以讀未讀狀態)
+      this.httpClientService.getApi(`http://localhost:8080/api/notifications/list-with-status?userId=${this.userId}`)
       .subscribe((notificationList: any) => {
         console.log('使用者的公告列表',notificationList);
         this.notificationList = notificationList;
-      })
+      });
 
       //page=1 -> 公告列表 http://localhost:4200/admin-notification-set
       //page=2 -> 公告詳情 http://localhost:4200/admin-notification-set/pageId (後面會接pageId)
@@ -250,6 +253,7 @@ export class HeaderUserComponent {
       }
     });
 
+
     // 監聽路由事件，只要導航結束就關閉所有面板
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
@@ -263,35 +267,12 @@ export class HeaderUserComponent {
     this.initTodayDate();
 
 
-    // this.exampleService.role$.subscribe(newRole => {
-    //   this.role = newRole;
-    //   console.log('MainComponent 收到身分變更：', this.role);
-    // });
-    // console.log('現在身分', this.role);
-
     // // 每 5 秒自動切換下一則新聞
     // setInterval(() => {
     //   this.nextPersonal();
     // }, 8000);
 
 
-    //取得今天日期
-    // if ((new Date().getMonth() + 1) < 10) {
-    //   if (new Date().getDate() < 10) {
-    //     this.gettoday = new Date().getFullYear() + '-0' + (new Date().getMonth() + 1) + '-0' + new Date().getDate()
-    //   }
-    //   else {
-    //     this.gettoday = new Date().getFullYear() + '-0' + (new Date().getMonth() + 1) + '-' + new Date().getDate()
-    //   }
-    // }
-    // else {
-    //   if (new Date().getDate() < 10) {
-    //     this.gettoday = new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-0' + new Date().getDate()
-    //   }
-    //   else {
-    //     this.gettoday = new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate()
-    //   }
-    // }
   }
 
   connectSse(userId: string){

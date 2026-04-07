@@ -75,15 +75,14 @@
 
 .iconbtn {
   border: none;
-  margin: 40px;
+  margin: 30px;
   margin-bottom: 20px;
   background-color: white;
   cursor: pointer;
 }
 
 .iconbtn:hover {
-  border: none;
-  margin: 40px;
+
   margin-bottom: 8px;
   background-color: white;
   transform: scale(1.05);
@@ -323,14 +322,14 @@
 }
 
 .click-menu:hover {
-  color:#ddf4fd;
+  color: #ddf4fd;
 }
 
 .custom-dropdown {
   position: absolute;
   top: calc(100% + 15px); // 與按鈕保持一點間距
   right: 0;
-  top:40px;
+  top: 40px;
   width: 150px;
   background-color: white;
   border-radius: 2px;
@@ -362,6 +361,7 @@
 
     &.logout {
       color: #e74c3c;
+
       mat-icon {
         color: #e74c3c;
       }
@@ -375,9 +375,9 @@
   }
 }
 
-.click-notification{
+.click-notification {
   position: absolute;
-  top:20px;
+  top: 20px;
   display: flex;
   color: white;
   position: absolute;
@@ -385,7 +385,7 @@
 }
 
 .click-notification:hover {
-  color:#ddf4fd;
+  color: #ddf4fd;
 }
 
 .user-notification-container {
@@ -408,9 +408,10 @@
     color: white; // 配合你的 Header 顏色
     user-select: none; // 防止連點時選取到文字
 
-    &:hover{
-        color:#ddf4fd;
+    &:hover {
+      color: #ddf4fd;
     }
+
     mat-icon {
       transition: transform 0.3s;
 
@@ -428,7 +429,7 @@
     position: absolute;
     top: calc(100% + 15px);
     right: -10px; // 稍微往左偏一點讓它置中於鈴鐺
-  top:40px;
+    top: 40px;
 
     width: 250px;
     background: white;
@@ -440,85 +441,189 @@
   }
 }
 
-.tab-header {
-  display: flex;
-  background: #f8f9fa;
-  border-bottom: 1px solid #eee;
+// .tab-header {
+//   display: flex;
+//   background: #f8f9fa;
+//   border-bottom: 1px solid #eee;
 
-  .tab-item {
-    flex: 1;
-    padding: 12px;
-    text-align: center;
-    font-size: 14px;
-    cursor: pointer;
-    color: #666;
-    transition: all 0.2s;
+//   .tab-item {
+//     flex: 1;
+//     padding: 12px;
+//     text-align: center;
+//     font-size: 14px;
+//     cursor: pointer;
+//     color: #666;
+//     transition: all 0.2s;
 
-    &.active {
-      color: #4091c9;
-      font-weight: bold;
-      background: white;
-      border-bottom: 2px solid #4091c9;
-    }
-  }
-}
+//     &.active {
+//       color: #4091c9;
+//       font-weight: bold;
+//       background: white;
+//       border-bottom: 2px solid #4091c9;
+//     }
+//   }
+// }
 
-.tab-content {
-  max-height: 300px;
-  overflow-y: auto;
+// .tab-content {
+//   max-height: 300px;
+//   overflow-y: auto;
 
-  .msg-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+//   .msg-list {
+//     list-style: none;
+//     padding: 0;
+//     margin: 0;
 
-    li {
-      padding: 15px;
-      border-bottom: 1px solid #f0f0f0;
-      font-size: 13px;
-      cursor: pointer;
-      &:hover { background:  #fedfd43a;; }
-      display: inline-block;
-    max-width: 250px;
-    // flex: 1;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis; // 文字太長自動變 ...
-    display: block;
-    cursor: pointer;
-    transition: color 0.2s;
-    font-size: 14px;
-    }
-  }
-}
+//     li {
+//       padding: 15px;
+//       border-bottom: 1px solid #f0f0f0;
+//       font-size: 13px;
+//       cursor: pointer;
 
-.tab-footer {
-  padding: 10px;
-  text-align: center;
-  font-size: 12px;
-  color: #999;
-  background: #fcfcfc;
-  cursor: pointer;
-  &:hover { color: #4091c9; }
-}
+//       &:hover {
+//         background: #fedfd43a;
+//         ;
+//       }
 
-.notification-tag{
+//       display: inline-block;
+//       max-width: 250px;
+//       // flex: 1;
+//       white-space: nowrap;
+//       overflow: hidden;
+//       text-overflow: ellipsis; // 文字太長自動變 ...
+//       display: block;
+//       cursor: pointer;
+//       transition: color 0.2s;
+//       font-size: 14px;
+//     }
+//   }
+// }
+
+// .tab-footer {
+//   padding: 10px;
+//   text-align: center;
+//   font-size: 12px;
+//   color: #999;
+//   background: #fcfcfc;
+//   cursor: pointer;
+
+//   &:hover {
+//     color: #4091c9;
+//   }
+// }
+
+.notification-tag {
   background-color: #4091c9;
-  color:white;
+  color: white;
   border-radius: 5px;
-  padding:3px 8px 3px 8px;
+  padding: 3px 8px 3px 8px;
   margin-right: 15px;
   margin-left: 5px;
   font-size: 14px;
   cursor: pointer;
 }
-.notification-title {
-    display: inline-block;
-    width: 75%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    vertical-align: bottom; /* 修正與旁邊文字的對齊 */
-  cursor: pointer;
 
+.notification-title {
+  display: inline-block;
+  width: 75%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: bottom;
+  /* 修正與旁邊文字的對齊 */
+  cursor: pointer;
+}
+
+.carousel-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  width: 100%;
+}
+
+.news-window {
+  width: 900px;
+  /* 三張卡片 + 間距，約 900px */
+  overflow: hidden;
+  padding-bottom: 10px;
+}
+
+.news-track {
+  display: flex;
+  gap: 20px;
+  transition: transform 0.5s ease-in-out;
+}
+
+.news-card {
+  flex: 0 0 250px;/* 固定卡片寬度，不壓縮 */
+  background: white;
+  // border: 1px solid #4091c9;
+  border-radius: 12px;
+  padding: 15px;
+  // box-shadow: 5px 5px 15px rgba(3, 50, 112, 0.167);
+  // border: 1px solid #9dcee2;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.newsbtn {
+  background: white;
+  color: #4091c9;
+  // border: none;
+  border: 1px solid ;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  // font-size: 20px;
+}
+.newsbtn:hover{
+  // background: #1368aa;
+  background: #4091c9;
+  color: white;
+}
+
+.news-img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover; /* 圖片會填滿區域並自動裁切，不會被壓扁 */
+  border-radius: 8px ;
+  display: block;
+  margin-top: 10px;
+}
+
+.newscontent {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;  /*限制顯示行數 3行大約50-60 字*/
+
+  overflow: hidden;/* 隱藏超出部分並顯示 ... */
+  text-overflow: ellipsis;
+
+  line-height: 1.5;
+  max-height: 4.5em;/* 行高 1.5 x 3 行 = 4.5em，確保容器高度固定 */
+  color: #666;
+  font-size: 14px;
+}
+
+.news-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(64, 145, 201, 0.2);
+  transition: all 0.5s ease;/* 讓動作變平滑 */
+  cursor: pointer;
+}
+
+.news-tag{
+// background-color: #f26a4f;
+  background: linear-gradient(45deg, #1368aa, #4091c9);
+
+  color:white;
+  border-radius: 5px;
+  padding:3px 8px 3px 8px;
+  margin-right: 15px;
+  // margin-left: 5px;
+  font-size: 14px;
+  max-width: 8%;
+  cursor: pointer;
 }

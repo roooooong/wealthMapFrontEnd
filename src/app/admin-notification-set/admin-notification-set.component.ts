@@ -92,7 +92,7 @@ export class AdminNotificationSetComponent {
 
 // 點擊事件：現在只負責換網址
 detail(pageId: number) {
-  this.router.navigate(['/admin-notification-set', pageId]);
+  this.router.navigate(['/admin/notification-set', pageId]);
 }
 
   // detail(pageId: number) {
@@ -108,24 +108,24 @@ detail(pageId: number) {
   //     })
   //   this.router.navigate(['/admin-notification-set',pageId]);
   // }
-  setAboutUs() {
+setAboutUs(){
     console.log("AboutUs");
-    this.router.navigate(['/admin-information-set']);
+    this.router.navigate(['/information']);
   }
 
-  setNotification() {
+  setNotification(){
     console.log("Notify");
-    this.router.navigate(['/admin-notification-set']);
+    this.router.navigate(['/notification']);
   }
 
-  setService() {
+  setService(){
     console.log("Term of Service");
-    this.router.navigate(['/admin-service-set']);
+    this.router.navigate(['/service']);
   }
 
-  setPrivacyPolicy() {
+  setPrivacyPolicy(){
     console.log("Privacy Policy");
-    this.router.navigate(['/admin-privacy-set']);
+    this.router.navigate(['/privacy']);
   }
 
   today = new Date();
