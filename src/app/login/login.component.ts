@@ -78,7 +78,19 @@ export class LoginComponent {
         .subscribe((register: any) => {
           if (register.code == 200) {
             console.log('登入成功');
-            this.exampleService.setRole('user'); // 💡 關鍵：通知全域我變成了使用者
+            // this.exampleService.setRole('user'); // 💡 關鍵：通知全域我變成了使用者
+            // this.router.navigate(['/admin-main']);
+            // 💡 儲存 Token (如果有回傳的話)
+            if (register.token) {
+              localStorage.setItem('token', register.token);
+            } else if (register.data && register.data.token) {
+              localStorage.setItem('token', register.data.token);
+            }
+
+            // 💡 優先使用後端回傳的角色，如果沒有才用 'user'
+            const role = register.role || (register.data && register.data.role) || 'USER';
+            this.exampleService.setRole(role);
+
             this.router.navigate(['/main']);
           }
           else {

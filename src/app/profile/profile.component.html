@@ -1,0 +1,55 @@
+<!-- <p>profile works!</p> -->
+<br>
+<div style="margin: 20px 20px 0px 20px;">
+  <div style="display: flex;align-items:baseline;">
+    <span class="name">Hi,flower</span>
+    <span class="type">[積極型]</span>
+  </div>
+</div>
+<hr>
+<br>
+<div style="margin: 10px;"></div>
+<div class="frameCss">
+  <div class="form-container">
+    <div class="form-group">
+      <label>暱稱</label>
+      <input type="text">
+    </div>
+
+    <div class="form-group">
+      <label>Email</label>
+      <input style="background-color: #f7f7f7;" [(ngModel)]="email" readonly>
+    </div>
+
+    @if(changePwd){
+      <div class="form-group">
+        <label>舊密碼</label>
+        <input type="password" placeholder="請輸入舊密碼">
+      </div>
+      <div class="form-group">
+        <label>新密碼</label>
+        <input type="password" placeholder="請輸入新密碼">
+      </div>
+      <div class="form-group">
+        <label>確認新密碼</label>
+        <input type="password" placeholder="請再次輸入新密碼">
+      </div>
+      <div class="form-group">
+        <label></label>
+        <button class="pwd-btn" (click)="toChangePwd()">確認修改</button>
+        <button class="pwd-btn" (click)="cancle()">取消</button>
+      </div>
+    } @else {
+      <div class="form-group">
+        <label>密碼</label>
+        <button class="pwd-btn" (click)="toChangePwd()">修改密碼</button>
+      </div>
+    }
+  </div>
+</div>
+<br><br>
+<div style="display: flex;align-items:baseline;">
+  <a routerLink="/risk-test" routerLinkActive="risk-test-link" class="newTest">重新測驗【風險屬性評估表】>>></a>
+</div>
+<br>
+

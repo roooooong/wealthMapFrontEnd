@@ -8,14 +8,6 @@
   // // gap: 10px;
 }
 
-.headerCss{
-  position: relative;
-  width: 100%;
-  height:60px;
-  // border-radius: 10px;
- background: linear-gradient(45deg, #9dcee2, #4091c9);
-}
-
 .logo{
   position: absolute;
   left:40px;
@@ -52,25 +44,6 @@
   color: white;
 }
 
-.contentArea{
-  justify-content: center;
-  display: flex;
-  justify-content: center;
-  position: relative;
-  width:80%;
-  flex:1;
-  padding-bottom: 20px;
-}
-
-.iconbtn:hover{
-  border: none;
-  margin: 40px;
-  margin-bottom: 8px;
-  background-color: white;
-  transform: scale(1.05);
-  cursor: pointer;
-}
-
 .iconWrapper span {
   margin-top: 8px;           /* 圖片與文字的間距 */
   font-size: 16px;
@@ -79,15 +52,20 @@
 }
 .iconbtn{
   border: none;
-  margin: 40px;
+  margin: 25px;
   margin-bottom: 20px;
   background-color: white;
   cursor: pointer;
 }
+
+.iconbtn:hover{
+  transform: scale(1.05);
+}
+
 .iconbox{
   position: absolute;
   box-shadow: 5px 5px 15px rgba(3, 50, 112, 0.3);
-   border-radius: 20px;
+  border-radius: 20px;
 }
 .iconCss{
   width: 90px;
@@ -131,54 +109,167 @@
   color: black;
 }
 
-.footerCss{
-  position: relative;
-  width: 100%;
-  height:80px;
+
+// .system-tag{
+//   background-color: #4091c9;
+//   color:white;
+//   border-radius: 5px;
+//   padding:3px 8px 3px 8px;
+//   margin-right: 15px;
+//   margin-left: 5px;
+//   font-size: 14px;
+// }
+
+
+// .system{
+//  position: relative;
+// //  box-shadow: 5px 5px 15px rgba(109, 163, 234, 0.3);
+//   padding: 10px;
+//   border-bottom:1px solid #b6e4f6;
+//   margin-bottom: 10px;
+//   border-radius: 15px;
+// }
+
+// .system:hover{
+//  transform: translateY(-2px);
+//  box-shadow: 0 10px 20px rgba(64, 145, 201, 0.2);
+//  transition: all 0.3s ease; /* 讓動作變平滑 */
+// }
+
+// .system-title {
+//     display: inline-block;
+//     width: 75%;
+//     white-space: nowrap;
+//     overflow: hidden;
+//     text-overflow: ellipsis;
+//     vertical-align: bottom; /* 修正與旁邊文字的對齊 */
+// }
+
+.carousel-container {
   display: flex;
+  align-items: center;
   justify-content: center;
-  font-size: 16px;
- background: linear-gradient(45deg, #9dcee2, #4091c9);
+  gap: 15px;
+  width: 100%;
 }
 
-.footerCss span{
-  align-self: center;
-  font-size: 16px;
-  color:white;
+.news-window {
+  width: 900px;
+  /* 三張卡片 + 間距，約 900px */
+  overflow: hidden;
+  padding-bottom: 10px;
 }
 
-.system-tag{
-  background-color: #4091c9;
+.news-track {
+  display: flex;
+  gap: 20px;
+  transition: transform 0.5s ease-in-out;
+}
+
+.news-card {
+  flex: 0 0 250px;/* 固定卡片寬度，不壓縮 */
+  background: white;
+  // border: 1px solid #4091c9;
+  border-radius: 12px;
+  padding: 15px;
+  // box-shadow: 5px 5px 15px rgba(3, 50, 112, 0.167);
+  // border: 1px solid #9dcee2;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.newsbtn {
+  background: white;
+  color: #4091c9;
+  // border: none;
+  border: 1px solid ;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  // font-size: 20px;
+}
+.newsbtn:hover{
+  // background: #1368aa;
+  background: #4091c9;
+  color: white;
+}
+
+.news-img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover; /* 圖片會填滿區域並自動裁切，不會被壓扁 */
+  border-radius: 8px ;
+  display: block;
+  margin-top: 10px;
+}
+
+.newscontent {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;  /*限制顯示行數 3行大約50-60 字*/
+
+  overflow: hidden;/* 隱藏超出部分並顯示 ... */
+  text-overflow: ellipsis;
+
+  line-height: 1.5;
+  max-height: 4.5em;/* 行高 1.5 x 3 行 = 4.5em，確保容器高度固定 */
+  color: #666;
+  font-size: 14px;
+}
+
+.news-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(64, 145, 201, 0.2);
+  transition: all 0.5s ease;/* 讓動作變平滑 */
+  cursor: pointer;
+}
+
+.news-tag{
+// background-color: #f26a4f;
+  background: linear-gradient(45deg, #1368aa, #4091c9);
+
   color:white;
   border-radius: 5px;
   padding:3px 8px 3px 8px;
   margin-right: 15px;
-  margin-left: 5px;
+  // margin-left: 5px;
   font-size: 14px;
+  max-width: 8%;
+  cursor: pointer;
 }
 
-
-.system{
- position: relative;
-//  box-shadow: 5px 5px 15px rgba(109, 163, 234, 0.3);
-  padding: 10px;
-  border-bottom:1px solid #b6e4f6;
-  margin-bottom: 10px;
-  border-radius: 15px;
+.chart-container {
+  width: 400px;
+  height: 300px;
+  z-index: 999;
 }
 
-.system:hover{
- transform: translateY(-2px);
- box-shadow: 0 10px 20px rgba(64, 145, 201, 0.2);
- transition: all 0.3s ease; /* 讓動作變平滑 */
+.chart-center-text {
+  position: absolute;
+  top: 50%;
+  left: 46%;
+  transform: translate(-50%, -50%);
+  /* 精準置中 */
+  text-align: center;
+  pointer-events: none;
+  /* 讓滑鼠可以穿過文字，不影響圖表 hover 效果 */
+  z-index: 999;
 }
 
-.system-title {
-    display: inline-block;
-    width: 75%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    vertical-align: bottom; /* 修正與旁邊文字的對齊 */
+.total-label {
+  display: block;
+  font-size: 14px;
+  color: #666;
+  z-index: -1;
+}
+
+.total-amount {
+  display: block;
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+  z-index: -1;
 }
 

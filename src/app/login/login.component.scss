@@ -8,7 +8,8 @@
 .whole {
   display: flex;
   width: 100%;
-  height: 100%;
+  // height: 100%;
+  min-height: calc(100vh - 113px);
   background-color: #9dcee2;
 }
 
@@ -29,14 +30,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 40px 0;
 }
 
 .right-content {
   // margin-top: 60px;
   justify-content: center;
   width: 400px;
-  height: 80%;
-  padding: 10px;
+  // height: 80%;
+  padding: 10px 10px;
   background-color: white;
   // background: linear-gradient(165deg, #799CD2, #2F5FA9);
 

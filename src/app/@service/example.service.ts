@@ -10,8 +10,16 @@ import { BehaviorSubject } from 'rxjs';
 
 
 export class ExampleService {
-  constructor() { }
-  //  role:string = 'visitor';
+
+  private readonly ROLE_KEY = 'user_role';
+
+  constructor() {
+    // 初始化時，先從 localStorage 讀取先前存的身分
+    const savedRole = localStorage.getItem(this.ROLE_KEY);
+    if (savedRole) {
+      this.roleSource.next(savedRole);
+    }
+  }
   private roleSource = new BehaviorSubject<string>('visitor');
 
   // 💡 2. 暴露一個 Observable 讓所有組件監聽
@@ -19,11 +27,18 @@ export class ExampleService {
 
   // 💡 3. 登入成功時呼叫此方法
   setRole(newRole: string) {
+    localStorage.setItem(this.ROLE_KEY, newRole); // 存入 localStorage
     this.roleSource.next(newRole);
   }
 
   // 獲取目前數值 (同步)
   get currentRole() {
     return this.roleSource.value;
+  }
+  // 登出時清除
+  clearRole() {
+    localStorage.removeItem(this.ROLE_KEY);
+    localStorage.removeItem('token'); // 同時清除 token
+    this.roleSource.next('visitor');
   }
 }

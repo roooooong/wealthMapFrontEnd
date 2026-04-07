@@ -1,15 +1,18 @@
 import { Router, RouterLink } from '@angular/router';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { HeaderComponent } from "../header/header.component";
 import { FormsModule } from '@angular/forms';
 import { WealthService } from '../wealthservice.service';
 import { HttpClient } from '@angular/common/http';
 import { MatIconModule } from '@angular/material/icon';
 import { HttpClientService } from '../@service/http-client.service';
+import { InvalidComponent } from '../@dialog/invalid/invalid.component';
+import { MatDialog } from '@angular/material/dialog';
+import { ExampleService } from '../@service/example.service';
 
 @Component({
   selector: 'app-register',
-  imports: [HeaderComponent, FormsModule, RouterLink,MatIconModule],
+  imports: [HeaderComponent, FormsModule, RouterLink, MatIconModule],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
 })
@@ -24,11 +27,12 @@ export class RegisterComponent {
   nameErrorMsg = '';
   termErrorMsg = '';
 
-  isAccept:boolean= false;
+  isAccept: boolean = false;
 
-  constructor(private router:Router,
-      private httpClientService: HttpClientService,){
-    }
+  constructor(private router: Router,
+    private httpClientService: HttpClientService,
+  private exampleService: ExampleService) {
+  }
 
   togglePassword() {
     this.showPassword = !this.showPassword;
@@ -61,18 +65,41 @@ export class RegisterComponent {
         this.passwordErrorMsg = '*此為必填欄位';
       } else if (this.password.length < 7 || this.password.length > 12) {
         this.passwordErrorMsg = '密碼長度須為 7-12 位';
-      }else {
+      } else {
         this.passwordErrorMsg = '';
       }
     }
     if (field === 'isAccept') {
       if (!this.isAccept) {
         this.termErrorMsg = '*請確認條款內容';
-      }else {
+      } else {
         this.termErrorMsg = '';
       }
     }
   }
+
+  readonly dialog = inject(MatDialog);
+  showDialog(no:number) {
+      // 單選
+      //let dialogRef 是宣告一個變數 讓系統知道我們現在要接收哪個dialog
+      //(要開啟的dialog頁面的名稱, {要傳遞的值和設定})
+      let dialogRef = this.dialog.open(InvalidComponent, {
+        // data: {choise:choise,id:this.notificationList.data[index].id},
+        data:no,
+        width: '250px',
+        height: '180px'
+      });
+      //去偵測dialogRef這個dialog甚麼時候關閉
+      //如果dialog結束有傳值出來 res就是那個值
+      dialogRef.afterClosed().subscribe((res) => {
+        //如果有值傳遞出來
+        if (res) {
+          // setTimeout(()=>{
+          console.log(res);
+          // },3000)
+        }
+      })
+    }
 
   register() {
     this.validate('name');
@@ -80,34 +107,42 @@ export class RegisterComponent {
     this.validate('password');
     this.validate('isAccept');
 
-    // 2. 最終檢查：只要兩個錯誤訊息都是空的，就代表格式全部正確
-    if (!this.nameErrorMsg && !this.emailErrorMsg && !this.passwordErrorMsg) {
+    // 2. 最終檢查：只要錯誤訊息都是空的，就代表格式全部正確
+    if (!this.nameErrorMsg && !this.emailErrorMsg && !this.passwordErrorMsg && !this.termErrorMsg) {
       const loginData = {
         name: this.name,
         email: this.email,    // 左邊是給後端看的「標籤」，右邊是你存的「資料」
         password: this.password
       };
       console.log('格式正確，執行登入 API');
-      this.httpClientService.postApi(`http://localhost:8080/api/auth/register`,loginData)
-      .subscribe((register: any) => {
-        if(register.code==409){
-          console.log('已註冊過');
-          this.emailErrorMsg = '此 Email 已註冊過';
-        }
-        else{
-      console.log('註冊成功');
-      this.emailErrorMsg = '';
-        }
+      this.httpClientService.postApi(`http://localhost:8080/api/auth/register`, loginData)
+        .subscribe((register: any) => {
+          if (register.code == 409) {
+            console.log('已註冊過');
+            this.emailErrorMsg = '此 Email 已註冊過';
+          }
+          else {
+            console.log('註冊成功');
+            this.emailErrorMsg = '';
+            if (register.token) {
+              localStorage.setItem('token', register.token);
+            } else if (register.data && register.data.token) {
+              localStorage.setItem('token', register.data.token);
+            }
 
-      })
+            // 💡 優先使用後端回傳的角色，如果沒有才用 'user'
+            const role = register.role || (register.data && register.data.role) || 'USER';
+            this.exampleService.setRole(role);
+            this.showDialog(2);
+          }
 
-      // 這裡放原本被註解掉的 Service 呼叫邏輯
-      // const loginData = { email: this.email, password: this.password };
-      // this.wealthService.login(loginData).subscribe(...)
+        })
     }
   }
 
+
+
   ngOnInit(): void {
-    this.isAccept=false;
+    this.isAccept = false;
   }
 }
