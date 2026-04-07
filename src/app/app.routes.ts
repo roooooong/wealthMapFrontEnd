@@ -15,34 +15,58 @@ import { InvestmentManageComponent } from './investment-manage/investment-manage
 import { StrategyListComponent } from './strategy-list/strategy-list.component';
 import { SseDemoComponent } from './sse-demo/sse-demo.component';
 import { NotificationComponent } from './notification/notification.component';
-import { PersonalNotificationComponent } from './personal-notification/personal-notification.component';
+// import { PersonalNotificationComponent } from './personal-notification/personal-notification.component';
 
 export const routes: Routes = [
-  { path: '', component: SseDemoComponent },
-  {path:"main", component:MainComponent},
+  // --- 🟢 公開頁面 (所有人都能看) ---
+  { path: 'main', component: MainComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
+  { path: 'sse-demo', component: SseDemoComponent },
+  // 管理員系列
+  { path: 'admin-information-set', component: AdminInformationSetComponent },
+  { path: 'admin-notification-set', component: AdminNotificationSetComponent },
+  { path: 'admin-notification-set/:pageId', component: AdminNotificationSetComponent },
+  { path: 'admin-service-set', component: AdminServiceSetComponent },
+  { path: 'admin-privacy-set', component: AdminPrivacySetComponent },
+
+  // 風險評估系列
+  { path: 'risk-cover', component: RiskCoverComponent },
+  { path: 'risk-test', component: RiskTestComponent },
+  { path: 'risk-result', component: RiskResultComponent },
+
+  // 通知與投資管理
+  { path: 'system-notification', component: NotificationComponent },
+  { path: 'system-notification/:pageId', component: NotificationComponent },
+  { path: 'personal-notification', component: NotificationComponent },
+  { path: 'personal-notification/:pageId', component: NotificationComponent },
+  { path: 'investment-manage', component: InvestmentManageComponent },
+  { path: 'strategy-list', component: StrategyListComponent },
+
+
   // { path: "admin-main", component: AdminMainComponent},
-  { path: "admin-information-set", component: AdminInformationSetComponent},
-  { path: "admin-notification-set", component: AdminNotificationSetComponent},
-  { path: "admin-notification-set/:pageId", component: AdminNotificationSetComponent},
-  { path: "admin-service-set", component: AdminServiceSetComponent},
-  { path: "admin-privacy-set", component: AdminPrivacySetComponent},
-  { path: "risk-cover", component: RiskCoverComponent },
-  { path: "risk-test", component: RiskTestComponent },
-  { path: "risk-result", component: RiskResultComponent },
+  // { path: "admin-information-set", component: AdminInformationSetComponent},
+  // { path: "admin-notification-set", component: AdminNotificationSetComponent},
+  // { path: "admin-notification-set/:pageId", component: AdminNotificationSetComponent},
+  // { path: "admin-service-set", component: AdminServiceSetComponent},
+  // { path: "admin-privacy-set", component: AdminPrivacySetComponent},
+  // { path: "risk-cover", component: RiskCoverComponent },
+  // { path: "risk-test", component: RiskTestComponent },
+  // { path: "risk-result", component: RiskResultComponent },
+  // {path:'investment-manage', component: InvestmentManageComponent },
+  // {path:'strategy-list', component: StrategyListComponent},
+  // // 系統公告系列
+  // { path: 'system-notification', component: NotificationComponent },
+  // { path: 'system-notification/:pageId', component: NotificationComponent },
+  // // 個人通知系列
+  // { path: 'personal-notification', component: NotificationComponent },
+  // { path: 'personal-notification/:pageId', component: NotificationComponent },
+  // { path: 'forgot', component: ForgotComponent },
+
+  // 🚀 關鍵：萬用路由（必須放在陣列的最下方）
+  { path: '', redirectTo: 'main', pathMatch: 'full' },
+  { path: '**', redirectTo: 'main', pathMatch: 'full' }
   // path如果是** 是用來設定錯誤畫面的 component也是設定要呈現甚麼內容
   // 要記得如果要設定錯誤畫面要放在路由的最底下
   // { path: "**", component: PageNotFoundComponent}
-  {path:'login', component: LoginComponent},
-  {path:'register', component: RegisterComponent},
-  {path:'header', component: HeaderComponent},
-  {path:'notification', component: NotificationComponent},
-  {path:'notification/:pageId', component: NotificationComponent},
-  {path:'personal-notification', component: PersonalNotificationComponent},
-  {path:'personal-notification/:pageId', component: PersonalNotificationComponent},
-  // { path: 'forgot', component: ForgotComponent },
-  {path:'investment-manage', component: InvestmentManageComponent },
-  {path:'strategy-list', component: StrategyListComponent},
-
-  // 🚀 關鍵：萬用路由（必須放在陣列的最下方）
-  { path: '**', redirectTo: 'main', pathMatch: 'full' }
 ];

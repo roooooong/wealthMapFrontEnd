@@ -21,5 +21,6 @@ export interface StrategySetting {
 export interface LoginResponseDTO{
   token: string,
   userId: number,
-  role: string
+  role: string,
+  userName: string
 }

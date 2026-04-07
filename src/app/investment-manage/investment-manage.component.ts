@@ -17,7 +17,8 @@ export class InvestmentManageComponent {
 
   // 三種身分 visitor;user;admin
   role!: string ;
-  UserName:string ="User";
+  userId!:number;
+  userName!:string;
 
   // 切換頁籤的方法
   switchTab(tab: 'rebalance' | 'strategy' | 'engine') {
@@ -27,6 +28,11 @@ export class InvestmentManageComponent {
   ngOnInit(): void {
     this.exampleService.role$.subscribe(role => {
       this.role = role; // 當角色改變，這裡會自動觸發
+    });
+    this.exampleService.user$.subscribe(user => {
+      this.role = user.role; // 當角色改變，這裡會自動觸發
+      this.userId = user.userId;
+      this.userName = user.userName;
     });
   }
 }

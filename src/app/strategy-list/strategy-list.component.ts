@@ -27,9 +27,10 @@ export class StrategyListComponent {
   // 定義目前的頁籤狀態，預設為 'rebalance'
   currentTab = signal<'rebalance' | 'strategy' | 'engine'>('strategy');
   // 三種身分 visitor;user;admin
-  role: string = "user";
-  userid:number=2;
-  userName:string ="User";
+  role!: string;
+  userId!:number;
+  userName!:string;
+
   showModal: boolean = true;
   // 追蹤正在編輯的卡片 (可以用 index 或 symbol)
   editingId: number | null = null;
@@ -92,7 +93,7 @@ export class StrategyListComponent {
 
 
     let newStrategy:StrategySetting={
-      id:this.userid,//借放userid
+      id:this.userId,//借放userid
       symbol: '',
       buyThreshold: 0,
       sellThreshold: 0,
@@ -130,7 +131,35 @@ export class StrategyListComponent {
 
   loadData(){
     console.log("LoadData...");
-    this.httpClientService.getApi(`http://localhost:8080/api/strategy-set/user/${this.userid}`)
+    const user = this.exampleService.currentUser; // 💡 拿快照
+
+    // 情況 A：已經有登入資料了 (從其他頁面過來)
+    if (user && user.userId !== 0) {
+      this.userId = user.userId;
+      this.role = user.role;
+      this.userName = user.userName;
+      console.log("從快照獲取 UserId:", this.userId);
+      this.fetchStrategies(this.userId); // 💡 直接執行抓取
+    }
+      // 情況 B：還沒拿到資料 (例如剛重新整理頁面)
+      else {
+      this.exampleService.user$.subscribe(user => {
+        if (user && user.userId !== 0) {
+          this.role = user.role; // 當角色改變，這裡會自動觸發
+          this.userId = user.userId;
+          this.userName = user.userName;
+          console.log("Role:"+this.role +",UserId:"+this.userId+",userName:"+this.userName);
+
+          this.fetchStrategies(this.userId);
+        }
+      });
+    }
+
+  }
+
+  fetchStrategies(userId:number){
+    console.log(`http://localhost:8080/api/strategy-set/user/${userId}`);
+    this.httpClientService.getApi(`http://localhost:8080/api/strategy-set/user/${userId}`)
     .subscribe((res:any) => {
       if(!res.data) return;
       this.strategies = res.data.map((item: any): StrategySetting => {
@@ -146,7 +175,7 @@ export class StrategyListComponent {
         };
       });
 
-
+      // 抓取現價
       this.strategies.forEach(s=>{
         this.httpClientService.getApi(`http://localhost:8080/api/strategy-set/quote/${s.symbol}`)
         .subscribe((res:any) => {

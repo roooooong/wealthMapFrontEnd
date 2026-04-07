@@ -79,6 +79,12 @@ export class LoginComponent {
           if (register.code == 200) {
             console.log('登入成功');
             this.exampleService.setRole('user'); // 💡 關鍵：通知全域我變成了使用者
+            this.exampleService.setUserData({
+              token: register.data.token,
+              userId: 1,
+              role: 'USER',
+              userName: 'Tester1'
+            }); //add by carly
             this.router.navigate(['/main']);
           }
           else {
