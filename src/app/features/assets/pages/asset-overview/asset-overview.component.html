@@ -1,64 +1,130 @@
 <div class="asset-container">
 
-    <div class="page-header">
-        <h2 class="main-title">我的資產</h2>
-        <button class="back-btn" (click)="backToHome()">回首頁</button>
+    <div class="top-nav-bar">
+        <button class="back-btn" (click)="backToHome()">
+            <span class="icon-chevron">〈</span> 回首頁
+        </button>
     </div>
-    <p class="subtitle">這裡可以放說明這裡可以放說明</p>
-    <p class="subtitle">這裡可以放說明這裡可以放說明這裡可以放說明</p>
 
-    <div class="asset-layout">
-
-        <div class="panel chart-panel">
-            <div class="chart-wrapper">
-                <canvas id="assetAllocationChart"></canvas>
-            </div>
-
+    <div class="header-section">
+        <div class="title-area">
+            <h1 class="main-title">我的資產</h1>
+            <p class="subtitle">全面掌握您的財富分佈，做出更明智的理財決策。</p>
         </div>
+    </div>
 
-        <div class="panel list-panel">
-            <div class="list-header">
-                <div class="header-title">
-                    <h3>投資型資產</h3>
-                    <button class="add-btn" (click)="addAsset()">+</button>
+    <div class="dashboard-layout">
+
+        <div class="chart-section">
+            <div class="card-title">資產配置概況</div>
+            <div class="chart-container">
+                @if(userAssets.length === 0) {
+                <div class="empty-chart-state">
+                    <div class="icon-wallet-svg">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1" />
+                            <path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4" />
+                            <path d="M12 12l3-3 3 3" />
+                            <path d="M15 9v6" />
+                        </svg>
+                    </div>
+                    <p class="empty-title">準備好開始您的財富之旅了嗎？</p>
+                    <p>目前還沒有任何資產紀錄喔！</p>
+                    <p>請點擊右側的按鈕，新增您的第一筆資產。</p>
                 </div>
-            </div>
-
-            <div class="list-columns">
-                <div class="col-icon">#</div>
-                <div class="col-name">類型/名稱</div>
-                <div class="col-cost">成本</div>
-                <div class="col-value">目前價值</div>
-                <div class="col-return">報酬率</div>
-            </div>
-
-            <div class="asset-list">
-                @for(asset of userAssets; track asset.id) {
-                <div class="asset-item-card">
-                    <div class="col-icon">
-                        @switch(asset.assetType) {
-                        @case('CASH') { 💰 }
-                        @case('STOCK') { 📈 }
-                        @case('FUND') { 🌐 }
-                        @case('BOND') { ⚖️ }
-                        @default { 🧩 }
-                        }
-                    </div>
-                    <div class="col-name">
-                        <span class="name-text">{{ asset.assetName }}</span>
-                        <span class="type-tag">{{ translateAssetType(asset.assetType) }}</span>
-                    </div>
-                    <div class="col-cost">{{ asset.cost | currency:'TWD':'symbol-narrow':'1.0-0' }}</div>
-                    <div class="col-value">{{ asset.currentValue | currency:'TWD':'symbol-narrow':'1.0-0' }}</div>
-
-                    <div class="col-return"
-                        [ngClass]="{'pos-return': asset.returnPercentage > 0, 'neg-return': asset.returnPercentage < 0}">
-                        {{ asset.returnPercentage > 0 ? '+' : '' }}{{ asset.returnPercentage | number:'1.2-2' }}%
-                    </div>
-                </div>
+                } @else {
+                <canvas id="assetAllocationChart"></canvas>
                 }
             </div>
         </div>
 
+        <div class="details-section">
+
+            <div class="action-bar">
+                <span class="action-text">資產明細</span>
+                <button class="add-btn" (click)="toggleAddForm()" title="新增資產">+</button>
+            </div>
+
+            @if(showAddForm) {
+            <div class="add-form-card">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>資產名稱</label>
+                        <input type="text" [(ngModel)]="newAssetName" placeholder="例如：台積電、國泰活存">
+                    </div>
+                    <div class="form-group">
+                        <label>資產類別</label>
+                        <select [(ngModel)]="newAssetType"
+                            (change)="newAssetAmount = null; unitPrice = null; unitCount = null;">
+                            <option value="CASH">現金/存款</option>
+                            <option value="STOCK">股票</option>
+                            <option value="FUND">基金</option>
+                            <option value="BOND">債券</option>
+                        </select>
+                    </div>
+                </div>
+
+                @if(newAssetType === 'STOCK' || newAssetType === 'FUND') {
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>目前股價/淨值</label>
+                        <input type="number" [(ngModel)]="unitPrice" (input)="calculateTotal()" placeholder="輸入每股市價">
+                    </div>
+                    <div class="form-group">
+                        <label>擁有股數/單位</label>
+                        <input type="number" [(ngModel)]="unitCount" (input)="calculateTotal()" placeholder="輸入總股數">
+                    </div>
+                </div>
+                }
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>目前總金額</label>
+                        <input type="number" [(ngModel)]="newAssetAmount"
+                            [placeholder]="(newAssetType === 'STOCK' || newAssetType === 'FUND') ? '自動計算總金額' : '輸入總金額'"
+                            [readonly]="newAssetType === 'STOCK' || newAssetType === 'FUND'"
+                            [class.readonly-input]="newAssetType === 'STOCK' || newAssetType === 'FUND'">
+                    </div>
+                    <div class="form-action">
+                        <button class="submit-btn" (click)="addAsset()">確認新增</button>
+                        <button class="cancel-btn" (click)="toggleAddForm()">取消</button>
+                    </div>
+                </div>
+            </div>
+            }
+
+            <div class="asset-list-container">
+                @if(userAssets.length === 0) {
+                <div class="empty-list-state">尚無資產明細</div>
+                } @else {
+                @for(asset of userAssets; track asset.id) {
+                <div class="asset-item-card">
+                    <div class="item-icon" [ngClass]="asset.assetType.toLowerCase()"></div>
+                    <div class="item-info">
+                        <div class="item-name">{{ asset.assetName }}</div>
+                        <div class="item-type">{{ translateAssetType(asset.assetType) }}</div>
+                    </div>
+                    <div class="item-amount">
+                        {{ asset.currentValue | currency:'TWD':'symbol-narrow':'1.0-0' }}
+                    </div>
+                    <button class="delete-btn" (click)="deleteAsset(asset.id, asset.assetName)" title="刪除資產">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="3 6 5 6 21 6"></polyline>
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
+                            </path>
+                            <line x1="10" y1="11" x2="10" y2="17"></line>
+                            <line x1="14" y1="11" x2="14" y2="17"></line>
+                        </svg>
+                    </button>
+                </div>
+                }
+                }
+            </div>
+
+        </div>
     </div>
+
 </div>
