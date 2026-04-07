@@ -7,18 +7,21 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { NotificationList } from '../@interface/notification-list';
 import { HttpClientService } from '../@service/http-client.service';
+import { News } from '../@interface/news';
+import { SlicePipe } from '@angular/common';
 
 @Component({
   selector: 'app-main',
-  imports: [RouterLink, MatIconModule, MatButtonModule, MatMenuModule],
+  imports: [RouterLink, MatIconModule, MatButtonModule, MatMenuModule, SlicePipe],
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss'
 })
 export class MainComponent {
   // 三種身分 visitor;user;admin
   // role!:string ;
-  role = 'user';
+  role = 'visitor';
   page = 1;
+
   constructor(private router: Router,
     private exampleService: ExampleService,
     private httpClientService: HttpClientService,
@@ -27,7 +30,7 @@ export class MainComponent {
 
   notificationList!: NotificationList;
   notificationIdDetail!: any;
-
+  newsList: News[] = [];
 
   isMenuOpen = false;
   toggleMenu(event: Event) {
@@ -75,7 +78,9 @@ export class MainComponent {
     console.log('執行登出');
     this.isMenuOpen = false;
     // 之後要清空使用者資料
-    this.exampleService.setRole('visitor');
+    // this.exampleService.setRole('visitor');
+    // 💡 清空使用者資料並清除 localStorage
+    this.exampleService.clearRole();
   }
   // 個人通知格式
   personalList = [
@@ -213,6 +218,34 @@ export class MainComponent {
     }
   }
 
+  goNewsUrl(newsUrl: string) {
+    window.open(newsUrl, '_blank');
+  }
+
+  // 這裡是新聞輪播
+  newscurrentIndex = 0; // 起始索引
+  displayCount = 3;     // 一次顯示幾則
+
+  // 限制新聞出現的數量 目前設定為8則 ((定義Getter 讓HTML直接對它跑迴圈
+  get visibleNews() {
+    const list = [];
+    for (let i = 0; i < this.displayCount; i++) {
+      // 💡 使用取餘數 (%) 運算子，讓索引永遠在 0~7 之間循環
+      const index = (this.newscurrentIndex + i) % 8;
+      list.push(this.newsList[index]);
+    }
+    return list;
+  }
+
+  // 向右切換
+  next() {
+    this.newscurrentIndex = (this.newscurrentIndex + 1) % this.newsList.length;
+  }
+  // 向左切換
+  prev() {
+    this.newscurrentIndex = (this.newscurrentIndex - 1 + this.newsList.length) % this.newsList.length;
+  }
+
   today = new Date();
   gettoday!: string;
 
@@ -230,7 +263,6 @@ export class MainComponent {
           this.notificationList = notificationList;
         })
 
-
       //page=1 -> 公告列表 http://localhost:4200/admin-notification-set
       //page=2 -> 公告詳情 http://localhost:4200/admin-notification-set/pageId (後面會接pageId)
       if (pageId) {
@@ -241,17 +273,24 @@ export class MainComponent {
         this.notificationIdDetail = null;
       }
     });
-    //3/26 下面3行註解起來，固定身分做按鍵功能
-    //this.exampleService.role$.subscribe(newRole => {
-    //this.role = newRole;
-    //console.log('MainComponent 收到身分變更：', this.role);
-    //});
+
+    this.exampleService.role$.subscribe(newRole => {
+      this.role = newRole;
+      console.log('MainComponent 收到身分變更：', this.role);
+    });
     console.log('現在身分', this.role);
 
     // 每 5 秒自動切換下一則新聞
     setInterval(() => {
       this.nextPersonal();
     }, 8000);
+
+    // 取得前台新聞列表
+    this.httpClientService.getApi(`http://localhost:8080/api/news/user/list`)
+      .subscribe((news: any) => {
+        console.log('使用者的新聞列表', news);
+        this.newsList = news;
+      });
 
     //取得今天日期
     if ((new Date().getMonth() + 1) < 10) {

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, HostListener } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
@@ -115,17 +115,29 @@ export class HeaderUserComponent {
     this.isMenuOpen = false;
   }
 
+  goProfile(){
+    this.router.navigate(['/profile']);
+  }
   logout() {
     console.log('執行登出');
     this.isMenuOpen = false;
     // 之後要清空使用者資料
     this.exampleService.setRole('visitor');
+    this.router.navigate(['/main']);
   }
 
   today = new Date();
   gettoday!: string;
 
+  // 三種身分 visitor;user;admin
+  role: string = "visitor";
+
   ngOnInit() {
+
+     // 💡 關鍵：訂閱 Service，確保登入或重新整理後身分正確
+    this.exampleService.role$.subscribe(newRole => {
+      this.role = newRole;
+    });
 
     //初始化時獲取未讀數
     this.refreshUnreadCount();

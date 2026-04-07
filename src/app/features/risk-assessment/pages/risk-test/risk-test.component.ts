@@ -35,11 +35,11 @@ export class RiskTestComponent {
   }
 
 readonly dialog = inject(MatDialog);
-  submitTest() {
+  submitTest(no:number) {
     if (this.riskForm.invalid) {
       this.riskForm.markAllAsTouched();
       // alert('您還有題目未作答喔！請確認 6 題都已選擇。');
-      this.showDialog();
+      this.showDialog(no);
       return;
     }
 
@@ -73,13 +73,13 @@ readonly dialog = inject(MatDialog);
   }
 
 
-  showDialog() {
+  showDialog(no:number) {
     // 單選
     //let dialogRef 是宣告一個變數 讓系統知道我們現在要接收哪個dialog
     //(要開啟的dialog頁面的名稱, {要傳遞的值和設定})
     let dialogRef = this.dialog.open(InvalidComponent, {
       // data: {choise:choise,id:this.notificationList.data[index].id},
-      data:'allen',
+      data:no,
       width: '250px',
       height: '180px'
     });

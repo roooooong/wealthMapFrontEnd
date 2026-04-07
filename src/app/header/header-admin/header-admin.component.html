@@ -7,13 +7,17 @@
         <span class="click-menu">Admin，歡迎使用</span>
         <mat-icon [class.rotated]="isMenuOpen">expand_more</mat-icon>
       </div>
+      <div >
+        <span class="">公告設定</span>
+        <span class="">新聞管理</span>
 
+      </div>
       @if (isMenuOpen) {
       <ul class="custom-dropdown" (click)="$event.stopPropagation()">
-        <li class="menu-item" routerLink="/profile" (click)="isMenuOpen = false">
+        <!-- <li class="menu-item" routerLink="/profile" (click)="isMenuOpen = false">
           <span>個人檔案</span>
         </li>
-        <div class="divider"></div>
+        <div class="divider"></div> -->
         <li class="menu-item logout" (click)="logout()">
           <span>登出</span>
         </li>

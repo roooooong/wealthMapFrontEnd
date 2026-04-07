@@ -42,6 +42,7 @@
     }
   </div>
 </div>
+<br><br>
 }
 
 @else{
@@ -53,7 +54,11 @@
   </div>
 </div>
 <br><br><br><br>
+<div style="display: flex; margin-left: 150px;font-size: 16px;color: #4091c9;">
+  <label>{{notificationIdDetail?.scheduledDate.split('-')[0]}}年{{notificationIdDetail?.scheduledDate.split('-')[1]}}月{{notificationIdDetail?.scheduledDate.split('-')[2]}}日</label>
+</div>
 <hr>
+
 <br>
 
 <div class="frameCss">
@@ -62,10 +67,4 @@
   </div>
 </div>
 <br><br><br><br>
-<!-- <div class="frameCss" > -->
-<div style="display: flex; justify-content: flex-end;margin-right: 130px;font-size: 18px;color: #4091c9;font-style: italic">
-  <label>{{notificationIdDetail?.scheduledDate}}</label>
-</div>
-<!-- </div> -->
 }
-<br><br><br>
