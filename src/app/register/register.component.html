@@ -8,7 +8,7 @@
       <br>
       <h1>註 冊</h1>
       <div class="input-box">
-        <label>姓 名</label><br><input type="text" (blur)="validate('name')" [(ngModel)]="name" placeholder="請輸入姓名">
+        <label>暱 稱</label><br><input type="text" (blur)="validate('name')" [(ngModel)]="name" placeholder="請輸入姓名">
         @if (nameErrorMsg) {
         <span class="error-msg" style="color: red; font-size: 12px;">
           {{ nameErrorMsg }}

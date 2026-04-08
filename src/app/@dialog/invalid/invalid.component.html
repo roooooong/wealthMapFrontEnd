@@ -21,5 +21,52 @@
 <!-- <button (click)="cancel()">取消</button> -->
 </div>
 }
+@if(data==3){
+<div style="background-color: #9dcee2;height: 20px;"></div>
+<div style="height:50px"></div>
+<label style="position: relative; left:40px;width: 200px;font-size: 16px;">臨時密碼以傳送至Email</label>
+<div style="height:50px"></div>
+
+<div style="position: relative;display: flex;justify-content:center;top:-15px">
+<button (click)="email()">確認</button>
+<!-- <button (click)="cancel()">取消</button> -->
+</div>
+}
+
+@if(data==4){
+<div style="background-color: #9dcee2;height: 20px;"></div>
+<div style="height:50px"></div>
+<label style="position: relative; left:40px;width: 160px;font-size: 16px;">登入成功，請立即修改密碼</label>
+<div style="height:50px"></div>
+
+<div style="position: relative;display: flex;justify-content:center;top:-15px">
+<button (click)="changePwd()">確認</button>
+<!-- <button (click)="cancel()">取消</button> -->
+</div>
+}
+
+@if(data==5){
+<div style="background-color: #9dcee2;height: 20px;"></div>
+<div style="height:50px"></div>
+<label style="position: relative; left:40px;width: 160px;font-size: 16px;">密碼修改成功</label>
+<div style="height:50px"></div>
+
+<div style="position: relative;display: flex;justify-content:center;top:-15px">
+<button (click)="changePwd()">確認</button>
+<!-- <button (click)="cancel()">取消</button> -->
+</div>
+}
+
+@if(data==6){
+<div style="background-color: #9dcee2;height: 20px;"></div>
+<div style="height:50px"></div>
+<label style="position: relative; left:40px;width: 160px;font-size: 16px;">舊密碼輸入錯誤!</label>
+<div style="height:50px"></div>
+
+<div style="position: relative;display: flex;justify-content:center;top:-15px">
+<button (click)="changePwd()">確認</button>
+<!-- <button (click)="cancel()">取消</button> -->
+</div>
+}
 
 

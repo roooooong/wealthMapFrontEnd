@@ -127,7 +127,7 @@ export class MainComponent {
   ngAfterViewInit() {
 
     // 確認是使用者後才會生成圓餅圖
-    if (this.role === 'user') {
+    if (this.role === 'USER') {
       // 獲取 canvas 元素
       let ctx = document.getElementById('chart') as HTMLCanvasElement;
 
