@@ -11,6 +11,8 @@ import { RiskResultComponent } from './features/risk-assessment/pages/risk-resul
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { HeaderComponent } from './header/header.component';
+import { InvestmentManageComponent } from './investment-manage/investment-manage.component';
+import { StrategyListComponent } from './strategy-list/strategy-list.component';
 import { NotificationComponent } from './notification/notification.component';
 import { PersonalNotificationComponent } from './personal-notification/personal-notification.component';
 import { AdminNewsComponent } from './admin-news/admin-news.component';
@@ -67,13 +69,23 @@ export const routes: Routes = [
     canActivate: [authGuard],
     data: { roles: ['ADMIN', 'USER'] }
   },
-
-  {
-    path: 'assets',
-    component: AssetOverviewComponent,
+  // 投資管理
+  { path: 'investment-manage',
+    component: InvestmentManageComponent,
     canActivate: [authGuard],
-    data: { roles: ['ADMIN', 'USER'] } // 限制只有登入的人能看
+    data: { roles: ['ADMIN', 'USER'] }
   },
+  { path: 'strategy-list',
+    component: StrategyListComponent,
+    canActivate: [authGuard],
+    data: { roles: ['ADMIN', 'USER'] }
+  },
+  // {
+  //   path: 'assets',
+  //   component: AssetOverviewComponent,
+  //   canActivate: [authGuard],
+  //   data: { roles: ['ADMIN', 'USER'] } // 限制只有登入的人能看
+  // },
   { path: 'health', component: HealthComponent },
   { path: 'monte', component: MonteComponent },
   // { path: 'forgot', component: ForgotComponent },
