@@ -1,0 +1,62 @@
+.whole{
+  padding: 20px;
+  background: #f8f9fa;
+  align-items:center;
+  display: flex;
+  flex-direction: column;
+}
+.health-container {
+  background: white;
+  width: 80%;border-radius: 16px;
+  // padding: 20px;
+
+  .metrics-grid {
+
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin: 20px 0;
+    justify-self: center;
+  }
+
+  .metric-card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.112);
+
+
+    &.alert-bg {
+      background-color: #fff1f0;
+      border: 1px solid #ffa39e;
+    }
+
+    .label { color: #8c8c8c; font-size: 16px; }
+    .value { font-size: 24px; font-weight: bold; margin: 8px 0; }
+    .describe{font-size: 18px; margin: 8px 0;}
+    .warning-text { color: #f5222d; font-size: 12px; }
+  }
+
+  .chart-box {
+    width: 80%;
+    margin: 20px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 12px;
+    .content-wrapper {
+      display: flex !important;
+      flex-direction: row;
+      gap: 20px;
+      align-items: center;
+
+      .chart-item {
+        flex: 1;
+        height: 400px;
+        width: 400px;
+      }
+    }
+  }
+
+}

@@ -2,13 +2,12 @@ import { Router, RouterLink } from '@angular/router';
 import { Component, inject } from '@angular/core';
 import { HeaderComponent } from "../header/header.component";
 import { FormsModule } from '@angular/forms';
-import { WealthService } from '../wealthservice.service';
-import { HttpClient } from '@angular/common/http';
 import { MatIconModule } from '@angular/material/icon';
 import { HttpClientService } from '../@service/http-client.service';
 import { InvalidComponent } from '../@dialog/invalid/invalid.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ExampleService } from '../@service/example.service';
+
 
 @Component({
   selector: 'app-register',
