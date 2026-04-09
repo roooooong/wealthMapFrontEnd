@@ -63,8 +63,8 @@ export class RegisterComponent {
     if (field === 'password') {
       if (!this.password) {
         this.passwordErrorMsg = '*此為必填欄位';
-      } else if (this.password.length < 7 || this.password.length > 12) {
-        this.passwordErrorMsg = '密碼長度須為 7-12 位';
+      } else if (this.password.length < 8 || this.password.length > 12) {
+        this.passwordErrorMsg = '密碼長度須為 8-12 位';
       } else {
         this.passwordErrorMsg = '';
       }

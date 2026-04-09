@@ -79,7 +79,7 @@ export class MainComponent {
     this.isMenuOpen = false;
     // 之後要清空使用者資料
     // this.exampleService.setRole('visitor');
-     // 💡 清空使用者資料並清除 localStorage
+    // 💡 清空使用者資料並清除 localStorage
     this.exampleService.clearRole();
   }
   // 個人通知格式
@@ -117,6 +117,13 @@ export class MainComponent {
 
   goToRiskTest() {
     this.router.navigate(['/risk-test']);
+  }
+
+  goToAssets() {
+    this.router.navigate(['/assets']);
+  }
+  goToGoals() {
+    this.router.navigate(['/goals']);
   }
 
   closeNotice() {
@@ -226,6 +233,10 @@ export class MainComponent {
 
   // 限制新聞出現的數量 目前設定為8則 ((定義Getter 讓HTML直接對它跑迴圈
   get visibleNews() {
+    // 💡 增加檢查：如果新聞列表還沒抓到，先回傳空陣列，避免 HTML 報錯
+  if (!this.newsList || this.newsList.length === 0) {
+    return [];
+  }
     const list = [];
     for (let i = 0; i < this.displayCount; i++) {
       // 💡 使用取餘數 (%) 運算子，讓索引永遠在 0~7 之間循環
@@ -249,11 +260,12 @@ export class MainComponent {
 
   ngOnInit() {
 
+
     console.log(this.activatedRoute.snapshot.paramMap.get('pageId'));
     this.activatedRoute.params.subscribe(params => {
       const pageId = params['pageId']; // 確保這裡的名稱跟 AppRoutingModule 定義一致
 
-      //取得系統公告列表
+      //取得公告列表
       this.httpClientService.getApi(`http://localhost:8080/api/notifications/list`)
         .subscribe((notificationList: any) => {
           // console.log(notificationList);

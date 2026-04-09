@@ -19,6 +19,7 @@ import { AdminNewsComponent } from './admin-news/admin-news.component';
 import { ProfileComponent } from './profile/profile.component';
 import { authGuard } from './auth/auth.guard';
 
+
 export const routes: Routes = [
 
   //全開放頁面

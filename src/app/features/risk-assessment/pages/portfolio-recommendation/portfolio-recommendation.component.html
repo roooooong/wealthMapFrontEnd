@@ -1,1 +1,40 @@
-<p>portfolio-recommendation works!</p>
+<div class="portfolio-container">
+
+    <div class="header-section">
+        <h2 class="main-title">專屬投資推薦組合</h2>
+        <p class="subtitle">根據您的評估結果 <strong>{{ userLevel }}</strong>，我們為您挑選了以下黃金配置：</p>
+    </div>
+
+    <div class="portfolio-list">
+        <div class="list-header">
+            <div class="col-ticker">標的代碼</div>
+            <div class="col-name">標的名稱</div>
+            <div class="col-type">資產類別</div>
+            <div class="col-alloc">建議佔比</div>
+            <div class="col-reason">推薦理由</div>
+        </div>
+
+        @for(item of recommendedList; track item.ticker) {
+        <div class="list-row">
+            <div class="col-ticker"><span class="badge">{{ item.ticker }}</span></div>
+            <div class="col-name font-bold">{{ item.name }}</div>
+            <div class="col-type">
+                <span class="type-badge"
+                    [ngClass]="{'bg-blue': item.type === '權益型資產', 'bg-green': item.type === '固定收益', 'bg-yellow': item.type === '另類投資'}">
+                    {{ item.type }}
+                </span>
+            </div>
+            <div class="col-alloc font-number">{{ item.allocation }}%</div>
+            <div class="col-reason text-gray">{{ item.reason }}</div>
+        </div>
+        }
+    </div>
+
+    <div class="action-area">
+        <button class="btn-secondary" (click)="backToHome()">回首頁</button>
+        <button class="btn-secondary" (click)="backToResult()">回評估結果</button>
+        <button class="btn-primary" (click)="goToAssets()">查看我的資產</button>
+
+    </div>
+
+</div>

@@ -82,12 +82,16 @@
       @for(news of visibleNews; track $index) {
         <div class="news-card" (click)="goNewsUrl(news.url)">
           <div class="card-content">
-            <span class="news-tag">{{news.sourceName}}</span>
-            <img [src]="news.image" class="news-img">
+            <span class="news-tag">{{news?.sourceName}}</span>
+            <img [src]="news?.image" class="news-img">
             <br>
+            @if (news && news.publishedAt) {
             <span style="color:#4091c9">{{news.publishedAt.split('T')[0]}}</span>
-            <p >{{news.title}}</p>
-            <p class="newscontent">{{news.content}}</p>
+            }@else {
+    <span>載入中...</span>
+  }
+            <p class="news-title">{{news?.title}}</p>
+            <p class="news-content">{{news?.content}}</p>
           </div>
           <div class="card-footer">
              <label class="wealth-switch">

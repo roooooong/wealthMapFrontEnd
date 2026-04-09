@@ -94,15 +94,15 @@ export class RiskResultComponent implements OnInit, AfterViewInit {
     });
   }
 
-  // 重新測驗按鈕
+  // 重新測驗
   retryTest(): void {
     this.router.navigate(['/risk-test']);
   }
 
-  // 前往投資建議頁 
+  // 投資建議頁 
   goToPortfolios(): void {
-    alert('此功能正在開發中，將串接您的資產配置進行產品推薦！');
-    this.router.navigate(['/main']);
+    const userLevelChinese = this.translateLevel(this.resultData?.['userLevel'] || '');
+    this.router.navigate(['/portfolio-recommendation'], { state: { level: userLevelChinese } });
   }
   translateLevel(level: string): string {
     if (!level) return '';

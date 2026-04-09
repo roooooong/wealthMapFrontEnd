@@ -149,6 +149,18 @@ h1 {
   animation: fadeIn 0.3s ease-out;
 }
 
+.forgot-error-msg {
+  color: #ff4d4f;       /* 柔和一點的紅色 */
+  font-size: 0.85rem;   /* 比標籤小一點點 */
+  margin-left: 5px;      /* 與輸入框保持一點距離 */
+  margin-top: -15px;      /* 與輸入框保持一點距離 */
+  display: block;       /* 確保它是獨立一行 */
+  margin-bottom: 5px;
+
+  /* 加入簡單的淡入動畫 */
+  animation: fadeIn 0.3s ease-out;
+}
+
 /* 定義動畫內容 */
 @keyframes fadeIn {
   from {

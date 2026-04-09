@@ -5,6 +5,8 @@
     <p>與資產配置平台</p>
   </div>
 
+  <!-- 登入 -->
+  @if(page==1){
   <div class="right-box">
     <div class="right-content">
       <br>
@@ -14,36 +16,104 @@
         <br>
         <input type="email" (blur)="validate('email')" [(ngModel)]="email" placeholder="請輸入電子郵件">
 
-      @if (emailErrorMsg) {
+        @if (emailErrorMsg) {
         <span class="error-msg" style="color: red; font-size: 12px;">
           {{ emailErrorMsg }}
         </span>
-      }
+        }
       </div>
       <div class="input-box" style="position: relative;">
-        <label>密 碼</label><br><input [type]="showPassword ? 'text' : 'password'"  (blur)="validate('password')" [(ngModel)]="password" placeholder="請輸入密碼">
-        <button type="button" (click)="togglePassword()" class="isshowPassword" ><mat-icon class="custom-icon" aria-hidden="false" aria-label="Example home icon">{{ showPassword ? 'visibility' : 'visibility_off' }}</mat-icon></button>
-      @if (passwordErrorMsg) {
+        <label>密 碼</label><br><input [type]="showPassword ? 'text' : 'password'" (blur)="validate('password')"
+          [(ngModel)]="password" placeholder="請輸入密碼">
+        <button type="button" (click)="togglePassword()" class="isshowPassword"><mat-icon class="custom-icon"
+            aria-hidden="false" aria-label="Example home icon">{{ showPassword ? 'visibility' : 'visibility_off'
+            }}</mat-icon></button>
+        @if (passwordErrorMsg) {
         <span class="error-msg" style="color: red; font-size: 12px;">
           {{ passwordErrorMsg }}
         </span>
-      }
+        }
 
       </div>
 
 
       <div class="options" style="position: relative;">
         <label><input type="checkbox" [(ngModel)]="rememberMe" class="checkbox">&nbsp;自動登入</label>
-        <a routerLink="/forgot" routerLinkActive="forgot-link" class="link-text">忘記密碼</a>
+        <a (click)="forgot()" class="link-text">忘記密碼</a>
       </div>
       <div class="btn">
         <button (click)="login()" class="btn-google">登&nbsp;入</button>
       </div>
-      <div class="footer-text">還沒有帳號嗎?
-        <a routerLink="/register" routerLinkActive="register-link"class="link-text">註冊</a>
+      <div class="footer-text" style="padding-bottom: 10px;">還沒有帳號嗎?
+        <a routerLink="/register" routerLinkActive="register-link" class="link-text">註冊</a>
       </div>
     </div>
   </div>
+  }
+
+  <!-- 忘記密碼 -->
+  @if(page==2){
+  <div class="right-box">
+    <div class="right-content">
+      <br>
+      <h1>忘記密碼</h1>
+      <div class="input-box">
+        <label>電子郵件</label>
+        <br>
+        <input type="email" (blur)="validate('email')" [(ngModel)]="email" placeholder="請輸入電子郵件">
+        @if (emailErrorMsg) {
+        <span class="forgot-error-msg" style="color: red; font-size: 12px">
+          {{ emailErrorMsg }}
+        </span>
+        }
+      </div>
+      <div class="btn">
+        <button (click)="send()" class="btn-google">寄送 Email</button>
+      </div>
+
+    </div>
+  </div>
+
+  }
+
+  <!-- 用臨時密碼登入 -->
+  @if(page==3){
+  <div class="right-box">
+    <div class="right-content">
+      <br>
+      <h1>登 入</h1>
+      <div class="input-box">
+        <label>電子郵件</label>
+        <br>
+        <input type="email" (blur)="validate('email')" [(ngModel)]="email" placeholder="請輸入電子郵件">
+
+        @if (emailErrorMsg) {
+        <span class="error-msg" style="color: red; font-size: 12px;">
+          {{ emailErrorMsg }}
+        </span>
+        }
+      </div>
+      <div class="input-box" style="position: relative;">
+        <label>密 碼</label><br><input [type]="showPassword ? 'text' : 'password'" (blur)="validate('password')"
+          [(ngModel)]="password" placeholder="請輸入臨時密碼">
+        <button type="button" (click)="togglePassword()" class="isshowPassword"><mat-icon class="custom-icon"
+            aria-hidden="false" aria-label="Example home icon">{{ showPassword ? 'visibility' : 'visibility_off'
+            }}</mat-icon></button>
+        @if (passwordErrorMsg) {
+        <span class="error-msg" style="color: red; font-size: 12px;">
+          {{ passwordErrorMsg }}
+        </span>
+        }
+
+      </div>
+
+      <div class="btn">
+        <button (click)="relogin()" class="btn-google">登&nbsp;入</button>
+      </div>
+    </div>
+  </div>
+
+  }
 </div>
 
 

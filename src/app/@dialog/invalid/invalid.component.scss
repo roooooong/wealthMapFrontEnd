@@ -1,3 +1,21 @@
+.header{
+  background-color: #9dcee2;
+  height: 20px;
+}
+
+.text{
+  position: relative;
+  left:40px;
+  width: 200px;
+  font-size: 16px;
+}
+
+.btn-position{
+  position: relative;
+  display: flex;
+  justify-content:center;
+  top:-15px;
+}
 button{
   width:80px;
   margin:20px;
