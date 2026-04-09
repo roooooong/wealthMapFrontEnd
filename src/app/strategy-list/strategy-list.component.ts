@@ -134,20 +134,20 @@ export class StrategyListComponent {
     const user = this.exampleService.currentUser; // 💡 拿快照
 
     // 情況 A：已經有登入資料了 (從其他頁面過來)
-    if (user && user.userId !== 0) {
-      this.userId = user.userId;
+    if (user && user.id !== 0) {
+      this.userId = user.id;
       this.role = user.role;
-      this.userName = user.userName;
+      this.userName = user.name;
       console.log("從快照獲取 UserId:", this.userId);
       this.fetchStrategies(this.userId); // 💡 直接執行抓取
     }
       // 情況 B：還沒拿到資料 (例如剛重新整理頁面)
       else {
       this.exampleService.user$.subscribe(user => {
-        if (user && user.userId !== 0) {
+        if (user && user.id !== 0) {
           this.role = user.role; // 當角色改變，這裡會自動觸發
-          this.userId = user.userId;
-          this.userName = user.userName;
+          this.userId = user.id;
+          this.userName = user.name;
           console.log("Role:"+this.role +",UserId:"+this.userId+",userName:"+this.userName);
 
           this.fetchStrategies(this.userId);

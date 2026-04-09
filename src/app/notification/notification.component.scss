@@ -186,14 +186,21 @@ h2{
 }
 
 .notification-title {
-    display: inline-block;
-    width: 75%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    vertical-align: bottom; /* 修正與旁邊文字的對齊 */
+  display: inline-block;
+  width: 75%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: bottom; /* 修正與旁邊文字的對齊 */
   cursor: pointer;
 
+}
+
+.no-data{
+  justify-self: center;
+  align-self: center;
+  font-size: 20px;
+  color:gray;
 }
 
 .titleCss{

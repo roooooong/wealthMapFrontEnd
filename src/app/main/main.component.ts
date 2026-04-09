@@ -132,7 +132,7 @@ export class MainComponent {
   ngAfterViewInit() {
 
     // 確認是使用者後才會生成圓餅圖
-    if (this.role === 'user') {
+    if (this.role === 'USER') {
       // 獲取 canvas 元素
       let ctx = document.getElementById('chart') as HTMLCanvasElement;
 
@@ -256,7 +256,7 @@ export class MainComponent {
       //取得系統公告列表
       this.httpClientService.getApi(`http://localhost:8080/api/notifications/list`)
         .subscribe((notificationList: any) => {
-          console.log(notificationList);
+          // console.log(notificationList);
           this.notificationList = notificationList;
         })
 
@@ -274,6 +274,11 @@ export class MainComponent {
     this.exampleService.role$.subscribe(newRole => {
       this.role = newRole;
       console.log('MainComponent 收到身分變更：', this.role);
+    });
+    console.log('現在身分', this.role);
+
+    this.exampleService.user$.subscribe(newUser => {
+      console.log( '現在user是誰',newUser.name);
     });
     console.log('現在身分', this.role);
 

@@ -52,11 +52,6 @@ export const routes: Routes = [
     ]
   },
 
-  // 管理員系列
-  { path: 'admin-information-set', component: AdminInformationSetComponent },
-  { path: 'admin-service-set', component: AdminServiceSetComponent },
-  { path: 'admin-privacy-set', component: AdminPrivacySetComponent },
-
 
   //對ADMIN、USER開放
   {

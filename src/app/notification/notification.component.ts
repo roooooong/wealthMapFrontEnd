@@ -26,6 +26,7 @@ export class NotificationComponent {
   userId!:number;
   personalLogs!:PersonalNotification[];
   personalLogDetail!:PersonalNotification|null;
+  notificationType!:string;
 
   // fetchNotificationDetail(id: number) {
   //   this.notificationIdDetail = null; // 抓取前先清空，避免畫面閃爍
@@ -190,9 +191,10 @@ export class NotificationComponent {
     console.log("pageId:"+this.activatedRoute.snapshot.paramMap.get('pageId'));
     // 透過 URL 判斷目前是哪一類
     const isSystem = this.router.url.includes('system-notification');
+    this.notificationType=isSystem?"system":"personal";
     this.exampleService.user$.subscribe(user=>{
       if(user && user.role !== 'visitor'){
-        this.userId=user.userId;
+        this.userId=user.id;
       }
     });
 

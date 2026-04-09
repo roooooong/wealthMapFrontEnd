@@ -31,8 +31,8 @@ export class InvestmentManageComponent {
     });
     this.exampleService.user$.subscribe(user => {
       this.role = user.role; // 當角色改變，這裡會自動觸發
-      this.userId = user.userId;
-      this.userName = user.userName;
+      this.userId = user.id;
+      this.userName = user.name;
     });
   }
 }

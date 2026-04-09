@@ -32,7 +32,10 @@
             </div>
           }
         }
+      }@else if(notificationType === "system"){
+        <div class="no-data">目前沒有系統公告</div>
       }
+
       @if(personalLogs && personalLogs.length > 0){
         @for(notification of personalLogs ; track $index){
           <div class="notification">
@@ -41,9 +44,11 @@
             <label style="position: absolute;right:20px" (click)="detail(notification.id!)">{{notification.alertTime| date:'yyyy-MM-dd'}}</label>
           </div>
         }
-      }@else{
+      }
+      @else if(notificationType === "personal"){
         <div class="no-data">目前沒有個人訊息</div>
       }
+
     </div>
   </div>
 }

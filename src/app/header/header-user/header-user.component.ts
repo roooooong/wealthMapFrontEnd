@@ -91,13 +91,9 @@ export class HeaderUserComponent {
     this.httpClientService.getApi(`http://localhost:8080/api/notifications/unread-count-new?userId=${this.userId}`)
     // this.httpClientService.getApi(`http://localhost:8080/api/notifications/unread-count-new?userId=1`)
     .subscribe((res: any) => {
-      console.log('系統通知未讀', res.data.systemCount);
-      console.log('個人通知未讀', res.data.personalCount);
       if (res && res.code === 200) {
         this.systemUnreadCount = res.data.systemCount;
         this.personalUnreadCount = res.data.personalCount;
-        console.log('系統未讀：', this.systemUnreadCount);
-        console.log('個人未讀：', this.personalUnreadCount);
         // this.cdr.detectChanges(); // 💡 強制更新畫面
       }
     });
@@ -206,11 +202,11 @@ export class HeaderUserComponent {
     // 新增抓取個人資訊 by Carly
     this.exampleService.user$.subscribe(user=>{
       if(user && user.role !== 'visitor'){
-        this.userId=user.userId;
-        this.userName=user.userName;
+        this.userId=user.id;
+        this.userName=user.name;
 
         // 登入成功，開始 SSE 連線
-        this.connectSse(user.userId.toString());
+        this.connectSse(user.id.toString());
         this.refreshUnreadCount(); // 只有非訪客才去該使用者的未讀數
         this.fetchPersonalNotifications(); // 刷個人列表
 
