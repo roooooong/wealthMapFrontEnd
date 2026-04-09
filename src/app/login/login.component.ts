@@ -81,9 +81,9 @@ export class LoginComponent {
         .subscribe((login: any) => {
           if (login.code == 200) {
             console.log('登入成功');
-            this.exampleService.setRole('user'); // 💡 關鍵：通知全域我變成了使用者
+            // this.exampleService.setRole('user'); // 💡 關鍵：通知全域我變成了使用者
             this.exampleService.setUserData(login.data.token); // register.data 為 token // add by carly
-            console.log(this.exampleService.currentUser);
+
 
             // 💡 儲存 Token (如果有回傳的話)
             if (login.token) {
@@ -92,10 +92,24 @@ export class LoginComponent {
               localStorage.setItem('token', login.data.token);
             }
 
-            // 💡 優先使用後端回傳的角色，如果沒有才用 'user'
-            const role = login.role || (login.data && login.data.role) || 'USER';
-            this.exampleService.setRole(role);
-            this.router.navigate(['/main']);
+            this.exampleService.user$.subscribe(newUser => {
+              this.role = newUser.role;
+              console.log(this.role);
+              if(this.role==="USER" || this.role==="visitor"){
+
+                console.log("進入main");
+                this.router.navigate(['/main']);
+              }else if(this.role==="ADMIN"){
+                console.log("進入admin main");
+                this.router.navigate(['/admin/main']);
+              }
+            });
+
+
+            // // 💡 優先使用後端回傳的角色，如果沒有才用 'user'
+            // const role = login.role || (login.data && login.data.role) || 'USER';
+            // this.exampleService.setRole(role);
+            // this.router.navigate(['/main']);
           }
           else {
             console.log('登入失敗', login.code);

@@ -27,8 +27,8 @@ export class HeaderUserComponent {
 
   systemUnreadCount: number = 0;
   personalUnreadCount: number = 0;
-  userId: number = 1; // 暫時寫死，之後從登入資訊拿
-  userName: string = "XXX"; // 暫時寫死，之後從登入資訊拿
+  userId!: number;
+  userName!: string;
 
   constructor(private router: Router,
     private exampleService: ExampleService,

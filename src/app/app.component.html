@@ -4,14 +4,10 @@
 <div class="frameCss">
   <div class="headerCss">
 
-    @if (role === 'ADMIN') {
-      <label class="logo" (click)="homeAdmin()">WM</label>
-      <app-header-admin></app-header-admin>
-    } @else if (role === 'USER') {
-      <label class="logo" (click)="home()">WM</label>
+    <label class="logo" (click)="home()">WM</label>
+    @if (role === 'ADMIN' || role === 'USER') {
       <app-header-user></app-header-user>
     } @else {
-      <label class="logo" (click)="home()">WM</label>
       <app-header-visitor></app-header-visitor>
     }
   </div>

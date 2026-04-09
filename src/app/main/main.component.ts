@@ -283,14 +283,13 @@ export class MainComponent {
       }
     });
 
-    this.exampleService.role$.subscribe(newRole => {
-      this.role = newRole;
-      console.log('MainComponent 收到身分變更：', this.role);
-    });
-    console.log('現在身分', this.role);
+    // this.exampleService.role$.subscribe(newRole => {
+    //   this.role = newRole;
+    // });
+    // console.log('現在身分', this.role);
 
     this.exampleService.user$.subscribe(newUser => {
-      console.log( '現在user是誰',newUser.name);
+      this.role = newUser.role;
     });
     console.log('現在身分', this.role);
 

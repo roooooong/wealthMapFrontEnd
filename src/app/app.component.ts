@@ -28,12 +28,13 @@ export class AppComponent {
     this.router.navigate(['/register']);
   }
 
-  homeAdmin() {
-    this.router.navigate(['/admin/notification-set']);
-  }
-
   home() {
-    this.router.navigate(['/main']);
+    if(this.role === 'ADMIN'){
+      this.router.navigate(['/admin/main']);
+    }else{
+      this.router.navigate(['/main']);
+    }
+
   }
 
   setAboutUs() {
@@ -52,9 +53,13 @@ export class AppComponent {
   }
 
   ngOnInit() {
-    this.exampleService.role$.subscribe(newRole => {
-      this.role = newRole;
-      console.log('MainComponent 收到身分變更：', this.role);
+    // this.exampleService.role$.subscribe(newRole => {
+    //   this.role = newRole;
+    //   console.log('MainComponent 收到身分變更：', this.role);
+    // });
+
+    this.exampleService.user$.subscribe(user=>{
+      this.role = user.role;
     });
     console.log('現在身分', this.role);
 
