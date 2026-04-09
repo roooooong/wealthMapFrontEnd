@@ -1,0 +1,36 @@
+
+<div class="main-layout">
+  <div class="tabs-container">
+    <button
+      [class.active]="currentTab() === 'rebalance'"
+      (click)="switchTab('rebalance')">
+      資產再平衡
+    </button>
+    <button
+      [class.active]="currentTab() === 'strategy'"
+      (click)="switchTab('strategy')">
+      加減碼策略
+    </button>
+    <button
+      [class.active]="currentTab() === 'engine'"
+      (click)="switchTab('engine')">
+      投資策略引擎
+    </button>
+  </div>
+
+  <div class="content-area">
+    @switch (currentTab()) {
+      @case ('rebalance') {
+        <div class="placeholder">資產再平衡開發中...</div>
+        <!-- <app-asset-rebalance></app-asset-rebalance>  -->
+      }
+      @case ('strategy') {
+        <app-strategy-list></app-strategy-list> }
+      @case ('engine') {
+        <div class="placeholder">投資策略引擎開發中...</div>
+      }
+    }
+  </div>
+</div>
+<br><br><br>
+

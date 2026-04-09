@@ -1,53 +1,87 @@
 @if(page==1){
-<br>
-<div style="margin: 20px;">
-  <!-- 標題 -->
-  <div>
-    <h1>系統公告</h1>
-  </div>
-</div>
-<br><br><br><br><br>
-<hr>
-<br>
-
-<div class="frameCss" style="margin: 20px;">
-  <div style="width: 70%; border-color: #4091c9;position: relative;left:20px;">
-    @for(notification of notificationList?.data ; track $index){
-       @if(notification.scheduledDate<=gettoday){
-    <div class="notification">
-      <label class="notification-tag" (click)="detail(notification.id!)">{{notification.tag}}</label>
-      <label class="notification-title" (click)="detail(notification.id!)">{{notification.title}}</label>
-      <label style="position: absolute;right:20px"
-        (click)="detail(notification.id!)">{{notification.scheduledDate}}</label>
+  <br><br><br><br>
+  <div style="margin: 20px;">
+    <!-- 標題 -->
+    <!-- <div>
+      <h1>系統公告</h1>
+      <h1>{{ notificationList ? '系統公告' : '個人通知' }}</h1>
+    </div> -->
+    <div class="titleCss">
+      <div>
+        <label class="titleFontPage1">{{ notificationList ? '系統公告' : '個人通知' }}</label>
+      </div>
+      <div>
+        <button class="btnList" (click)="goAnotherList()">{{ notificationList ? '個人通知列表' : '系統通知列表' }} →</button>
+      </div>
     </div>
-      }
-    }
   </div>
-</div>
+
+  <hr>
+  <br>
+
+  <div class="frameCss" style="margin: 20px;">
+    <div style="width: 70%; border-color: #4091c9;position: relative;left:20px;">
+      @if(notificationList){
+        @for(notification of notificationList?.data ; track $index){
+          @if(notification.scheduledDate<=gettoday){
+            <div class="notification">
+              <label class="notification-tag" (click)="detail(notification.id!)">{{notification.tag}}</label>
+              <label class="notification-title" (click)="detail(notification.id!)">{{notification.title}}</label>
+              <label style="position: absolute;right:20px"
+                (click)="detail(notification.id!)">{{notification.scheduledDate}}</label>
+            </div>
+          }
+        }
+      }@else if(notificationType === "system"){
+        <div class="no-data">目前沒有系統公告</div>
+      }
+
+      @if(personalLogs && personalLogs.length > 0){
+        @for(notification of personalLogs ; track $index){
+          <div class="notification">
+            <label class="notification-tag" (click)="detail(notification.id!)">{{ getCategoryTag(notification.category)}}</label>
+            <label class="notification-title" (click)="detail(notification.id!)">{{notification.title}}</label>
+            <label style="position: absolute;right:20px" (click)="detail(notification.id!)">{{notification.alertTime| date:'yyyy-MM-dd'}}</label>
+          </div>
+        }
+      }
+      @else if(notificationType === "personal"){
+        <div class="no-data">目前沒有個人訊息</div>
+      }
+
+    </div>
+  </div>
 }
 
 @else{
-<br>
-<div style="margin: 20px;">
-  <!-- 標題 -->
-  <div>
-    <h2>{{notificationIdDetail?.title}}</h2>
+  <br><br><br><br>
+  <div style="margin: 20px;">
+    <!-- 標題 -->
+    <div class="titleCss">
+      <div>
+      <!-- <h2>{{notificationIdDetail?.title}}</h2> -->
+        <label class="titleFontPage2">{{notificationIdDetail ? notificationIdDetail?.title : personalLogDetail?.title}}</label>
+      </div>
+      <div>
+        <button class="btnBack" (click)="goBack()">返回列表 →</button>
+      </div>
+    </div>
   </div>
-</div>
-<br><br><br><br>
-<hr>
-<br>
 
-<div class="frameCss">
-  <div style="position: relative;left:12px; width: 78%; line-height: 1.8;">
-    <label style="white-space: pre-wrap;">{{notificationIdDetail?.content}}</label>
+  <hr>
+  <br>
+
+  <div class="frameCss">
+    <div style="position: relative;left:12px; width: 78%; line-height: 1.8;">
+      <div style="white-space: pre-wrap;">{{notificationIdDetail ? notificationIdDetail?.content : personalLogDetail?.content}}</div>
+    </div>
   </div>
-</div>
-<br><br><br><br>
-<!-- <div class="frameCss" > -->
-<div style="display: flex; justify-content: flex-end;margin-right: 130px;font-size: 18px;color: #4091c9;font-style: italic">
-  <label>{{notificationIdDetail?.scheduledDate}}</label>
-</div>
-<!-- </div> -->
+  <br><br><br><br>
+  <!-- <div class="frameCss" > -->
+  <div style="display: flex; justify-content: flex-end;margin-right: 130px;font-size: 18px;color: #4091c9;font-style: italic">
+    <label>{{notificationIdDetail ? notificationIdDetail?.scheduledDate :  (personalLogDetail?.alertTime| date:'yyyy-MM-dd')}}</label>
+    <!-- <label>{{notificationIdDetail ? notificationIdDetail?.scheduledDate :  '123'}}</label> -->
+  </div>
+  <!-- </div> -->
 }
 <br><br><br>

@@ -38,7 +38,7 @@
     position: absolute;
     top: calc(100% + 15px);
     right: -10px; // 稍微往左偏一點讓它置中於鈴鐺
-  top:40px;
+    top:40px;
 
     width: 250px;
     background: white;
@@ -74,10 +74,28 @@
   }
 }
 
+.unread-count{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ef3c2d;
+  color: white;
+  font-size: 11px;
+  font-weight: bold;
+  // min-width: 8px;
+  width: 18px;
+  height: 18px;
+  // padding: 0 4px;
+  border-radius: 50%;
+  margin-left: 4px;
+  vertical-align: middle;
+  line-height: 1;
+}
+
 .tab-content {
   max-height: 300px;
   overflow-y: auto;
-  width: 240px;
+  width: 250px;
 
   .msg-list {
     list-style: none;
@@ -96,8 +114,8 @@
       cursor: pointer;
       &:hover { background:  #fedfd43a;; }
       display: inline-block;
-    max-width: 250px;
-    .msg-title {
+      max-width: 250px;
+      .msg-title {
         flex: 1;                /* 💡 這是重點：讓它自動伸展並擠壓 */
         white-space: nowrap;    /* 強制不換行 */
         overflow: hidden;       /* 隱藏超出部分 */

@@ -186,14 +186,73 @@ h2{
 }
 
 .notification-title {
-    display: inline-block;
-    width: 75%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    vertical-align: bottom; /* 修正與旁邊文字的對齊 */
+  display: inline-block;
+  width: 75%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: bottom; /* 修正與旁邊文字的對齊 */
   cursor: pointer;
 
+}
+
+.no-data{
+  justify-self: center;
+  align-self: center;
+  font-size: 20px;
+  color:gray;
+}
+
+.titleCss{
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  width: 80%;
+  margin: 0 auto;
+}
+
+.titleFontPage1{
+  font-size: 42px;
+  font-weight: bold;
+}
+
+.titleFontPage2{
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.btnBack{
+  background-color: transparent;
+  border: 0px;
+  font-size: 15px;
+  color: blue;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  padding-bottom: 1px;
+}
+
+.btnBack:hover{
+  background-color: transparent;
+  font-size: 15px;
+  border-bottom: blue 1px solid;
+  color: blue;
+}
+
+.btnList{
+  background-color: transparent;
+  border: 0px;
+  font-size: 15px;
+  color: gray;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  padding-bottom: 1px;
+}
+
+.btnList:hover{
+  background-color: transparent;
+  font-size: 15px;
+  border-bottom: gray 1px solid;
+  color: gray;
 }
 
 hr{

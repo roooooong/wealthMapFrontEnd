@@ -1,0 +1,71 @@
+<!-- 置中 -->
+<!-- <div class="frameCss"> -->
+  <div class="container-grid">
+    @for (strategy of strategies; track $index) {
+    <div class="card item-card">
+
+      <div class="card-top">
+        @if (editingId !== $index) {
+        <div class="left-side">
+          <span class="stock-tag">{{ strategy.symbol }}</span>
+          @if (!strategy.isActive) { <span style="font-size: 12px; color: darkgray; border-radius: 10px; background-color: lightgray;">暫停中</span> }
+          @else{ <span style="font-size: 12px; color: green; border-radius: 10px; background-color: lightgreen;">已啟動</span>}
+        </div>
+        <div class="edit-actions">
+          <img src="/edit.png" (click)="startEdit($index)" class="edit-delete-btn">&nbsp;
+          <img src="/delete.png" (click)="onDelete($index)" class="edit-delete-btn">
+        </div>
+        } @else {
+          <div class="left-side">
+            <span class="stock-tag">{{ strategy.symbol }}</span>
+            <!-- switch button -->
+            <div class="status-toggle-container">
+              <label class="switch tiny">
+                <input type="checkbox" [(ngModel)]="strategy.isActive">
+                <span class="slider"></span>
+              </label>
+              <span class="status-label">{{ strategy.isActive ? '啟動' : '關閉' }}</span>
+            </div>
+          </div>
+          <div class="edit-actions">
+            <img src="/check.png" (click)="saveEdit($index)" class="confirm-btn">&nbsp;
+            <img src="/close.png" (click)="cancelEdit()" class="cancel-btn">
+          </div>
+        }
+      </div>
+
+      <div class="card-container">
+          <label>系統最新價格 : &nbsp;&nbsp;{{strategy.currentPrice}}</label>
+          <span>
+            <label>當前乖離率 : </label>&nbsp;&nbsp;
+            <label class="bias-alert" [class.danger]="(strategy.currentBias ?? 0) < -2">
+              {{ (strategy.currentBias ?? 0) > 0 ? '+' : '' }}
+              {{strategy.currentBias| number:'1.2-2'}}
+            </label>&nbsp;&nbsp;%
+          </span>
+          <div class="input-group">
+            <label>加碼門檻 :</label>&nbsp;&nbsp;
+            <input type="number" [(ngModel)]="strategy.buyThreshold"
+                   [disabled]="editingId !== $index">%
+          </div>
+          <div class="input-group">
+            <label>減碼門檻 :</label>&nbsp;&nbsp;
+            <input type="number" [(ngModel)]="strategy.sellThreshold"
+                   [disabled]="editingId !== $index">%
+          </div>
+        <!-- </div> -->
+      </div>
+    </div>
+  }
+
+  <div class="card empty-card" (click)="addStrategy(userId)">
+    <div class="empty-content">
+      <span class="plus-icon">＋</span>
+      <p>新增策略</p>
+    </div>
+  </div>
+
+  </div>
+
+<!-- </div> -->
+<br><br>

@@ -1,0 +1,44 @@
+.frameCss{
+  background-color: #9DCEE2;
+}
+
+.titleCss{
+  font-size: 20px;
+  font-weight: bold;
+  color: #033270;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #033270;
+}
+
+select, input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #9DCEE2;
+  border-radius: 8px;
+  box-sizing: border-box; /* 確保寬度包含 padding */
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-around;
+  background: #f0f7fa;
+  padding: 10px;
+  border-radius: 8px;
+  margin: 15px 0;
+}
+
+.btn-submit {
+  background: #033270;
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.btn-submit:disabled { background: #ccc; }

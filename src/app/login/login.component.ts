@@ -81,8 +81,10 @@ export class LoginComponent {
         .subscribe((login: any) => {
           if (login.code == 200) {
             console.log('登入成功');
-            // this.exampleService.setRole('user'); // 💡 關鍵：通知全域我變成了使用者
-            // this.router.navigate(['/admin-main']);
+            this.exampleService.setRole('user'); // 💡 關鍵：通知全域我變成了使用者
+            this.exampleService.setUserData(register.data.token); // register.data 為 token // add by carly
+            console.log(this.exampleService.currentUser);
+
             // 💡 儲存 Token (如果有回傳的話)
             if (login.token) {
               localStorage.setItem('token', login.token);

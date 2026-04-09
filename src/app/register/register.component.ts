@@ -31,7 +31,7 @@ export class RegisterComponent {
 
   constructor(private router: Router,
     private httpClientService: HttpClientService,
-  private exampleService: ExampleService) {
+    private exampleService: ExampleService) {
   }
 
   togglePassword() {
@@ -120,6 +120,7 @@ export class RegisterComponent {
           if (register.code == 409) {
             console.log('已註冊過');
             this.emailErrorMsg = '此 Email 已註冊過';
+            return;
           }
           else {
             console.log('註冊成功');

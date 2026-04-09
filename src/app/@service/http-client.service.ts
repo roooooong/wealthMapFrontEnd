@@ -43,6 +43,11 @@ export class HttpClientService {
     return this.httpClient.put(url,putData);
   }
 
+  //更改
+  patchApi(url:string,patchData:any){
+    return this.httpClient.patch(url,patchData);
+  }
+
   //刪除
   delApi(url:string){
     return this.httpClient.delete(url);
