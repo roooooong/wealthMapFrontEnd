@@ -10,6 +10,7 @@ import { RegisterComponent } from './register/register.component';
 import { HeaderComponent } from './header/header.component';
 import { HealthComponent } from './health/health.component';
 import { StrategyComponent } from './strategy/strategy.component';
+import { MonteComponent } from './monte/monte.component';
 
 export const routes: Routes = [
   {path:"main", component:MainComponent},
@@ -26,6 +27,7 @@ export const routes: Routes = [
   {path:'header', component: HeaderComponent},
   {path:'health', component: HealthComponent},
   {path:'strategy', component: StrategyComponent},
+  {path:'monte', component: MonteComponent},
   // { path: 'forgot', component: ForgotComponent },
 
 ];

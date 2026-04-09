@@ -30,4 +30,8 @@ export class AppComponent {
   strategy(){
     this.router.navigate(['/strategy']);
   }
+  monte(){
+    this.router.navigate(['/monte']);
+  }
+
 }

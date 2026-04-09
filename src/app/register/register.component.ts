@@ -4,10 +4,11 @@ import { HeaderComponent } from "../header/header.component";
 import { FormsModule } from '@angular/forms';
 import { WealthService } from '../wealthservice.service';
 import { HttpClient } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-register',
-  imports: [HeaderComponent, FormsModule,RouterLink],
+  imports: [HeaderComponent, FormsModule,RouterLink,CommonModule],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
 })

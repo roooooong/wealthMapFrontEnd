@@ -80,7 +80,7 @@ export class HealthComponent implements OnInit {
   private getScore(L: number, DTI: number, S: number, G: number): number {
   const hasGoal = G !== null && G !== undefined && G > 0;
   const baseWeight = hasGoal ? (100 / 3 / 1.2) : (100 / 3);
-  const investWeight = hasGoal ? 20 : 0;
+  const investWeight = hasGoal ? 20 / 1.2 : 0;
 
   const scoreL = Math.min(baseWeight, (L / 6) * baseWeight);
   const scoreDTI = Math.min(baseWeight, (Math.max(0, 50 - DTI) / 50) * baseWeight);
