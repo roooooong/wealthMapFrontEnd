@@ -16,8 +16,8 @@ import { PersonalNotificationComponent } from './personal-notification/personal-
 import { AdminNewsComponent } from './admin-news/admin-news.component';
 import { ProfileComponent } from './profile/profile.component';
 import { authGuard } from './auth/auth.guard';
-import { AssetOverviewComponent } from './features/assets/pages/asset-overview/asset-overview.component';
-
+import { HealthComponent } from './health/health.component';
+import { MonteComponent } from './monte/monte.component';
 
 
 export const routes: Routes = [
@@ -74,7 +74,8 @@ export const routes: Routes = [
     canActivate: [authGuard],
     data: { roles: ['ADMIN', 'USER'] } // 限制只有登入的人能看
   },
-
+  { path: 'health', component: HealthComponent },
+  { path: 'monte', component: MonteComponent },
   // { path: 'forgot', component: ForgotComponent },
 
   // 萬用路由（必須放在陣列的最下方）
