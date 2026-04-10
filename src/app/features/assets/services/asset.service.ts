@@ -15,9 +15,7 @@ export class AssetService {
     // 💡 把天線 (HttpClient) 裝進建構子裡
     constructor(private http: HttpClient) { }
 
-    // -------------------------------------------------------------
     // 1. 從後端取得真實資產，並翻譯成前端看得懂的 AssetDTO
-    // -------------------------------------------------------------
     getUserAssets(userId: number): Observable<AssetDTO[]> {
         // 呼叫 GET http://localhost:8080/api/assets/user/{userId}
         return this.http.get<any[]>(`${this.apiUrl}/user/${userId}`).pipe(
@@ -35,9 +33,7 @@ export class AssetService {
         );
     }
 
-    // -------------------------------------------------------------
     // 2. 新增資產到後端
-    // -------------------------------------------------------------
     addAsset(userId: number, assetData: any): Observable<any> {
         // 呼叫 POST http://localhost:8080/api/assets/{userId}
         return this.http.post<any>(`${this.apiUrl}/${userId}`, assetData);

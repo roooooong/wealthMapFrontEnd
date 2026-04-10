@@ -1,6 +1,6 @@
 import { Component, HostListener, Input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink, RouterOutlet } from '@angular/router';
 import Chart from 'chart.js/auto';
 import { ExampleService } from '../@service/example.service';
 import { MatMenuModule } from '@angular/material/menu';
@@ -137,6 +137,12 @@ export class MainComponent {
   closeNotice() {
     const notice = document.getElementById('notification');
     notice?.remove();
+  }
+  health(){
+    this.router.navigate(['/health']);
+  }
+  strategy(){
+    this.router.navigate(['/strategy']);
   }
 
   investmentManage() {
