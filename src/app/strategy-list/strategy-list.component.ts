@@ -34,26 +34,26 @@ export class StrategyListComponent {
   showModal: boolean = true;
   // 追蹤正在編輯的卡片 (可以用 index 或 symbol)
   editingId: number | null = null;
-  // strategies:StrategySetting[]=[];
-  strategies:StrategySetting[]=[{
-    id: 1,
-    symbol: '0050',
-    buyThreshold: 1,
-    sellThreshold: 1,
-    isActive: true,
-    currentPrice: 75.8,
-    lastClosePrice: 74.9,
-    currentBias: 0.2
-  },{
-    id: 2,
-    symbol: '0056',
-    buyThreshold: 1,
-    sellThreshold: 1,
-    isActive: true,
-    currentPrice: 34.5,
-    lastClosePrice: 36.1,
-    currentBias: -3
-  }];
+  strategies:StrategySetting[]=[];
+  // strategies:StrategySetting[]=[{
+  //   id: 1,
+  //   symbol: '0050',
+  //   buyThreshold: 1,
+  //   sellThreshold: 1,
+  //   isActive: true,
+  //   currentPrice: 75.8,
+  //   lastClosePrice: 74.9,
+  //   currentBias: 0.2
+  // },{
+  //   id: 2,
+  //   symbol: '0056',
+  //   buyThreshold: 1,
+  //   sellThreshold: 1,
+  //   isActive: true,
+  //   currentPrice: 34.5,
+  //   lastClosePrice: 36.1,
+  //   currentBias: -3
+  // }];
 
   ngOnInit(): void {
     this.loadData();
