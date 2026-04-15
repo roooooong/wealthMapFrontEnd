@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { NavigationEnd, Router, RouterOutlet, NavigationStart } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { HeaderAdminComponent } from './header/header-admin/header-admin.component';
 import { HeaderUserComponent } from './header/header-user/header-user.component';
@@ -19,7 +19,7 @@ export class AppComponent {
   role = 'visitor';
   constructor(
     private router: Router,
-    private exampleService: ExampleService,) { }
+    private exampleService: ExampleService,) {}
 
   login() {
     this.router.navigate(['/login']);

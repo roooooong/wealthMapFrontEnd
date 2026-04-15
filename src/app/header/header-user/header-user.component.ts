@@ -198,7 +198,7 @@ export class HeaderUserComponent {
     //   this.role = newRole;
     // });
 
-    console.log("Header User NgOnInt，強制載入");
+    console.log("Header User NgOnInt");
     // 新增抓取個人資訊 by Carly
     this.exampleService.user$.subscribe(user=>{
       if(user && user.role !== 'visitor'){
@@ -210,7 +210,7 @@ export class HeaderUserComponent {
         this.refreshUnreadCount(); // 只有非訪客才去該使用者的未讀數
         this.fetchPersonalNotifications(); // 刷個人列表
 
-      }else{
+      }else if (!user || user.role === 'visitor'){
         console.log("偵測到身分為 visitor，強制跳轉");
         // 登出（變回 visitor），關閉 SSE
         this.disconnectSse();

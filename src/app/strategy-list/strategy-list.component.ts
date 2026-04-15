@@ -77,8 +77,8 @@ export class StrategyListComponent {
   saveEdit(index: number) {
     if (this.editingId === null) return;
     const updatedStrategy = this.strategies[this.editingId];
-    if(!updatedStrategy.buyThreshold || updatedStrategy.buyThreshold ===0 || !updatedStrategy.sellThreshold || updatedStrategy.sellThreshold===0) {
-      alert("提醒：加碼門檻及減碼門檻不能為空或0。");
+    if(!updatedStrategy.buyThreshold || !updatedStrategy.sellThreshold ) {
+      alert("提醒：加碼門檻及減碼門檻不能為空。");
       return;
     }
     if(updatedStrategy.buyThreshold >= updatedStrategy.sellThreshold) {

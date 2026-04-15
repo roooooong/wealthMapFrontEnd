@@ -9,6 +9,7 @@ import { HttpClientService } from '../@service/http-client.service';
 import { ExampleService } from '../@service/example.service';
 import { MatDialog } from '@angular/material/dialog';
 import { InvalidComponent } from '../@dialog/invalid/invalid.component';
+import { filter, take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
@@ -82,17 +83,20 @@ export class LoginComponent {
           if (login.code == 200) {
             console.log('登入成功');
             // this.exampleService.setRole('user'); // 💡 關鍵：通知全域我變成了使用者
-            this.exampleService.setUserData(login.data.token); // register.data 為 token // add by carly
 
+            const token = login.data.token || login.token;
 
             // 💡 儲存 Token (如果有回傳的話)
-            if (login.token) {
-              sessionStorage.setItem('token', login.token);
-            } else if (login.data && login.data.token) {
-              sessionStorage.setItem('token', login.data.token);
+            if (token) {
+              sessionStorage.setItem('token', token);
             }
 
-            this.exampleService.user$.subscribe(newUser => {
+            this.exampleService.setUserData(login.data.token); // login.data.token 為 token // add by carly
+
+            this.exampleService.user$.pipe(
+              filter(u => u && u.id !== 0), // 確保拿到真正的資料才跳轉
+              take(1)                       // 執行完跳轉後自動斷開訂閱
+            ).subscribe(newUser => {
               console.log(newUser);
               this.role = newUser.role;
               console.log(this.role);
@@ -184,9 +188,9 @@ export class LoginComponent {
             // this.router.navigate(['/admin-main']);
             // 💡 儲存 Token (如果有回傳的話)
             if (relogin.token) {
-              localStorage.setItem('token', relogin.token);
+              sessionStorage.setItem('token', relogin.token);
             } else if (relogin.data && relogin.data.token) {
-              localStorage.setItem('token', relogin.data.token);
+              sessionStorage.setItem('token', relogin.data.token);
             }
 
             // 💡 優先使用後端回傳的角色，如果沒有才用 'user'
