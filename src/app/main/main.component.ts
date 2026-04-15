@@ -1,6 +1,6 @@
 import { Component, HostListener, Input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink, RouterOutlet } from '@angular/router';
 import Chart from 'chart.js/auto';
 import { ExampleService } from '../@service/example.service';
 import { MatMenuModule } from '@angular/material/menu';
@@ -63,8 +63,7 @@ export class MainComponent {
 
   // 點擊事件：現在只負責換網址
   detail(pageId: number) {
-    this.router.navigate(['/notification', pageId]);
-
+    this.router.navigate(['/system-notification', pageId]);
   }
 
   // 點擊外面自動關閉 (原本的 HostListener 也要處理它)
@@ -127,101 +126,145 @@ export class MainComponent {
     this.router.navigate(['/goals']);
   }
 
+  setNotification() {
+    console.log("Notify");
+    this.router.navigate(['/admin/notification-set']);
+  }
+
+  setNews() {
+    this.router.navigate(['/admin/news']);
+  }
+
   closeNotice() {
     const notice = document.getElementById('notification');
     notice?.remove();
   }
+  health() {
+    this.router.navigate(['/health']);
+  }
+  strategy() {
+    this.router.navigate(['/strategy']);
+  }
 
-  investmentManage(){
+  investmentManage() {
     console.log("InvestmentManage");
     this.router.navigate(['/investment-manage']);
   }
 
-  ngAfterViewInit() {
+  initChart() {
+    // 因為admin和user都需要圖表 但原本寫在ngAfterViewInit會因為還沒拿到身分跑不出來 所以移到ngOnInit()拿完身分後
 
-    // 確認是使用者後才會生成圓餅圖
-    if (this.role === 'USER') {
-      // 獲取 canvas 元素
-      let ctx = document.getElementById('chart') as HTMLCanvasElement;
+    //圓餅圖中間的字
+    const centerTextPlugin = {
+      id: 'centerText',
+      afterDraw: (chart: any) => {
+        const { ctx, chartArea: { left, right, top, bottom } } = chart;
+        ctx.save();
 
-      // 設定數據
-      let data = {
-        // x 軸文字
-        labels: ['現金', '股票', '基金', '債券'],
-        datasets: [
-          {
-            // 上方分類文字
-            // label: '金額',
-            // 數據
-            data: [1000000, 1350000, 800000, 650000],
-            // 線與邊框顏色
-            backgroundColor: [
-              // '#FFF7AE',
-              // '#99B3E4',
-              // '#bdffe0',
-              // '#fbb6c9',
-              '#1368aa',
-              '#9dcee2',
-              '#fedfd4',
-              '#f29479',
-            ],
-            //設定hover時的偏移量，滑鼠移上去表會偏移，方便觀看選種的項目
-            hoverOffset: 4,
-          },
-        ],
-      };
+        // 取得圓餅圖區域的中心點 (這會自動避開右側圖例空間)
+        const centerX = (left + right) / 2;
+        const centerY = (top + bottom) / 2;
 
-      // 創建圖表
-      let chart = new Chart(ctx, {
-        type: 'doughnut',
-        data: data,
-        options: {
-          responsive: true,           // 讓圖表隨容器大小伸縮
-          maintainAspectRatio: false,  // 設為 false，圖表才會完全聽從 CSS 設定的高度
-          layout: {
-            padding: 40               // 💡 增加內距，圖表視覺上會直接縮小
-          },
-          plugins: {
-            legend: {
-              position: 'right',  // 💡 關鍵：設定在右邊
-              align: 'center',    // 圖例在右側垂直置中
-              labels: {
-                boxWidth: 40,     // 圖例色塊的大小
-                padding: 15,
-                // 每個圖例之間的間距
-                font: {
-                  size: 12        // 文字大小
-                }
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+
+        // 繪製「總資產」字樣
+        ctx.font = '14px sans-serif';
+        ctx.fillStyle = '#666';
+        ctx.fillText('總資產', centerX, centerY - 12); // 向上偏移一點
+
+        // 繪製金額數字
+        ctx.font = 'bold 20px sans-serif';
+        ctx.fillStyle = '#333333';
+        ctx.fillText('$100,000,000', centerX, centerY + 12); // 向下偏移一點
+
+        ctx.restore();
+      }
+    };
+
+    // 獲取 canvas 元素
+    let ctx = document.getElementById('chart') as HTMLCanvasElement;
+
+    // 設定數據
+    let data = {
+      // x 軸文字
+      labels: ['現金', '股票', '基金', '債券'],
+      datasets: [
+        {
+          // 上方分類文字
+          // label: '金額',
+          // 數據
+          data: [1000000, 1350000, 800000, 650000],
+          // 線與邊框顏色
+          backgroundColor: [
+            // '#FFF7AE',
+            // '#99B3E4',
+            // '#bdffe0',
+            // '#fbb6c9',
+            '#1368aa',
+            '#9dcee2',
+            '#fedfd4',
+            '#f29479',
+          ],
+          //設定hover時的偏移量，滑鼠移上去表會偏移，方便觀看選種的項目
+          hoverOffset: 4,
+          // 數字越小，中間框框越小，圓環越粗（例如 '30%'）
+      cutout: '70%',
+        },
+      ],
+    };
+
+    // 創建圖表
+    let chart = new Chart(ctx, {
+      type: 'doughnut',
+      data: data,
+      plugins: [centerTextPlugin],
+      options: {
+        responsive: true,           // 讓圖表隨容器大小伸縮
+        maintainAspectRatio: false,  // 設為 false，圖表才會完全聽從 CSS 設定的高度
+        layout: {
+          padding: 40               // 💡 增加內距，圖表視覺上會直接縮小
+        },
+        plugins: {
+          legend: {
+            position: 'right',  // 💡 關鍵：設定在右邊
+            align: 'center',    // 圖例在右側垂直置中
+            labels: {
+              boxWidth: 40,     // 圖例色塊的大小
+              padding: 15,
+              // 每個圖例之間的間距
+              font: {
+                size: 12        // 文字大小
               }
-            },
-            tooltip: {
-              backgroundColor: 'rgb(255, 255, 255)', // 1. 更改底色
-              titleColor: '#333',                      // 2. 標題顏色
-              bodyColor: '#666',                       // 3. 內容文字顏色
-              cornerRadius: 20,                        // 4. 更改形狀 (圓角設定，數值越大越圓)
-              padding: 12,                             // 內距，讓框框看起來不擁擠
-              borderColor: '#4091c9',                  // 5. 邊框顏色
-              borderWidth: 1,                          // 邊框寬度
-              displayColors: false,                     // 是否顯示旁邊的小色塊
-              boxPadding: 5,                           // 色塊與文字的距離
-              callbacks: {
-                // 💡 如果你想要自定義顯示的文字格式（例如加上錢字號）
-                label: function (context) {
-                  let label = context.dataset.label || '';
-                  if (label) {
-                    label += ': $';
-                  }
-                  if (context.parsed !== null) {
-                    label += new Intl.NumberFormat('zh-TW').format(context.parsed);
-                  }
-                  return label;
+            }
+          },
+          tooltip: {
+            backgroundColor: 'rgb(255, 255, 255)', // 1. 更改底色
+            titleColor: '#333',                      // 2. 標題顏色
+            bodyColor: '#666',                       // 3. 內容文字顏色
+            cornerRadius: 20,                        // 4. 更改形狀 (圓角設定，數值越大越圓)
+            padding: 12,                             // 內距，讓框框看起來不擁擠
+            borderColor: '#4091c9',                  // 5. 邊框顏色
+            borderWidth: 1,                          // 邊框寬度
+            displayColors: false,                     // 是否顯示旁邊的小色塊
+            boxPadding: 5,                           // 色塊與文字的距離
+            callbacks: {
+              // 💡 如果你想要自定義顯示的文字格式（例如加上錢字號）
+              label: function (context) {
+                let label = context.dataset.label || '';
+                if (label) {
+                  label += ': $';
                 }
+                if (context.parsed !== null) {
+                  label += new Intl.NumberFormat('zh-TW').format(context.parsed);
+                }
+                return label;
               }
-            },
-          }
+            }
+          },
         }
-      });
-    }
+      }
+    });
   }
 
   goNewsUrl(newsUrl: string) {
@@ -235,9 +278,9 @@ export class MainComponent {
   // 限制新聞出現的數量 目前設定為8則 ((定義Getter 讓HTML直接對它跑迴圈
   get visibleNews() {
     // 💡 增加檢查：如果新聞列表還沒抓到，先回傳空陣列，避免 HTML 報錯
-  if (!this.newsList || this.newsList.length === 0) {
-    return [];
-  }
+    if (!this.newsList || this.newsList.length === 0) {
+      return [];
+    }
     const list = [];
     for (let i = 0; i < this.displayCount; i++) {
       // 💡 使用取餘數 (%) 運算子，讓索引永遠在 0~7 之間循環
@@ -291,6 +334,14 @@ export class MainComponent {
 
     this.exampleService.user$.subscribe(newUser => {
       this.role = newUser.role;
+
+      // 當角色變更為可看圖表的身分時
+      if (this.role === 'USER' || this.role === 'ADMIN') {
+        // 延遲一小段時間確保 HTML 的 <canvas id="chart"> 已經被渲染出來 (@if 判斷完成)
+        setTimeout(() => {
+          this.initChart();
+        }, 0);
+      }
     });
     console.log('現在身分', this.role);
 

@@ -1,0 +1,27 @@
+
+<div class="whole">
+  <div class="health-container">
+    <div class="chart-box main-gauge">
+      <div echarts [options]="gaugeOption" style="height: 300px;"></div>
+    </div>
+
+    <div class="metrics-grid">
+      <div *ngFor="let m of metrics | keyvalue"
+          class="metric-card"
+          [class.alert-bg]="m.value.isAlert">
+        <span class="label">{{ m.value.label }}</span>
+        <span class="value">{{ m.value.value }}</span>
+        <span class="describe">{{ m.value.status }}</span>
+        <span *ngIf="m.value.isAlert" class="warning-text">⚠️ 數值偏離理想狀況</span>
+      </div>
+    </div>
+
+    <div class="chart-box">
+      <h3>歷史財務狀況</h3>
+      <div class="content-wrapper">
+        <div echarts [options]="radarOption" class="chart-item"></div>
+        <div echarts [options]="historyLineOption" (chartClick)="onChartClick($event)" class="chart-item"></div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -62,6 +62,7 @@ code {
   margin-bottom: 15px;
 }
 
+
 /* --- 空的框樣式 --- */
 .empty-card {
   grid-column: auto;
@@ -72,7 +73,9 @@ code {
   color: #4a90e2;
   background: white;
 
+
 }
+
 
 .empty-card:hover {
   border-color: #4a90e2; /* 懸停變藍色 */
@@ -80,9 +83,11 @@ code {
   background: #9DCEE2;
 }
 
+
 .empty-content {
   text-align: center;
 }
+
 
 .plus-icon {
   font-size: 40px;
@@ -90,6 +95,7 @@ code {
   margin-bottom: 10px;
   cursor: pointer;
 }
+
 
 /* --- 新增後的項目框樣式 --- */
 .item-card {
@@ -100,10 +106,12 @@ code {
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
+
 .item-card:hover {
   transform: translateY(-3px);
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
+
 
 .card-top {
   display: flex;
@@ -112,11 +120,13 @@ code {
   margin-bottom: 15px;
 }
 
+
 .left-side {
   display: flex;
   align-items: center;
   gap: 10px;
 }
+
 
 .stock-tag {
   background: #033270;
@@ -126,11 +136,13 @@ code {
   color: white;
 }
 
+
 .card-container {
   display: flex;
   flex-direction: column;
   gap: 10px;
   color: #033270;
+
 
 }
 
@@ -163,10 +175,12 @@ code {
   // color:#CB1B16;
 }
 
+
 /* 右上角刪除鈕 */
 .edit-delete-btn {
   cursor: pointer;
 }
+
 
 /* 編輯按鈕組 */
 .edit-actions .confirm-btn {
@@ -175,6 +189,7 @@ code {
 .edit-actions .cancel-btn {
   background: none; border: none; font-size: 1.2rem;
 }
+
 
 /* 數字輸入框樣式 (隱藏預設箭頭，呈現乾淨感) */
 input[type="number"] {
@@ -186,6 +201,7 @@ input[type="number"] {
   text-align: center;
 }
 
+
 /* 當 input 禁用時的樣式 */
 input[disabled] {
   background: transparent;
@@ -193,6 +209,8 @@ input[disabled] {
   color: #333;
   cursor: default;
 }
+
+
 
 
 /* 自定義 Switch 開關 :start*/
@@ -204,11 +222,13 @@ input[disabled] {
   margin-left: 5px;
 }
 
+
 .status-label {
   font-size: 12px;
   font-weight: bold;
   color: #033270;
 }
+
 
 .switch {
   position: relative;
@@ -217,12 +237,14 @@ input[disabled] {
   vertical-align: middle;
 }
 
+
 /* 隱藏原生 checkbox */
 .switch input {
   opacity: 0;
   width: 0;
   height: 0;
 }
+
 
 /* 滑軌基礎外觀 */
 .slider {
@@ -237,6 +259,7 @@ input[disabled] {
   border-radius: 34px;
 }
 
+
 /* 圓點基礎外觀 */
 .slider:before {
   position: absolute;
@@ -246,10 +269,12 @@ input[disabled] {
   border-radius: 50%;
 }
 
+
 /* 當勾選時，滑軌變色 (綠色) */
 input:checked + .slider {
   background-color: #48bb78;
 }
+
 
 /* --- Tiny Switch 樣式 --- */
 .switch.tiny {
@@ -257,12 +282,14 @@ input:checked + .slider {
   height: 18px;
 }
 
+
 .switch.tiny .slider:before {
   height: 14px;
   width: 14px;
   left: 2px;
   bottom: 2px;
 }
+
 
 /* 縮小版的位移距離 */
 .switch.tiny input:checked + .slider:before {

@@ -28,8 +28,11 @@ export class InvalidComponent {
   email() {
     this.dialogRef.close();
   }
-  changePwd() {
-    // this.router.navigate(['/profile']);
+  reloginChangePwd() {
+    this.router.navigate(['/profile']);
+    this.dialogRef.close();
+  }
+   changePwd() {
     this.dialogRef.close();
   }
 }

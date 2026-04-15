@@ -134,6 +134,7 @@
   pointer-events: none;
   /* 讓滑鼠可以穿過文字，不影響圖表 hover 效果 */
   // z-index: 0;
+  aspect-ratio: 1;
 }
 
 .total-label {

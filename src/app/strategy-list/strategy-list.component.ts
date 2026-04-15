@@ -10,6 +10,7 @@ import { DialogAddStrategyComponent } from '../@dialog/dialog-add-strategy/dialo
 import { AUTO_STYLE } from '@angular/animations';
 import { filter, take } from 'rxjs/operators';
 
+
 @Component({
   selector: 'app-strategy-list',
   imports: [
@@ -31,6 +32,7 @@ export class StrategyListComponent {
   role!: string;
   userId!:number;
   userName!:string;
+
 
   showModal: boolean = true;
   // 追蹤正在編輯的卡片 (可以用 index 或 symbol)
@@ -57,9 +59,11 @@ export class StrategyListComponent {
   //   currentBias: -3
   // }];
 
+
   ngOnInit(): void {
     this.loadData();
   }
+
 
   // 進入編輯模式
   startEdit(index: number) {
@@ -67,6 +71,7 @@ export class StrategyListComponent {
     //紀錄當前資料，以避免畫面被修改時，再按取消，不會復原。
     this.originalStrategyBackup = JSON.parse(JSON.stringify(this.strategies[index]));
   }
+
 
   // 儲存
   saveEdit(index: number) {
@@ -94,7 +99,9 @@ export class StrategyListComponent {
         alert("儲存失敗：" + (res.message || "未知錯誤"));
       }
 
+
     });
+
 
   }
   // 取消
@@ -107,9 +114,12 @@ export class StrategyListComponent {
     this.originalStrategyBackup = null;
   }
 
+
   //觸發dialog
   readonly dialog = inject(MatDialog);
   addStrategy(userId:number){
+
+
 
 
     let newStrategy:StrategySetting={
@@ -133,10 +143,13 @@ export class StrategyListComponent {
         this.loadData();
       }
 
+
     })
   }
 
+
   onDelete(index: number){
+
 
     this.httpClientService.delApi(`http://localhost:8080/api/strategy-set/${this.strategies[index].id}`)
     .subscribe((res:any) => {
@@ -146,9 +159,12 @@ export class StrategyListComponent {
         this.exampleService.reloadUserContext();
       }
 
+
     });
 
+
   }
+
 
   loadData(){
     console.log("LoadData...");
@@ -176,7 +192,9 @@ export class StrategyListComponent {
       });
     }
 
+
   }
+
 
   fetchStrategies(userId:number){
     console.log("Fetch Strategies...");
@@ -218,3 +236,5 @@ export class StrategyListComponent {
 
   }
 }
+
+

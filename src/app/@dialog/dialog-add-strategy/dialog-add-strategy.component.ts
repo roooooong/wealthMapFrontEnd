@@ -6,6 +6,7 @@ import { HttpClientService } from '../../@service/http-client.service';
 import { CommonModule } from '@angular/common';
 import { ExampleService } from '../../@service/example.service';
 
+
 @Component({
   selector: 'app-dialog-add-strategy',
   imports: [
@@ -54,17 +55,23 @@ export class DialogAddStrategyComponent {
           this.userHolding = res;
           console.log(this.userHolding);
 
+
         });
       }
     });
   }
 
 
+
+
   onStockChange(){
     const symbol = this.newStrategy.symbol;
     if (!symbol) return;
 
+
     this.isLoading = true; // 開啟讀取動畫
+
+
 
 
     this.httpClientService.getApi(`http://localhost:8080/api/strategy-set/quote/${symbol}`)
@@ -75,6 +82,7 @@ export class DialogAddStrategyComponent {
         this.currentPrice = res.data.currentPrice;
         this.currentBias = res.data.bias;
 
+
         // 如果你想預設一些門檻值，也可以在這裡做
         this.newStrategy.buyThreshold = -5; // 預設跌 5% 加碼
         this.newStrategy.sellThreshold = 10; // 預設漲 10% 減碼
@@ -83,25 +91,29 @@ export class DialogAddStrategyComponent {
       }
       this.isLoading = false;
 
+
     });
 
+
   }
+
 
   //取消新增問題
   cancel(){
     this.dialogRef.close();
   }
 
+
   //新增問題
   confirm(){
     this.alertSymbol="";
     this.alertBias="";
+
     if(!this.newStrategy.symbol){
       this.alertSymbol="請選擇欲設定加減碼門檻的項目。";
-
     }
     if(!this.newStrategy.buyThreshold && !this.newStrategy.sellThreshold){
-      this.alertBias="請設定加減碼門檻，數字不能為空。";
+      this.alertBias+="請設定加減碼門檻，數字不能為空。";
     }
     if(this.newStrategy.buyThreshold >= this.newStrategy.sellThreshold){
       this.alertBias+="加碼門檻應小於減碼門檻。";
@@ -125,7 +137,12 @@ export class DialogAddStrategyComponent {
         alert("儲存失敗：" + res.message);
       }
 
+
     });
+
+
+
+
 
 
 

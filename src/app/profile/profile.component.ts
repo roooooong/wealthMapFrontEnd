@@ -7,6 +7,7 @@ import { HttpClientService } from '../@service/http-client.service';
 import { HttpHeaders } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { InvalidComponent } from '../@dialog/invalid/invalid.component';
+import { ExampleService } from '../@service/example.service';
 
 @Component({
   template: `
@@ -23,14 +24,20 @@ import { InvalidComponent } from '../@dialog/invalid/invalid.component';
 })
 export class ProfileComponent {
 
-  email = "flower543@gmail.com";
   changePwd: boolean = false;
   oldPassword!: string;
   newPassword!: string;
   newPassword2!: string;
+
+  userId!: number;
+  userName!: string;
+  userEmail!: string;
+
   constructor(
-    private httpClientService: HttpClientService) {
+    private httpClientService: HttpClientService,
+    private exampleService: ExampleService) {
   }
+
 
   oldPasswordErrorMsg = '';
   newPasswordErrorMsg = '';
@@ -119,20 +126,31 @@ export class ProfileComponent {
       this.httpClientService.postApi(`http://localhost:8080/api/auth/change-password`, newpwd, { headers })
         .subscribe({
           next: (changePwd: any) => {
-          if (changePwd.code == 200) {
-            console.log(changePwd.data);
-            this.showDialog(5);
-            this.oldPassword = '';
-            this.newPassword = '';
-            this.newPassword2 = '';
-            this.changePwd = false;
-          }
-        },
+            if (changePwd.code == 200) {
+              console.log(changePwd.data);
+              this.showDialog(5);
+              this.oldPassword = '';
+              this.newPassword = '';
+              this.newPassword2 = '';
+              this.changePwd = false;
+            }
+          },
           error: (err: any) => {
             this.showDialog(6);
           }
         })
     }
+  }
+
+  ngOnInit(): void {
+
+    this.exampleService.user$.subscribe(user => {
+      if (user && user.role !== 'visitor') {
+        this.userId = user.id;
+        this.userName = user.name;
+        this.userEmail = user.email;
+      }
+    });
   }
 
 }
