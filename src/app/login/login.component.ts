@@ -200,8 +200,6 @@ export class LoginComponent {
             this.exampleService.user$.subscribe(newUser => {
               this.role = newUser.role;
               console.log(this.role);
-
-
             });
             this.showDialog(4);
           }

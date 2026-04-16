@@ -134,22 +134,6 @@
   pointer-events: none;
   /* 讓滑鼠可以穿過文字，不影響圖表 hover 效果 */
   // z-index: 0;
-  aspect-ratio: 1;
-}
-
-.total-label {
-  display: block;
-  font-size: 14px;
-  color: #666;
-  z-index: -1;
-}
-
-.total-amount {
-  display: block;
-  font-size: 20px;
-  font-weight: bold;
-  color: #333;
-  z-index: -1;
 }
 
 .personal-carousel {
@@ -629,7 +613,7 @@
 }
 
 .news-tag{
-// background-color: #f26a4f;
+// background-color: #4091c9;
   background: linear-gradient(45deg, #1368aa, #4091c9);
 
   color:white;

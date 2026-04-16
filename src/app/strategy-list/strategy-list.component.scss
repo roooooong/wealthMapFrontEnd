@@ -306,3 +306,46 @@ input:checked + .slider {
   transform: translateX(14px);
 }
 /* 自定義 Switch 開關 :end*/
+
+h1{
+  // margin-left:50px;
+  color: #000000;
+  letter-spacing:5px;
+  font-size: 32px;
+  // position: absolute;
+  margin-left: 130px;
+}
+
+.instructions {
+  width: 250px;
+  height: 300px;
+  margin-left: 20px;
+  margin-right: 20px;
+  background-color: rgb(255, 255, 255);
+  box-shadow: 0 10px 20px rgba(64, 145, 201, 0.2);
+  border-radius: 10px;
+  padding:20px;
+  cursor: pointer;
+}
+
+.instructions:hover {
+  transform: translateY(-2px);
+  transition: all 0.5s ease;/* 讓動作變平滑 */
+  cursor: pointer;
+}
+
+button{
+  background-color: #9dcee2;
+  color: #ffffff;
+  width: 80px;
+  height: 30px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button:hover{
+  background-color: #f29479;
+  color: white;
+}

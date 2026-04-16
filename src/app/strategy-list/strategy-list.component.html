@@ -1,86 +1,141 @@
+@if( role=='visitor' ){
+<h1>加減碼策略</h1>
+<div class="info-banner">
+
+<div class="info-header">
+    <!-- <img src="/info.png" style="width: 20px; vertical-align: middle;">&nbsp; -->
+    <img style="width: 20px; vertical-align: middle;">&nbsp;
+
+    <strong>「加減碼」是一種動態的投資策略，是根據市場行情高低來調整扣款金額的方式。</strong>
+  </div>
+  <div class="info-content">
+    <ul>
+      <li>
+        <strong>加碼 :</strong>
+        當股市下跌、基金淨值下跌時，就增加扣款金額來使平均持有成本降低，累積在低點的更多單位數。
+      </li>
+      <li>
+        <strong>減碼 :</strong>
+        當股市上漲、基金淨值上漲時，就減少扣款金額來減少買進，降低風險。
+      </li>
+    </ul>
+  </div>
+  </div>
+<!-- 置中 -->
+<div class="frameCss" >
+  <!-- 橫向排列 -->
+  <div style="display: flex;">
+    <div class="instructions">
+      <div class="frameCss" >
+<div class="iconbtn ">
+      <img style="width: 250px;height: 200px;border-radius: 20px;" src="加減碼-1.png">
+      <br><br>
+      <div  style="width: 250px;">
+      <label style="font-size: 16px;">在我的資產存取持有股票後，即可使用加減碼功能</label>
+      </div>
+</div>
+    </div>
+    </div>
+    <div class="instructions">
+
+    </div>
+    <div class="instructions">
+
+    </div>
+
+  </div>
+</div>
+<br>
+<div class="frameCss" style="margin-top: 20px;">
+  <button>去註冊</button>
+</div>
+}
+@else{
 <!-- 置中 -->
 <!-- <div class="frameCss"> -->
-  <div class="info-banner">
-    <div class="info-header">
-      <!-- <img src="/info.png" style="width: 20px; vertical-align: middle;">&nbsp; -->
-      <img  style="width: 20px; vertical-align: middle;">&nbsp;
+<div class="info-banner">
+  <div class="info-header">
+    <!-- <img src="/info.png" style="width: 20px; vertical-align: middle;">&nbsp; -->
+    <img style="width: 20px; vertical-align: middle;">&nbsp;
 
-      <strong>計算說明</strong>
+    <strong>計算說明</strong>
+  </div>
+  <div class="info-content">
+    <ul>
+      <li>
+        <strong>乖離率 (Bias) :</strong>
+        計算公式為 <code>(現價 - MA20) / MA20 * 100%</code>。
+        當數值為正表示股價高於均線，為負則表示低於均線。
+      </li>
+      <li>
+        <strong>收盤價更新時間 :</strong>
+        系統每日於 台股收盤後 (約 14:00 - 15:00) 自動透過 FinMind 抓取最新股價並更新乖離率。
+      </li>
+    </ul>
+  </div>
+</div>
+
+
+<div class="container-grid">
+  @for (strategy of strategies; track $index) {
+  <div class="card item-card">
+
+
+    <div class="card-top">
+      @if (editingId !== $index) {
+      <div class="left-side">
+        <span class="stock-tag">{{ strategy.symbol }}</span>
+        @if (!strategy.isActive) { <span
+          style="font-size: 12px; color: darkgray; border-radius: 10px; background-color: lightgray;">暫停中</span> }
+        @else{ <span
+          style="font-size: 12px; color: green; border-radius: 10px; background-color: lightgreen;">已啟動</span>}
+      </div>
+      <div class="edit-actions">
+        <img src="/edit.png" (click)="startEdit($index)" class="edit-delete-btn">&nbsp;
+        <img src="/delete.png" (click)="onDelete($index)" class="edit-delete-btn">
+      </div>
+      } @else {
+      <div class="left-side">
+        <span class="stock-tag">{{ strategy.symbol }}</span>
+        <!-- switch button -->
+        <div class="status-toggle-container">
+          <label class="switch tiny">
+            <input type="checkbox" [(ngModel)]="strategy.isActive">
+            <span class="slider"></span>
+          </label>
+          <span class="status-label">{{ strategy.isActive ? '啟動' : '關閉' }}</span>
+        </div>
+      </div>
+      <div class="edit-actions">
+        <img src="/check.png" (click)="saveEdit($index)" class="confirm-btn">&nbsp;
+        <img src="/close.png" (click)="cancelEdit()" class="cancel-btn">
+      </div>
+      }
     </div>
-    <div class="info-content">
-      <ul>
-        <li>
-          <strong>乖離率 (Bias) :</strong>
-          計算公式為 <code>(現價 - MA20) / MA20 * 100%</code>。
-          當數值為正表示股價高於均線，為負則表示低於均線。
-        </li>
-        <li>
-          <strong>收盤價更新時間 :</strong>
-          系統每日於 台股收盤後 (約 14:00 - 15:00) 自動透過 FinMind 抓取最新股價並更新乖離率。
-        </li>
-      </ul>
+
+
+    <div class="card-container">
+      <label>系統最新價格<span class="info-tooltip" title="最新更新時間:"
+          +{{}}>i</span>&nbsp;:&nbsp;{{strategy.currentPrice}}</label>
+      <span>
+        <label>當前乖離率<span class="info-tooltip"
+            title="計算方式：(現價 - 20日均線) / 20日均線">?</span>&nbsp;:&nbsp;</label>&nbsp;&nbsp;
+        <label class="bias-alert" [class.danger]="(strategy.currentBias ?? 0) < -2">
+          {{ (strategy.currentBias ?? 0) > 0 ? '+' : '' }}
+          {{strategy.currentBias| number:'1.2-2'}}
+        </label>&nbsp;&nbsp;%
+      </span>
+      <div class="input-group">
+        <label>加碼門檻 :</label>&nbsp;&nbsp;
+        <input type="number" [(ngModel)]="strategy.buyThreshold" [disabled]="editingId !== $index">%
+      </div>
+      <div class="input-group">
+        <label>減碼門檻 :</label>&nbsp;&nbsp;
+        <input type="number" [(ngModel)]="strategy.sellThreshold" [disabled]="editingId !== $index">%
+      </div>
+      <!-- </div> -->
     </div>
   </div>
-
-
-  <div class="container-grid">
-    @for (strategy of strategies; track $index) {
-    <div class="card item-card">
-
-
-      <div class="card-top">
-        @if (editingId !== $index) {
-        <div class="left-side">
-          <span class="stock-tag">{{ strategy.symbol }}</span>
-          @if (!strategy.isActive) { <span style="font-size: 12px; color: darkgray; border-radius: 10px; background-color: lightgray;">暫停中</span> }
-          @else{ <span style="font-size: 12px; color: green; border-radius: 10px; background-color: lightgreen;">已啟動</span>}
-        </div>
-        <div class="edit-actions">
-          <img src="/edit.png" (click)="startEdit($index)" class="edit-delete-btn">&nbsp;
-          <img src="/delete.png" (click)="onDelete($index)" class="edit-delete-btn">
-        </div>
-        } @else {
-          <div class="left-side">
-            <span class="stock-tag">{{ strategy.symbol }}</span>
-            <!-- switch button -->
-            <div class="status-toggle-container">
-              <label class="switch tiny">
-                <input type="checkbox" [(ngModel)]="strategy.isActive">
-                <span class="slider"></span>
-              </label>
-              <span class="status-label">{{ strategy.isActive ? '啟動' : '關閉' }}</span>
-            </div>
-          </div>
-          <div class="edit-actions">
-            <img src="/check.png" (click)="saveEdit($index)" class="confirm-btn">&nbsp;
-            <img src="/close.png" (click)="cancelEdit()" class="cancel-btn">
-          </div>
-        }
-      </div>
-
-
-      <div class="card-container">
-          <label>系統最新價格<span class="info-tooltip" title="最新更新時間:"+{{}}>i</span>&nbsp;:&nbsp;{{strategy.currentPrice}}</label>
-          <span>
-            <label>當前乖離率<span class="info-tooltip" title="計算方式：(現價 - 20日均線) / 20日均線">?</span>&nbsp;:&nbsp;</label>&nbsp;&nbsp;
-            <label class="bias-alert" [class.danger]="(strategy.currentBias ?? 0) < -2">
-              {{ (strategy.currentBias ?? 0) > 0 ? '+' : '' }}
-              {{strategy.currentBias| number:'1.2-2'}}
-            </label>&nbsp;&nbsp;%
-          </span>
-          <div class="input-group">
-            <label>加碼門檻 :</label>&nbsp;&nbsp;
-            <input type="number" [(ngModel)]="strategy.buyThreshold"
-                   [disabled]="editingId !== $index">%
-          </div>
-          <div class="input-group">
-            <label>減碼門檻 :</label>&nbsp;&nbsp;
-            <input type="number" [(ngModel)]="strategy.sellThreshold"
-                   [disabled]="editingId !== $index">%
-          </div>
-        <!-- </div> -->
-      </div>
-    </div>
   }
 
 
@@ -92,10 +147,9 @@
   </div>
 
 
-  </div>
+</div>
 
 
 <!-- </div> -->
 <br><br>
-
-
+}

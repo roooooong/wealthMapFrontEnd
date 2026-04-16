@@ -1,6 +1,7 @@
-import { Component,signal } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { StrategyListComponent } from '../strategy-list/strategy-list.component';
 import { ExampleService } from '../@service/example.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-investment-manage',
@@ -10,15 +11,21 @@ import { ExampleService } from '../@service/example.service';
 })
 export class InvestmentManageComponent {
   constructor(
+    private router: Router,
     private exampleService: ExampleService
-  ) {}
+  ) { }
   // 定義目前的頁籤狀態，預設為 'rebalance'
   currentTab = signal<'rebalance' | 'strategy' | 'engine'>('strategy');
 
   // 三種身分 visitor;user;admin
-  role!: string ;
-  userId!:number;
-  userName!:string;
+  role!: string;
+  userId!: number;
+  userName!: string;
+
+  //去註冊
+  goRegister() {
+    this.router.navigate(['/register']);
+  }
 
   // 切換頁籤的方法
   switchTab(tab: 'rebalance' | 'strategy' | 'engine') {
