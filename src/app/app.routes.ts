@@ -1,3 +1,4 @@
+import { RiskGuard } from './guards/risk.guard';
 import { Routes } from '@angular/router';
 import { MainComponent } from './main/main.component';
 import { AdminMainComponent } from './admin-main/admin-main.component';
@@ -27,7 +28,6 @@ export const routes: Routes = [
 
   //全開放
   { path: "main", component: MainComponent },
-  { path: "risk-cover", component: RiskCoverComponent },
   { path: "risk-test", component: RiskTestComponent },
   { path: "risk-result", component: RiskResultComponent },
   { path: 'login', component: LoginComponent },
@@ -99,6 +99,12 @@ export const routes: Routes = [
     component: AssetOverviewComponent,
     canActivate: [authGuard],
     data: { roles: ['ADMIN', 'USER'] } // 限制只有登入的人能看
+  },
+
+  {
+    path: 'risk-cover',
+    component: RiskCoverComponent,
+    canActivate: [RiskGuard]
   },
 
   {

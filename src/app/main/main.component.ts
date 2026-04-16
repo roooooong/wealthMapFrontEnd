@@ -115,7 +115,7 @@ export class MainComponent {
   }
 
   goToRiskTest() {
-    this.router.navigate(['/risk-test']);
+    this.router.navigate(['/risk-cover']);
   }
 
   goToAssets() {
@@ -138,10 +138,10 @@ export class MainComponent {
     const notice = document.getElementById('notification');
     notice?.remove();
   }
-  health(){
+  health() {
     this.router.navigate(['/health']);
   }
-  strategy(){
+  strategy() {
     this.router.navigate(['/strategy']);
   }
 

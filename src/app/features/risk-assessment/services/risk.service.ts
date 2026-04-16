@@ -15,4 +15,7 @@ export class RiskService {
     evaluateRisk(requestData: RiskAssessmentRequest): Observable<any> {
         return this.http.post<any>(`${this.apiUrl}/evaluate`, requestData);
     }
+    checkHasTested(userId: number): Observable<any> {
+        return this.http.get<any>(`${this.apiUrl}/user/${userId}`);
+    }
 }
