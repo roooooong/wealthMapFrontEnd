@@ -23,12 +23,21 @@
   <div class="chart-container">
     <canvas id="chart"></canvas>
     <div class="chart-center-text">
-      <!-- <span class="total-label">總資產</span>
-      <span class="total-amount">$10,000</span> -->
     </div>
   </div>
 </div>
 }
+
+@if(role=="visitor"){
+<div class="frameCss" style="margin-top: 70px;">
+  <label style="font-size: 36px;color:#4091c9;font-weight: bold;letter-spacing: 0.05em;">WealthMap 個人財務與資產配置平台</label>
+</div>
+<div class="frameCss">
+  <p style="color:#666;letter-spacing: 0.05em;">全方位的資產配置、多元的投資策略，陪你在理財的路上，讓資產隨市場穩健進化</p>
+</div>
+}
+<br><br>
+
 <br>
 <div class="frameCss">
 
@@ -40,12 +49,12 @@
       <label style="font-size: 16px;">我的資產</label>
     </button>
     }
-    <button class="iconbtn"(click)="health()">
+    <button class="iconbtn" (click)="health()">
       <img style="width: 90px;height: 90px;" src="9274 (3).png">
       <br><br>
       <label style="font-size: 16px;">財務健康</label>
     </button>
-    <button class="iconbtn"(click)="investmentManage()">
+    <button class="iconbtn" (click)="investmentManage()">
       <img style="width: 120px;height: 70px;" src="9289 (1).png">
       <br><br>
       <label style="font-size: 16px;">投資策略</label>
@@ -80,6 +89,8 @@
 
 <div class="frameCss">
   <div style="font-size: 28px;font-weight: bold;">相關新聞</div>
+  <!-- <div style="font-size:24px;color:#1368aa;font-weight: bold;letter-spacing: 0.05em;">相關新聞</div> -->
+
 </div>
 <div class="frameCss">
   <hr style="width: 10%; border: none; height: 1px; background-color: #9dcee2; ">

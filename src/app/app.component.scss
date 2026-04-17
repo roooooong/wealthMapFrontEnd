@@ -53,6 +53,11 @@ html, body {
 //   width: 100%;
 //   color:white;
 // }
+/* 💡 讓所有直接由 router-outlet 生成的子元件都能維持 100% 寬度與區塊屬性，避免切換頁面時內容會閃爍偏左再來置中 */
+.main-content > :not(router-outlet) {
+  display: block;
+  width: 100%;
+}
 .footerCss {
   position: relative;
   width: 100%;
