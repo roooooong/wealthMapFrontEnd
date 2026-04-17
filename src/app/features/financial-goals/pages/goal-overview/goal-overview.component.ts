@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule, CurrencyPipe } from '@angular/common'; // 💡 引入常用模組與金錢格式
 import { FormsModule } from '@angular/forms'; // 💡 引入表單模組
+import { ExampleService } from '../../../../@service/example.service';
 
 @Component({
   selector: 'app-goal-overview',
@@ -12,6 +13,8 @@ import { FormsModule } from '@angular/forms'; // 💡 引入表單模組
   providers: [CurrencyPipe]
 })
 export class GoalOverviewComponent implements OnInit {
+
+  role!: string;
 
   // 💡 為了開發方便，我們先強制登入！
   isLoggedIn: boolean = true;
@@ -29,9 +32,22 @@ export class GoalOverviewComponent implements OnInit {
     { id: 1, name: '日本東京之旅', targetAmount: 50000, targetDate: '2024-12-31' }
   ];
 
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router,
+    private exampleService: ExampleService
+  ) { }
 
-  ngOnInit(): void { }
+  goRegister() {
+    this.router.navigate(['/register']);
+  }
+
+  ngOnInit(): void {
+    this.exampleService.user$.subscribe(user => {
+      this.role = user.role; // 當角色改變，這裡會自動觸發
+      // this.userId = user.id;
+      // this.userName = user.name;
+    });
+  }
 
   backToHome(): void {
     this.router.navigate(['/main']);

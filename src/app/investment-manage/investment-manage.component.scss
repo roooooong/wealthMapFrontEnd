@@ -13,7 +13,16 @@
   color: white;
   font-size: 32px;
 }
-
+.title{
+  font-size: 36px;
+  color:#4091c9;
+  font-weight: bold;
+  letter-spacing: 0.05em
+}
+.illustrate{
+  color:#666;
+  letter-spacing: 0.05em
+}
 .headerText{
   position: absolute;
   right:40px;
@@ -167,7 +176,6 @@ h1{
     cursor: pointer;
     transition: all 0.3s ease;
   font-size: 16px;
-
 }
 .registerbtn:hover{
   // background: linear-gradient(135deg, #4091c9 0%, #9dcee2 100%);

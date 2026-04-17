@@ -271,3 +271,36 @@
         }
     }
 }
+
+.frameCss{
+  display: flex;
+  justify-content: center;
+}
+.title{
+  font-size: 36px
+  ;color:#4091c9;
+  font-weight: bold;
+  letter-spacing: 0.05em
+}
+.illustrate{
+  color:#666;
+  letter-spacing: 0.05em
+}
+
+.registerbtn {
+    background: linear-gradient(135deg, #9dcee2 0%, #4091c9 100%);
+    color: white;
+    font-weight: 600;
+    padding: 16px 40px;
+    border-radius: 50px; /* 圓角膠囊型 */
+    border: none;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  font-size: 16px;
+}
+.registerbtn:hover{
+  // background: linear-gradient(135deg, #4091c9 0%, #9dcee2 100%);
+  color: white;
+  transform: translateY(-2px); /* 輕微浮起 */
+}

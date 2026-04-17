@@ -33,6 +33,10 @@ export class RegisterComponent {
     private exampleService: ExampleService) {
   }
 
+  goHome(){
+    this.router.navigate(['/main']);
+  }
+
   togglePassword() {
     this.showPassword = !this.showPassword;
   }

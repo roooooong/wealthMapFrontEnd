@@ -8,13 +8,26 @@
     // font-family: "微軟正黑體", sans-serif;
 }
 
-.title {
-    text-align: center;
-    color: #2c3e50;
-    margin-bottom: 10px;
-    font-size: 28px;
+// .title {
+//     text-align: center;
+//     color: #2c3e50;
+//     margin-bottom: 10px;
+//     font-size: 28px;
+// }
+.frameCss{
+  display: flex;
+  justify-content: center;
 }
-
+.title{
+  font-size: 36px
+  ;color:#4091c9;
+  font-weight: bold;
+  letter-spacing: 0.05em
+}
+.illustrate{
+  color:#666;
+  letter-spacing: 0.05em
+}
 .subtitle {
     text-align: center;
     color: #7f8c8d;

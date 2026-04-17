@@ -110,6 +110,11 @@ export class ProfileComponent {
   }
 
   ChangePwd() {
+    // 1. 執行驗證並取得結果
+    this.validate('oldPassword');
+    this.validate('newPassword');
+    this.validate('newPassword2');
+
     // 1. 從 localStorage 拿到登入時存下來的 Token
     const token = localStorage.getItem('token');
 
@@ -136,7 +141,9 @@ export class ProfileComponent {
             }
           },
           error: (err: any) => {
-            this.showDialog(6);
+            if (this.oldPasswordErrorMsg == '' && this.newPasswordErrorMsg == '' && this.newPassword2ErrorMsg == '') {
+              this.showDialog(6);
+            }
           }
         })
     }

@@ -1,4 +1,19 @@
-<div class="goal-container">
+@if( role=='visitor' ){
+  <div class="frameCss" style="margin-top: 70px;">
+  <label class="title">財務目標</label>
+</div>
+<div class="frameCss" style="margin-bottom: 50px;">
+  <p class="illustrate" >賦予資金明確的任務！設定目標日期與金額，系統將自動追蹤完成率，助您在既定時間內精準達標。</p>
+</div>
+
+<br><br>
+<div class="frameCss" style="margin-top: 20px;">
+  <button class="registerbtn" (click)="goRegister()">註冊，開始使用「 WealthMap 個人資產與財務配置平台! 」</button>
+</div>
+<br><br><br>
+}
+@else{
+  <div class="goal-container">
 
     <div class="top-nav-bar">
         <button class="back-btn" (click)="backToHome()">
@@ -73,3 +88,4 @@
     }
 
 </div>
+}

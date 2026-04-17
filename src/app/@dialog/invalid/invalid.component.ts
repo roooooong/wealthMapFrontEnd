@@ -35,4 +35,7 @@ export class InvalidComponent {
    changePwd() {
     this.dialogRef.close();
   }
+   error() {
+    this.dialogRef.close();
+  }
 }

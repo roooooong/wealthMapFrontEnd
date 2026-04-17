@@ -17,9 +17,18 @@ export class AppComponent {
   // 三種身分 visitor;user;admin
   // role!:string ;
   role = 'visitor';
+  showHeader = false;
   constructor(
     private router: Router,
-    private exampleService: ExampleService,) { }
+    private exampleService: ExampleService,) {
+      this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe((event: any) => {
+      // 設定你不想要顯示 Header 的路徑 (例如 /login)
+      const hideHeaderRoutes = ['/login', '/register'];
+      this.showHeader = !hideHeaderRoutes.includes(event.urlAfterRedirects);
+    });
+     }
 
   login() {
     this.router.navigate(['/login']);
