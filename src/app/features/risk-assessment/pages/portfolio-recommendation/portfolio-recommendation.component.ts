@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule, Location } from '@angular/common';
+import { RiskService } from '../../services/risk.service'; // 🌟 引入你的 Service
 
 @Component({
   selector: 'app-portfolio-recommendation',
@@ -11,40 +12,15 @@ import { CommonModule, Location } from '@angular/common';
 })
 export class PortfolioRecommendationComponent implements OnInit {
 
-  userLevel: string = '平衡型'; // 預設值
+  userLevel: string = '';
   recommendedList: any[] = [];
+  isLoading: boolean = true;
 
-  // 💡 預先寫好的 5 套推薦菜單 (Mock Data，業界真實標準組合)
-  private portfolioDatabase: any = {
-    '保守型': [
-      { ticker: '00679B', name: '元大美債20年 ETF', type: '固定收益', allocation: 75, reason: '極低風險，穩定配息' },
-      { ticker: '0050', name: '元大台灣50 ETF', type: '權益型資產', allocation: 15, reason: '參與大盤基本成長' },
-      { ticker: 'GLD', name: 'SPDR黃金 ETF', type: '另類投資', allocation: 10, reason: '抗通膨與避險' }
-    ],
-    '穩健型': [
-      { ticker: 'BND', name: 'Vanguard 總體債券 ETF', type: '固定收益', allocation: 55, reason: '全球債券分散風險' },
-      { ticker: 'VT', name: 'Vanguard 全世界股票 ETF', type: '權益型資產', allocation: 35, reason: '捕捉全球股市成長' },
-      { ticker: 'VNQ', name: 'Vanguard 房地產 ETF', type: '另類投資', allocation: 10, reason: '穩定收租抗通膨' }
-    ],
-    '平衡型': [
-      { ticker: 'VT', name: 'Vanguard 全世界股票 ETF', type: '權益型資產', allocation: 50, reason: '全球股票核心配置' },
-      { ticker: 'BND', name: 'Vanguard 總體債券 ETF', type: '固定收益', allocation: 35, reason: '提供資產保護傘' },
-      { ticker: 'GLD', name: 'SPDR黃金 ETF', type: '另類投資', allocation: 15, reason: '平衡市場波動' }
-    ],
-    '積極型': [
-      { ticker: 'VOO', name: 'Vanguard 標普500 ETF', type: '權益型資產', allocation: 70, reason: '跟隨美國最強企業成長' },
-      { ticker: 'TLT', name: 'iShares 20年期以上美債', type: '固定收益', allocation: 15, reason: '對沖股市下行風險' },
-      { ticker: 'QQQ', name: 'Invesco 納斯達克100', type: '另類投資', allocation: 15, reason: '重倉科技股獲取超額報酬' }
-    ],
-    '衝刺型': [
-      { ticker: 'QQQ', name: 'Invesco 納斯達克100', type: '權益型資產', allocation: 85, reason: '全押注高成長科技巨頭' },
-      { ticker: 'TLT', name: 'iShares 20年期以上美債', type: '固定收益', allocation: 5, reason: '微幅保留流動資金' },
-      { ticker: 'ARKK', name: '方舟創新 ETF', type: '另類投資', allocation: 10, reason: '追求破壞式創新極高報酬' }
-    ]
-  };
-
-  constructor(private router: Router, private location: Location) {
-    // 接收從風險結果頁傳來的「風險等級」
+  constructor(
+    private router: Router,
+    private location: Location,
+    private riskService: RiskService // 🌟 注入 Service
+  ) {
     const navigation = this.router.getCurrentNavigation();
     if (navigation?.extras.state && navigation.extras.state['level']) {
       this.userLevel = navigation.extras.state['level'];
@@ -52,20 +28,36 @@ export class PortfolioRecommendationComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // 根據使用者的等級，從資料庫(Mock)拉出對應的菜單
-    this.recommendedList = this.portfolioDatabase[this.userLevel] || this.portfolioDatabase['平衡型'];
+    const userId = 1; // 💡 測試用 ID
+
+    // 🌟 呼叫後端 API 取得專屬推薦
+    this.riskService.getRecommendations(userId).subscribe({
+      next: (res) => {
+        // 這裡的 res 包含 riskLevel 和 recommendations 陣列
+        // 我們要把後端的欄位名稱 (symbol, description) 對應到 HTML 的 (ticker, reason)
+        this.recommendedList = res.recommendations.map((item: any) => ({
+          ticker: item.symbol,        // 後端 symbol -> 前端 ticker
+          name: item.name,
+          type: item.type,
+          allocation: this.calculateAlloc(res.riskLevel, item.type), // 💡 建議佔比可由後端帶或前端算
+          reason: item.description    // 後端 description -> 前端 reason
+        }));
+        this.isLoading = false;
+      },
+      error: (err) => {
+        console.error('獲取推薦組合失敗', err);
+        this.isLoading = false;
+      }
+    });
   }
 
-  // 按鈕功能：未來接上資產頁面
-  goToAssets() {
-    this.router.navigate(['/assets']);
+  // 💡 輔助方法：根據風險等級與資產類型，簡單分配佔比 (如果後端沒給的話)
+  private calculateAlloc(level: string, type: string): number {
+    if (level === 'AGGRESSIVE') return type === '股票' ? 45 : 10;
+    return 33; // 預設平均分配
   }
 
-  // 按鈕功能：回首頁
-  backToHome() {
-    this.router.navigate(['/main']);
-  }
-  backToResult() {
-    this.location.back();
-  }
+  goToAssets() { this.router.navigate(['/assets']); }
+  backToHome() { this.router.navigate(['/main']); }
+  backToResult() { this.location.back(); }
 }
