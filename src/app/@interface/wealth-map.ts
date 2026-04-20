@@ -7,15 +7,16 @@ export interface UserHolding {
 }
 
 export interface StrategySetting {
-  id?: number;
-  symbol: string;
-  buyThreshold: number;
-  sellThreshold: number;
-  isActive: boolean;
+  id?: number,
+  symbol: string,
+  buyThreshold: number,
+  sellThreshold: number,
+  isActive: boolean,
   // 以下為前端暫存顯示用
-  currentPrice?: number;
-  lastClosePrice?: number;
-  currentBias?: number;
+  currentPrice?: number,
+  lastClosePrice?: number,
+  currentBias?: number,
+  date?:string
 }
 
 export interface LoginResponseDTO{

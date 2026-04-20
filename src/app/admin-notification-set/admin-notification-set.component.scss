@@ -8,31 +8,31 @@
   // // gap: 10px;
 }
 
-.headerCss{
-  position: relative;
-  width: 100%;
-  height:60px;
-  // border-radius: 10px;
- background: linear-gradient(45deg, #9dcee2, #4091c9);
-}
+// .headerCss{
+//   position: relative;
+//   width: 100%;
+//   height:60px;
+//   // border-radius: 10px;
+//  background: linear-gradient(45deg, #9dcee2, #4091c9);
+// }
 
-.logo{
-  position: absolute;
-  left:40px;
-  bottom:10px;
-  font-size: 16px;
-  color: white;
-  font-size: 32px;
-}
+// .logo{
+//   position: absolute;
+//   left:40px;
+//   bottom:10px;
+//   font-size: 16px;
+//   color: white;
+//   font-size: 32px;
+// }
 
-h1{
-  // margin-left:50px;
-  color: #000000;
-  letter-spacing:5px;
-  font-size: 42px;
-  position: absolute;
-  margin-left: 120px;
-}
+// h1{
+//   // margin-left:50px;
+//   color: #000000;
+//   letter-spacing:5px;
+//   font-size: 42px;
+//   position: absolute;
+//   margin-left: 120px;
+// }
 h2{
   // margin-left:50px;
   color: #000000;
@@ -42,46 +42,14 @@ h2{
   margin-left: 120px;
 }
 
-.loginText{
-  position: absolute;
-  right:40px;
-  bottom:10px;
-  font-size: 16px;
-  letter-spacing: 2px;
-  color: white;
-}
-
-.headerbtn{
-  position: absolute;
-  height: 60px;
-  // bottom:15px;
-  color:#ddf4fd;
-  font-size: 18px;
-  background-color: transparent;
-  border: none;
-  border-bottom: 3px solid transparent;
-  cursor: pointer;
-  transition: border-color 0.3s ease;
-}
-
-.headerbtn:hover{
-  position: absolute;
-  height: 60px;
-  color:#ffffff;
-  font-size: 18px;
-  background-color: transparent;
-  cursor: pointer;
-  border-bottom:3px solid #1368aa ;
-}
-.nowheaderbtn{
-  position: absolute;
-  border: none; height: 60px;
-  color:#ffffff;
-  font-size: 19px;
-  background-color: transparent;
-  cursor: pointer;
-  border-bottom:3px solid #1368aa ;
-}
+// .loginText{
+//   position: absolute;
+//   right:40px;
+//   bottom:10px;
+//   font-size: 16px;
+//   letter-spacing: 2px;
+//   color: white;
+// }
 
 .notification-tag{
   background-color: #4091c9;
@@ -211,9 +179,9 @@ border: none;
 }
 
 img{
-position: absolute;
-left: 350px;
-margin-top: 35px;
+// position: absolute;
+// left: 350px;
+// margin-top: 35px;
 width: 30px;
 height: 30px;
 cursor: pointer;
@@ -230,3 +198,72 @@ hr{
   background-color: #9dcee2;
 }
 
+.titleCss{
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  width: 80%;
+  margin: 0 auto;
+}
+
+.titleFontPage1{
+  font-size: 42px;
+  font-weight: bold;
+  letter-spacing:5px;
+  // margin-left: 120px;
+}
+
+// 分頁控制項
+
+.pagination-div{
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  width: 80%;
+  margin: 0 auto;
+}
+
+.pagination-controls {
+  padding: 5px;
+  border-radius: 8px;
+  gap: 10px;
+}
+
+.pagination-controls span{
+  font-size: 16px;
+  font-weight: bold;
+  color: #4091c9;
+}
+
+.pagination-select{
+  padding: 5px;
+  border-radius: 4px;
+  border: 1px solid #4091c9;
+}
+
+.pagination-controls button {
+  background-color: white;
+  border: 1px solid #4091c9;
+  color: #4091c9;
+  padding: 3px 5px;
+  border-radius: 70px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.pagination-controls button:hover:not(:disabled){
+  background: #4091c9;
+  color: white;
+}
+
+.pagination-controls button:disabled {
+  border-color: #ccc;
+  color: #ccc;
+  cursor: not-allowed;
+}
+
+.pagination-btns{
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}

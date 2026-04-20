@@ -23,20 +23,34 @@ import { AssetOverviewComponent } from './features/assets/pages/asset-overview/a
 import { HealthComponent } from './health/health.component';
 import { MonteComponent } from './monte/monte.component';
 import { GoalOverviewComponent } from './features/financial-goals/pages/goal-overview/goal-overview.component';
+import { SseDemoComponent } from './sse-demo/sse-demo.component';
 
 export const routes: Routes = [
 
-  //全開放
+  //全開放頁面
   { path: "main", component: MainComponent },
   { path: "risk-test", component: RiskTestComponent },
   { path: "risk-result", component: RiskResultComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'notification', component: NotificationComponent },
-  { path: 'notification/:pageId', component: NotificationComponent },
   { path: "information", component: AdminInformationSetComponent },
   { path: "service", component: AdminServiceSetComponent },
   { path: "privacy", component: AdminPrivacySetComponent },
+  //通知頁面
+  { path: 'system-notification', component: NotificationComponent },
+  { path: 'system-notification/:pageId', component: NotificationComponent },
+   // 風險評估系列
+  { path: 'risk-cover', component: RiskCoverComponent },
+  { path: 'risk-test', component: RiskTestComponent },
+  { path: 'risk-result', component: RiskResultComponent },
+  //有訪客頁面的
+  { path: 'investment-manage', component: InvestmentManageComponent },
+  { path: 'goals', component: GoalOverviewComponent },
+  { path: 'health', component: HealthComponent },
+
+
+
+
 
   //僅對ADMIN開放
   {
@@ -53,13 +67,13 @@ export const routes: Routes = [
   //對ADMIN、USER開放
   {
     path: 'personal-notification',
-    component: PersonalNotificationComponent,
+    component: NotificationComponent,
     canActivate: [authGuard],
     data: { roles: ['ADMIN', 'USER'] }
   },
   {
     path: 'personal-notification/:pageId',
-    component: PersonalNotificationComponent,
+    component: NotificationComponent,
     canActivate: [authGuard],
     data: { roles: ['ADMIN', 'USER'] }
   },
@@ -107,41 +121,9 @@ export const routes: Routes = [
     canActivate: [RiskGuard]
   },
 
-  {
-    path: 'goals',
-    component: GoalOverviewComponent,
-    //canActivate: [authGuard],
-    //data: { roles: ['ADMIN', 'USER'] }
-  },
+
+  // { path: 'forgot', component: ForgotComponent },
 
   // 萬用路由（必須放在陣列的最下方）
   { path: '**', redirectTo: 'main', pathMatch: 'full' }
-
-
-  // {path:"main", component:MainComponent},
-  // { path: "admin-main", component: AdminMainComponent},
-  // { path: "admin-information-set", component: AdminInformationSetComponent},
-  // { path: "admin-notification-set", component: AdminNotificationSetComponent},
-  // { path: "admin-notification-set/:pageId", component: AdminNotificationSetComponent},
-  // { path: "admin-service-set", component: AdminServiceSetComponent},
-  // { path: "admin-privacy-set", component: AdminPrivacySetComponent},
-  // { path:'admin-news', component: AdminNewsComponent},
-  // { path: "risk-cover", component: RiskCoverComponent },
-  // { path: "risk-test", component: RiskTestComponent },
-  // { path: "risk-result", component: RiskResultComponent },
-  // // path如果是** 是用來設定錯誤畫面的 component也是設定要呈現甚麼內容
-  // // 要記得如果要設定錯誤畫面要放在路由的最底下
-  // // { path: "**", component: PageNotFoundComponent}
-  // { path:'login', component: LoginComponent},
-  // { path:'register', component: RegisterComponent},
-  // { path:'header', component: HeaderComponent},
-  // { path:'notification', component: NotificationComponent},
-  // { path:'notification/:pageId', component: NotificationComponent},
-  // { path:'personal-notification', component: PersonalNotificationComponent},
-  // { path:'personal-notification/:pageId', component: PersonalNotificationComponent},
-  // { path:'profile', component: ProfileComponent},
-  // // { path: 'forgot', component: ForgotComponent },
-
-  // // 🚀 關鍵：萬用路由（必須放在陣列的最下方）
-  // { path: '**', redirectTo: 'main', pathMatch: 'full' }
 ];

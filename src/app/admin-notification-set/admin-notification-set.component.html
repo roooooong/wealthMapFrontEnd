@@ -9,23 +9,34 @@
 </div> -->
 
 @if(page==1){
-<br>
-<div style="margin: 20px;">
+<br><br><br><br>
+<div  style="margin: 20px;">
   <!-- 標題 -->
-  <div>
-    <h1>公告設定</h1>
-    <button class="addbtn" (click)="showDialog(1,0)">
-      <img src="編輯.png">
-    </button>
+  <div class="titleCss">
+    <div>
+      <label class="titleFontPage1">公告設定</label>
+      <!-- <h1>公告設定</h1> -->
+      <button class="addbtn" (click)="showDialog(1,0)">
+        <img src="編輯.png">
+      </button>
+    </div>
+    <div>
+      <select [(ngModel)]="pageSize" (change)="currentPage = 1" class="pagination-select">
+        <option [ngValue]="5">5 筆 / 頁</option>
+        <option [ngValue]="10">10 筆 / 頁</option>
+        <option [ngValue]="20">20 筆 / 頁</option>
+      </select>
+    </div>
   </div>
 </div>
-<br><br><br>
+
 <hr>
 <br>
 
 <div class="frameCss" style="margin: 20px;">
   <div style="width: 70%; border-color: #4091c9;">
-    @for(notification of notificationList?.data ; track $index){
+    <!-- @for(notification of notificationList?.data ; track $index){ -->
+    @for(notification of pagedSystemLogs ; track $index){
     <div class="notification">
       <label class="notification-tag" (click)="detail(notification.id!)">{{notification.tag}}</label>
       <label class="notification-title" (click)="detail(notification.id!)">{{notification.title}}</label>
@@ -42,7 +53,23 @@
     }
   </div>
 </div>
-<br><br>
+<br>
+<!-- 分頁控制項 -->
+  <div class="pagination-div">
+    <div class="pagination-controls" >
+      <div class="pagination-btns">
+        <button [disabled]="currentPage === 1" (click)="currentPage = currentPage - 1">
+          <mat-icon>chevron_left</mat-icon>
+        </button>&nbsp;
+        <span>第 {{currentPage}} / {{totalPages}} 頁</span>&nbsp;
+        <button [disabled]="currentPage >= totalPages" (click)="currentPage = currentPage + 1">
+          <mat-icon>chevron_right</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+<!-- 分頁控制項 -->
+
 }
 
 @else{
@@ -66,5 +93,7 @@
     <label style="white-space: pre-wrap;">{{notificationIdDetail?.content}}</label>
   </div>
 </div>
-<br><br><br><br>
+
+<br>
 }
+<br><br><br>

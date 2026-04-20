@@ -5,10 +5,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ExampleService } from '../@service/example.service';
 import { HttpClientService } from '../@service/http-client.service';
 import { NotificationList, PersonalNotification } from '../@interface/notification-list';
+import { FormsModule } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-notification',
-  imports: [CommonModule],
+  imports: [CommonModule,
+    FormsModule,
+    MatIconModule],
   templateUrl: './notification.component.html',
   styleUrl: './notification.component.scss'
 })
@@ -27,6 +31,9 @@ export class NotificationComponent {
   personalLogs!:PersonalNotification[];
   personalLogDetail!:PersonalNotification|null;
   notificationType!:string;
+  //分頁設定
+  currentPage!:number;
+  pageSize!:number;
 
   // fetchNotificationDetail(id: number) {
   //   this.notificationIdDetail = null; // 抓取前先清空，避免畫面閃爍
@@ -59,27 +66,6 @@ export class NotificationComponent {
       this.notificationList = res; // 這裡對應你原本的變數
       this.personalLogs = [];     // 清空另一邊的資料，確保畫面不衝突
     });
-
-    // //取得公告列表
-    // this.httpClientService.getApi(`http://localhost:8080/api/notifications/list`)
-    //     .subscribe((notificationList: any) => {
-    //       console.log(notificationList);
-    //       this.notificationList = notificationList;
-    //     })
-
-    //   this.activatedRoute.params.subscribe(params => {
-    //   const pageId = params['pageId']; // 確保這裡的名稱跟 AppRoutingModule 定義一致
-
-    //   //page=1 -> 公告列表 http://localhost:4200/admin-notification-set
-    //   //page=2 -> 公告詳情 http://localhost:4200/admin-notification-set/pageId (後面會接pageId)
-    //   if (pageId) {
-    //     // this.page = 2;
-    //     this.fetchNotificationDetail(pageId);
-    //   } else {
-    //     this.page = 1;
-    //     this.notificationIdDetail = null;
-    //   }
-    // });
   }
 
   // 2. 取得個人通知列表 (page = 1)
@@ -124,20 +110,34 @@ export class NotificationComponent {
 
         // 💡 額外加碼：如果是個人通知且未讀，可以在這裡順便觸發「標記已讀」
         if (type === 'PERSONAL' && ! this.personalLogDetail?.read) {
-          this.markAsRead(id);
+          this.markAsRead(id,'PERSONAL');
+        }else if(type==='SYSTEM'){
+          this.markAsRead(id,'SYSTEM');
         }
       }
     });
   }
 
-  markAsRead(id:number){
-    // 呼叫個人訊息已讀 API (假設路徑如下)
-    this.httpClientService.patchApi(`http://localhost:8080/api/notifications/${id}/read`, {})
-    .subscribe(() => {
+  markAsRead(id:number, type: 'SYSTEM' | 'PERSONAL'){
+    if(type==='SYSTEM'){
+      this.httpClientService.postApi(`http://localhost:8080/api/notifications/read?userId=${this.userId}&notificationId=${id}`, {})
+      .subscribe((res:any) => {
+        if(res.code===200){
+          // 4. 跳轉到公告訊息詳情頁 (或彈出視窗)
+          this.router.navigate(['/system-notification', id]);
+        }
 
-      // 4. 跳轉到個人訊息詳情頁 (或彈出視窗)
-      this.router.navigate(['/personal-notification', id]);
-    });
+      });
+    }else if(type==='PERSONAL'){
+      // 呼叫個人訊息已讀 API (假設路徑如下)
+      this.httpClientService.patchApi(`http://localhost:8080/api/notifications/${id}/read`, {})
+      .subscribe((res:any) => {
+        if(res.code===200){
+          // 4. 跳轉到個人訊息詳情頁 (或彈出視窗)
+          this.router.navigate(['/personal-notification', id]);
+        }
+      });
+    }
   }
 
   // 個人通知的tag定義
@@ -186,85 +186,116 @@ export class NotificationComponent {
     }
   }
 
+  // 取值函數，用法就像一個變數，但背後其實執行了一個函數。
+  // 取得當前頁面要顯示的資料 (以 personalLogs 為例)
+  get pagedPersonalLogs() {
+    const startIndex = (this.currentPage - 1) * this.pageSize;
+    return this.personalLogs.slice(startIndex, startIndex + this.pageSize);
+  }
+
+  get pagedSystemLogs() {
+    // 1. 先過濾掉還沒到日期的公告
+    const filteredData = this.notificationList?.data.filter(item => {
+      return item.scheduledDate <= this.gettoday;
+    }) || [];
+
+    // 2. 再針對過濾後的結果進行切片
+    const startIndex = (this.currentPage - 1) * this.pageSize;
+    return filteredData.slice(startIndex, startIndex + this.pageSize);
+  }
+
+  // 總頁數
+  get totalPages() {
+    let totalItems = 0;
+
+    if (this.notificationType === 'system') {
+      // 記得這裡也要過濾日期，計算出的總頁數才會準確
+      const filtered = this.notificationList?.data.filter(item => item.scheduledDate <= this.gettoday);
+      totalItems = filtered?.length || 0;
+    } else {
+      totalItems = this.personalLogs.length || 0;
+    }
+
+    return Math.ceil(totalItems / this.pageSize) || 1;
+  }
+
   ngOnInit(): void {
+    //initiallize
+    this.currentPage = 1;
+    this.pageSize = 5; // 預設一頁 5 筆
     //change by carly  --start
-    console.log("pageId:"+this.activatedRoute.snapshot.paramMap.get('pageId'));
     // 透過 URL 判斷目前是哪一類
     const isSystem = this.router.url.includes('system-notification');
     this.notificationType=isSystem?"system":"personal";
     this.exampleService.user$.subscribe(user=>{
       if(user && user.role !== 'visitor'){
         this.userId=user.id;
+
+        this.activatedRoute.params.subscribe(params => {
+          const pageId = params['pageId'];
+
+          if (pageId) {
+            // 詳情模式
+            this.loadDetail(pageId, isSystem ? 'SYSTEM' : 'PERSONAL');
+          } else {
+            // 列表模式
+            this.page = 1;
+            if (isSystem) {
+              this.loadSystemList();
+            } else {
+              this.loadPersonalList();
+            }
+          }
+        });
       }
     });
 
-    //取得公告列表
-    if(isSystem){
-      this.httpClientService.getApi(`http://localhost:8080/api/notifications/list`)
-      .subscribe((notificationList: any) => {
-        console.log(notificationList);
-        this.notificationList = notificationList;
-        this.personalLogs = [];
-
-      });
-    }else{
-      this.httpClientService.getApi(`http://localhost:8080/api/notifications/${this.userId}/personal-list`)
-      .subscribe((personalLogs: any) => {
-        console.log(personalLogs);
-        this.personalLogs = personalLogs;
-        this.notificationList = null;
-
-      });
-    }
-
-    this.activatedRoute.params.subscribe(params => {
-      const pageId = params['pageId']; // 確保這裡的名稱跟 AppRoutingModule 定義一致
-
-      //page=1 -> 公告列表 http://localhost:4200/admin-notification-set
-      //page=2 -> 公告詳情 http://localhost:4200/admin-notification-set/pageId (後面會接pageId)
-      if (pageId) {
-        // this.page = 2;
-        // this.fetchNotificationDetail(pageId);
-        this.loadDetail(pageId, isSystem ? 'SYSTEM' : 'PERSONAL');
-      } else {
-        // 顯示列表頁 (page 1)
-        this.page = 1;
-        if (isSystem) {
-          this.loadSystemList();
-        } else {
-          this.loadPersonalList();
-        }
-      }
-    });
 
     // 初始化今天日期（你原本的補零邏輯可以保留，或參考之前的簡化版）
     this.initTodayDate();
 
-    //change by carly  --end
+    // //取得公告列表
+    // if(isSystem){
+    //   this.httpClientService.getApi(`http://localhost:8080/api/notifications/list`)
+    //   .subscribe((notificationList: any) => {
+    //     console.log(notificationList);
+    //     this.notificationList = notificationList;
+    //     this.personalLogs = [];
 
-    // console.log(this.activatedRoute.snapshot.paramMap.get('pageId'));
+    //   });
+    // }else{
+    //   this.httpClientService.getApi(`http://localhost:8080/api/notifications/${this.userId}/personal-list`)
+    //   .subscribe((personalLogs: any) => {
+    //     console.log(personalLogs);
+    //     this.personalLogs = personalLogs;
+    //     this.notificationList = null;
 
-    // this.httpClientService.getApi(`http://localhost:8080/api/notifications/list`)
-    //     .subscribe((notificationList: any) => {
-    //       console.log(notificationList);
-    //       this.notificationList = notificationList;
-    //     })
+    //   });
+    // }
 
-    //   this.activatedRoute.params.subscribe(params => {
+    // this.activatedRoute.params.subscribe(params => {
     //   const pageId = params['pageId']; // 確保這裡的名稱跟 AppRoutingModule 定義一致
-
+    //   console.log("監聽中，pageId:"+pageId);
     //   //page=1 -> 公告列表 http://localhost:4200/admin-notification-set
     //   //page=2 -> 公告詳情 http://localhost:4200/admin-notification-set/pageId (後面會接pageId)
     //   if (pageId) {
     //     // this.page = 2;
     //     // this.fetchNotificationDetail(pageId);
-    //     this.loadDetail(pageId, this.router.url.includes('system-notification') ? 'SYSTEM' : 'PERSONAL');
+    //     this.loadDetail(pageId, isSystem ? 'SYSTEM' : 'PERSONAL');
     //   } else {
+    //     // 顯示列表頁 (page 1)
     //     this.page = 1;
-    //     this.notificationIdDetail = null;
-    //     this.personalLogDetail = [];
+    //     if (isSystem) {
+    //       this.loadSystemList();
+    //     } else {
+    //       this.loadPersonalList();
+    //     }
     //   }
     // });
+
+
+    //change by carly  --end
+
 
   }
 }

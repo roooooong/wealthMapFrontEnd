@@ -33,7 +33,7 @@ export class HeaderAdminComponent {
     console.log('執行登出');
     this.isMenuOpen = false;
     // 之後要清空使用者資料
-    this.exampleService.setRole('visitor');
+    // this.exampleService.setRole('visitor');
     this.exampleService.clearUserData();
     this.router.navigate(['/main']);
   }

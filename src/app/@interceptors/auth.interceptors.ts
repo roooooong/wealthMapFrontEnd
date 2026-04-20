@@ -6,7 +6,7 @@ import { HttpInterceptorFn } from '@angular/common/http';
  * [全開放相容版] AuthInterceptor
  */
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
-  const token = localStorage.getItem('token');
+  const token = sessionStorage.getItem('token');
 
 
   // 永遠開啟 withCredentials 以支援 Session 功能

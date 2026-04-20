@@ -8,6 +8,8 @@ import { HttpClientService } from '../@service/http-client.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogAddStrategyComponent } from '../@dialog/dialog-add-strategy/dialog-add-strategy.component';
 import { AUTO_STYLE } from '@angular/animations';
+import { filter, take } from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-strategy-list',
@@ -31,10 +33,12 @@ export class StrategyListComponent {
   userId!:number;
   userName!:string;
 
+
   showModal: boolean = true;
   // 追蹤正在編輯的卡片 (可以用 index 或 symbol)
   editingId: number | null = null;
   strategies:StrategySetting[]=[];
+  originalStrategyBackup!:StrategySetting|null;
   // strategies:StrategySetting[]=[{
   //   id: 1,
   //   symbol: '0050',
@@ -55,41 +59,67 @@ export class StrategyListComponent {
   //   currentBias: -3
   // }];
 
+
   ngOnInit(): void {
     this.loadData();
   }
 
+
   // 進入編輯模式
   startEdit(index: number) {
     this.editingId = index;
+    //紀錄當前資料，以避免畫面被修改時，再按取消，不會復原。
+    this.originalStrategyBackup = JSON.parse(JSON.stringify(this.strategies[index]));
   }
+
 
   // 儲存
   saveEdit(index: number) {
     if (this.editingId === null) return;
     const updatedStrategy = this.strategies[this.editingId];
+    if(!updatedStrategy.buyThreshold || !updatedStrategy.sellThreshold ) {
+      alert("提醒：加碼門檻及減碼門檻不能為空。");
+      return;
+    }
+    if(updatedStrategy.buyThreshold >= updatedStrategy.sellThreshold) {
+      alert("提醒：加碼門檻應小於減碼門檻。");
+      return;
+    }
     console.log(updatedStrategy);
     // 這裡執行 API 更新邏輯
     this.httpClientService.putApi(`http://localhost:8080/api/strategy-set/${updatedStrategy.id}`,updatedStrategy)
     .subscribe((res:any) => {
-      if(!res.data) {return;}
-      else{
-        console.log("錯誤代碼:"+res.code + ", 錯誤訊息:"+res.message);
+      console.log(res);
+      if (res && res.code === 200) {
+        console.log("更新成功，正在同步全域資料與重新渲染列表");
+        this.exampleService.reloadUserContext();
         this.editingId = null;
+      } else {
+        console.error("更新失敗:", res.message);
+        alert("儲存失敗：" + (res.message || "未知錯誤"));
       }
-      // this.strategies = [...res.data];
+
 
     });
+
 
   }
   // 取消
   cancelEdit() {
+    if (this.editingId !== null && this.originalStrategyBackup) {
+      // 還原原本的數值
+      this.strategies[this.editingId] = this.originalStrategyBackup;
+    }
     this.editingId = null;
+    this.originalStrategyBackup = null;
   }
+
 
   //觸發dialog
   readonly dialog = inject(MatDialog);
   addStrategy(userId:number){
+
+
 
 
     let newStrategy:StrategySetting={
@@ -113,78 +143,98 @@ export class StrategyListComponent {
         this.loadData();
       }
 
+
     })
   }
 
+
   onDelete(index: number){
+
 
     this.httpClientService.delApi(`http://localhost:8080/api/strategy-set/${this.strategies[index].id}`)
     .subscribe((res:any) => {
       if (res.code === 200) {
         // 畫面移除這張卡片
         this.strategies = this.strategies.filter(s => s.id !== this.strategies[index].id);
+        this.exampleService.reloadUserContext();
       }
+
 
     });
 
+
   }
+
 
   loadData(){
     console.log("LoadData...");
     const user = this.exampleService.currentUser; // 💡 拿快照
-
+    console.log(this.exampleService.currentUser);
     // 情況 A：已經有登入資料了 (從其他頁面過來)
     if (user && user.id !== 0) {
       this.userId = user.id;
       this.role = user.role;
       this.userName = user.name;
-      console.log("從快照獲取 UserId:", this.userId);
       this.fetchStrategies(this.userId); // 💡 直接執行抓取
     }
-      // 情況 B：還沒拿到資料 (例如剛重新整理頁面)
-      else {
-      this.exampleService.user$.subscribe(user => {
+    // 情況 B：還沒拿到資料 (例如剛重新整理頁面)
+    else {
+      this.exampleService.user$.pipe(
+        filter(u => u && u.id !== 0),
+        take(1)
+      ).subscribe(user => {
         if (user && user.id !== 0) {
           this.role = user.role; // 當角色改變，這裡會自動觸發
           this.userId = user.id;
           this.userName = user.name;
-          console.log("Role:"+this.role +",UserId:"+this.userId+",userName:"+this.userName);
-
           this.fetchStrategies(this.userId);
         }
       });
     }
 
+
   }
+
 
   fetchStrategies(userId:number){
-    console.log(`http://localhost:8080/api/strategy-set/user/${userId}`);
-    this.httpClientService.getApi(`http://localhost:8080/api/strategy-set/user/${userId}`)
-    .subscribe((res:any) => {
-      if(!res.data) return;
-      this.strategies = res.data.map((item: any): StrategySetting => {
-        return {
-          id: item.id,
-          symbol: item.symbol,
-          buyThreshold: item.buyThreshold,
-          sellThreshold: item.sellThreshold,
-          isActive: item.isActive,
-          currentPrice: 0,
-          currentBias: 0,
-          lastClosePrice: 0
-        };
-      });
+    console.log("Fetch Strategies...");
+    this.strategies=this.exampleService.currentUser.strategySettings;
+    // console.log(this.strategies);
 
-      // 抓取現價
-      this.strategies.forEach(s=>{
-        this.httpClientService.getApi(`http://localhost:8080/api/strategy-set/quote/${s.symbol}`)
-        .subscribe((res:any) => {
-          s.currentPrice=res.data?.currentPrice ?? 0;
-          s.currentBias= (res.data?.currentBias ?? 0 )*100;
+    this.strategies = this.strategies.map((item: any): StrategySetting => ({
+      id: item.id,
+      symbol: item.symbol,
+      buyThreshold: item.buyThreshold,
+      sellThreshold: item.sellThreshold,
+      isActive: item.isActive,
+      currentPrice: 0,
+      currentBias: 0,
+      lastClosePrice: 0,
+      date: '載入中...'
+    }));
+
+    // 針對每筆 symbol 去抓取報價
+    this.strategies.forEach(s => {
+      this.httpClientService.getApi(`http://localhost:8080/api/strategy-set/quote/${s.symbol}`)
+        .subscribe({
+          next: (res: any) => {
+            if (res.code===200 && res.data) {
+              s.currentPrice = res.data.currentPrice ?? 0;
+              s.currentBias = (res.data.bias ?? 0) * 100;
+              s.date = "最新更新時間 : " + (res.data.date || '未知');
+            } else {
+              s.date = "查無資料";
+              console.warn(`股票 ${s.symbol} 回傳 code:`+ res.code , res);
+            }
+          },
+          error: (err) => {
+            console.error(`無法獲取 ${s.symbol} 的報價`, err);
+            s.date = "更新失敗";
+          }
         });
-      });
-      console.log(this.strategies);
-
     });
+
   }
 }
+
+

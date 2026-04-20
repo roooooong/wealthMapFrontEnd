@@ -1,24 +1,19 @@
-<div class="input-box">
-  <h3>輸入財務資料</h3>
-
-  <input type="number" [(ngModel)]="form.income" placeholder="收入">
-  <input type="number" [(ngModel)]="form.expense" placeholder="支出">
-  <input type="number" [(ngModel)]="form.savings" placeholder="存款">
-  <input type="number" [(ngModel)]="form.cash" placeholder="現金">
-
-  <input type="number" [(ngModel)]="form.mortgage" placeholder="房貸">
-  <input type="number" [(ngModel)]="form.carLoan" placeholder="車貸">
-  <input type="number" [(ngModel)]="form.personalLoan" placeholder="信貸">
-  <input type="number" [(ngModel)]="form.creditCard" placeholder="信用卡">
-
-  <input type="number" [(ngModel)]="form.investmentSuccessRate" placeholder="投資成功率">
-
-  <button (click)="submit()">計算</button>
+@if( role=='visitor' ){
+  <div class="frameCss" style="margin-top: 70px;">
+  <label class="title">財務健康</label>
+</div>
+<div class="frameCss" style="margin-bottom: 50px;">
+  <p class="illustrate" >將複雜數據轉化為直觀的健康分數與資產趨勢圖，能一眼掌握財務現況!</p>
 </div>
 
 
-
-
+<br><br>
+<div class="frameCss" style="margin-top: 20px;">
+  <button class="registerbtn" (click)="goRegister()">註冊，開始使用「 WealthMap 個人資產與財務配置平台! 」</button>
+</div>
+<br><br><br>
+}
+@else{
 <div class="whole">
   <div class="health-container">
     <div class="chart-box main-gauge">
@@ -46,5 +41,4 @@
   </div>
 </div>
 
-
-
+}

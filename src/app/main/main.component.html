@@ -17,19 +17,28 @@
     </div>
   </div>
 </div>
+
+<!-- 圓餅圖 -->
 <div class="frameCss">
   <div class="chart-container">
     <canvas id="chart"></canvas>
     <div class="chart-center-text">
-      <span class="total-label">總資產</span>
-      <span class="total-amount">$10,000</span>
     </div>
   </div>
 </div>
 }
-<br>
-<div class="frameCss">
 
+@if(role=="visitor"){
+<div class="frameCss" style="margin-top: 70px;">
+  <label class="WealthMap">WealthMap 個人財務與資產配置平台</label>
+</div>
+<div class="frameCss">
+  <p style="color:#666;letter-spacing: 0.05em;">全方位的資產配置、多元的投資策略，陪你在理財的路上，讓資產隨市場穩健進化</p>
+</div>
+<br><br><br>
+}
+
+<div class="frameCss">
   <div class="iconbox">
     @if(role=="USER" || role=="ADMIN"){
     <button class="iconbtn" (click)="goToAssets()" style="cursor: pointer;">
@@ -75,16 +84,18 @@
   </div>
 </div>
 
-<br><br><br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br><br><br><br>
 
 
 <div class="frameCss">
   <div style="font-size: 28px;font-weight: bold;">相關新聞</div>
+  <!-- <div style="font-size:24px;color:#1368aa;font-weight: bold;letter-spacing: 0.05em;">相關新聞</div> -->
+
 </div>
 <div class="frameCss">
-  <hr style="width: 10%; border: none; height: 1px; background-color: #9dcee2; ">
+  <!-- <hr style="width: 10%; border: none; height: 1px; background-color: #9dcee2; "> -->
 </div>
-<br>
+<br><br>
 <div class="carousel-container">
   <button (click)="prev()" class="newsbtn">
     <mat-icon>chevron_left</mat-icon>
@@ -129,8 +140,9 @@
   <div style="font-size: 28px;font-weight: bold;">系統通知</div>
 </div>
 <div class="frameCss">
-  <hr style="width: 10%; border: none; height: 1px; background-color: #9dcee2; ">
+  <!-- <hr style="width: 10%; border: none; height: 1px; background-color: #9dcee2; "> -->
 </div>
+<br>
 
 <div class="frameCss" style="margin: 20px;">
   <div style="width: 70%; border-color: #4091c9;">

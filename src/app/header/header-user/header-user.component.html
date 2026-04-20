@@ -47,7 +47,7 @@
         <!-- 系統通知 -->
         } @else {
         <ul class="msg-list">
-          @for(notification of notificationList?.data ; track $index){
+          @for(notification of notificationList.data ; track $index){
             @if(notification.scheduledDate<=gettoday){
               <li class="system-msg " (click)="detail(notification.id!)">
               <span class="msg-title">{{notification.title}}</span>

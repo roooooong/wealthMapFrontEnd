@@ -7,10 +7,11 @@ import { NotificationList, Data } from '../@interface/notification-list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { DeleteNotificationComponent } from '../@dialog/delete-notification/delete-notification.component';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-admin-notification-set',
-  imports: [MatIconModule, MatButtonModule],
+  imports: [FormsModule, MatIconModule, MatButtonModule],
   templateUrl: './admin-notification-set.component.html',
   styleUrl: './admin-notification-set.component.scss'
 })
@@ -26,6 +27,9 @@ export class AdminNotificationSetComponent {
 
   notificationList!: NotificationList;
   notificationIdDetail!: any;
+  //分頁設定
+  currentPage!:number;
+  pageSize!:number;
 
   //系統通知假資料
   // notificationList = [
@@ -131,7 +135,23 @@ setAboutUs(){
   today = new Date();
   gettoday!: string;
 
+  get pagedSystemLogs() {
+    const startIndex = (this.currentPage - 1) * this.pageSize;
+    return  this.notificationList?.data.slice(startIndex, startIndex + this.pageSize);
+  }
+
+  // 總頁數
+  get totalPages() {
+    let totalItems = 0;
+    totalItems = this.notificationList?.data.length || 0;
+
+    return Math.ceil(totalItems / this.pageSize) || 1;
+  }
+
   ngOnInit(): void {
+    //initiallize
+    this.currentPage = 1;
+    this.pageSize = 5; // 預設一頁 5 筆
 
     console.log(this.activatedRoute.snapshot.paramMap.get('pageId'));
 

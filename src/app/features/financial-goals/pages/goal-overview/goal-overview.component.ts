@@ -15,6 +15,8 @@ import { GoalService, FinancialGoal } from '../../services/goal.service';
 })
 export class GoalOverviewComponent implements OnInit {
 
+  role!: string;
+
   isLoggedIn: boolean = true;
   showAddForm: boolean = false;
 
@@ -44,6 +46,10 @@ export class GoalOverviewComponent implements OnInit {
         console.error('取得財務目標失敗', err);
       }
     });
+  }
+
+  goRegister(): void {
+    this.router.navigate(['/register']);
   }
 
   backToHome(): void {

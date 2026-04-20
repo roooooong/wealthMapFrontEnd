@@ -13,6 +13,9 @@
           <option [value]="s">{{ s }}</option>
         }
       </select>
+      <div class="alertText">
+          {{alertSymbol}}
+        </div>
       <div class="info-row">
         @if(isLoading){
           <div class="loading-spinner">查詢最新價格中...</div>
@@ -39,6 +42,9 @@
         <div class="form-group">
           <label>減碼門檻 (%)</label>
           <input type="number" [(ngModel)]="newStrategy.sellThreshold" placeholder="10">
+        </div>
+        <div class="alertText">
+          {{alertBias}}
         </div>
       </div>
     </div>

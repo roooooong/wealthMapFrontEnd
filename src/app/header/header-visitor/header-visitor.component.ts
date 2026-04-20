@@ -25,8 +25,8 @@ login() {
 
   ngOnInit(): void {
     // 💡 關鍵：訂閱 Service，確保登入或重新整理後身分正確
-    this.exampleService.role$.subscribe(newRole => {
-      this.role = newRole;
+    this.exampleService.user$.subscribe(newRole => {
+      this.role = newRole.role;
     });
   }
 }

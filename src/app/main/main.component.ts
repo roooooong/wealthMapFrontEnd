@@ -79,7 +79,8 @@ export class MainComponent {
     // 之後要清空使用者資料
     // this.exampleService.setRole('visitor');
     // 💡 清空使用者資料並清除 localStorage
-    this.exampleService.clearRole();
+    // this.exampleService.clearRole();
+    this.exampleService.clearUserData();
   }
   // 個人通知格式
   personalList = [
@@ -152,6 +153,36 @@ export class MainComponent {
 
   initChart() {
     // 因為admin和user都需要圖表 但原本寫在ngAfterViewInit會因為還沒拿到身分跑不出來 所以移到ngOnInit()拿完身分後
+
+    //圓餅圖中間的字
+    const centerTextPlugin = {
+      id: 'centerText',
+      // 💡 改用 afterDatasetsDraw，確保它在圓餅圖畫完後、Tooltip 畫出來前執行
+  afterDatasetsDraw: (chart: any) => {
+        const { ctx, chartArea: { left, right, top, bottom } } = chart;
+        ctx.save();
+
+        // 取得圓餅圖區域的中心點 (這會自動避開右側圖例空間)
+        const centerX = (left + right) / 2;
+        const centerY = (top + bottom) / 2;
+
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+
+        // 繪製「總資產」字樣
+        ctx.font = '14px sans-serif';
+        ctx.fillStyle = '#666';
+        ctx.fillText('總資產', centerX, centerY - 12); // 向上偏移一點
+
+        // 繪製金額數字
+        ctx.font = 'bold 20px sans-serif';
+        ctx.fillStyle = '#333333';
+        ctx.fillText('$10,000,000', centerX, centerY + 12); // 向下偏移一點
+
+        ctx.restore();
+      }
+    };
+
     // 獲取 canvas 元素
     let ctx = document.getElementById('chart') as HTMLCanvasElement;
 
@@ -178,6 +209,8 @@ export class MainComponent {
           ],
           //設定hover時的偏移量，滑鼠移上去表會偏移，方便觀看選種的項目
           hoverOffset: 4,
+          // 數字越小，中間框框越小，圓環越粗（例如 '30%'）
+      cutout: '65%',
         },
       ],
     };
@@ -186,6 +219,7 @@ export class MainComponent {
     let chart = new Chart(ctx, {
       type: 'doughnut',
       data: data,
+      plugins: [centerTextPlugin],
       options: {
         responsive: true,           // 讓圖表隨容器大小伸縮
         maintainAspectRatio: false,  // 設為 false，圖表才會完全聽從 CSS 設定的高度
@@ -206,6 +240,8 @@ export class MainComponent {
             }
           },
           tooltip: {
+            // position: 'nearest',// 預設 'average' 會出現在中心 ; 'nearest'會出現在離滑鼠最近的圓環邊緣
+            yAlign: 'bottom',  // bottom箭頭朝下 ;top朝上
             backgroundColor: 'rgb(255, 255, 255)', // 1. 更改底色
             titleColor: '#333',                      // 2. 標題顏色
             bodyColor: '#666',                       // 3. 內容文字顏色
@@ -307,7 +343,7 @@ export class MainComponent {
         // 延遲一小段時間確保 HTML 的 <canvas id="chart"> 已經被渲染出來 (@if 判斷完成)
         setTimeout(() => {
           this.initChart();
-        }, 0);
+        }, 100);
       }
     });
     console.log('現在身分', this.role);
