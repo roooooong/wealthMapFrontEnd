@@ -1,182 +1,198 @@
+/* =========================================
+   1. 最外層容器與標題
+   ========================================= */
 .result-container {
-    max-width: 1200px;
+    max-width: 900px;
     margin: 40px auto;
-    padding: 0 20px;
+    padding: 30px 40px;
+    background-color: #f8fbfd;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
     font-family: "微軟正黑體", sans-serif;
+
+    .main-title {
+        text-align: center;
+        color: #2c3e50;
+        font-size: 28px;
+        margin-bottom: 30px;
+        border-bottom: 2px solid #e2e8f0;
+        padding-bottom: 15px;
+        font-weight: bold;
+    }
 }
 
-.main-title {
-    text-align: center;
-    color: #2c3e50;
-    margin-bottom: 40px;
-    font-weight: bold;
-}
-
+/* =========================================
+   2. 版面配置：左邊文字，右邊圖表 (左右排版核心)
+   ========================================= */
 .result-layout {
     display: flex;
-    gap: 30px;
+    gap: 40px;
+    align-items: stretch;
+    /* 讓左右兩邊卡片等高 */
 
-
-    @media (max-width: 992px) {
+    /* 📱 螢幕變小(如手機)時自動變成上下排列 */
+    @media (max-width: 768px) {
         flex-direction: column;
     }
 }
 
-
+/* =========================================
+   3. 左側：資訊面板 (文字、建議、按鈕)
+   ========================================= */
 .info-panel {
-    flex: 1; // 佔 1/2 寬度
+    flex: 1;
+    /* 佔據左半部一半空間 */
     display: flex;
     flex-direction: column;
     gap: 20px;
-}
 
-.level-card {
-    background: white;
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-    text-align: center;
-    border-top: 8px solid #99B3E4; // 預設藍色
+    /* 🌟 等級卡片 */
+    .level-card {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        border-left: 6px solid #4091c9;
+        /* 漂亮的左側藍色重點線 */
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
 
-    .label {
-        color: #7f8c8d;
-        margin: 0 0 10px 0;
-        font-size: 16px;
-    }
-
-    .level-text {
-        color: #2c3e50;
-        margin: 0;
-        font-size: 48px;
-        font-weight: bolder;
-    }
-
-    // 動態樣式 (依據等級換顏色)
-    &.積極型 {
-        border-top-color: #fbb6c9;
+        .label {
+            margin: 0 0 10px 0;
+            color: #64748b;
+            font-size: 15px;
+        }
 
         .level-text {
-            color: #fbb6c9;
+            margin: 0;
+            font-size: 36px;
+            color: #2c3e50;
+            letter-spacing: 2px;
+            font-weight: bold;
+        }
+
+        /* 警告標語 */
+        .risk-warning {
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #fff1f0;
+            color: #cf1322;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: bold;
         }
     }
 
-    &.穩健型 {
-        border-top-color: #FFF7AE;
+    /* 🌟 專家建議卡片 */
+    .advice-card {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+        flex-grow: 1;
+        /* 讓卡片自動長高填滿空間 */
 
-        .level-text {
-            color: #fbb6c9;
+        h3 {
+            margin: 0 0 10px 0;
+            color: #4091c9;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .advice-text {
+            margin: 0;
+            color: #475569;
+            line-height: 1.6;
+            font-size: 15px;
         }
     }
 
-    // 黃色通常配紅字較清楚
-    &.保守型 {
-        border-top-color: #bdffe0;
-
-        .level-text {
-            color: #7f8c8d;
-        }
-    }
-
-    .risk-warning {
-        margin-top: 15px;
-        padding: 8px;
-        background-color: #fff3cd;
-        color: #856404;
-        border-radius: 5px;
-        font-size: 14px;
-        display: inline-flex;
-        align-items: center;
-        gap: 5px;
-    }
-}
-
-.advice-card {
-    background: white;
-    padding: 25px;
-    border-radius: 15px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-
-    h3 {
-        margin-top: 0;
-        color: #34495e;
+    /* 🌟 按鈕區塊 */
+    .action-area {
         display: flex;
-        align-items: center;
-        gap: 8px;
-        border-bottom: 1px solid #eee;
-        padding-bottom: 10px;
-    }
+        gap: 15px;
+        margin-top: 10px;
 
-    .advice-text {
-        color: #555;
-        line-height: 1.8;
-        font-size: 16px;
-        white-space: pre-wrap; // 保持後端的換行
-    }
-}
-
-.action-area {
-    display: flex;
-    gap: 15px;
-    margin-top: 10px;
-
-    button {
-        flex: 1;
-        padding: 15px;
-        font-size: 16px;
-        font-weight: bold;
-        border: none;
-        border-radius: 30px;
-        cursor: pointer;
-        transition: all 0.3s;
-    }
-
-    .btn-primary {
-        background-color: #99B3E4;
-        color: white;
-
-        &:hover {
-            background-color: #7a9fd6;
-            box-shadow: 0 4px 10px rgba(122, 159, 214, 0.4);
+        button {
+            flex: 1;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
         }
-    }
 
-    .btn-secondary {
-        background-color: #f8f9fa;
-        color: #555;
-        border: 1px solid #ddd;
+        .btn-secondary {
+            background-color: #e2e8f0;
+            color: #475569;
 
-        &:hover {
-            background-color: #e2e6ea;
+            &:hover {
+                background-color: #cbd5e1;
+            }
+        }
+
+        .btn-primary {
+            background-color: #4091c9;
+            color: white;
+            box-shadow: 0 4px 10px rgba(64, 145, 201, 0.3);
+
+            &:hover {
+                background-color: #2c7ab0;
+                transform: translateY(-2px);
+            }
         }
     }
 }
 
-
+/* =========================================
+   4. 右側：圖表面板 (🔥 鎮壓巨大圓餅圖的核心)
+   ========================================= */
 .chart-panel {
     flex: 1;
+    /* 佔據右半部一半空間 */
     background: white;
     padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
 
     h3 {
-        text-align: center;
         margin-top: 0;
-        color: #34495e;
-        margin-bottom: 20px;
+        margin-bottom: 25px;
+        color: #2c3e50;
+        font-size: 18px;
+        text-align: center;
+        font-weight: bold;
     }
 
+    /* 🌟 限制範圍的隱形盒子 */
     .chart-wrapper {
-        flex: 1;
-        min-height: 350px;
         position: relative;
+        /* 必備屬性 */
+        width: 300px;
+        /* 強制寬度 */
+        height: 300px;
+        /* 強制高度 */
+        margin: 0 auto;
+
+        /* 🌟 終極鎮壓：強制裡面的 canvas 聽話，不准膨脹！ */
+        canvas {
+            width: 100% !important;
+            height: 100% !important;
+        }
     }
 }
 
+/* =========================================
+   5. 讀取中的畫面
+   ========================================= */
 .loading-container {
     text-align: center;
-    margin-top: 100px;
-    color: #7f8c8d;
+    padding: 50px;
+    color: #64748b;
+    font-size: 18px;
+    font-weight: bold;
 }

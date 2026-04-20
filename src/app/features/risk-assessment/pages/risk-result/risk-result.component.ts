@@ -19,8 +19,10 @@ export class RiskResultComponent implements OnInit, AfterViewInit {
 
   constructor(private router: Router) {
     const navigation = this.router.getCurrentNavigation();
-    if (navigation?.extras.state && navigation.extras.state['result']) {
-      this.resultData = navigation.extras.state['result'];
+
+    if (navigation?.extras.state) {
+      // 接收 result 或 data
+      this.resultData = navigation.extras.state['result'] || navigation.extras.state['data'];
     }
   }
 

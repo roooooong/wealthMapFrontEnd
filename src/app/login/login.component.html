@@ -1,8 +1,15 @@
 <div class="whole">
 
   <div class="left-box">
-    <p>個人財務</p>
-    <p>與資產配置平台</p>
+    <div>
+      <button class="homebtn" (click)="goHome()">
+        <mat-icon>home</mat-icon>
+      </button>
+      <br><br>
+      <label class="WealthMap">WealthMap</label>
+      <br><br>
+      <label class="WealthMap-small">個人財務與資產配置平台</label>
+    </div>
   </div>
 
   <!-- 登入 -->
@@ -38,7 +45,9 @@
 
 
       <div class="options" style="position: relative;">
-        <label><input type="checkbox" [(ngModel)]="rememberMe" class="checkbox">&nbsp;自動登入</label>
+        <!-- <label><input type="checkbox" [(ngModel)]="rememberMe" class="checkbox">&nbsp;自動登入</label> -->
+        <label class="checkbox"> </label>
+
         <a (click)="forgot()" class="link-text">忘記密碼</a>
       </div>
       <div class="btn">

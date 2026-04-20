@@ -1,4 +1,4 @@
-// 外層主要白色容器
+/* 外層主要白色容器 */
 .goal-container {
     max-width: 1000px;
     margin: 40px auto;
@@ -41,7 +41,7 @@
         }
     }
 
-    /* 未登入提示卡片 (你剛剛貼的專屬樣式)*/
+    /* 未登入提示卡片 */
     .unauth-card {
         text-align: center;
         padding: 80px 20px;
@@ -89,99 +89,79 @@
         }
     }
 
-    /* 已登入時的內容 (總金額、表單、黃色列表)*/
+    /* =========================================
+       已登入：標題與按鈕區塊
+       ========================================= */
     .header-section {
         display: flex;
-        justify-content: space-between;
         align-items: center;
-        margin-bottom: 50px;
+        justify-content: flex-start;
+        gap: 20px;
+        margin-bottom: 30px;
         border-bottom: 2px solid #eee;
-        padding-bottom: 30px;
+        padding-bottom: 20px;
 
         .main-title {
-            font-size: 36px;
-            color: #000;
-            margin-bottom: 15px;
-            font-weight: normal;
-        }
-
-        .subtitle {
-            font-size: 14px;
-            color: #333;
-            margin: 5px 0;
-        }
-
-        .total-area {
-            text-align: right;
-
-            .total-label {
-                font-size: 20px;
-                color: #69a5e4;
-                margin-bottom: 5px;
-            }
-
-            .total-number {
-                font-size: 48px;
-                color: #69a5e4;
-                font-weight: normal;
-            }
-        }
-    }
-
-    .action-bar {
-        display: flex;
-        align-items: center;
-        gap: 15px;
-        margin-bottom: 20px;
-
-        .action-text {
-            font-size: 18px;
+            font-size: 32px;
+            color: #2c3e50;
+            margin: 0;
             font-weight: bold;
-        }
-
-        .add-btn {
-            background-color: transparent;
-            border: 2px solid #000;
-            color: #000;
-            font-size: 24px;
-            width: 30px;
-            height: 30px;
             display: flex;
             align-items: center;
-            justify-content: center;
+            gap: 10px;
+        }
+
+        /* 漂亮的新增按鈕樣式 */
+        .add-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 24px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 600;
             cursor: pointer;
-            font-weight: bold;
-            line-height: 1;
+            box-shadow: 0 4px 10px rgba(76, 175, 80, 0.3);
+            transition: all 0.3s ease;
 
             &:hover {
-                background-color: #eee;
+                background-color: #43A047;
+                transform: translateY(-2px);
+                box-shadow: 0 6px 15px rgba(76, 175, 80, 0.4);
+            }
+
+            &:active {
+                transform: translateY(1px);
+                box-shadow: 0 2px 5px rgba(76, 175, 80, 0.3);
             }
         }
     }
 
+    /* =========================================
+       已登入：新增表單區塊
+       ========================================= */
     .add-form-card {
         background-color: #f8fbfd;
         border: 1px solid #dce4ec;
         padding: 20px;
         border-radius: 8px;
         display: flex;
+        flex-direction: column;
         gap: 15px;
-        align-items: flex-end;
         margin-bottom: 30px;
 
         .form-group {
             display: flex;
-            flex-direction: column;
-            flex: 1;
-
-            label {
-                font-size: 14px;
-                margin-bottom: 5px;
-                color: #555;
-                font-weight: bold;
-            }
+            gap: 15px;
+            flex-wrap: wrap;
+            /* 螢幕變小會自動換行 */
 
             input {
+                flex: 1;
+                min-width: 200px;
                 padding: 10px;
                 border: 1px solid #ccc;
                 border-radius: 4px;
@@ -189,85 +169,155 @@
             }
         }
 
-        .submit-btn {
-            padding: 10px 20px;
-            background-color: #69a5e4;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: bold;
-            height: 40px;
+        .form-actions {
+            display: flex;
+            gap: 10px;
 
-            &:hover {
-                background-color: #558bc4;
+            button {
+                padding: 10px 20px;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                font-weight: bold;
+                font-size: 14px;
+                transition: 0.2s;
+            }
+
+            .save-btn {
+                background-color: #69a5e4;
+                color: white;
+
+                &:hover {
+                    background-color: #558bc4;
+                }
+            }
+
+            .cancel-btn {
+                background-color: #e2e8f0;
+                color: #475569;
+
+                &:hover {
+                    background-color: #cbd5e1;
+                }
             }
         }
     }
 
-    .goal-list-section {
-        .list-header {
+    /* 已登入：目標列表區塊 */
+    .goals-list {
+        display: grid;
+        /* 💡 魔法排版：每張卡片最少 280px，空間夠就自動排成多欄 */
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 20px;
+        /* 卡片之間的呼吸空間 */
+        margin-top: 10px;
+
+        .goal-card {
             display: flex;
-            padding: 10px 20px;
-            font-weight: normal;
-            color: #000;
-            margin-bottom: 15px;
+            flex-direction: column;
+            /* 讓內容由上往下排 */
+            justify-content: space-between;
+            padding: 24px;
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            /* 精緻的淡灰色邊框 */
+            border-radius: 12px;
+            /* 圓角卡片 */
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+            /* 非常微弱的陰影增加立體感 */
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            /* 互動動畫 */
+
+            /* 💡 滑鼠游標移過去時，卡片會微微浮起！ */
+            &:hover {
+                transform: translateY(-4px);
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+            }
+
+            .goal-info {
+                h3 {
+                    margin: 0 0 12px 0;
+                    font-size: 20px;
+                    color: #2c3e50;
+                    border-bottom: 2px solid #f1f5f9;
+                    /* 標題下方加個裝飾短線 */
+                    padding-bottom: 10px;
+                }
+
+                .amount,
+                .date {
+                    margin: 0 0 6px 0;
+                    color: #475569;
+                    font-size: 15px;
+                }
+            }
+
+            .delete-btn {
+                margin-top: 20px;
+                align-self: flex-end;
+                /* 💡 讓刪除按鈕乖乖靠在卡片的右下角 */
+                background: transparent;
+                color: #ef4444;
+                /* 紅色文字 */
+                border: 1px solid #fee2e2;
+                padding: 6px 14px;
+                border-radius: 6px;
+                cursor: pointer;
+                font-size: 13px;
+                font-weight: bold;
+                transition: all 0.2s;
+
+                /* 刪除按鈕的懸停特效 */
+                &:hover {
+                    background: #ef4444;
+                    color: white;
+                    border-color: #ef4444;
+                }
+            }
         }
 
+        /* 💡 如果沒資料，讓提示文字跨越所有欄位置中 */
         .empty-state {
+            grid-column: 1 / -1;
             text-align: center;
-            padding: 30px;
+            padding: 40px;
             color: #888;
-            background: #fafafa;
+            background: #f8fafc;
             border-radius: 8px;
-        }
-
-        .list-row {
-            display: flex;
-            align-items: center;
-            padding: 15px 20px;
-            background-color: #fdf5e6;
-            margin-bottom: 10px;
-            border-radius: 4px;
-        }
-
-        .col-id {
-            width: 50px;
-            text-align: center;
-        }
-
-        .col-name {
-            flex: 2;
-            text-align: center;
-        }
-
-        .col-amount {
-            flex: 2;
-            text-align: center;
-        }
-
-        .col-date {
-            flex: 2;
-            text-align: center;
-        }
-
-        .col-action {
-            width: 60px;
-            text-align: center;
-        }
-
-        .delete-btn {
-            background: #ff4d4f;
-            color: white;
-            border: none;
-            padding: 4px 8px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 12px;
-
-            &:hover {
-                background: #d9363e;
-            }
+            margin-top: 10px;
         }
     }
+}
+
+.frameCss{
+  display: flex;
+  justify-content: center;
+}
+.title{
+  font-size: 36px
+  ;color:#4091c9;
+  font-weight: bold;
+  letter-spacing: 0.05em
+}
+.illustrate{
+  color:#666;
+  letter-spacing: 0.05em
+}
+
+.registerbtn {
+    background: linear-gradient(135deg, #9dcee2 0%, #4091c9 100%);
+    color: white;
+    font-weight: 600;
+    padding: 16px 40px;
+    border-radius: 50px; /* 圓角膠囊型 */
+    border: none;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  font-size: 16px;
+}
+.registerbtn:hover{
+  // background: linear-gradient(135deg, #4091c9 0%, #9dcee2 100%);
+  color: white;
+  transform: translateY(-2px); /* 輕微浮起 */
 }

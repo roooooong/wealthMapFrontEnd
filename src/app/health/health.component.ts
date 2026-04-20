@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { EChartsOption } from 'echarts';
 import { NgxEchartsDirective, provideEchartsCore } from 'ngx-echarts';
 import * as echarts from 'echarts';
+import { ExampleService } from '../@service/example.service';
+import { Router } from '@angular/router';
 
 interface HealthMetric {
   label: string;
@@ -44,6 +46,16 @@ interface FinancialData {
 })
 export class HealthComponent implements OnInit {
 
+  role!: string;
+  constructor(
+    private router: Router,
+    private exampleService: ExampleService
+  ) { }
+
+  goRegister() {
+    this.router.navigate(['/register']);
+  }
+
   // 模擬資料
   rawInfo = {
     income: 100000,
@@ -55,8 +67,8 @@ export class HealthComponent implements OnInit {
 
   // 計算結果
   metrics: MetricsMap = {
-    liquidity: { label: '', value: '', isAlert: false, status: ''},
-    debt: { label: '', value: '', isAlert: false, status: ''  },
+    liquidity: { label: '', value: '', isAlert: false, status: '' },
+    debt: { label: '', value: '', isAlert: false, status: '' },
     savings: { label: '', value: '', isAlert: false, status: '' },
     investment: { label: '', value: '', isAlert: false, status: '' },
   };
@@ -67,29 +79,34 @@ export class HealthComponent implements OnInit {
 
   // 假設這是你的詳細數據
   historyData = [
-  { date: '2026-01', L: 6, DTI: 50, S: 70, G: 65,score:50}, // 1月
-  { date: '2026-02', L: 7.5, DTI: 60, S: 80, G: 70,score:65}, // 2月
-  { date: '2026-03', L: 8.5, DTI: 70, S: 90, G: 80,score:80}  // 3月 (目前)
+    { date: '2026-01', L: 6, DTI: 50, S: 70, G: 65, score: 50 }, // 1月
+    { date: '2026-02', L: 7.5, DTI: 60, S: 80, G: 70, score: 65 }, // 2月
+    { date: '2026-03', L: 8.5, DTI: 70, S: 90, G: 80, score: 80 }  // 3月 (目前)
   ];
 
   historyLineOption: any;
 
   ngOnInit() {
+    this.exampleService.user$.subscribe(user => {
+      this.role = user.role; // 當角色改變，這裡會自動觸發
+      // this.userId = user.id;
+      // this.userName = user.name;
+    });
     this.calculateFinancialHealth();
   }
   private getScore(L: number, DTI: number, S: number, G: number): number {
-  const hasGoal = G !== null && G !== undefined && G > 0;
-  const baseWeight = hasGoal ? (100 / 3 / 1.2) : (100 / 3);
-  const investWeight = hasGoal ? 20 : 0;
+    const hasGoal = G !== null && G !== undefined && G > 0;
+    const baseWeight = hasGoal ? (100 / 3 / 1.2) : (100 / 3);
+    const investWeight = hasGoal ? 20 / 1.2 : 0;
 
-  const scoreL = Math.min(baseWeight, (L / 6) * baseWeight);
-  const scoreDTI = Math.min(baseWeight, (Math.max(0, 50 - DTI) / 50) * baseWeight);
-  const scoreS = Math.min(baseWeight, (S / 20) * baseWeight);
-  const scoreG = hasGoal ? Math.min(investWeight, (G / 100) * investWeight) : 0;
+    const scoreL = Math.min(baseWeight, (L / 6) * baseWeight);
+    const scoreDTI = Math.min(baseWeight, (Math.max(0, 50 - DTI) / 50) * baseWeight);
+    const scoreS = Math.min(baseWeight, (S / 20) * baseWeight);
+    const scoreG = hasGoal ? Math.min(investWeight, (G / 100) * investWeight) : 0;
 
 
-  return Math.round(scoreL + scoreDTI + scoreS + scoreG);
-}
+    return Math.round(scoreL + scoreDTI + scoreS + scoreG);
+  }
 
   calculateFinancialHealth() {
     const d = this.rawInfo;
@@ -179,19 +196,19 @@ export class HealthComponent implements OnInit {
           }
         },
         axisTick: { show: false },
-      axisLabel: {
-        distance: 20,
-        color: '#999',
-        fontSize: 12
-      },
+        axisLabel: {
+          distance: 20,
+          color: '#999',
+          fontSize: 12
+        },
 
 
 
-      title: {
-        offsetCenter: [0, '40%'], //上移
-        fontSize: 16,
-        color: '#8c8c8c'
-      },
+        title: {
+          offsetCenter: [0, '40%'], //上移
+          fontSize: 16,
+          color: '#8c8c8c'
+        },
       }]
     };
   }
@@ -199,16 +216,16 @@ export class HealthComponent implements OnInit {
   initRadar(L: number, DTI: number, S: number, G: number, date: string = '現在') {
     this.radarOption = {
       title: {
-      text: `${date} 財務狀況分析`,
-      left: 'center',
-      textStyle: { fontSize: 14 }
-    },
+        text: `${date} 財務狀況分析`,
+        left: 'center',
+        textStyle: { fontSize: 14 }
+      },
 
-    tooltip: {
-      trigger: 'item'
-    },
+      tooltip: {
+        trigger: 'item'
+      },
       radar: {
-        radius:'60%',
+        radius: '60%',
         indicator: [
           { name: '流 動 性', max: 12 },
           { name: '抗 壓 性\n \n(低負債)', max: 100 },
@@ -258,7 +275,7 @@ export class HealthComponent implements OnInit {
       series: [{
         name: '財務總分',
         type: 'line',
-        data:  this.historyData.map(item => item.score),
+        data: this.historyData.map(item => item.score),
         smooth: true,
         symbolSize: 10,
         triggerLineEvent: true,
@@ -271,19 +288,19 @@ export class HealthComponent implements OnInit {
         }
       }],
     };
-      const last = this.historyData[this.historyData.length - 1];
-        if (last) {
-          this.initRadar(last.L, last.DTI, last.S, last.G);
-        }
+    const last = this.historyData[this.historyData.length - 1];
+    if (last) {
+      this.initRadar(last.L, last.DTI, last.S, last.G);
+    }
   }
 
   onChartClick(params: any) {
-  const index = params.dataIndex;
-  const item = this.historyData[index];
+    const index = params.dataIndex;
+    const item = this.historyData[index];
 
-  if (item) {
-    this.initRadar(item.L, item.DTI, item.S, item.G,item.date);
+    if (item) {
+      this.initRadar(item.L, item.DTI, item.S, item.G, item.date);
+    }
   }
-}
 
 }

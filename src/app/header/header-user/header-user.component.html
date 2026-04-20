@@ -2,23 +2,32 @@
 <div class="user-notification-container">
   <div class="notification-trigger" (click)="toggleNotification($event)">
     <!-- Angular模板 [matBadge]="systemUnreadCount 直接讀取未讀取數 >0 鈴鐺會有紅點 -->
-      <div [matBadge]="systemUnreadCount"
-         [matBadgeHidden]="systemUnreadCount === 0"
+      <div [matBadge]="systemUnreadCount+personalUnreadCount"
+         [matBadgeHidden]="(systemUnreadCount+personalUnreadCount) === 0"
          matBadgeSize="small"
          matBadgeColor="warn"
          class="demo-section">
       <mat-icon style="position: relative; top:5px">notifications_none</mat-icon>
-    </div>
+    </div>&nbsp;&nbsp;&nbsp;
     @if (hasNewMessage) { <span class="badge"></span> }
 
     @if (isNotificationOpen) {
     <div class="notification-panel" (click)="$event.stopPropagation()">
       <div class="tab-header">
-        <div class="tab-item" [class.active]="activeTab === 'personal'" (click)="activeTab = 'personal'">個人訊息</div>
+        <div class="tab-item" [class.active]="activeTab === 'personal'" (click)="activeTab = 'personal'">個人訊息&nbsp;
+          @if(personalUnreadCount>0){
+            <label class="unread-count">
+              &nbsp;{{personalUnreadCount > 99 ? '99+' : personalUnreadCount}}&nbsp;
+            </label>
+          }
+        </div>
         <div class="tab-item" [class.active]="activeTab === 'system'" (click)="activeTab = 'system'">系統通知&nbsp;
           @if(systemUnreadCount>0){
-          <label style="background-color: #ef3c2d;color:white;font-size: 11px;width: 20px;border-radius: 10px;">&nbsp;{{systemUnreadCount}}&nbsp;</label>
-        }
+            <label class="unread-count">
+            <!-- <label style="background-color: #ef3c2d;color:white;font-size: 11px;width: 20px;border-radius: 10px;"> -->
+              &nbsp;{{systemUnreadCount > 99 ? '99+' : systemUnreadCount}}&nbsp;
+            </label>
+          }
         </div>
       </div>
 
@@ -26,27 +35,33 @@
       <div class="tab-content">
         @if (activeTab === 'personal') {
         <ul class="msg-list">
-          <li>您的資產配置已更新</li>
-          <li>本月預算達成率 90%</li>
+          @for(item of personalNotificationList; track item.id) {
+            <li class="personal-msg " (click)="detailPersonal(item.id)">
+              <span class="msg-title">{{item.title}}</span>
+              @if(!item.read) {
+                <span class="unread-dot"></span>
+              }
+            </li>
+          }
         </ul>
         <!-- 系統通知 -->
         } @else {
         <ul class="msg-list">
-          @for(notification of notificationList?.data ; track $index){
-          @if(notification.scheduledDate<=gettoday){
-            <li class="system-msg " (click)="detail(notification.id!)">
-           <span class="msg-title">{{notification.title}}</span>
-        @if(!notification.hasRead) {
-          <span class="unread-dot"></span>
-        }
-            </li>
+          @for(notification of notificationList.data ; track $index){
+            @if(notification.scheduledDate<=gettoday){
+              <li class="system-msg " (click)="detail(notification.id!)">
+              <span class="msg-title">{{notification.title}}</span>
+              @if(!notification.hasRead) {
+                <span class="unread-dot"></span>
+              }
+              </li>
             }
             }
         </ul>
         }
       </div>
       <!-- <div class="tab-footer" routerLink="/notification">查看全部通知</div> -->
-      <div class="tab-footer" [routerLink]="activeTab === 'personal' ? '/personal-notification' : '/notification'">
+      <div class="tab-footer" [routerLink]="activeTab === 'personal' ? '/personal-notification' : '/system-notification'">
         查看全部{{ activeTab === 'personal' ? '個人' : '系統' }}通知
       </div>
     </div>
@@ -57,7 +72,7 @@
 <!-- 登出與個人檔案 -->
 <div class="user-menu-container">
   <div class="menu-trigger" (click)="toggleMenu($event)">
-    <span class="click-menu">XXX，歡迎使用</span>
+    <span class="click-menu">{{userName}}，歡迎使用</span>
     <mat-icon [class.rotated]="isMenuOpen">expand_more</mat-icon>
   </div>
 

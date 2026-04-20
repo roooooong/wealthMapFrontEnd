@@ -9,6 +9,7 @@ import { HttpClientService } from '../@service/http-client.service';
 import { ExampleService } from '../@service/example.service';
 import { MatDialog } from '@angular/material/dialog';
 import { InvalidComponent } from '../@dialog/invalid/invalid.component';
+import { filter, take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
@@ -35,7 +36,9 @@ export class LoginComponent {
     private httpClientService: HttpClientService,
     private exampleService: ExampleService) {
   }
-
+  goHome(){
+    this.router.navigate(['/main']);
+  }
 
   togglePassword() {
     this.showPassword = !this.showPassword;
@@ -82,22 +85,40 @@ export class LoginComponent {
           if (login.code == 200) {
             console.log('登入成功');
             // this.exampleService.setRole('user'); // 💡 關鍵：通知全域我變成了使用者
-            // this.router.navigate(['/admin-main']);
+
+            const token = login.data.token || login.token;
+
             // 💡 儲存 Token (如果有回傳的話)
-            if (login.token) {
-              localStorage.setItem('token', login.token);
-            } else if (login.data && login.data.token) {
-              localStorage.setItem('token', login.data.token);
+            if (token) {
+              sessionStorage.setItem('token', token);
             }
 
-            // 💡 優先使用後端回傳的角色，如果沒有才用 'user'
-            const role = login.role || (login.data && login.data.role) || 'USER';
-            this.exampleService.setRole(role);
-            this.router.navigate(['/main']);
+            this.exampleService.setUserData(login.data.token); // login.data.token 為 token // add by carly
+
+            this.exampleService.user$.pipe(
+              filter(u => u && u.id !== 0), // 確保拿到真正的資料才跳轉
+              take(1)                       // 執行完跳轉後自動斷開訂閱
+            ).subscribe(newUser => {
+              console.log(newUser);
+              this.role = newUser.role;
+              console.log(this.role);
+              // if(this.role==="USER" || this.role==="visitor"){
+
+              console.log("進入main");
+              this.router.navigate(['/main']);
+              // }else if(this.role==="ADMIN"){
+              // console.log("進入admin main");
+              // this.router.navigate(['/admin/main']);
+              // }
+            });
+            // // 💡 優先使用後端回傳的角色，如果沒有才用 'user'
+            // const role = login.role || (login.data && login.data.role) || 'USER';
+            // this.exampleService.setRole(role);
+            // this.router.navigate(['/main']);
           }
           else {
             console.log('登入失敗', login.code);
-
+            this.showDialog(7);
           }
 
         })
@@ -118,7 +139,7 @@ export class LoginComponent {
         .subscribe((sendEmail: any) => {
           if (sendEmail.code == 200) {
             this.showDialog(3);
-            this.page=3;
+            this.page = 3;
           }
         })
     }
@@ -149,7 +170,7 @@ export class LoginComponent {
 
   //忘記密碼後的登入 直接跳轉到/porfile修改密碼
   relogin() {
-     // 1. 手動觸發兩次驗證，確保按下登入時，兩個錯誤訊息都會更新
+    // 1. 手動觸發兩次驗證，確保按下登入時，兩個錯誤訊息都會更新
     this.validate('email');
     this.validate('password');
 
@@ -161,56 +182,41 @@ export class LoginComponent {
       };
       console.log('格式正確，執行登入 API');
       this.httpClientService.postApi(`http://localhost:8080/api/auth/login`, loginData)
-        .subscribe((login: any) => {
-          if (login.code == 200) {
+        .subscribe((relogin: any) => {
+          if (relogin.code == 200) {
             console.log('登入成功');
+            this.exampleService.setUserData(relogin.data.token);
             // this.exampleService.setRole('user'); // 💡 關鍵：通知全域我變成了使用者
             // this.router.navigate(['/admin-main']);
             // 💡 儲存 Token (如果有回傳的話)
-            if (login.token) {
-              localStorage.setItem('token', login.token);
-            } else if (login.data && login.data.token) {
-              localStorage.setItem('token', login.data.token);
+            if (relogin.token) {
+              sessionStorage.setItem('token', relogin.token);
+            } else if (relogin.data && relogin.data.token) {
+              sessionStorage.setItem('token', relogin.data.token);
             }
 
             // 💡 優先使用後端回傳的角色，如果沒有才用 'user'
-            const role = login.role || (login.data && login.data.role) || 'USER';
-            this.exampleService.setRole(role);
+            //   const role = relogin.role || (relogin.data && relogin.data.role) || 'USER';
+            //   this.exampleService.setRole(role);
+            //   this.showDialog(4);
+            //   this.router.navigate(['/profile']);
+            // }
+
+            this.exampleService.user$.subscribe(newUser => {
+              this.role = newUser.role;
+              console.log(this.role);
+            });
             this.showDialog(4);
-            this.router.navigate(['/profile']);
           }
           else {
-            console.log('登入失敗', login.code);
-
+            console.log('登入失敗', relogin.code);
+            this.showDialog(7);
           }
-
         })
-
-      // 這裡放原本被註解掉的 Service 呼叫邏輯
-      // const loginData = { email: this.email, password: this.password };
-      // this.wealthService.login(loginData).subscribe(...)
     }
   }
 
   ngOnInit(): void {
     this.page = 1;
   }
-
-  // login() {
-  //   const loginData = {
-  //     email: this.email,
-  //     password: this.password
-  //   };
-
-  //   this.wealthService.login(loginData).subscribe({
-  //     next: (res) => {
-  //       console.log('登入成功', res);
-  //       this.router.navigate(['/first']);
-  //     },
-  //     error: (err) => {
-  //       console.error('登入失敗', err);
-  //       alert('帳號或密碼錯誤');
-  //     }
-  //   });
-  // }
 }

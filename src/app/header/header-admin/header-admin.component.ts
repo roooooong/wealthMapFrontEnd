@@ -19,6 +19,7 @@ export class HeaderAdminComponent {
   ) { }
    // 三種身分 visitor;user;admin
   role: string = "visitor";
+  userName!: string ;
 
   isNotificationOpen = false;
   isMenuOpen = false;
@@ -32,14 +33,20 @@ export class HeaderAdminComponent {
     console.log('執行登出');
     this.isMenuOpen = false;
     // 之後要清空使用者資料
-    this.exampleService.setRole('visitor');
+    // this.exampleService.setRole('visitor');
+    this.exampleService.clearUserData();
     this.router.navigate(['/main']);
   }
 
   ngOnInit(): void {
     // 💡 關鍵：訂閱 Service，確保登入或重新整理後身分正確
-    this.exampleService.role$.subscribe(newRole => {
-      this.role = newRole;
+    // this.exampleService.role$.subscribe(newRole => {
+    //   this.role = newRole;
+    // });
+
+    this.exampleService.user$.subscribe(user=>{
+      this.role = user.role;
+      this.userName = user.name;
     });
   }
 }

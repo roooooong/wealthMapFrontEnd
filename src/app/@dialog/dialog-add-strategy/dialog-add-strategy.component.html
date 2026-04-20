@@ -1,0 +1,62 @@
+<div class="frameCss">
+  <!-- dialog的標題 -->
+  <p mat-dialog-title class="titleCss">
+    <span>新增加減碼策略</span>
+  </p>
+  <!-- dialog的內容 -->
+  <mat-dialog-content>
+    <div class="form-group">
+      <label>選擇持股 : </label>&nbsp;&nbsp;
+      <select [(ngModel)]="newStrategy.symbol" (change)="onStockChange()">
+        <option value="" disabled>-- 請選擇股票 --</option>
+        @for (s of userHolding; track $index) {
+          <option [value]="s">{{ s }}</option>
+        }
+      </select>
+      <div class="alertText">
+          {{alertSymbol}}
+        </div>
+      <div class="info-row">
+        @if(isLoading){
+          <div class="loading-spinner">查詢最新價格中...</div>
+        }
+        @else{
+          <div class="info-item">
+            <span class="label">最新價格</span>
+            <span class="value">{{ currentPrice }}</span>
+          </div>
+          <div class="info-item">
+            <span class="label">當前乖離</span>
+            <span class="value" [class.danger]="currentBias < -2">
+              {{ currentBias > 0 ? '+' : '' }}
+              {{ currentBias | number:'1.2-2' }}%
+            </span>
+          </div>
+        }
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>加碼門檻 (%)</label>
+          <input type="number" [(ngModel)]="newStrategy.buyThreshold" placeholder="-5">
+        </div>
+        <div class="form-group">
+          <label>減碼門檻 (%)</label>
+          <input type="number" [(ngModel)]="newStrategy.sellThreshold" placeholder="10">
+        </div>
+        <div class="alertText">
+          {{alertBias}}
+        </div>
+      </div>
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+
+
+    <button (click)="cancel()">取消</button>
+    &nbsp;&nbsp;
+    <button (click)="confirm()">新增</button>
+
+
+  </mat-dialog-actions>
+</div>

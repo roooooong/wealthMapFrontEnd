@@ -24,7 +24,7 @@ export class AdminMainComponent {
   ) { }
 
   // 三種身分 visitor;user;admin
-  role: string = "admin";
+  role: string = "ADMIN";
   userName: string = "Admin";
   page = 1;
 
@@ -204,9 +204,14 @@ ngAfterViewInit() {
       }
     });
 
-    this.exampleService.role$.subscribe(newRole => {
-      this.role = newRole;
-      console.log('MainComponent 收到身分變更：', this.role);
+    // this.exampleService.role$.subscribe(newRole => {
+    //   this.role = newRole;
+    //   console.log('MainComponent 收到身分變更：', this.role);
+    // });
+
+    this.exampleService.user$.subscribe(newUser => {
+      this.role = newUser.role;
+      console.log(this.role);
     });
     console.log('現在身分', this.role);
 

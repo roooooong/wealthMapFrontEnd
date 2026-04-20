@@ -1,4 +1,4 @@
-@if( role=="USER"){
+@if( role=="USER" || role=="ADMIN"){
 <div class="frameCss">
   <div class="personal-carousel">
     <div class="personal-container" [style.transform]="'translateX(' + (-currentIndex * 100) + '%)'">
@@ -17,61 +17,83 @@
     </div>
   </div>
 </div>
+
+<!-- 圓餅圖 -->
 <div class="frameCss">
   <div class="chart-container">
     <canvas id="chart"></canvas>
     <div class="chart-center-text">
-      <span class="total-label">總資產</span>
-      <span class="total-amount">$10,000</span>
     </div>
   </div>
 </div>
 }
-<br>
-<div class="frameCss">
 
+@if(role=="visitor"){
+<div class="frameCss" style="margin-top: 70px;">
+  <label class="WealthMap">WealthMap 個人財務與資產配置平台</label>
+</div>
+<div class="frameCss">
+  <p style="color:#666;letter-spacing: 0.05em;">全方位的資產配置、多元的投資策略，陪你在理財的路上，讓資產隨市場穩健進化</p>
+</div>
+<br><br><br>
+}
+
+<div class="frameCss">
   <div class="iconbox">
-    @if(role=="USER"){
-    <button class="iconbtn">
+    @if(role=="USER" || role=="ADMIN"){
+    <button class="iconbtn" (click)="goToAssets()" style="cursor: pointer;">
       <img style="width: 80px;height: 60px;" src="16220 (1).png">
       <br><br>
       <label style="font-size: 16px;">我的資產</label>
     </button>
     }
-    <button class="iconbtn">
+    <button class="iconbtn" (click)="health()">
       <img style="width: 90px;height: 90px;" src="9274 (3).png">
       <br><br>
       <label style="font-size: 16px;">財務健康</label>
     </button>
-    <button class="iconbtn">
+    <button class="iconbtn" (click)="investmentManage()">
       <img style="width: 120px;height: 70px;" src="9289 (1).png">
       <br><br>
       <label style="font-size: 16px;">投資策略</label>
     </button>
-    <button class="iconbtn">
+    <button class="iconbtn" (click)="goToGoals()" style="cursor: pointer;">
       <img style="width: 90px;height: 80px;" src="12260 (3).png">
       <br><br>
       <label style="font-size: 16px;">財務目標</label>
     </button>
-
     <button class="iconbtn" (click)="goToRiskTest()" style="cursor: pointer;">
       <img style="width: 100px;height: 70px;" src="9179 (2).png">
       <br><br>
       <label style="font-size: 16px;">風險評估</label>
     </button>
+    @if(role=="ADMIN"){
+    <button class="iconbtn" (click)="setNotification()" style="cursor: pointer;">
+      <img style="width: 100px;height: 65px;" src="公告設定 (2).png">
+      <br><br>
+      <label style="font-size: 16px;">公告設定</label>
+    </button>
+    <button class="iconbtn" (click)="setNews()" style="cursor: pointer;">
+      <img style="width: 70px;height: 70px;" src="新聞管理 (2).png">
+      <br><br>
+      <label style="font-size: 16px;">新聞管理</label>
+    </button>
+    }
   </div>
 </div>
 
-<br><br><br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br><br><br><br>
 
 
 <div class="frameCss">
   <div style="font-size: 28px;font-weight: bold;">相關新聞</div>
+  <!-- <div style="font-size:24px;color:#1368aa;font-weight: bold;letter-spacing: 0.05em;">相關新聞</div> -->
+
 </div>
 <div class="frameCss">
-<hr style="width: 10%; border: none; height: 1px; background-color: #9dcee2; ">
+  <!-- <hr style="width: 10%; border: none; height: 1px; background-color: #9dcee2; "> -->
 </div>
-<br>
+<br><br>
 <div class="carousel-container">
   <button (click)="prev()" class="newsbtn">
     <mat-icon>chevron_left</mat-icon>
@@ -80,25 +102,25 @@
   <div class="news-window">
     <div class="news-track">
       @for(news of visibleNews; track $index) {
-        <div class="news-card" (click)="goNewsUrl(news.url)">
-          <div class="card-content">
-            <span class="news-tag">{{news?.sourceName}}</span>
-            <img [src]="news?.image" class="news-img">
-            <br>
-            @if (news && news.publishedAt) {
-            <span style="color:#4091c9">{{news.publishedAt.split('T')[0]}}</span>
-            }@else {
-    <span>載入中...</span>
-  }
-            <p class="news-title">{{news?.title}}</p>
-            <p class="news-content">{{news?.content}}</p>
-          </div>
-          <div class="card-footer">
-             <label class="wealth-switch">
-                <span class="slider"></span>
-             </label>
-          </div>
+      <div class="news-card" (click)="goNewsUrl(news.url)">
+        <div class="card-content">
+          <span class="news-tag">{{news?.sourceName}}</span>
+          <img [src]="news?.image" class="news-img">
+          <br>
+          @if (news && news.publishedAt) {
+          <span style="color:#4091c9">{{news.publishedAt.split('T')[0]}}</span>
+          }@else {
+          <span>載入中...</span>
+          }
+          <p class="news-title">{{news?.title}}</p>
+          <p class="news-content">{{news?.content}}</p>
         </div>
+        <div class="card-footer">
+          <label class="wealth-switch">
+            <span class="slider"></span>
+          </label>
+        </div>
+      </div>
       }
     </div>
   </div>
@@ -116,14 +138,14 @@
   <div style="font-size: 28px;font-weight: bold;">系統通知</div>
 </div>
 <div class="frameCss">
-<hr style="width: 10%; border: none; height: 1px; background-color: #9dcee2; ">
+  <!-- <hr style="width: 10%; border: none; height: 1px; background-color: #9dcee2; "> -->
 </div>
+<br>
 
 <div class="frameCss" style="margin: 20px;">
   <div style="width: 70%; border-color: #4091c9;">
     @for(notification of notificationList?.data ; track $index){
-    @if(notification.scheduledDate<=gettoday){
-      <div class="system">
+    @if(notification.scheduledDate<=gettoday){ <div class="system">
       <label class="notification-tag" (click)="detail(notification.id!)">{{notification.tag}}</label>
       <label class="notification-title" (click)="detail(notification.id!)">{{notification.title}}</label>
       <label style="position: absolute;right:20px"

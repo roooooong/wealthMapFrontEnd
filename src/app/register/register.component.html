@@ -1,7 +1,14 @@
 <div class="whole">
-  <div class="left-box">
-    <p>個人財務</p>
-    <p>與資產配置平台</p>
+    <div class="left-box">
+    <div>
+      <button class="homebtn" (click)="goHome()">
+        <mat-icon>home</mat-icon>
+      </button>
+      <br><br>
+      <label class="WealthMap">WealthMap</label>
+      <br><br>
+      <label class="WealthMap-small">個人財務與資產配置平台</label>
+    </div>
   </div>
   <div class="right-box">
     <div class="right-content">
@@ -51,7 +58,7 @@
       </div>
 
       <div class="btn">
-        <button (click)="register()" class="btn-google">登入</button>
+        <button (click)="register()" class="btn-google">註&nbsp;冊</button>
       </div>
     </div>
   </div>

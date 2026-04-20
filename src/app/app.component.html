@@ -1,36 +1,34 @@
 <!-- <button (click)="login()">登 入</button>
 <button (click)="register()">註 冊</button> -->
 <div class="app-wrapper">
-<div class="frameCss">
-  <div class="headerCss">
+  @if (showHeader) {
+  <div class="frameCss">
+    <div class="headerCss">
 
-    @if (role === 'ADMIN') {
-      <label class="logo" (click)="homeAdmin()">WM</label>
-      <app-header-admin></app-header-admin>
-    } @else if (role === 'USER') {
       <label class="logo" (click)="home()">WM</label>
+      @if (role === 'ADMIN' || role === 'USER') {
       <app-header-user></app-header-user>
-    } @else {
-      <label class="logo" (click)="home()">WM</label>
+      } @else {
       <app-header-visitor></app-header-visitor>
-    }
+      }
+    </div>
   </div>
+  }
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
+  @if (showHeader) {
+
+  <div class="footerCss">
+    <br>
+    <div style="position: absolute;top: 25px;">
+      <button class="headerbtn" style="left:50px;" (click)="setService()">服務條款</button><span
+        style="padding: 5px;">|</span>
+      <button class="headerbtn" style="left:65px;" (click)="setPrivacyPolicy()">隱私政策</button><span
+        style="padding: 5px;">|</span>
+      <button class="headerbtn" style="left:80px;" (click)="setAboutUs()">關於我們</button>
+    </div>
+    <span style="position: absolute;bottom:25px">© 2026 WealthMap 版權所有</span>
+  </div>
+  }
 </div>
-
-<main class="main-content">
-<router-outlet></router-outlet>
-</main>
-
-<div class="footerCss">
-  <br>
-<div style="position: absolute;top: 25px;">
-  <button class="headerbtn" style="left:50px;" (click)="setService()">服務條款</button><span style="padding: 5px;">|</span>
-    <button class="headerbtn" style="left:65px;" (click)="setPrivacyPolicy()">隱私政策</button><span style="padding: 5px;">|</span>
-    <button class="headerbtn" style="left:80px;" (click)="setAboutUs()">關於我們</button>
-</div>
-  <span style="position: absolute;bottom:25px">© 2026 WealthMap 版權所有</span>
-</div>
-
-</div>
-
-

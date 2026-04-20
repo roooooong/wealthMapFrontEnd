@@ -1,10 +1,26 @@
-<div class="goal-container">
+@if( role=='visitor' ){
+  <div class="frameCss" style="margin-top: 70px;">
+  <label class="title">財務目標</label>
+</div>
+<div class="frameCss" style="margin-bottom: 50px;">
+  <p class="illustrate" >賦予資金明確的任務！設定目標日期與金額，系統將自動追蹤完成率，助您在既定時間內精準達標。</p>
+</div>
+
+<br><br>
+<div class="frameCss" style="margin-top: 20px;">
+  <button class="registerbtn" (click)="goRegister()">註冊，開始使用「 WealthMap 個人資產與財務配置平台! 」</button>
+</div>
+<br><br><br>
+}
+@else{
+  <div class="goal-container">
 
     <div class="top-nav-bar">
         <button class="back-btn" (click)="backToHome()">
             <span class="icon-chevron">〈</span> 回首頁
         </button>
     </div>
+
     @if(!isLoggedIn) {
     <div class="unauth-card">
         <div class="icon-lock">🔒</div>
@@ -16,7 +32,41 @@
 
     @else {
     <div class="header-section">
+        <h2 class="main-title">🎯 我的財務目標</h2>
+        <button class="add-btn" (click)="toggleAddForm()">
+            + 新增目標
+        </button>
+    </div>
+
+    @if(showAddForm) {
+    <div class="add-form-card">
+        <div class="form-group">
+            <input type="text" [(ngModel)]="newGoalName" placeholder="目標名稱 (例：買車、旅遊)">
+            <input type="number" [(ngModel)]="newGoalAmount" placeholder="目標金額 (例：500000)">
+            <input type="date" [(ngModel)]="newGoalDate">
+        </div>
+        <div class="form-actions">
+            <button class="save-btn" (click)="saveGoal()">儲存目標</button>
+            <button class="cancel-btn" (click)="toggleAddForm()">取消</button>
+        </div>
     </div>
     }
 
+    <div class="goals-list">
+        @for(goal of goals; track $index) {
+        <div class="goal-card">
+            <div class="goal-info">
+                <h3>{{ goal.goalName }}</h3>
+                <p class="amount">目標金額：{{ goal.targetAmount | currency:'TWD':'symbol-narrow':'1.0-0' }}</p>
+                <p class="date">預計達成：{{ goal.targetDate }}</p>
+            </div>
+            <button class="delete-btn" (click)="deleteGoal(goal.id, goal.goalName)">🗑️ 刪除</button>
+        </div>
+        } @empty {
+        <p class="empty-state">目前還沒有設定任何目標，趕快新增一個吧！🚀</p>
+        }
+    </div>
+
+    }
 </div>
+}

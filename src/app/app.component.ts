@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { NavigationEnd, Router, RouterOutlet, NavigationStart } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { HeaderAdminComponent } from './header/header-admin/header-admin.component';
 import { HeaderUserComponent } from './header/header-user/header-user.component';
@@ -17,9 +17,18 @@ export class AppComponent {
   // 三種身分 visitor;user;admin
   // role!:string ;
   role = 'visitor';
+  showHeader = false;
   constructor(
     private router: Router,
-    private exampleService: ExampleService,) { }
+    private exampleService: ExampleService,) {
+      this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe((event: any) => {
+      // 設定你不想要顯示 Header 的路徑 (例如 /login)
+      const hideHeaderRoutes = ['/login', '/register'];
+      this.showHeader = !hideHeaderRoutes.includes(event.urlAfterRedirects);
+    });
+     }
 
   login() {
     this.router.navigate(['/login']);
@@ -28,12 +37,8 @@ export class AppComponent {
     this.router.navigate(['/register']);
   }
 
-  homeAdmin() {
-    this.router.navigate(['/admin/notification-set']);
-  }
-
   home() {
-    this.router.navigate(['/main']);
+      this.router.navigate(['/main']);
   }
 
   setAboutUs() {
@@ -52,9 +57,13 @@ export class AppComponent {
   }
 
   ngOnInit() {
-    this.exampleService.role$.subscribe(newRole => {
-      this.role = newRole;
-      console.log('MainComponent 收到身分變更：', this.role);
+    // this.exampleService.role$.subscribe(newRole => {
+    //   this.role = newRole;
+    //   console.log('MainComponent 收到身分變更：', this.role);
+    // });
+
+    this.exampleService.user$.subscribe(user=>{
+      this.role = user.role;
     });
     console.log('現在身分', this.role);
 

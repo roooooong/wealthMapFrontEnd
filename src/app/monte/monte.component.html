@@ -1,0 +1,91 @@
+<div class="monte-container">
+  <!-- 1. 頂部標題 -->
+  <!-- <h1 class="main-title">投資計劃模擬</h1> -->
+
+  <!-- 2. 下方左右分欄外殼 -->
+  <div class="main-layout">
+
+    <!-- 左側控制區 (45%) -->
+    <div class="left-controls">
+      <!-- 頂部粉紅輸入框 -->
+      <div class="top-inputs">
+        <div class="input-group">
+          <label>目標金額(萬)</label>
+          <input type="number" [(ngModel)]="planParams[0].value" class="pink-box">
+        </div>
+        <div class="input-group">
+          <label>期初投入(萬)</label>
+          <input type="number" [(ngModel)]="planParams[1].value" class="pink-box">
+        </div>
+      </div>
+
+      <!-- 滑軌區 (先放滑軌) -->
+      <div class="slider-section">
+        <div class="slider-item">
+          <div class="slider-header-row">
+            <label>每月投入 </label>
+            <span class="large-numerical-display">{{ planParams[2].value | number}}</span>
+          </div>
+          <input type="range" [(ngModel)]="planParams[2].value" min="1000" max="100000" step="1000" class="blue-slider">
+          <div class="slider-labels">
+            <span>1K</span>
+            <span>50K</span>
+            <span>100K</span>
+          </div>
+        </div>
+          <div class="slider-item">
+          <div class="slider-header-row">
+            <label>年期 </label>
+            <span class="large-numerical-display">{{ planParams[3].value }} 年</span>
+          </div>
+          <input type="range" [(ngModel)]="planParams[3].value" min="1" max="40" class="blue-slider">
+          <div class="slider-labels">
+            <span>1年</span>
+            <span>20年</span>
+            <span>40年</span>
+          </div>
+        </div>
+      </div>
+      <!-- ------------ -->
+
+
+      <!-- 投資配置 (放在滑軌下面) -->
+      <div class="allocation-section">
+        <h3>投資配置(總共100%)</h3>
+        <div class="asset-grid">
+          <div *ngFor="let asset of currentScenario.assets" class="input-allocation">
+            <label>{{asset.type}}：</label><input type="number" [(ngModel)]="asset.percentage"
+            placeholder="請輸入投資配置(%)" class="small-input">
+          </div>
+        </div>
+        <!-- 只有加起來等於 100 才能點按鈕 -->
+        <button [disabled]="totalPercent !== 100" (click)="startSimulation()" class="btn-simulation">
+          開始模擬計算
+        </button>
+
+        <!-- 下面加一行紅字提醒 -->
+        <p *ngIf="totalPercent !== 100" style="color: red;" class="warn">
+          目前的總比例為 {{ totalPercent }}%，請調整至 100% 以進行計算。
+        </p>
+      </div>
+
+    </div>
+
+    <!-- 右側圖表區 (45%) -->
+    <div class="right-display">
+      <!-- <p class="chart-label">投資模擬 折線圖</p> -->
+      <div class="chart-container-white">
+        <div echarts [options]="historyLineOption" class="actual-chart"></div>
+      </div>
+      <div class="market-detail">本系統採用 蒙地卡羅(Monte Carlo)模擬演算法，透過隨機市場路徑抽樣，整合資產報酬率、波動率（標準差）與通膨因子，模擬未來可能的資產成長曲線。
+      <ul>
+        <li>  較佳預期：取 90th 百分位數(較佳的 10% 情境)</li>
+        <li>  一般表現：取 50th 百分位數(中位數)</li>
+        <li>  較差預期：取 10th 百分位數(較差的 10% 情境)</li>
+      </ul>
+        <p>※ 本模擬僅供參考，不構成投資建議，實際投資結果仍受市場波動影響。</p>
+      </div>
+    </div>
+
+  </div>
+</div>

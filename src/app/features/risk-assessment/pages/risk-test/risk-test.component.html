@@ -1,97 +1,103 @@
+<div class="frameCss" style="margin-top: 70px;">
+  <label class="title">風險屬性評量問卷</label>
+</div>
+<div class="frameCss" style="margin-bottom: 20px;">
+  <p class="illustrate">請根據您的真實情況作答，系統將為您計算專屬的投資策略。</p>
+</div>
 <div class="test-container">
-    <h2 class="title">風險屬性評量問卷</h2>
-    <p class="subtitle">請根據您的真實情況作答，系統將為您計算專屬的投資策略。</p>
+  <!-- <h2 class="title">風險屬性評量問卷</h2>
+    <p class="subtitle">請根據您的真實情況作答，系統將為您計算專屬的投資策略。</p> -->
 
-    <form [formGroup]="riskForm" (ngSubmit)="submitTest(1)">
+  <form [formGroup]="riskForm" (ngSubmit)="submitTest(1)">
 
-        <div class="question-card"
-            [class.error-card]="riskForm.get('ageScore')?.invalid && riskForm.get('ageScore')?.touched">
-            <h4>1. 您的年齡是？
-                <span class="error-msg" *ngIf="riskForm.get('ageScore')?.invalid && riskForm.get('ageScore')?.touched">*
-                    此題為必填</span>
-            </h4>
-            <label><input type="radio" formControlName="ageScore" [value]="1"> 65歲(含)以上 / 17歲(含)以下</label>
-            <label><input type="radio" formControlName="ageScore" [value]="2"> 60 - 64 歲</label>
-            <label><input type="radio" formControlName="ageScore" [value]="3"> 56 - 59 歲</label>
-            <label><input type="radio" formControlName="ageScore" [value]="4"> 41 - 55 歲</label>
-            <label><input type="radio" formControlName="ageScore" [value]="5"> 18 - 40 歲</label>
-        </div>
+    <div class="question-card"
+      [class.error-card]="riskForm.get('ageScore')?.invalid && riskForm.get('ageScore')?.touched">
+      <h4>1. 您的年齡是？
+        <span class="error-msg" *ngIf="riskForm.get('ageScore')?.invalid && riskForm.get('ageScore')?.touched">*
+          此題為必填</span>
+      </h4>
+      <label><input type="radio" formControlName="ageScore" [value]="1"> 65歲(含)以上 / 17歲(含)以下</label>
+      <label><input type="radio" formControlName="ageScore" [value]="2"> 60 - 64 歲</label>
+      <label><input type="radio" formControlName="ageScore" [value]="3"> 56 - 59 歲</label>
+      <label><input type="radio" formControlName="ageScore" [value]="4"> 41 - 55 歲</label>
+      <label><input type="radio" formControlName="ageScore" [value]="5"> 18 - 40 歲</label>
+    </div>
 
-        <div class="question-card"
-            [class.error-card]="riskForm.get('knowledgeScore')?.invalid && riskForm.get('knowledgeScore')?.touched">
-            <h4>2. 您對金融市場和投資的認識？
-                <span class="error-msg"
-                    *ngIf="riskForm.get('knowledgeScore')?.invalid && riskForm.get('knowledgeScore')?.touched">*
-                    此題為必填</span>
-            </h4>
-            <label><input type="radio" formControlName="knowledgeScore" [value]="1"> 一無所知，但有興趣進一步了解。</label>
-            <label><input type="radio" formControlName="knowledgeScore" [value]="2"> 只有一些基本知識。</label>
-            <label><input type="radio" formControlName="knowledgeScore" [value]="3"> 了解基本知識，並明白分散投資的重要性。</label>
-            <label><input type="radio" formControlName="knowledgeScore" [value]="4"> 清楚明白影響股票與債券價格的因素。</label>
-            <label><input type="radio" formControlName="knowledgeScore" [value]="5"> 非常熟悉大部分金融產品與風險因素。</label>
-        </div>
+    <div class="question-card"
+      [class.error-card]="riskForm.get('knowledgeScore')?.invalid && riskForm.get('knowledgeScore')?.touched">
+      <h4>2. 您對金融市場和投資的認識？
+        <span class="error-msg"
+          *ngIf="riskForm.get('knowledgeScore')?.invalid && riskForm.get('knowledgeScore')?.touched">*
+          此題為必填</span>
+      </h4>
+      <label><input type="radio" formControlName="knowledgeScore" [value]="1"> 一無所知，但有興趣進一步了解。</label>
+      <label><input type="radio" formControlName="knowledgeScore" [value]="2"> 只有一些基本知識。</label>
+      <label><input type="radio" formControlName="knowledgeScore" [value]="3"> 了解基本知識，並明白分散投資的重要性。</label>
+      <label><input type="radio" formControlName="knowledgeScore" [value]="4"> 清楚明白影響股票與債券價格的因素。</label>
+      <label><input type="radio" formControlName="knowledgeScore" [value]="5"> 非常熟悉大部分金融產品與風險因素。</label>
+    </div>
 
-        <div class="question-card"
-            [class.error-card]="riskForm.get('experienceScore')?.invalid && riskForm.get('experienceScore')?.touched">
-            <h4>3. 請依自身之投資經驗填寫：
-                <span class="error-msg"
-                    *ngIf="riskForm.get('experienceScore')?.invalid && riskForm.get('experienceScore')?.touched">*
-                    此題為必填</span>
-            </h4>
-            <label><input type="radio" formControlName="experienceScore" [value]="1"> 1年(含)以下</label>
-            <label><input type="radio" formControlName="experienceScore" [value]="2"> 1年 - 3年(含)</label>
-            <label><input type="radio" formControlName="experienceScore" [value]="3"> 3年 - 6年(含)</label>
-            <label><input type="radio" formControlName="experienceScore" [value]="4"> 6年 - 10年(含)</label>
-            <label><input type="radio" formControlName="experienceScore" [value]="5"> 10年以上</label>
-        </div>
+    <div class="question-card"
+      [class.error-card]="riskForm.get('experienceScore')?.invalid && riskForm.get('experienceScore')?.touched">
+      <h4>3. 請依自身之投資經驗填寫：
+        <span class="error-msg"
+          *ngIf="riskForm.get('experienceScore')?.invalid && riskForm.get('experienceScore')?.touched">*
+          此題為必填</span>
+      </h4>
+      <label><input type="radio" formControlName="experienceScore" [value]="1"> 1年(含)以下</label>
+      <label><input type="radio" formControlName="experienceScore" [value]="2"> 1年 - 3年(含)</label>
+      <label><input type="radio" formControlName="experienceScore" [value]="3"> 3年 - 6年(含)</label>
+      <label><input type="radio" formControlName="experienceScore" [value]="4"> 6年 - 10年(含)</label>
+      <label><input type="radio" formControlName="experienceScore" [value]="5"> 10年以上</label>
+    </div>
 
-        <div class="question-card"
-            [class.error-card]="riskForm.get('toleranceScore')?.invalid && riskForm.get('toleranceScore')?.touched">
-            <h4>4. 一般而言，您可接受何種程度的價格波動？
-                <span class="error-msg"
-                    *ngIf="riskForm.get('toleranceScore')?.invalid && riskForm.get('toleranceScore')?.touched">*
-                    此題為必填</span>
-            </h4>
-            <label><input type="radio" formControlName="toleranceScore" [value]="1"> 可接受最高 5% 的波動</label>
-            <label><input type="radio" formControlName="toleranceScore" [value]="2"> 可接受最高 10% 的波動</label>
-            <label><input type="radio" formControlName="toleranceScore" [value]="3"> 可接受最高 15% 的波動</label>
-            <label><input type="radio" formControlName="toleranceScore" [value]="4"> 可接受最高 20% 的波動</label>
-            <label><input type="radio" formControlName="toleranceScore" [value]="5"> 可接受 20% 以上的波動</label>
-        </div>
+    <div class="question-card"
+      [class.error-card]="riskForm.get('toleranceScore')?.invalid && riskForm.get('toleranceScore')?.touched">
+      <h4>4. 一般而言，您可接受何種程度的價格波動？
+        <span class="error-msg"
+          *ngIf="riskForm.get('toleranceScore')?.invalid && riskForm.get('toleranceScore')?.touched">*
+          此題為必填</span>
+      </h4>
+      <label><input type="radio" formControlName="toleranceScore" [value]="1"> 可接受最高 5% 的波動</label>
+      <label><input type="radio" formControlName="toleranceScore" [value]="2"> 可接受最高 10% 的波動</label>
+      <label><input type="radio" formControlName="toleranceScore" [value]="3"> 可接受最高 15% 的波動</label>
+      <label><input type="radio" formControlName="toleranceScore" [value]="4"> 可接受最高 20% 的波動</label>
+      <label><input type="radio" formControlName="toleranceScore" [value]="5"> 可接受 20% 以上的波動</label>
+    </div>
 
-        <div class="question-card"
-            [class.error-card]="riskForm.get('durationScore')?.invalid && riskForm.get('durationScore')?.touched">
-            <h4>5. 當您投資的金融商品有波動時，您可接受的持有期間？
-                <span class="error-msg"
-                    *ngIf="riskForm.get('durationScore')?.invalid && riskForm.get('durationScore')?.touched">*
-                    此題為必填</span>
-            </h4>
-            <label><input type="radio" formControlName="durationScore" [value]="1"> 3個月以下</label>
-            <label><input type="radio" formControlName="durationScore" [value]="2"> 3個月 - 6個月(含)</label>
-            <label><input type="radio" formControlName="durationScore" [value]="3"> 6個月 - 1年(含)</label>
-            <label><input type="radio" formControlName="durationScore" [value]="4"> 1年 - 3年(含)</label>
-            <label><input type="radio" formControlName="durationScore" [value]="5"> 3年以上</label>
-        </div>
+    <div class="question-card"
+      [class.error-card]="riskForm.get('durationScore')?.invalid && riskForm.get('durationScore')?.touched">
+      <h4>5. 當您投資的金融商品有波動時，您可接受的持有期間？
+        <span class="error-msg"
+          *ngIf="riskForm.get('durationScore')?.invalid && riskForm.get('durationScore')?.touched">*
+          此題為必填</span>
+      </h4>
+      <label><input type="radio" formControlName="durationScore" [value]="1"> 3個月以下</label>
+      <label><input type="radio" formControlName="durationScore" [value]="2"> 3個月 - 6個月(含)</label>
+      <label><input type="radio" formControlName="durationScore" [value]="3"> 6個月 - 1年(含)</label>
+      <label><input type="radio" formControlName="durationScore" [value]="4"> 1年 - 3年(含)</label>
+      <label><input type="radio" formControlName="durationScore" [value]="5"> 3年以上</label>
+    </div>
 
-        <div class="question-card"
-            [class.error-card]="riskForm.get('allocationScore')?.invalid && riskForm.get('allocationScore')?.touched">
-            <h4>6. 目前投資的資產中，約有多少比例是持有金融投資商品？
-                <span class="error-msg"
-                    *ngIf="riskForm.get('allocationScore')?.invalid && riskForm.get('allocationScore')?.touched">*
-                    此題為必填</span>
-            </h4>
-            <label><input type="radio" formControlName="allocationScore" [value]="1"> 無</label>
-            <label><input type="radio" formControlName="allocationScore" [value]="2"> 0% - 10%</label>
-            <label><input type="radio" formControlName="allocationScore" [value]="3"> 10% - 25%</label>
-            <label><input type="radio" formControlName="allocationScore" [value]="4"> 25% - 50%</label>
-            <label><input type="radio" formControlName="allocationScore" [value]="5"> 50% 以上</label>
-        </div>
+    <div class="question-card"
+      [class.error-card]="riskForm.get('allocationScore')?.invalid && riskForm.get('allocationScore')?.touched">
+      <h4>6. 目前投資的資產中，約有多少比例是持有金融投資商品？
+        <span class="error-msg"
+          *ngIf="riskForm.get('allocationScore')?.invalid && riskForm.get('allocationScore')?.touched">*
+          此題為必填</span>
+      </h4>
+      <label><input type="radio" formControlName="allocationScore" [value]="1"> 無</label>
+      <label><input type="radio" formControlName="allocationScore" [value]="2"> 0% - 10%</label>
+      <label><input type="radio" formControlName="allocationScore" [value]="3"> 10% - 25%</label>
+      <label><input type="radio" formControlName="allocationScore" [value]="4"> 25% - 50%</label>
+      <label><input type="radio" formControlName="allocationScore" [value]="5"> 50% 以上</label>
+    </div>
 
-        <div class="submit-area">
-            <button type="submit" class="submit-btn" [disabled]="isSubmitting">
-                {{ isSubmitting ? '計算中...' : '送出測驗，觀看策略' }}
-            </button>
-        </div>
+    <div class="submit-area">
+      <button type="submit" class="submit-btn" [disabled]="isSubmitting">
+        {{ isSubmitting ? '計算中...' : '送出測驗，觀看策略' }}
+      </button>
+    </div>
 
-    </form>
+  </form>
 </div>

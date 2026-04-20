@@ -46,7 +46,7 @@ hr{
   margin-right: 15px;
   margin-left: 5px;
   font-size: 14px;
-  max-width: 8%;
+  max-width: 15%;
   cursor: pointer;
 }
 .news-tagNone{
@@ -57,13 +57,13 @@ hr{
   margin-right: 15px;
   margin-left: 5px;
   font-size: 14px;
-  max-width: 8%;
+  max-width: 15%;
   cursor: pointer;
 }
 
 .news-title {
     display: inline-block;
-    width: 65%;
+    width: 60%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -72,7 +72,7 @@ hr{
 }
 .news-titleNone {
     display: inline-block;
-    width: 65%;
+    width: 60%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
