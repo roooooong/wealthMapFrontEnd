@@ -22,7 +22,7 @@ export class InvestmentManageComponent implements OnInit {
   ) {}
 
   // 定義目前的頁籤狀態，預設為 'strategy'
-  currentTab = signal<'rebalance' | 'strategy' | 'engine'>('strategy');
+  currentTab = signal<'rebalance' | 'strategy' | 'engine'>('rebalance');
 
   role!: string;
   userId!: number;
