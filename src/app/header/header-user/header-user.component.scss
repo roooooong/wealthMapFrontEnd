@@ -9,6 +9,10 @@
   z-index: 1000;
   /* 確保不會被其他元件蓋住 */
 
+  @media(max-width:600px) {
+    left: 70px;
+  }
+
   .notification-trigger {
     display: flex;
     align-items: center;
@@ -157,6 +161,11 @@
   display: inline-block;
   z-index: 1000;
   /* 確保不會被其他元件蓋住 */
+
+  //手機
+  @media(max-width:600px) {
+    right: 5px;
+  }
 
   .menu-trigger {
     display: flex;
