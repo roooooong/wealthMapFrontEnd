@@ -178,9 +178,7 @@
   <div class="content-area">
     @switch (currentTab()) {
       @case ('rebalance') {
-        <div class="placeholder">資產再平衡開發中...</div>
-        <!-- <app-asset-rebalance></app-asset-rebalance>  -->
-      }
+        <app-rebalance></app-rebalance>}
       @case ('strategy') {
         <app-strategy-list></app-strategy-list> }
       @case ('engine') {

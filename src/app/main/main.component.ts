@@ -158,7 +158,7 @@ export class MainComponent {
     const centerTextPlugin = {
       id: 'centerText',
       // 💡 改用 afterDatasetsDraw，確保它在圓餅圖畫完後、Tooltip 畫出來前執行
-  afterDatasetsDraw: (chart: any) => {
+      afterDatasetsDraw: (chart: any) => {
         const { ctx, chartArea: { left, right, top, bottom } } = chart;
         ctx.save();
 
@@ -210,7 +210,7 @@ export class MainComponent {
           //設定hover時的偏移量，滑鼠移上去表會偏移，方便觀看選種的項目
           hoverOffset: 4,
           // 數字越小，中間框框越小，圓環越粗（例如 '30%'）
-      cutout: '65%',
+          cutout: '65%',
         },
       ],
     };
