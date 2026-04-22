@@ -1,53 +1,41 @@
-<!-- 置中
-<div class="frameCss" >
-  header
-  <div class="headerCss">
 
-    logo的位置
-    <label class="logo">WM</label>
-    <label class="loginText">{{userName}}，歡迎使用</label>
-
-  </div>
-</div> -->
 <br>
-<!-- @if(isEdit==false){ -->
-<!-- <div class="frameCss"> -->
 <div style="margin: 20px;">
   <!-- 標題 -->
   <div>
     <h1>關於我們</h1>
-    <label style="position: absolute;left: 340px;margin-top: 63px; color: #1368aa;">2026/03/20</label>
-    <!-- <button class="tooltip-container" style="background-color: transparent;border: none;" (click)="edit()">
-      <img style="position: absolute;right: 90px;margin-top: 50px;width: 30px; height: 30px;cursor: pointer;"
-        src="編輯.png">
-      <span class="tooltip-text">編輯</span>
-    </button> -->
+    <label class="date">2026/03/20</label>
   </div>
 </div>
-<br><br><br><br><br>
-<hr style="width: 80%; border: none; height: 2px; background-color: #9dcee2; ">
-<!-- </div> -->
+<div class="between">
+</div>
+<hr class="hr1">
 <br>
-<div class="frameCss" style="width: 88%; ">
+<div class="frameCss">
   <label class="privacyListtitle">{{informationList.title}}</label>
 </div>
-<br><br><br><br><br><br><br>
-@for(terms of informationList.content; track $index){
-  <div class="frameCss" style="width: 88%;">
-<hr style="position: absolute;top: -35px;left:125px;  width: 92%; border: none; height: 2px; background-color: #9dcee251; ">
+
+<div class="between2">
 </div>
-<div class="frameCss" style="width: 88%;">
+
+
+@for(terms of informationList.content; track $index){
+<div class="content">
+  <div class="frameCss">
+    <hr class="content-hr">
+</div>
+<div class="frameCss">
   <label class="index">{{$index+1}}</label>
   <label class="termstitle">{{terms.title}}</label>
   <br><br><br><br>
 </div>
  @if (terms.content ) {
-<div class="frameCss" style="width: 88%;">
+<div class="frameCss">
   <label class="termscontent">{{terms.content}}</label>
   <br><br><br>
 </div>
  }
-<div  style="width: 88%;">
+<div class="frameCss">
   @if (terms.item && terms.item.length > 0) {
   <ul style="position: relative;width: 900px;">
     @for( item of terms?.item; track $index){
@@ -56,6 +44,7 @@
     }
   </ul>
   }
+</div>
 </div>
 }
 <!-- } -->

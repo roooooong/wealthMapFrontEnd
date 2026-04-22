@@ -1,95 +1,64 @@
-.headerCss {
-  position: relative;
-  width: 100%;
-  height: 60px;
-  background: linear-gradient(45deg, #9dcee2, #4091c9);
-}
-
-.logo {
-  position: absolute;
-  left: 40px;
-  bottom: 10px;
-  font-size: 16px;
-  color: white;
-  font-size: 32px;
-}
-
-.registerBtn {
-  background-color: #ffffff;
-  color: rgb(0, 0, 0);
-  position: absolute;
-  right: 40px;
-  top: 15px;
-  width: 80px;
-  height: 30px;
-  border: none;
-  border-radius: 5px;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-.loginBtn {
-  background-color: #ffffff;
-  color: rgb(0, 0, 0);
-  position: absolute;
-  right: 140px;
-  top: 15px;
-  width: 80px;
-  height: 30px;
-  border: none;
-  border-radius: 5px;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-.loginBtn:hover {
-  background-color: #075591;
-  color: white;
-}
-
-.registerBtn:hover {
-  background-color: #075591;
-  color: white;
-}
-
-.headerText {
-  position: absolute;
-  right: 40px;
-  bottom: 10px;
-  font-size: 16px;
-  letter-spacing: 2px;
-  color: white;
-}
-
 .frameCss {
   display: flex;
   justify-content: center;
   position: relative;
 }
-
+.distance{
+   margin-top: 70px;
+    //手機
+  @media(max-width:600px) {
+    margin-top: 30px;
+  }
+}
 .iconbox {
   position: absolute;
-  // box-shadow: 5px 5px 15px rgba(3, 50, 112, 0.3);
   box-shadow: 2px 2px 8px rgba(3, 50, 112, 0.2);
-  // box-shadow: 0 2px 5px rgba(3, 50, 112, 0.15);
-  // box-shadow: 0 0 10px rgba(3, 50, 112, 0.1);
   border-radius: 20px;
+  flex-wrap: wrap;
+
+  //手機
+  @media(max-width:600px) {
+    padding: 0px 10px 0px 20px;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
 }
 
 .iconbtn {
   border: none;
   margin: 12px 30px;
-  // margin-bottom: 20px;
   background-color: white;
   cursor: pointer;
+
+  //手機
+  @media(max-width:600px) {
+    margin: 15px 25px;
+    width: 30%;
+    height: 20%;
+  }
 }
 
 .iconbtn:hover {
-
   margin-bottom: 8px;
   background-color: white;
   transform: scale(1.05);
   cursor: pointer;
+}
+
+.icon-text {
+  font-size: 16px;
+
+  //手機
+  @media(max-width:600px) {
+    font-size: 14px;
+  }
+}
+
+.imgAndText {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .notification-box {
@@ -136,13 +105,11 @@
   text-align: center;
   pointer-events: none;
   /* 讓滑鼠可以穿過文字，不影響圖表 hover 效果 */
-  // z-index: 0;
 }
 
 .personal-carousel {
   position: relative;
   justify-content: center;
-  // width: 100%;
   max-width: 700px;
   margin: 10px auto -10px;
   overflow: hidden; // 隱藏容器外的內容
@@ -202,7 +169,6 @@
     transition: color 0.2s;
     padding-right: 10px;
     font-size: 14px;
-    // background-color: #075591;
   }
 
   .personal-date {
@@ -236,20 +202,8 @@
   }
 }
 
-.system-tag {
-  background-color: #4091c9;
-  color: white;
-  border-radius: 5px;
-  padding: 3px 8px 3px 8px;
-  margin-right: 15px;
-  margin-left: 5px;
-  font-size: 14px;
-}
-
-
 .system {
   position: relative;
-  //  box-shadow: 5px 5px 15px rgba(109, 163, 234, 0.3);
   padding: 10px;
   border-bottom: 1px solid #b6e4f6;
   margin-bottom: 10px;
@@ -261,16 +215,6 @@
   box-shadow: 0 10px 20px rgba(64, 145, 201, 0.2);
   transition: all 0.3s ease;
   /* 讓動作變平滑 */
-}
-
-.system-title {
-  display: inline-block;
-  width: 75%;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  vertical-align: bottom;
-  /* 修正與旁邊文字的對齊 */
 }
 
 .user-menu-container {
@@ -313,56 +257,6 @@
   color: #ddf4fd;
 }
 
-.custom-dropdown {
-  position: absolute;
-  top: calc(100% + 15px); // 與按鈕保持一點間距
-  right: 0;
-  top: 40px;
-  width: 150px;
-  background-color: white;
-  border-radius: 2px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-  list-style: none;
-  padding: 0; // 💡 關鍵：設為 0，絕對沒有灰色區塊
-  margin: 0;
-  z-index: 9999; // 確保在最上層，不被其他元件擋住
-  overflow: hidden;
-
-  .menu-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 12px 16px;
-    font-size: 14px;
-    color: #333;
-    cursor: pointer;
-    transition: background 0.2s;
-
-    &:hover {
-      background-color: #fedfd43a; // 滑鼠移上去時的淡色
-    }
-
-    mat-icon {
-      font-size: 20px;
-      color: #666;
-    }
-
-    &.logout {
-      color: #e74c3c;
-
-      mat-icon {
-        color: #e74c3c;
-      }
-    }
-  }
-
-  .divider {
-    height: 1px;
-    background-color: #eee;
-    margin: 4px 0;
-  }
-}
-
 .click-notification {
   position: absolute;
   top: 20px;
@@ -374,59 +268,6 @@
 
 .click-notification:hover {
   color: #ddf4fd;
-}
-
-.user-notification-container {
-  position: absolute;
-  /* 💡 變成絕對定位 */
-  right: 220px;
-  /* 💡 與右邊界保持距離，建議跟 loginBtn 一樣 */
-  bottom: 10px;
-  /* 💡 與底部保持距離，建議跟 logo 一樣 */
-  display: inline-block;
-  z-index: 1000;
-  /* 確保不會被其他元件蓋住 */
-
-  .notification-trigger {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 12px;
-    cursor: pointer;
-    color: white; // 配合你的 Header 顏色
-    user-select: none; // 防止連點時選取到文字
-
-    &:hover {
-      color: #ddf4fd;
-    }
-
-    mat-icon {
-      transition: transform 0.3s;
-
-      &.rotated {
-        transform: rotate(180deg);
-      }
-    }
-  }
-}
-
-.notification-trigger {
-  position: relative;
-
-  .notification-panel {
-    position: absolute;
-    top: calc(100% + 15px);
-    right: -10px; // 稍微往左偏一點讓它置中於鈴鐺
-    top: 40px;
-
-    width: 250px;
-    background: white;
-    border-radius: 2px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-    z-index: 9999;
-    overflow: hidden;
-    color: #333;
-  }
 }
 
 // .tab-header {
@@ -519,6 +360,24 @@
   vertical-align: bottom;
   /* 修正與旁邊文字的對齊 */
   cursor: pointer;
+
+   //手機
+  @media(max-width:600px) {
+  font-size: 14px;
+  width: 40%;
+  }
+}
+
+.notification-date{
+  position: absolute;
+  right:20px;
+
+ //手機
+  @media(max-width:600px) {
+  font-size: 12px;
+  right:10px;
+  }
+
 }
 
 .carousel-container {
@@ -543,7 +402,8 @@
 }
 
 .news-card {
-  flex: 0 0 250px;/* 固定卡片寬度，不壓縮 */
+  flex: 0 0 250px;
+  /* 固定卡片寬度，不壓縮 */
   background: white;
   // border: 1px solid #4091c9;
   border-radius: 12px;
@@ -553,21 +413,24 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
+   @media(max-width:600px) {
+        flex: 0 0 200px;
+        padding: 5px;
+  }
 }
 
 .newsbtn {
   background: white;
   color: #4091c9;
-  // border: none;
-  border: 1px solid ;
+  border: 1px solid;
   border-radius: 50%;
   width: 40px;
   height: 40px;
   cursor: pointer;
-  // font-size: 20px;
 }
-.newsbtn:hover{
-  // background: #1368aa;
+
+.newsbtn:hover {
   background: #4091c9;
   color: white;
 }
@@ -575,35 +438,41 @@
 .news-img {
   width: 100%;
   height: 160px;
-  object-fit: cover; /* 圖片會填滿區域並自動裁切，不會被壓扁 */
-  border-radius: 8px ;
+  object-fit: cover;
+  /* 圖片會填滿區域並自動裁切，不會被壓扁 */
+  border-radius: 8px;
   display: block;
   margin-top: 10px;
 }
+
 .news-title {
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;  /*限制顯示行數 3行大約50-60 字*/
+  -webkit-line-clamp: 2;
+  /*限制顯示行數 3行大約50-60 字*/
 
-  overflow: hidden;/* 隱藏超出部分並顯示 ... */
+  overflow: hidden;
+  /* 隱藏超出部分並顯示 ... */
   text-overflow: ellipsis;
 
   line-height: 1.5;
-  max-height: 4.5em;/* 行高 1.5 x 3 行 = 4.5em，確保容器高度固定 */
-  // color: #666;
-  // font-size: 14px;
+  max-height: 4.5em;
+  /* 行高 1.5 x 3 行 = 4.5em，確保容器高度固定 */
 }
 
 .news-content {
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;  /*限制顯示行數 3行大約50-60 字*/
+  -webkit-line-clamp: 3;
+  /*限制顯示行數 3行大約50-60 字*/
 
-  overflow: hidden;/* 隱藏超出部分並顯示 ... */
+  overflow: hidden;
+  /* 隱藏超出部分並顯示 ... */
   text-overflow: ellipsis;
 
   line-height: 1.5;
-  max-height: 4.5em;/* 行高 1.5 x 3 行 = 4.5em，確保容器高度固定 */
+  max-height: 4.5em;
+  /* 行高 1.5 x 3 行 = 4.5em，確保容器高度固定 */
   color: #666;
   font-size: 14px;
 }
@@ -611,27 +480,80 @@
 .news-card:hover {
   transform: translateY(-2px);
   box-shadow: 0 10px 20px rgba(64, 145, 201, 0.2);
-  transition: all 0.5s ease;/* 讓動作變平滑 */
+  transition: all 0.5s ease;
   cursor: pointer;
 }
 
-.news-tag{
-// background-color: #4091c9;
+.news-tag {
   background: linear-gradient(45deg, #1368aa, #4091c9);
 
-  color:white;
+  color: white;
   border-radius: 5px;
-  padding:3px 8px 3px 8px;
+  padding: 3px 8px 3px 8px;
   margin-right: 15px;
-  // margin-left: 5px;
   font-size: 14px;
   max-width: 8%;
   cursor: pointer;
 }
 
-.WealthMap{
+.system-container {
+  width: 70%;
+
+  //手機
+  @media(max-width:600px) {
+      width: 100%;
+  }
+}
+
+.WealthMap {
   font-size: 42px;
-  color:#4091c9;
+  color: #4091c9;
   font-weight: bold;
   letter-spacing: 0.05em;
+
+  //手機
+  @media(max-width:600px) {
+    font-size: 24px;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-top: 40px;
+  }
+}
+
+.introduction {
+  color: #666;
+  letter-spacing: 0.05em;
+  margin-bottom: 70px;
+
+  //手機
+  @media(max-width:600px) {
+    font-size: 14px;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-bottom: 40px;
+  }
+}
+
+.between-visitor{
+  margin-top: 200px;
+  //手機
+  @media(max-width:600px) {
+  margin-top: 350px;
+  }
+}
+
+.between-admin{
+  margin-top: 200px;
+  //手機
+  @media(max-width:600px) {
+  margin-top: 650px;
+  }
+}
+
+.between-user{
+  margin-top: 200px;
+  //手機
+  @media(max-width:600px) {
+  margin-top: 500px;
+  }
 }

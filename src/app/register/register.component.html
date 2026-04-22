@@ -46,11 +46,12 @@
       <div style="position: relative;  left:25px;width: 350px;">
         <input type="checkbox" [(ngModel)]="isAccept" (change)="validate('isAccept')">
         <label class="footer-text" style="font-size: 13px;">&nbsp;&nbsp;我已詳閱</label>
-        <a routerLink="/admin-service-set" routerLinkActive="register-link" class="link-text">WealthMap服務條款</a>
+        <br class="mobile-br">
+        <a routerLink="/service" routerLinkActive="register-link" class="link-text">WealthMap服務條款</a>
         <label class="footer-text" style="font-size: 13px;">與</label>
-        <a routerLink="/admin-privacy-set" routerLinkActive="register-link" class="link-text">WealthMap隱私政策</a>
-        <label class="footer-text"
-          style="font-size: 13px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;，註冊即代表同意遵守所載之規範事項。</label>
+        <a routerLink="/privacy" routerLinkActive="register-link" class="link-text">WealthMap隱私政策</a>
+        <br class="mobile-br">
+        <label class="footer-text last-text" style="font-size: 13px; ">，註冊即代表同意遵守所載之規範事項。</label>
         @if (termErrorMsg) {
         <span class="error-msg" style="color: red; font-size: 12px ;position: relative; top:15px;">{{ termErrorMsg
           }}</span>

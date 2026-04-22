@@ -1,7 +1,7 @@
 import { Component, signal, OnInit } from '@angular/core';
 import { StrategyListComponent } from '../strategy-list/strategy-list.component';
-import { ExampleService } from '../@service/example.service';
 import { MonteComponent } from '../monte/monte.component';
+import { ExampleService } from '../@service/example.service';
 import { Router } from '@angular/router';
 import { Rebalance } from '../rebalance/rebalance';
 
@@ -17,7 +17,7 @@ export class InvestmentManageComponent{
     private exampleService: ExampleService
   ) { }
   // 定義目前的頁籤狀態，預設為 'rebalance'
-  currentTab = signal<'rebalance' | 'strategy' | 'engine'>('rebalance');
+  currentTab = signal<'rebalance' | 'strategy' | 'engine'>('strategy');
 
   // 三種身分 visitor;user;admin
   role!: string;

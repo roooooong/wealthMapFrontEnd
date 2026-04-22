@@ -24,6 +24,11 @@
   color: white;
   background-color: #9dcee2;
 }
+///手機版的時候左邊隱藏
+@media (max-width: 600px) {
+  .left-box { display: none; }
+}
+
 .WealthMap{
   font-size: 42px;
   color:white;
@@ -211,4 +216,56 @@ h1 {
   position: absolute;
   right:40px;
   bottom: 16px;
+  @media (max-width: 600px) {
+  right:10px;
+
+}
+}
+
+//手機版只有右邊
+@media (max-width: 600px) {
+  /* 1. 讓父容器不再強制橫向排版 */
+  .whole {
+    display: block;    /* 或者 flex-direction: column */
+    height: auto;      /* 手機版高度建議隨內容撐開，避免輸入法彈出時遮擋 */
+    min-height: 100vh;
+  }
+
+  /* 2. 讓右側盒子佔滿 100% 寬度 */
+  .right-box {
+    flex: 0 0 100%;    /* 佔滿全寬 */
+    width: 100%;
+    padding: 20px;     /* 手機邊緣留一點呼吸空間 */
+    min-height: 100vh; /* 確保背景顏色填滿螢幕 */
+  }
+
+  /* 3. 讓白色登入卡片寬度自適應 */
+  .right-content {
+    width: 100%;       /* 取消固定的 400px */
+    max-width: 350px;  /* 設定一個手機上好看的最大寬度 */
+    margin: 0 auto;    /* 確保水平置中 */
+    padding: 20px;
+    box-shadow: 0 5px 15px rgba(3, 50, 112, 0.2); /* 手機上陰影可以稍微淺一點 */
+  }
+
+  /* 4. 優化輸入框寬度（避免超出） */
+  .input-box {
+    margin-left: 0;    /* 取消原本的左邊距，改用 text-align 置中或 padding */
+    text-align: left;
+
+    input {
+      width: 100%;     /* 讓輸入框百分之百填滿容器 */
+    }
+  }
+
+  /* 5. 調整按鈕與連結的間距 */
+  .btn-google {
+    width: 100%;       /* 按鈕在手機上建議佔滿，比較好點擊 */
+    margin: 20px 0;    /* 取消原本的大左右邊距 */
+  }
+
+  .options, .footer-text {
+    margin-right: 0;   /* 取消桌面版的偏右設定 */
+    text-align: center; /* 手機版文字通常置中較美觀 */
+  }
 }
