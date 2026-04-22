@@ -18,31 +18,31 @@
 </div>
 
 @for(terms of serviceList.content; track $index){
-  <div class="content">
-<div class="frameCss">
-  <hr class="content-hr">
-</div>
-<div class="frameCss">
-  <label class="index">{{$index+1}}</label>
-  <label class="termstitle">{{terms.title}}</label>
-  <br><br><br><br>
-</div>
-@if (terms.content ) {
-<div class="frameCss">
-  <label class="termscontent">{{terms.content}}</label>
-  <br><br><br>
-</div>
-}
-<div class="frameCss">
-  @if (terms.item && terms.item.length > 0) {
-  <ul style="position: relative;width: 900px;">
-    @for( item of terms?.item; track $index){
-    <li class="termsitem">{{item}}</li>
-    <br>
-    }
-  </ul>
+<div class="content">
+  <div class="frameCss">
+    <hr class="content-hr">
+  </div>
+  <div class="frameCss">
+    <label class="index">{{$index+1}}</label>
+    <label class="termstitle">{{terms.title}}</label>
+    <br><br><br><br>
+  </div>
+  @if (terms.content) {
+  <div class="frameCss">
+    <label class="termscontent">{{terms.content}}</label>
+    <br><br><br>
+  </div>
   }
-</div>
+  <div class="frameCss">
+    @if (terms.item && terms.item.length > 0) {
+    <ul style="position: relative;width: 900px;">
+      @for( item of terms?.item; track $index){
+      <li class="termsitem">{{item}}</li>
+      <br>
+      }
+    </ul>
+    }
+  </div>
 </div>
 }
 

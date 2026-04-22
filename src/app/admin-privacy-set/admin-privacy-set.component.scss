@@ -1,53 +1,122 @@
-.frameCss{
+.frameCss {
   display: flex;
   justify-content: center;
   position: relative;
-  // display: flex;
-  // flex-direction: column;    /* 讓內容由上往下排 */
-  // align-items: center;       /* 水平居中 */
-  // // gap: 10px;
+  width: 88%;
+
+  @media(max-width:600px) {
+    top: 20px;
+  }
 }
 
-.headerCss{
+.headerCss {
   position: relative;
   width: 100%;
-  height:60px;
+  height: 60px;
   // border-radius: 10px;
- background: linear-gradient(45deg, #9dcee2, #4091c9);
+  background: linear-gradient(45deg, #9dcee2, #4091c9);
 }
 
-.logo{
+.logo {
   position: absolute;
-  left:40px;
-  bottom:10px;
+  left: 40px;
+  bottom: 10px;
   font-size: 16px;
   color: white;
   font-size: 32px;
 }
 
-.loginText{
+.loginText {
   position: absolute;
-  right:40px;
-  bottom:10px;
+  right: 40px;
+  bottom: 10px;
   font-size: 16px;
   letter-spacing: 2px;
   color: white;
 }
 
-h1{
-  // margin-left:50px;
+h1 {
   color: #000000;
-  letter-spacing:5px;
+  letter-spacing: 5px;
   font-size: 42px;
   position: absolute;
   margin-left: 120px;
+
+  @media(max-width:600px) {
+    margin-left: 10px;
+    font-size: 24px;
+  }
 }
 
-.headerbtn{
+.date {
+  position: absolute;
+  left: 340px;
+  margin-top: 63px;
+  color: #1368aa;
+
+  @media(max-width:600px) {
+    left: 150px;
+    margin-top: 35px;
+    font-size: 12px;
+  }
+}
+
+.hr1 {
+  width: 80%;
+  border: none;
+  height: 2px;
+  background-color: #9dcee2;
+
+  @media(max-width:600px) {
+    margin-left: 10px;
+    font-size: 24px;
+  }
+}
+
+.between {
+  margin: 120px;
+
+  @media(max-width:600px) {
+    margin: 100px;
+  }
+}
+
+.between2 {
+  margin: 170px;
+
+  @media(max-width:600px) {
+    margin: 400px;
+  }
+}
+
+
+.content-hr {
+  position: absolute;
+  top: -35px;
+  left: 125px;
+  width: 92%;
+  border: none;
+  height: 2px;
+  background-color: #9dcee251;
+
+  @media(max-width:600px) {
+    left: 15px;
+    top: -25px;
+
+  }
+}
+
+.content {
+  @media(max-width:600px) {
+    margin-top: 70px;
+  }
+}
+
+.headerbtn {
   position: absolute;
   height: 60px;
   // bottom:15px;
-  color:#ddf4fd;
+  color: #ddf4fd;
   font-size: 18px;
   background-color: transparent;
   border: none;
@@ -56,23 +125,25 @@ h1{
   transition: border-color 0.3s ease;
 }
 
-.headerbtn:hover{
+.headerbtn:hover {
   position: absolute;
   height: 60px;
-  color:#ffffff;
+  color: #ffffff;
   font-size: 18px;
   background-color: transparent;
   cursor: pointer;
-  border-bottom:3px solid #1368aa ;
+  border-bottom: 3px solid #1368aa;
 }
-.nowheaderbtn{
+
+.nowheaderbtn {
   position: absolute;
-  border: none; height: 60px;
-  color:#ffffff;
+  border: none;
+  height: 60px;
+  color: #ffffff;
   font-size: 19px;
   background-color: transparent;
   cursor: pointer;
-  border-bottom:3px solid #1368aa ;
+  border-bottom: 3px solid #1368aa;
 }
 
 // 滑鼠移到item顯示的文字設定
@@ -84,6 +155,7 @@ h1{
   width: 30px;
   height: 30px;
 }
+
 // 跟著圖片
 .tooltip-container img {
   width: 100%;
@@ -113,7 +185,8 @@ h1{
   /* 淡入效果 */
   opacity: 0;
   transition: opacity 0.2s;
-  pointer-events: none; /* 💡 確保滑鼠不會點到文字框 */
+  pointer-events: none;
+  /* 💡 確保滑鼠不會點到文字框 */
 }
 
 /* 滑鼠移入圖片區域顯示文字 */
@@ -121,52 +194,88 @@ h1{
   visibility: visible;
   opacity: 1;
 }
-.privacyListtitle{
- position: absolute;
- margin-left: 150px;
- letter-spacing: 1px;
- color: #1368aa;
+
+.privacyListtitle {
+  position: absolute;
+  margin-left: 150px;
+  letter-spacing: 1px;
+  color: #1368aa;
+
+  @media(max-width:600px) {
+    margin-left: 40px;
+    font-size: 14px;
+  }
 }
 
-.index{
+.index {
   position: absolute;
   display: flex;
   justify-content: center;
   align-items: center;
-  left:130px;
+  left: 130px;
   background-color: #4091c9;
   color: white;
   width: 40px;
   height: 40px;
   font-size: 28px;
   border-radius: 2px;
+
+  @media(max-width:600px) {
+    left: 20px;
+    width: 30px;
+    height: 30px;
+  }
 }
 
-.termstitle{
+.termstitle {
   position: absolute;
   display: flex;
   justify-content: center;
   align-items: center;
-  left:190px;
+  left: 190px;
   bottom: 45px;
-  color:#033270;
+  color: #033270;
   font-size: 20px;
   border-radius: 2px;
+
+  @media(max-width:600px) {
+    left: 55px;
+    width: 150px;
+    bottom: 50px;
+    font-size: 16px;
+  }
 }
 
-.termscontent{
+.termscontent {
   position: absolute;
   display: flex;
-  justify-content: center;
   align-items: center;
-  left:190px;
+  left: 190px;
   bottom: 45px;
   font-size: 16px;
+
+  @media(max-width:600px) {
+    left: 5px;
+    width: 250px;
+    top: 1px;
+    // margin-top: 50px;
+    font-size: 14px;
+    margin-left: 40px;
+    bottom: 35px;
+
+  }
 }
 
-.termsitem{
+.termsitem {
   position: relative;
-  bottom:40px;
-  left:170px;
+  bottom: 40px;
+  left: 80px;
   font-size: 16px;
+
+  @media(max-width:600px) {
+    left: -10px;
+    width: 230px;
+    font-size: 14px;
+    margin-left: 40px;
+  }
 }
