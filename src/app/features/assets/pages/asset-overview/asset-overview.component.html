@@ -118,17 +118,45 @@
                         </select>
                     </div>
                 </div>
-                <div class="form-row">
+                  <div class="form-row">
                     <div class="form-group">
                         <label>總金額</label>
                         <input type="number" [(ngModel)]="newLiabilityAmount" placeholder="輸入剩餘欠款金額">
                     </div>
-                    <div class="form-action">
-                        <button class="submit-btn liability-bg" (click)="addLiability()">確認新增</button>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group">
+                      <div class="toggle-container">
+                        <label class="switch">
+                            <input type="checkbox" [(ngModel)]="isNotificationEnabled" (change)="onNotifyChange()">
+                            <span class="slider round"></span>
+                        </label>
+                        <span class="status-text">{{ isNotificationEnabled ? '開啟繳款通知' : '關閉繳款通知' }}</span>
+                      </div>
+                    </div>
+                    <div class="form-group remind">
+                      @if(isNotificationEnabled) {
+                        <div class="date-select-group">
+                            <span class="label"> 每月  </span>
+                            <select [(ngModel)]="notificationDay" class="date-select">
+                                @for(day of daysOptions; track day) {
+                                    <option [value]="day">{{ day }}{{ day === '月底' ? '' : '日' }}</option>
+                                }
+                            </select>
+                            <span class="label">  提醒 </span>
+                        </div>
+                      }
+                    </div>
+                  </div>
+                  <div class="form-row ">
+                    <div class="form-action liability">
+                        <button class="submit-btn" (click)="addLiability()">確認新增</button>
                         <button class="cancel-btn" (click)="toggleAddLiabilityForm()">取消</button>
                     </div>
+                  </div>
+
                 </div>
-            </div>
+
             }
 
             <div class="list-section">

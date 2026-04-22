@@ -25,6 +25,7 @@ export class AssetOverviewComponent implements OnInit {
   allocationData: AssetAllocationDto[] = [];
   totalAssetValue: number = 0;
   showAddAssetForm: boolean = false;
+  isNotificationEnabled: boolean = false; //------------------
   newAssetName: string = '';
   newAssetType: string = 'CASH';
   newAssetAmount: number | null = null;
@@ -232,6 +233,21 @@ export class AssetOverviewComponent implements OnInit {
       error: () => alert('新增失敗')
     });
   }
+
+  //-----------------------------------------------------------------------------------------
+  notificationDay: string = '1';
+  onNotifyChange() {
+    if (this.isNotificationEnabled) {
+      console.log(`設定在每月 ${this.notificationDay} 提醒`);
+    } else {
+      console.log('使用者關閉了通知');
+    }
+  }
+ daysOptions: string[] = [
+    ...Array.from({ length: 31 }, (_, i) => (i + 1).toString())
+  ];
+//-----------------------------------------------------------------------------------------
+
 
   deleteLiability(liabilityId: number, liabilityName: string): void {
     if (confirm(`確定刪除負債「${liabilityName}」嗎？`)) {
