@@ -4,52 +4,55 @@
 
     <div class="card-top">
       @if (editingId !== $index) {
-        <div class="left-side">
-          <span class="stock-tag">{{ asset.stockId }}</span>
-          @if (asset.suggestion) {
-            <span style="font-size: 12px; color: white; border-radius: 10px; background-color: #007bff; padding: 2px 8px;">
-              {{ asset.suggestion }}
-            </span>
-          } @else {
-            <span style="font-size: 12px; color: green; border-radius: 10px; background-color: lightgreen; padding: 2px 8px;">持有中</span>
-          }
-        </div>
-        <div class="edit-actions">
-          <img src="/edit.png" (click)="startEdit($index)" class="edit-delete-btn">&nbsp;
-          <img src="/delete.png" (click)="onDelete($index)" class="edit-delete-btn">
-        </div>
+      <div class="left-side">
+        <span class="stock-tag">{{ asset.stockId }}</span>
+        @if (asset.suggestion) {
+        <span [style.background-color]="asset.suggestion === '持股符合比例' ? 'lightgreen !important' : '#ff4d4f !important'"
+          [style.color]="asset.suggestion === '持股符合比例' ? 'green !important' : 'white !important'"
+          style="font-size: 12px; border-radius: 10px; padding: 2px 8px;">
+          {{ asset.suggestion }}
+        </span>
+        } @else {
+        <span
+          style="font-size: 12px; color: green; border-radius: 10px; background-color: lightgreen; padding: 2px 8px;">
+          持有中
+        </span>
+        }
+      </div>
+      <div class="edit-actions">
+        <img src="/edit.png" (click)="startEdit($index)" class="edit-delete-btn">&nbsp;
+        <img src="/delete.png" (click)="onDelete($index)" class="edit-delete-btn">
+      </div>
       } @else {
-        <div class="left-side">
-          <input type="text" [(ngModel)]="asset.stockId" style="width: 80px; border: 1px solid #ccc; border-radius: 4px;">
-        </div>
-        <div class="edit-actions">
-          <img src="/check.png" (click)="saveEdit($index)" class="confirm-btn">&nbsp;
-          <img src="/close.png" (click)="cancelEdit()" class="cancel-btn">
-        </div>
+      <div class="left-side">
+        <input type="text" [(ngModel)]="asset.stockId" style="width: 80px; border: 1px solid #ccc; border-radius: 4px;">
+      </div>
+      <div class="edit-actions">
+        <img src="/check.png" (click)="saveEdit($index)" class="confirm-btn">&nbsp;
+        <img src="/close.png" (click)="cancelEdit()" class="cancel-btn">
+      </div>
       }
     </div>
 
     <div class="card-container">
-        <label>最新單價 : &nbsp;&nbsp;{{ asset.currentPrice | number }}</label>
+      <label>最新單價 : &nbsp;&nbsp;{{ asset.currentPrice | number }}</label>
 
-        <div class="input-group" style="margin-top: 8px;">
-          <label>持股數量 :</label>&nbsp;&nbsp;
-          <input type="number" [(ngModel)]="asset.sharesOwned"
-                 [disabled]="editingId !== $index" style="width: 80px;"> 股
-        </div>
+      <div class="input-group" style="margin-top: 8px;">
+        <label>持股數量 :</label>&nbsp;&nbsp;
+        <input type="number" [(ngModel)]="asset.sharesOwned" [disabled]="editingId !== $index"> 股
+      </div>
 
-        <div class="input-group" style="margin-top: 8px;">
-          <label>目標佔比 :</label>&nbsp;&nbsp;
-          <input type="number" [(ngModel)]="asset.targetPercentage"
-                 [disabled]="editingId !== $index" style="width: 80px;"> %
-        </div>
+      <div class="input-group" style="margin-top: 8px;">
+        <label>目標佔比 :</label>&nbsp;&nbsp;
+        <input type="number" [(ngModel)]="asset.targetPercentage" [disabled]="editingId !== $index"> %
+      </div>
 
-        <div style="margin-top: 12px; font-size: 13px; border-top: 1px dashed #ccc; padding-top: 10px;">
-          <label>目前市值 : </label>&nbsp;
-          <span style="color: #444; font-weight: bold;">
-            {{ (asset.currentPrice * asset.sharesOwned) | number }}
-          </span>
-        </div>
+      <div style="margin-top: 12px; font-size: 13px; border-top: 1px dashed #ccc; padding-top: 10px;">
+        <label>目前市值 : </label>&nbsp;
+        <span style="color: #444; font-weight: bold;">
+          {{ (asset.currentPrice * asset.sharesOwned) | number }}
+        </span>
+      </div>
     </div>
   </div>
   }
@@ -62,12 +65,13 @@
   </div>
 </div>
 
-<div style="margin: 40px auto; max-width: 600px; text-align: center; background: #fff; padding: 25px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.08);">
+<div
+  style="margin: 40px auto; max-width: 600px; text-align: center; background: #fff; padding: 25px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.08);">
   <label style="font-weight: bold; color: #333;">預計投入總金額 : </label>&nbsp;&nbsp;
   <input type="number" [(ngModel)]="targetTotalValue"
-         style="padding: 10px; border-radius: 8px; border: 1px solid #ddd; width: 180px; font-size: 16px;">
+    style="padding: 10px; border-radius: 8px; border: 1px solid #ddd; width: 180px; font-size: 16px;">
   <button (click)="calculateRebalance()"
-          style="margin-left: 20px; padding: 10px 30px; background: linear-gradient(135deg, #28a745, #218838); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.3s;">
+    style="margin-left: 20px; padding: 10px 30px; background: linear-gradient(135deg, #28a745, #218838); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.3s;">
     執行再平衡試算
   </button>
 </div>

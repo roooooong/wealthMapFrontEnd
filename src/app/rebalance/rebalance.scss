@@ -123,6 +123,16 @@ input[type="number"] {
   border: 1px solid #e2e8f0;
   border-radius: 10px;
   text-align: center;
+
+  /* 移除 Firefox 的預設箭頭 */
+  -moz-appearance: textfield !important;
+}
+
+/* 移除 Chrome, Safari, Edge, Opera 的預設箭頭 */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none !important;
+  margin: 0;
 }
 
 /* 當 input 禁用時的樣式 */

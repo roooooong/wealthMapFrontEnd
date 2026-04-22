@@ -77,7 +77,10 @@ export class Rebalance implements OnInit {
     // 呼叫後端 API (請確認 URL 與後端一致)
     this.httpClientService.postApi('http://localhost:8080/api/calculate', payload)
       .subscribe((res: any) => {
-        this.portfolio = res; // 後端回傳帶有建議的清單
+        this.portfolio = res.map((item: any) => ({
+        ...item,
+        targetPercentage: item.targetPercentage * 100
+        }));
       });
   }
 }

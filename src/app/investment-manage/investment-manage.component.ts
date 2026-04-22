@@ -13,15 +13,21 @@ import { Rebalance } from '../rebalance/rebalance';
 })
 export class InvestmentManageComponent{
   constructor(
+    private router: Router,
     private exampleService: ExampleService
-  ) {}
+  ) { }
+  // 定義目前的頁籤狀態，預設為 'rebalance'
+  currentTab = signal<'rebalance' | 'strategy' | 'engine'>('rebalance');
 
-  // 定義目前的頁籤狀態，預設為 'strategy'
-  currentTab = signal<'rebalance' | 'strategy' | 'engine'>('strategy');
-
+  // 三種身分 visitor;user;admin
   role!: string;
   userId!: number;
   userName!: string;
+
+  //去註冊
+  goRegister() {
+    this.router.navigate(['/register']);
+  }
 
   // 切換頁籤的方法
   switchTab(tab: 'rebalance' | 'strategy' | 'engine') {
@@ -29,6 +35,9 @@ export class InvestmentManageComponent{
   }
 
   ngOnInit(): void {
+    // this.exampleService.role$.subscribe(role => {
+    //   this.role = role; // 當角色改變，這裡會自動觸發
+    // });
     this.exampleService.user$.subscribe(user => {
       if (user && user.id !== 0) {
         this.role = user.role;
