@@ -2,23 +2,35 @@
   display: flex;
   justify-content: center;
 }
+
 .form-container {
   /* 這裡可以限制整體寬度 */
   min-width: 450px;
 }
 
 .form-group {
-  display: flex;       /* 💡 讓內部的 label 和 input 變成 flex 項目 */
-  align-items: center; /* 垂直置中 */
+  display: flex;
+  /* 💡 讓內部的 label 和 input 變成 flex 項目 */
+  align-items: center;
+  /* 垂直置中 */
   margin-bottom: 15px;
 }
 
 label {
-  display: inline-block; /* 確保 width 會生效 */
+  display: inline-block;
+  /* 確保 width 會生效 */
   width: 100px;
-  flex-shrink: 0;        /* 防止寬度被壓縮 */
+  flex-shrink: 0;
+  /* 防止寬度被壓縮 */
   text-align: right;
   margin-right: 20px;
+
+  //手機
+  @media(max-width:600px) {
+    margin-left: 50px;
+
+
+  }
 }
 
 input {
@@ -27,8 +39,14 @@ input {
   padding: 0 10px;
   border: 1px solid #e0e0e0;
   border-radius: 5px;
-  box-sizing: border-box; /* 💡 確保 padding 不會撐開寬度 */
+  box-sizing: border-box;
+  /* 💡 確保 padding 不會撐開寬度 */
   margin-right: 20px;
+
+  //手機
+  @media(max-width:600px) {
+    width: 200px;
+  }
 }
 
 
@@ -48,6 +66,13 @@ input {
   font-size: 42px;
   margin-left: 120px;
   margin-right: 15px;
+
+  //手機
+  @media(max-width:600px) {
+    margin-left: 15px;
+    font-size: 24px;
+
+  }
 }
 
 .type {
@@ -56,6 +81,12 @@ input {
   font-size: 20px;
   font-weight: bold;
   color: #4091c9;
+
+  //手機
+  @media(max-width:600px) {
+    margin-left: 15px;
+    font-size: 16px;
+  }
 }
 
 hr {
@@ -90,6 +121,11 @@ button:hover {
   letter-spacing: 2px;
   font-style: italic;
   cursor: pointer;
+//手機
+  @media(max-width:600px) {
+  padding: 20px 30px;
+
+  }
 }
 
 .newTest:hover {
