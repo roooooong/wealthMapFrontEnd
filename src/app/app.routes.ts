@@ -24,6 +24,7 @@ import { HealthComponent } from './health/health.component';
 import { MonteComponent } from './monte/monte.component';
 import { GoalOverviewComponent } from './features/financial-goals/pages/goal-overview/goal-overview.component';
 import { SseDemoComponent } from './sse-demo/sse-demo.component';
+import { PortfolioRecommendationComponent } from './features/risk-assessment/pages/portfolio-recommendation/portfolio-recommendation.component';
 
 export const routes: Routes = [
 
@@ -119,6 +120,12 @@ export const routes: Routes = [
     path: 'risk-cover',
     component: RiskCoverComponent,
     canActivate: [RiskGuard]
+  },
+  {
+    path: 'portfolio-recommendation',
+    component: PortfolioRecommendationComponent,
+    canActivate: [authGuard],
+    data: { roles: ['ADMIN', 'USER'] }
   },
 
 
