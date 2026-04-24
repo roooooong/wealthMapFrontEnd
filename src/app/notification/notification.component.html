@@ -17,7 +17,8 @@
   <br>
 
   <div class="frameCss" style="margin: 20px;">
-    <div style="width: 70%; border-color: #4091c9;position: relative;left:20px;">
+    <div class="notification-box">
+    <!-- <div style="width: 70%; border-color: #4091c9;position: relative;left:20px;"> -->
       @if(notificationType === "system"){
         @if(notificationList){
           <!-- @for(notification of notificationList.data ; track $index){
@@ -26,7 +27,7 @@
             <div class="notification">
               <label class="notification-tag" (click)="detail(notification.id!)">{{notification.tag}}</label>
               <label class="notification-title" (click)="detail(notification.id!)">{{notification.title}}</label>
-              <label style="position: absolute;right:20px"
+              <label class="notification-date"
                 (click)="detail(notification.id!)">{{notification.scheduledDate}}</label>
             </div>
             <!-- } -->
@@ -43,7 +44,7 @@
             <div class="notification">
               <label class="notification-tag" (click)="detail(notification.id!)">{{ getCategoryTag(notification.category)}}</label>
               <label class="notification-title" (click)="detail(notification.id!)">{{notification.title}}</label>
-              <label style="position: absolute;right:20px" (click)="detail(notification.id!)">{{notification.alertTime| date:'yyyy-MM-dd'}}</label>
+              <label class="notification-date" (click)="detail(notification.id!)">{{notification.alertTime| date:'yyyy-MM-dd'}}</label>
             </div>
           }
         }
