@@ -45,12 +45,16 @@ code {
 /* 容器佈局 */
 .container-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  width: 75%;
+  /* 💡 關鍵：使用 minmax。代表卡片最小 300px，最大平均分配。 */
+  /* 如果容器裝不下 300px 的卡片，它就會自動跳到下一行 */
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+
+  width: 90%; /* 在手機端調寬一點，才不會兩邊留白太多 */
   max-width: 1200px;
   margin: 0 auto;
   gap: 20px;
   padding: 20px 0;
+
 }
 /* 基礎卡片樣式 */
 .card {
@@ -297,14 +301,6 @@ input:checked + .slider {
 }
 /* 自定義 Switch 開關 :end*/
 
-h1{
-  // margin-left:50px;
-  color: #000000;
-  letter-spacing:5px;
-  font-size: 32px;
-  // position: absolute;
-  margin-left: 130px;
-}
 
 .instructions {
   width: 250px;
@@ -339,3 +335,4 @@ button:hover{
   background-color: #f29479;
   color: white;
 }
+
