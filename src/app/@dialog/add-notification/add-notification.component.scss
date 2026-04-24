@@ -11,3 +11,38 @@ button{
 button:hover{
   background-color:#4091c9;
 }
+
+.head{
+  background-color: #9dcee2;
+  height: 20px;
+}
+
+.select{
+  width: 80px;
+  height: 25px;
+  border-radius: 5px;
+  border: 1px solid;
+}
+
+.title-input{
+   width: 380px;
+   height: 15px;
+   padding:5px;
+   border-radius: 5px;
+   border: 1px solid;
+    @media(max-width:600px) {
+       width: 220px;
+  }
+}
+
+.content-input{
+   width: 380px;
+   height: 150px;
+   resize: none;
+   padding:5px;
+   border-radius: 5px;
+   border: 1px solid;
+     @media(max-width:600px) {
+       width: 220px;
+  }
+}

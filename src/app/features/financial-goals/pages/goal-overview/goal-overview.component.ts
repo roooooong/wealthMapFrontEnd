@@ -4,6 +4,7 @@ import { CommonModule, CurrencyPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 // 💡 1. 引入我們剛剛建好的 GoalService 和介面 (請確認路徑是否正確)
 import { GoalService, FinancialGoal } from '../../services/goal.service';
+import { ExampleService } from '../../../../@service/example.service';
 
 @Component({
   selector: 'app-goal-overview',
@@ -28,9 +29,16 @@ export class GoalOverviewComponent implements OnInit {
   goals: FinancialGoal[] = [];
 
   // 💡 3. 在建構子注入 GoalService 發球機
-  constructor(private router: Router, private goalService: GoalService) { }
+  constructor(private router: Router,
+    private goalService: GoalService,
+        private exampleService: ExampleService) { }
 
   ngOnInit(): void {
+    this.exampleService.user$.subscribe(user => {
+      this.role = user.role; // 當角色改變，這裡會自動觸發
+      // this.userId = user.id;
+      // this.userName = user.name;
+    });
     // 💡 4. 畫面一載入，就去跟後端要資料
     this.refreshData();
   }

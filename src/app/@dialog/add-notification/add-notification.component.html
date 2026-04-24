@@ -1,9 +1,9 @@
 <!-- <p>add-notification works!</p> -->
  @if(data.choise==1){
-<div style="background-color: #9dcee2;height: 20px;"></div>
+<div class="head"></div>
 <div style="position: relative;margin:30px;top:15px;">
-  &nbsp;&nbsp;&nbsp;&nbsp;<label>分類:</label>&nbsp;&nbsp;&nbsp;
-  <select id="tag" style=" width: 80px;height: 25px; border-radius: 5px;border: 1px solid;" [(ngModel)]="tag">
+  <label style="padding:0px 10px">分類:</label>
+  <select id="tag" class="select"  [(ngModel)]="tag">
     <option value="" disabled selected>請選擇</option>
     <option value="功能">功能</option>
     <option value="維護">維護</option>
@@ -13,15 +13,16 @@
   </select>
   <br><br>
 
-  &nbsp;&nbsp;&nbsp;&nbsp;<label>標題:</label>&nbsp;&nbsp;&nbsp;&nbsp;<input style="width: 380px;height: 15px;padding:5px;border-radius: 5px;border: 1px solid;" [(ngModel)]="title">
+  <label style="padding:0px 10px">標題:</label>
+  <input class="title-input" [(ngModel)]="title">
   <br><br>
 
-  &nbsp;&nbsp;&nbsp;&nbsp;<label>排程:</label>&nbsp;&nbsp;&nbsp;
+  <label style="padding:0px 10px">排程:</label>
   <input type="date" [min]="gettoday" [(ngModel)]="scheduledDate" style="border-radius: 5px; border: 1px solid;height: 25px;">
 
 <br><br>
-  &nbsp;&nbsp;&nbsp;&nbsp;<label style="vertical-align: top;">內容:</label>&nbsp;&nbsp;&nbsp;
-  <textarea style="width: 380px;height: 150px;resize: none;padding:5px;border-radius: 5px; border: 1px solid;" [(ngModel)]="content" ></textarea>
+  <label style="vertical-align: top;padding:0px 10px">內容:</label>
+  <textarea class="content-input" [(ngModel)]="content" ></textarea>
 </div>
 
 <div style="position: relative;display: flex;justify-content:center;top:-15px">
@@ -33,7 +34,7 @@
 @if(data.choise==2){
 <div style="background-color: #9dcee2;height: 20px;"></div>
 <div style="position: relative;margin:30px;top:15px;">
-  &nbsp;&nbsp;&nbsp;&nbsp;<label>分類:</label>&nbsp;&nbsp;&nbsp;
+  <label style="padding:0px 10px">分類:</label>
   <select id="tag" style=" width: 80px;height: 25px; border-radius: 5px;border: 1px solid;" [(ngModel)]="tag">
     <option value="" disabled selected>請選擇</option>
     <option value="功能">功能</option>
@@ -44,15 +45,16 @@
   </select>
   <br><br>
 
-  &nbsp;&nbsp;&nbsp;&nbsp;<label>標題:</label>&nbsp;&nbsp;&nbsp;&nbsp;<input style="width: 380px;height: 15px;padding:5px;border-radius: 5px;border: 1px solid;" [(ngModel)]="title">
+  <label style="padding:0px 10px">標題:</label>
+  <input class="title-input" [(ngModel)]="title">
   <br><br>
 
-  &nbsp;&nbsp;&nbsp;&nbsp;<label>排程:</label>&nbsp;&nbsp;&nbsp;
+  <label style="padding:0px 10px">排程:</label>
   <input type="date" [min]="gettoday" [(ngModel)]="scheduledDate" style="border-radius: 5px; border: 1px solid;height: 25px;">
 
 <br><br>
-  &nbsp;&nbsp;&nbsp;&nbsp;<label style="vertical-align: top;">內容:</label>&nbsp;&nbsp;&nbsp;
-  <textarea style="width: 380px;height: 150px;resize: none;padding:5px;border-radius: 5px; border: 1px solid;" [(ngModel)]="content" ></textarea>
+  <label style="vertical-align: top;padding:0px 10px">內容:</label>
+  <textarea class="content-input" [(ngModel)]="content" ></textarea>
 </div>
 
 <div style="position: relative;display: flex;justify-content:center;top:-15px">

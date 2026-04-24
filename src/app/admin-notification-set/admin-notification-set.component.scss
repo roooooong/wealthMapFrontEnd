@@ -1,129 +1,165 @@
-.frameCss{
+.frameCss {
   display: flex;
   justify-content: center;
   position: relative;
-  // display: flex;
-  // flex-direction: column;    /* 讓內容由上往下排 */
-  // align-items: center;       /* 水平居中 */
-  // // gap: 10px;
 }
 
-// .headerCss{
-//   position: relative;
-//   width: 100%;
-//   height:60px;
-//   // border-radius: 10px;
-//  background: linear-gradient(45deg, #9dcee2, #4091c9);
-// }
-
-// .logo{
-//   position: absolute;
-//   left:40px;
-//   bottom:10px;
-//   font-size: 16px;
-//   color: white;
-//   font-size: 32px;
-// }
-
-// h1{
-//   // margin-left:50px;
-//   color: #000000;
-//   letter-spacing:5px;
-//   font-size: 42px;
-//   position: absolute;
-//   margin-left: 120px;
-// }
-h2{
-  // margin-left:50px;
+h2 {
   color: #000000;
-  letter-spacing:5px;
+  letter-spacing: 5px;
   font-size: 28px;
   position: absolute;
   margin-left: 120px;
+
+  @media(max-width:600px) {
+    font-size: 24px;
+    position: static;
+    margin-left: 10px;
+  }
 }
 
-// .loginText{
-//   position: absolute;
-//   right:40px;
-//   bottom:10px;
-//   font-size: 16px;
-//   letter-spacing: 2px;
-//   color: white;
-// }
+@media (max-width: 600px) {
+  .mobile-br {
+    display: none;
+  }
+}
 
-.notification-tag{
+.notification-dateBox {
+  display: flex;
+  margin-left: 150px;
+  font-size: 16px;
+  color: #4091c9;
+
+  @media(max-width:600px) {
+    margin-left: 30px;
+    margin-bottom: 20px;
+  }
+}
+
+.notification-date {
+  font-size: 14px;
+
+  @media(max-width:600px) {
+    margin-left: 10px;
+    font-size: 14px;
+  }
+}
+
+.notification-tag {
   background-color: #4091c9;
-  color:white;
+  color: white;
   border-radius: 5px;
-  padding:3px 8px 3px 8px;
+  padding: 3px 8px 3px 8px;
   margin-right: 15px;
   margin-left: 5px;
   font-size: 14px;
   cursor: pointer;
+
+
 }
 
-.notification-edit{
+.notification-edit {
   position: absolute;
   background-color: transparent;
-  color:#9dcee2;
-  border:none;
-  padding:3px 8px 3px 8px;
+  color: #9dcee2;
+  border: none;
+  padding: 3px 8px 3px 8px;
   margin-right: 15px;
   margin-left: 5px;
   font-size: 14px;
-  right:-80px;
-  top:5px;
+  right: -80px;
+  top: 5px;
   cursor: pointer;
+
+  @media(max-width:600px) {
+    right: -60px;
+  }
 }
 
-.notification-edit:hover{
-  color:#4091c9;
+.notification-edit:hover {
+  color: #4091c9;
 }
 
-.notification-delete{
+.notification-delete {
   position: absolute;
   background-color: transparent;
-  color:#9dcee2;
-  border:none;
-  padding:3px 8px 3px 8px;
+  color: #9dcee2;
+  border: none;
+  padding: 3px 8px 3px 8px;
   margin-right: 15px;
   margin-left: 5px;
   font-size: 14px;
-  right:-120px;
-  top:5px;
+  right: -120px;
+  top: 5px;
   cursor: pointer;
+
+  @media(max-width:600px) {
+    right: -90px;
+  }
 }
 
-.notification-delete:hover{
-  color:#4091c9;
+.notification-delete:hover {
+  color: #4091c9;
 }
 
-.notification{
- position: relative;
-//  box-shadow: 5px 5px 15px rgba(109, 163, 234, 0.3);
+.notification-box {
+  width: 70%;
+  border-color: #4091c9;
+
+  @media(max-width:600px) {
+    width: 85%;
+  }
+}
+
+.notification {
+  position: relative;
   padding: 10px;
-  border-bottom:1px solid #b6e4f6;
+  border-bottom: 1px solid #b6e4f6;
   margin-bottom: 10px;
   border-radius: 15px;
-  left:-50px;
+  left: -50px;
   cursor: pointer;
+
+  @media(max-width:600px) {
+    padding: 8px;
+    left: -30px;
+  }
 }
 
-.notification:hover{
- transform: translateY(-2px);
- box-shadow: 0 10px 20px rgba(64, 145, 201, 0.2);
- transition: all 0.3s ease; /* 讓動作變平滑 */
+.notification:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(64, 145, 201, 0.2);
+  transition: all 0.3s ease;
+  /* 讓動作變平滑 */
 }
 
 .notification-title {
-    display: inline-block;
-    width: 75%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    vertical-align: bottom; /* 修正與旁邊文字的對齊 */
+  display: inline-block;
+  width: 75%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: bottom;
+  /* 修正與旁邊文字的對齊 */
   cursor: pointer;
 
+  @media(max-width:600px) {
+    left: 5px;
+    font-size: 14px;
+    width: 40%;
+  }
+}
+
+.notification-date {
+  position: absolute;
+  right: 20px;
+
+  //手機
+  @media(max-width:600px) {
+    font-size: 12px;
+    right: 10px;
+    top: 15px;
+  }
 }
 
 // 滑鼠移到item顯示的文字設定
@@ -135,6 +171,7 @@ h2{
   width: 30px;
   height: 30px;
 }
+
 // 跟著圖片
 .tooltip-container img {
   width: 100%;
@@ -164,7 +201,8 @@ h2{
   /* 淡入效果 */
   opacity: 0;
   transition: opacity 0.2s;
-  pointer-events: none; /* 💡 確保滑鼠不會點到文字框 */
+  pointer-events: none;
+  /* 💡 確保滑鼠不會點到文字框 */
 }
 
 /* 滑鼠移入圖片區域顯示文字 */
@@ -173,32 +211,39 @@ h2{
   opacity: 1;
 }
 
-.addbtn{
-background-color: transparent;
-border: none;
+.addbtn {
+  background-color: transparent;
+  border: none;
+
+  @media(max-width:600px) {
+    position: relative;
+    font-size: 24px;
+    top: 5px;
+    left: 100px;
+  }
 }
 
-img{
-// position: absolute;
-// left: 350px;
-// margin-top: 35px;
-width: 30px;
-height: 30px;
-cursor: pointer;
+img {
+  // position: absolute;
+  // left: 350px;
+  // margin-top: 35px;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
 }
 
-img:hover{
-transform: scale(1.1);
+img:hover {
+  transform: scale(1.1);
 }
 
-hr{
+hr {
   width: 80%;
   border: none;
   height: 2px;
   background-color: #9dcee2;
 }
 
-.titleCss{
+.titleCss {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
@@ -206,16 +251,22 @@ hr{
   margin: 0 auto;
 }
 
-.titleFontPage1{
+.titleFontPage1 {
   font-size: 42px;
   font-weight: bold;
-  letter-spacing:5px;
+  letter-spacing: 5px;
+
   // margin-left: 120px;
+  @media(max-width:600px) {
+    font-size: 24px;
+    position: absolute;
+    left: 30px
+  }
 }
 
 // 分頁控制項
 
-.pagination-div{
+.pagination-div {
   display: flex;
   justify-content: end;
   align-items: center;
@@ -229,16 +280,20 @@ hr{
   gap: 10px;
 }
 
-.pagination-controls span{
+.pagination-controls span {
   font-size: 16px;
   font-weight: bold;
   color: #4091c9;
 }
 
-.pagination-select{
+.pagination-select {
   padding: 5px;
   border-radius: 4px;
   border: 1px solid #4091c9;
+
+  @media(max-width:600px) {
+    display: none;
+  }
 }
 
 .pagination-controls button {
@@ -251,7 +306,7 @@ hr{
   transition: 0.2s;
 }
 
-.pagination-controls button:hover:not(:disabled){
+.pagination-controls button:hover:not(:disabled) {
   background: #4091c9;
   color: white;
 }
@@ -262,7 +317,7 @@ hr{
   cursor: not-allowed;
 }
 
-.pagination-btns{
+.pagination-btns {
   display: flex;
   align-items: center;
   gap: 15px;

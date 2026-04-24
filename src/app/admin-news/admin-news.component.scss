@@ -1,4 +1,4 @@
-.frameCss{
+.frameCss {
   display: flex;
   justify-content: center;
   position: relative;
@@ -8,85 +8,186 @@
   // // gap: 10px;
 }
 
-h1{
-  // margin-left:50px;
-  color: #000000;
-  letter-spacing:5px;
+h1 {
+  margin-top:50px;
   font-size: 42px;
-  position: absolute;
-  margin-left: 120px;
+  font-weight: bold;
+  letter-spacing: 5px;
+
+  @media(max-width:600px) {
+    font-size: 24px;
+    position: absolute;
+    // left:-85px;
+    left: 30px // top:40px;
+  }
 }
 
-hr{
+.pagination-select {
+  padding: 5px;
+  border-radius: 4px;
+  border: 1px solid #4091c9;
+  position: absolute;
+  top: 125px;
+  right: 160px;
+  margin-top: 35px;
+
+  @media(max-width:600px) {
+    display: none;
+  }
+}
+
+hr {
   width: 80%;
   border: none;
   height: 2px;
   background-color: #9dcee2;
 }
-.news{
- position: relative;
-//  box-shadow: 5px 5px 15px rgba(109, 163, 234, 0.3);
+
+.news-quantity {
+  color: #666;
+  padding: 5px;
+  position: absolute;
+  top: 120px;
+  left: 340px;
+  margin-top: 35px;
+
+  @media(max-width:600px) {
+    display: none;
+  }
+}
+
+.news {
+  position: relative;
+  //  box-shadow: 5px 5px 15px rgba(109, 163, 234, 0.3);
   padding: 10px;
-  border-bottom:1px solid #b6e4f6;
+  border-bottom: 1px solid #b6e4f6;
   margin-bottom: 10px;
   border-radius: 15px;
   cursor: pointer;
 }
 
-.news:hover{
- transform: translateY(-2px);
- box-shadow: 0 10px 20px rgba(64, 145, 201, 0.2);
- transition: all 0.3s ease; /* 讓動作變平滑 */
+.news:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(64, 145, 201, 0.2);
+  transition: all 0.3s ease;
+  /* 讓動作變平滑 */
 }
-.news-tag{
+
+.new-box {
+  width: 80%;
+  border-color: #4091c9;
+
+  @media(max-width:600px) {
+    width: 90%;
+    position: relative;
+    left: -30px;
+  }
+}
+
+.news-tag {
   background-color: #4091c9;
-  color:white;
+  color: white;
   border-radius: 5px;
-  padding:3px 8px 3px 8px;
+  padding: 3px 8px 3px 8px;
   margin-right: 15px;
   margin-left: 5px;
   font-size: 14px;
   max-width: 15%;
   cursor: pointer;
+
+  @media(max-width:600px) {
+    font-size: 12px;
+    padding: 1px 10px 1px 3px;
+ white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  }
 }
-.news-tagNone{
+
+.news-tagNone {
   background-color: #ccc;
-  color:white;
+  color: white;
   border-radius: 5px;
-  padding:3px 8px 3px 8px;
+  padding: 3px 8px 3px 8px;
   margin-right: 15px;
   margin-left: 5px;
   font-size: 14px;
   max-width: 15%;
   cursor: pointer;
+  @media(max-width:600px) {
+        font-size: 12px;
+    padding: 1px 8px 1px 3px;
+    white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  }
 }
 
 .news-title {
-    display: inline-block;
-    width: 60%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    vertical-align: bottom; /* 修正與旁邊文字的對齊 */
+  display: inline-block;
+  width: 60%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: bottom;
+  /* 修正與旁邊文字的對齊 */
   cursor: pointer;
-}
-.news-titleNone {
-    display: inline-block;
-    width: 60%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    vertical-align: bottom; /* 修正與旁邊文字的對齊 */
-  cursor: pointer;
-  color:#858585;
+
+  @media(max-width:600px) {
+    left: 5px;
+    font-size: 14px;
+    width: 40%;
+  }
 }
 
+.news-titleNone {
+  display: inline-block;
+  width: 60%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: bottom;
+  /* 修正與旁邊文字的對齊 */
+  cursor: pointer;
+  color: #858585;
+
+  @media(max-width:600px) {
+    left: 5px;
+    font-size: 14px;
+    width: 40%;
+  }
+}
+
+.news-dateNone {
+  position: absolute;
+  right: 150px;
+  color: #858585;
+
+  @media(max-width:600px) {
+    font-size: 12px;
+    right: 15px;
+    top: 15px;
+  }
+}
+
+.news-date {
+  position: absolute;
+  right: 150px;
+
+  @media(max-width:600px) {
+    font-size: 12px;
+    right: 15px;
+    top: 15px;
+  }
+}
 
 /* 1. 外層包裝容器 (要在 HTML 加上這個 class) */
 .news-wrapper {
   // display: flex;
   align-items: center;
-  justify-content: space-between; /* 讓新聞在左，開關在右 */
+  justify-content: space-between;
+  /* 讓新聞在左，開關在右 */
   padding: 12px 16px;
   border-bottom: 1px solid #f0f0f0;
   transition: all 0.3s ease;
@@ -97,21 +198,29 @@ hr{
   display: flex;
   align-items: center;
   gap: 10px;
-  flex-shrink: 0; /* 💡 重要：防止開關被擠壓變形 */
+  flex-shrink: 0;
+  /* 💡 重要：防止開關被擠壓變形 */
   margin-right: 20px;
   // min-width: 120px; /* 固定寬度防止文字長短切換時抖動 */
   justify-content: flex-end;
   // transform: translateY(-40px);
   position: absolute;
-  right:0px;
+  right: 0px;
+
+  @media(max-width:600px) {
+    gap: 5px;
+    margin-right: -50px;
+  }
 }
 
 /* 3. 主體軌道 */
 .wealth-switch {
   position: relative;
   display: inline-block;
-  width: 46px;  /* 稍微縮小一點點更精緻 */
+  width: 46px;
+  /* 稍微縮小一點點更精緻 */
   height: 24px;
+
 }
 
 .wealth-switch input {
@@ -124,10 +233,14 @@ hr{
 .slider {
   position: absolute;
   cursor: pointer;
-  top: 0; left: 0; right: 0; bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background-color: #ccc;
   transition: .4s cubic-bezier(0.4, 0, 0.2, 1);
   border-radius: 24px;
+
 }
 
 /* 5. 圓形滑塊 */
@@ -141,17 +254,19 @@ hr{
   background-color: white;
   transition: .4s cubic-bezier(0.4, 0, 0.2, 1);
   border-radius: 50%;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   z-index: 2;
 }
 
 /* 6. 當勾選時 (展示中) 的顏色變化 */
-input:checked + .slider {
-  background-color: #4091c9; /* 你的藍色主題 */
+input:checked+.slider {
+  background-color: #4091c9;
+  /* 你的藍色主題 */
 }
 
-input:checked + .slider:before {
-  transform: translateX(22px); /* 位移根據寬度調整 */
+input:checked+.slider:before {
+  transform: translateX(22px);
+  /* 位移根據寬度調整 */
 }
 
 /* 7. 狀態文字樣式 */
@@ -159,7 +274,12 @@ input:checked + .slider:before {
   font-size: 13px;
   font-weight: 600;
   color: #4091c9;
-  white-space: nowrap; /* 防止換行 */
+  white-space: nowrap;
+
+  /* 防止換行 */
+  @media(max-width:600px) {
+    display: none;
+  }
 }
 
 .sw-label.is-hidden {

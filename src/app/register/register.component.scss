@@ -9,8 +9,14 @@
   // justify-content: center;
   display: flex;
   width: 98.8vw;
-  height: 100vh;
+  min-height: 100vh;
   background-color: #9dcee2;
+
+  @media (max-width: 600px) {
+display: block;   /* 手機版改回區塊排列 */
+    height: auto;     /* 高度交由內容決定 */
+    padding-bottom: 60px; /* 底部留一點空間，避免卡片貼底 */
+  }
 }
 
 .left-box {
@@ -24,37 +30,74 @@
   color: white;
   background-color: #9dcee2;
 }
-.WealthMap{
+
+///手機版的時候左邊隱藏
+@media (max-width: 600px) {
+  .left-box {
+    display: none;
+  }
+}
+
+.mobile-br {
+  display: none;
+  @media (max-width: 600px) {
+
+  /* 手機版時，讓 br 變回區塊元素，強制換行 */
+    display: block;
+    content: "";
+    /* 部分瀏覽器優化 */
+    margin-top: 5px;
+    /* 如果換行太擠，可以加點間距 */
+}
+}
+@media (max-width: 600px) {
+
+  /* 手機版時，讓 br 變回區塊元素，強制換行 */
+  .mobile-br {
+    display: block;
+    content: "";
+    /* 部分瀏覽器優化 */
+    margin-top: 5px;
+    /* 如果換行太擠，可以加點間距 */
+  }
+}
+
+.WealthMap {
   font-size: 42px;
-  color:white;
+  color: white;
   font-weight: 600;
   letter-spacing: 0.05em;
 }
-.WealthMap-small{
+
+.WealthMap-small {
   font-size: 24px;
-  color:white;
+  color: white;
   font-weight: 500;
   letter-spacing: 0.05em;
 }
+
 .homebtn {
   background: transparent;
   color: white;
-  border: 1px solid ;
+  border: 1px solid;
   border-radius: 50%;
   width: 40px;
   height: 40px;
   cursor: pointer;
 }
-.homebtn:hover{
+
+.homebtn:hover {
   background: white;
   color: #9dcee2;
 }
+
 .right-box {
   flex: 0 0 60%;
   display: flex;
   align-items: center;
   justify-content: center;
 }
+
 .right-content {
   justify-content: center;
   width: 400px;
@@ -65,6 +108,7 @@
   border-radius: 10px;
   box-shadow: 10px 10px 15px rgba(3, 50, 112, 0.3);
 }
+
 h1 {
   text-align: center;
   margin-bottom: 5px;
@@ -89,9 +133,10 @@ h1 {
   }
 }
 
-.btn{
-  text-align:center;
+.btn {
+  text-align: center;
 }
+
 .btn-google {
   justify-content: center;
   // width: 240px;
@@ -104,23 +149,32 @@ h1 {
   cursor: pointer;
   background-color: #9dcee2;
   color: white;
-  &:hover{
+
+  &:hover {
     background-color: #f29479;
   }
 }
 
 /* 全域字體 20px */
-.right-content label, .right-content input, .right-content button, .right-content p {
+.right-content label,
+.right-content input,
+.right-content button,
+.right-content p {
   font-size: 16px;
 }
 
 /* 錯誤訊息基礎樣式 */
 .error-msg {
-  color: #ff4d4f;       /* 柔和一點的紅色 */
-  font-size: 0.85rem;   /* 比標籤小一點點 */
-  margin-left: 5px;      /* 與輸入框保持一點距離 */
-  margin-top: -15px;      /* 與輸入框保持一點距離 */
-  display: block;       /* 確保它是獨立一行 */
+  color: #ff4d4f;
+  /* 柔和一點的紅色 */
+  font-size: 0.85rem;
+  /* 比標籤小一點點 */
+  margin-left: 5px;
+  /* 與輸入框保持一點距離 */
+  margin-top: -15px;
+  /* 與輸入框保持一點距離 */
+  display: block;
+  /* 確保它是獨立一行 */
   margin-bottom: 10px;
 
   /* 加入簡單的淡入動畫 */
@@ -131,8 +185,10 @@ h1 {
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(-5px); /* 從上方一點點滑下來 */
+    transform: translateY(-5px);
+    /* 從上方一點點滑下來 */
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -143,25 +199,35 @@ h1 {
   font-variation-settings: 'FILL' 0, 'wght' 100, 'GRAD' 0, 'opsz' 24;
   font-size: 18px;
   color: #bad5e0;
-  vertical-align: middle; /* 讓圖示跟文字對齊更準 */
+  vertical-align: middle;
+  /* 讓圖示跟文字對齊更準 */
   font-weight: normal;
 }
 
-.isshowPassword{
+.isshowPassword {
   background-color: transparent;
   border: none;
   position: absolute;
-  right:40px;
+  right: 40px;
   bottom: 16px;
+
+  @media (max-width: 600px) {
+    right: 5px;
+  }
 }
 
 .footer-text {
   font-size: 13px;
   margin-top: 10px;
-  // margin-left: 40px;
-  // margin-right: 40px;
   text-align: end;
   color: #788189;
+}
+
+.last-text {
+  padding-left: 20px;
+  @media (max-width: 600px) {
+    padding-left: 0px;
+  }
 }
 
 .link-text {
@@ -174,4 +240,66 @@ h1 {
   display: inline-block;
 }
 
+@media (max-width: 600px) {
 
+  /* 讓父容器改為垂直排列 */
+  .whole {
+    display: block;
+    height: auto;
+    min-height: 100vh;
+    width: 100vw;
+  }
+
+  /* 讓右側盒子撐滿全寬 */
+  .right-box {
+    flex: 0 0 100%;
+    width: 100%;
+    padding: 20px 10px;
+    /* 手機版留一點上下邊距 */
+  }
+
+  /* 核心：讓註冊卡片寬度自適應 */
+  .right-content {
+    width: 95%;
+    /* 使用百分比而非固定像素 */
+    max-width: 380px;
+    /* 限制最大寬度防止在大手機上太胖 */
+    height: auto;
+    /* 高度改為 auto，避免內容被截斷 */
+    margin: 0 auto;
+    /* 置中 */
+    padding-bottom: 20px;
+    box-shadow: 0 8px 16px rgba(3, 50, 112, 0.2);
+  }
+
+  /* 調整輸入框佈局 */
+  .input-box {
+    margin-left: 15px;
+    /* 稍微縮小左邊距 */
+
+    input {
+      width: 92%;
+      /* 讓輸入框佔滿大部分寬度 */
+    }
+  }
+
+  /* 條款與政策區塊調整 */
+  .right-content>div[style*="left:25px"] {
+    left: 15px !important;
+    /* 強制修正行內樣式的位移 */
+    width: 90% !important;
+    /* 寬度改為百分比 */
+  }
+
+  /* 按鈕寬度調整 */
+  .btn-google {
+    width: 80%;
+    margin: 20px auto;
+    /* 讓按鈕水平置中 */
+  }
+
+  /* 隱藏密碼圖示位置微調 */
+  .isshowPassword {
+    right: 35px;
+  }
+}

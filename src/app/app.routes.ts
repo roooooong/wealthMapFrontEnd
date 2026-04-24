@@ -24,6 +24,7 @@ import { HealthComponent } from './health/health.component';
 import { MonteComponent } from './monte/monte.component';
 import { GoalOverviewComponent } from './features/financial-goals/pages/goal-overview/goal-overview.component';
 import { SseDemoComponent } from './sse-demo/sse-demo.component';
+import { PortfolioRecommendationComponent } from './features/risk-assessment/pages/portfolio-recommendation/portfolio-recommendation.component';
 
 export const routes: Routes = [
 
@@ -39,7 +40,7 @@ export const routes: Routes = [
   //通知頁面
   { path: 'system-notification', component: NotificationComponent },
   { path: 'system-notification/:pageId', component: NotificationComponent },
-   // 風險評估系列
+  // 風險評估系列
   { path: 'risk-cover', component: RiskCoverComponent },
   { path: 'risk-test', component: RiskTestComponent },
   { path: 'risk-result', component: RiskResultComponent },
@@ -119,6 +120,12 @@ export const routes: Routes = [
     path: 'risk-cover',
     component: RiskCoverComponent,
     canActivate: [RiskGuard]
+  },
+  {
+    path: 'portfolio-recommendation',
+    component: PortfolioRecommendationComponent,
+    canActivate: [authGuard],
+    data: { roles: ['ADMIN', 'USER'] }
   },
 
 

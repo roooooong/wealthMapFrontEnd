@@ -117,25 +117,25 @@
             align-items: center;
             gap: 8px;
             padding: 10px 24px;
-            background-color: #4CAF50;
+            background-color: #4091c9;
             color: white;
             border: none;
-            border-radius: 30px;
+            border-radius: 8px;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            box-shadow: 0 4px 10px rgba(76, 175, 80, 0.3);
+            box-shadow: 0 4px 10px rgba(64, 145, 201, 0.3);
             transition: all 0.3s ease;
 
             &:hover {
-                background-color: #43A047;
+                background-color: #2c7ab0;
                 transform: translateY(-2px);
-                box-shadow: 0 6px 15px rgba(76, 175, 80, 0.4);
+                box-shadow: 0 4px 10px rgba(64, 145, 201, 0.3);
             }
 
             &:active {
                 transform: translateY(1px);
-                box-shadow: 0 2px 5px rgba(76, 175, 80, 0.3);
+                box-shadow: 0 4px 10px rgba(64, 145, 201, 0.3);
             }
         }
     }
@@ -293,28 +293,57 @@
   display: flex;
   justify-content: center;
 }
-.title{
-  font-size: 36px
-  ;color:#4091c9;
-  font-weight: bold;
-  letter-spacing: 0.05em
+.distance{
+   margin-top: 70px;
+    //手機
+  @media(max-width:600px) {
+    margin-top: 30px;
+  }
 }
-.illustrate{
-  color:#666;
-  letter-spacing: 0.05em
+.title {
+  font-size: 36px;
+  color: #4091c9;
+  font-weight: bold;
+  letter-spacing: 0.05em;
+
+  //手機
+  @media(max-width:600px) {
+    font-size: 24px;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-top: 40px;
+  }
+}
+.introduction {
+  color: #666;
+  letter-spacing: 0.05em;
+
+  //手機
+  @media(max-width:600px) {
+    font-size: 14px;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-bottom: 40px;
+  }
 }
 
 .registerbtn {
-    background: linear-gradient(135deg, #9dcee2 0%, #4091c9 100%);
-    color: white;
-    font-weight: 600;
-    padding: 16px 40px;
-    border-radius: 50px; /* 圓角膠囊型 */
-    border: none;
-    letter-spacing: 0.05em;
-    cursor: pointer;
-    transition: all 0.3s ease;
+  background: linear-gradient(135deg, #9dcee2 0%, #4091c9 100%);
+  color: white;
+  font-weight: 600;
+  padding: 16px 40px;
+  border-radius: 50px;
+  /* 圓角膠囊型 */
+  border: none;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: all 0.3s ease;
   font-size: 16px;
+
+  @media (max-width: 600px) {
+  font-size: 14px;
+  width: 290px;
+  }
 }
 .registerbtn:hover{
   // background: linear-gradient(135deg, #4091c9 0%, #9dcee2 100%);

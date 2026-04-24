@@ -1,4 +1,5 @@
-html, body {
+html,
+body {
   height: 100%;
   margin: 0;
   padding: 0;
@@ -7,7 +8,8 @@ html, body {
 .app-wrapper {
   display: flex;
   flex-direction: column;
-  min-height: 100vh; /* 💡 整個頁面最少要跟螢幕一樣高 */
+  min-height: 100vh;
+  /* 💡 整個頁面最少要跟螢幕一樣高 */
 }
 
 .frameCss {
@@ -21,43 +23,44 @@ html, body {
   width: 100%;
   height: 60px;
   background: linear-gradient(45deg, #9dcee2, #4091c9);
+
+  //手機
+  @media(max-width:600px) {
+    width: 100%;
+  }
 }
 
 .logo {
   position: absolute;
   left: 40px;
   bottom: 10px;
-  font-size: 16px;
+  // font-size: 16px;
   color: white;
   font-size: 32px;
   cursor: pointer;
+
+  //手機
+  @media(max-width:600px) {
+    font-size: 24px;
+    left: 20px;
+    bottom: 15px;
+    cursor: pointer;
+  }
 }
 
 .main-content {
-  flex: 1 0 auto; /* 💡 自動撐開剩餘空間，把 Footer 推到底部 */
+  flex: 1 0 auto;
+  /* 💡 自動撐開剩餘空間，把 Footer 推到底部 */
   display: flex;
   flex-direction: column;
   // align-items: center; /* 讓內容水平置中 */
 }
-// .footerCss {
-//   position: relative;
-//   width: 100%;
-//   height: 80px;
-//   display: flex;
-//   justify-content: center;
-//   font-size: 16px;
-//   background: linear-gradient(45deg, #9dcee2, #4091c9);
-//   background-color: #333; /* 假設的背景色 */
-//   text-align: center;
-//   // padding: 20px 0;
-//   width: 100%;
-//   color:white;
-// }
-/* 💡 讓所有直接由 router-outlet 生成的子元件都能維持 100% 寬度與區塊屬性，避免切換頁面時內容會閃爍偏左再來置中 */
-.main-content > :not(router-outlet) {
+
+.main-content> :not(router-outlet) {
   display: block;
   width: 100%;
 }
+
 .footerCss {
   position: relative;
   width: 100%;
@@ -66,7 +69,13 @@ html, body {
   justify-content: center;
   font-size: 16px;
   background: linear-gradient(45deg, #9dcee2, #4091c9);
-  background-color: #333; /* 假設的背景色 */
+  background-color: #333;
+  /* 假設的背景色 */
+
+  //手機
+  @media(max-width:600px) {
+    width: 100%;
+  }
 }
 
 .footerCss span {
@@ -79,15 +88,17 @@ html, body {
 .app-wrapper {
   display: flex;
   flex-direction: column;
-  min-height: 100vh; /* 💡 關鍵：確保容器至少跟螢幕一樣高 */
+  min-height: 100vh;
+  /* 💡 關鍵：確保容器至少跟螢幕一樣高 */
 }
 
 /* 💡 核心：讓中間內容區「自動伸展」把 Footer 推到底部 */
 .content-area {
-  flex: 1; /* 💡 關鍵：它會吃掉所有剩餘空間 */
+  flex: 1;
+  /* 💡 關鍵：它會吃掉所有剩餘空間 */
 }
 
-.headerbtn{
+.headerbtn {
   width: 100px;
   align-self: center;
   font-size: 16px;
@@ -96,19 +107,44 @@ html, body {
   height: 20px;
   // bottom:15px;
   font-size: 16px;
-  color:#ffffff;
+  color: #ffffff;
 
   background-color: transparent;
   border: none;
   cursor: pointer;
   transition: border-color 0.3s ease;
+
+  //手機
+  @media(max-width:600px) {
+    width: 80px;
+    font-size: 14px;
+  }
 }
 
-.headerbtn:hover{
-  color:#ddf4fd;
+.headerbtn:hover {
+  color: #ddf4fd;
 
   font-size: 16px;
   cursor: pointer;
 }
 
+.footerSpan {
+  padding: 5px;
 
+  //手機
+  @media(max-width:600px) {
+    padding: 1px;
+  }
+}
+
+.copyright {
+  position: absolute;
+  bottom: 25px;
+    font-size: 14px;
+
+
+  //手機
+  @media(max-width:600px) {
+    font-size: 12px;
+  }
+}
