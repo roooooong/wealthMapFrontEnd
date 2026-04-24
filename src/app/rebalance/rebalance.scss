@@ -3,6 +3,45 @@
   justify-content: center;
 }
 
+.info-banner {
+  width: 75%; /* 建議跟你的 hr 寬度一致 */
+  margin: 0 auto 30px auto;
+  background-color: #f0f7fa; /* 淺藍色背景 */
+  border-left: 5px solid #9dcee2; /* 左側藍色邊條 */
+  padding: 15px 20px;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.info-header {
+  color: #2c3e50;
+  margin-bottom: 8px;
+  font-size: 16px;
+}
+
+.info-content {
+  color: #5d6d7e;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.info-content ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.info-content li {
+  margin-bottom: 5px;
+}
+
+/* 程式碼樣式微調 */
+code {
+  background-color: #e8ecef;
+  padding: 2px 4px;
+  border-radius: 3px;
+  font-family: monospace;
+}
+
 /* 容器佈局 */
 .container-grid {
   display: grid;
@@ -23,6 +62,7 @@
   margin-bottom: 15px;
 }
 
+
 /* --- 空的框樣式 --- */
 .empty-card {
   grid-column: auto;
@@ -33,7 +73,9 @@
   color: #4a90e2;
   background: white;
 
+
 }
+
 
 .empty-card:hover {
   border-color: #4a90e2; /* 懸停變藍色 */
@@ -41,9 +83,11 @@
   background: #9DCEE2;
 }
 
+
 .empty-content {
   text-align: center;
 }
+
 
 .plus-icon {
   font-size: 40px;
@@ -51,6 +95,7 @@
   margin-bottom: 10px;
   cursor: pointer;
 }
+
 
 /* --- 新增後的項目框樣式 --- */
 .item-card {
@@ -61,10 +106,12 @@
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
+
 .item-card:hover {
   transform: translateY(-3px);
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
+
 
 .card-top {
   display: flex;
@@ -73,11 +120,13 @@
   margin-bottom: 15px;
 }
 
+
 .left-side {
   display: flex;
   align-items: center;
   gap: 10px;
 }
+
 
 .stock-tag {
   background: #033270;
@@ -87,12 +136,36 @@
   color: white;
 }
 
+
 .card-container {
   display: flex;
   flex-direction: column;
   gap: 10px;
   color: #033270;
 
+
+}
+
+// 乖離率tooltip設定
+.info-tooltip {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  // background-color:transparent;
+  color: #0332709f;
+  border:1.5px solid #0332709f;
+  border-radius: 50%;
+  text-align: center;
+  font-size: 9px;
+  font-weight: bold;
+  line-height: 16px;
+  // cursor: help;
+  margin-left: 4px;
+}
+
+.info-tooltip:hover {
+  color: beige;
+  border:1.5px solid beige;
 }
 
 /* 當偏差值小於 -2 時觸發的樣式 */
@@ -102,10 +175,12 @@
   // color:#CB1B16;
 }
 
+
 /* 右上角刪除鈕 */
 .edit-delete-btn {
   cursor: pointer;
 }
+
 
 /* 編輯按鈕組 */
 .edit-actions .confirm-btn {
@@ -114,6 +189,7 @@
 .edit-actions .cancel-btn {
   background: none; border: none; font-size: 1.2rem;
 }
+
 
 /* 數字輸入框樣式 (隱藏預設箭頭，呈現乾淨感) */
 input[type="number"] {
@@ -125,6 +201,7 @@ input[type="number"] {
   text-align: center;
 }
 
+
 /* 當 input 禁用時的樣式 */
 input[disabled] {
   background: transparent;
@@ -132,6 +209,8 @@ input[disabled] {
   color: #333;
   cursor: default;
 }
+
+
 
 
 /* 自定義 Switch 開關 :start*/
@@ -143,11 +222,13 @@ input[disabled] {
   margin-left: 5px;
 }
 
+
 .status-label {
   font-size: 12px;
   font-weight: bold;
   color: #033270;
 }
+
 
 .switch {
   position: relative;
@@ -156,12 +237,14 @@ input[disabled] {
   vertical-align: middle;
 }
 
+
 /* 隱藏原生 checkbox */
 .switch input {
   opacity: 0;
   width: 0;
   height: 0;
 }
+
 
 /* 滑軌基礎外觀 */
 .slider {
@@ -176,6 +259,7 @@ input[disabled] {
   border-radius: 34px;
 }
 
+
 /* 圓點基礎外觀 */
 .slider:before {
   position: absolute;
@@ -185,16 +269,19 @@ input[disabled] {
   border-radius: 50%;
 }
 
+
 /* 當勾選時，滑軌變色 (綠色) */
 input:checked + .slider {
   background-color: #48bb78;
 }
+
 
 /* --- Tiny Switch 樣式 --- */
 .switch.tiny {
   width: 32px;
   height: 18px;
 }
+
 
 .switch.tiny .slider:before {
   height: 14px;
@@ -203,8 +290,52 @@ input:checked + .slider {
   bottom: 2px;
 }
 
+
 /* 縮小版的位移距離 */
 .switch.tiny input:checked + .slider:before {
   transform: translateX(14px);
 }
 /* 自定義 Switch 開關 :end*/
+
+h1{
+  // margin-left:50px;
+  color: #000000;
+  letter-spacing:5px;
+  font-size: 32px;
+  // position: absolute;
+  margin-left: 130px;
+}
+
+.instructions {
+  width: 250px;
+  height: 300px;
+  margin-left: 20px;
+  margin-right: 20px;
+  background-color: rgb(255, 255, 255);
+  box-shadow: 0 10px 20px rgba(64, 145, 201, 0.2);
+  border-radius: 10px;
+  padding:20px;
+  cursor: pointer;
+}
+
+.instructions:hover {
+  transform: translateY(-2px);
+  transition: all 0.5s ease;/* 讓動作變平滑 */
+  cursor: pointer;
+}
+
+button{
+  background-color: #9dcee2;
+  color: #ffffff;
+  width: 80px;
+  height: 30px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button:hover{
+  background-color: #f29479;
+  color: white;
+}
