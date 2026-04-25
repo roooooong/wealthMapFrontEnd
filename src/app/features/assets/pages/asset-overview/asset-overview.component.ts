@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { CommonModule, CurrencyPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Chart } from 'chart.js/auto';
@@ -28,6 +28,7 @@ export class AssetOverviewComponent implements OnInit {
   isNotificationEnabled: boolean = false; //------------------
   newAssetName: string = '';
   newAssetType: string = 'CASH';
+  newAssetSymbol: string = '';
   newAssetAmount: number | null = null;
   unitPrice: number | null = null;
   unitCount: number | null = null;
@@ -47,7 +48,7 @@ export class AssetOverviewComponent implements OnInit {
 
   constructor(
     private assetService: AssetService,
-    private liabilityService: LiabilityService, // 💡 注入負債服務
+    @Inject(LiabilityService) private liabilityService: LiabilityService, // 💡 注入負債服務
     private currencyPipe: CurrencyPipe,
     private router: Router,
   ) { }
@@ -243,10 +244,10 @@ export class AssetOverviewComponent implements OnInit {
       console.log('使用者關閉了通知');
     }
   }
- daysOptions: string[] = [
+  daysOptions: string[] = [
     ...Array.from({ length: 31 }, (_, i) => (i + 1).toString())
   ];
-//-----------------------------------------------------------------------------------------
+  //-----------------------------------------------------------------------------------------
 
 
   deleteLiability(liabilityId: number, liabilityName: string): void {

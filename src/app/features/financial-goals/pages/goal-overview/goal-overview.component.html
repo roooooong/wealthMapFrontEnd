@@ -1,19 +1,73 @@
 @if( role=='visitor' ){
-  <div class="frameCss distance">
-  <label class="title">財務目標</label>
-</div>
-<div class="frameCss" style="margin-bottom: 50px;">
-  <p class="introduction" >賦予資金明確的任務！設定目標日期與金額，系統將自動追蹤完成率，助您在既定時間內精準達標。</p>
-</div>
+<div class="visitor-landing-container">
 
-<br><br>
-<div class="frameCss" style="margin-top: 20px;">
-  <button class="registerbtn" (click)="goRegister()">註冊，開始使用「 WealthMap 個人資產與財務配置平台! 」</button>
+    <div class="header-section">
+        <h1 class="main-title">財務目標</h1>
+        <p class="subtitle">賦予資金明確的任務！設定目標日期與金額，系統將自動追蹤完成率，助您在既定時間內精準達標。</p>
+    </div>
+
+    <div class="info-box-card">
+        <p>「財務目標」是用來具象化您的理財藍圖，透過視覺化的進度條，讓存錢不再枯燥乏味。</p>
+        <ul>
+            <li>視覺化追蹤：將冷冰冰的數字轉化為直覺的進度條，隨時掌握與夢想的距離。</li>
+            <li>自動化連動：整合您的現有真實資產，系統自動計算達成率，無需手動更新。</li>
+        </ul>
+    </div>
+
+    <div class="feature-text-cards">
+        <div class="card">
+            <div class="card-icon"></div>
+            <h3>1. 設定夢想藍圖</h3>
+            <p>設定目標金額與預計達成的期限，第一步就這麼簡單。</p>
+        </div>
+
+        <div class="card">
+            <div class="card-icon"></div>
+            <h3>2. 追蹤資產進度</h3>
+            <p>自動拉取總資產數據，高質感專屬進度條呈現。</p>
+        </div>
+
+        <div class="card">
+            <div class="card-icon"></div>
+            <h3>3. 達標專屬成就</h3>
+            <p>當進度達到 100% 時，獲得達成徽章與視覺特效。</p>
+        </div>
+    </div>
+
+    <div class="goal-showcase-images">
+        <div class="image-card">
+            <div class="image-wrapper">
+                <img src="assets/goal-images/placeholder_dream.png" alt="圖片 1：多元目標類型">
+            </div>
+            <h3>多元目標類型</h3>
+            <p>設定買房、退休、旅遊等不同藍圖</p>
+        </div>
+
+        <div class="image-card">
+            <div class="image-wrapper">
+                <img src="assets/goal-images/placeholder_progress.png" alt="圖片 2：視覺追蹤效果">
+            </div>
+            <h3>視覺追蹤效果</h3>
+            <p>每天看著進度條成長，存錢更具動力</p>
+        </div>
+
+        <div class="image-card">
+            <div class="image-wrapper">
+                <img src="assets/goal-images/placeholder_achieve.png" alt="圖片 3：目標達成畫面">
+            </div>
+            <h3>目標達成畫面</h3>
+            <p>見證理財成果，獲得專屬成就感</p>
+        </div>
+    </div>
+
+    <div class="cta-section">
+        <button class="cta-register-btn" (click)="goRegister()">註冊，開始使用「 WealthMap 個人資產與財務配置平台! 」</button>
+    </div>
+
 </div>
-<br><br><br>
 }
 @else{
-  <div class="goal-container">
+<div class="goal-container">
 
     <div class="top-nav-bar">
         <button class="back-btn" (click)="backToHome()">
@@ -54,13 +108,36 @@
 
     <div class="goals-list">
         @for(goal of goals; track $index) {
-        <div class="goal-card">
-            <div class="goal-info">
+        <div class="goal-card" [class.is-achieved]="getGoalProgress(goal.targetAmount) >= 100">
+
+            <div class="goal-header">
                 <h3>{{ goal.goalName }}</h3>
+                @if (getGoalProgress(goal.targetAmount) >= 100) {
+                <span class="achieved-badge">🎉 達成！</span>
+                }
+            </div>
+
+            <div class="goal-info">
                 <p class="amount">目標金額：{{ goal.targetAmount | currency:'TWD':'symbol-narrow':'1.0-0' }}</p>
                 <p class="date">預計達成：{{ goal.targetDate }}</p>
             </div>
-            <button class="delete-btn" (click)="deleteGoal(goal.id, goal.goalName)">🗑️ 刪除</button>
+
+            <div class="progress-section">
+                <div class="progress-text">
+                    <span>目前進度</span>
+                    <span class="percent-text">{{ getGoalProgress(goal.targetAmount) | number:'1.0-1' }}%</span>
+                </div>
+
+                <div class="progress-track">
+                    <div class="progress-fill" [style.width.%]="getGoalProgress(goal.targetAmount)"
+                        [class.fill-success]="getGoalProgress(goal.targetAmount) >= 100">
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-action">
+                <button class="delete-btn" (click)="deleteGoal(goal.id, goal.goalName)">🗑️ 刪除</button>
+            </div>
         </div>
         } @empty {
         <p class="empty-state">目前還沒有設定任何目標，趕快新增一個吧！🚀</p>
