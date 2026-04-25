@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 // 💡 1. 引入我們剛剛建好的 GoalService 和介面 (請確認路徑是否正確)
 import { GoalService, FinancialGoal } from '../../services/goal.service';
 import { ExampleService } from '../../../../@service/example.service';
-
+import { AssetService } from '../../../assets/services/asset.service';
 @Component({
   selector: 'app-goal-overview',
   standalone: true,
@@ -24,6 +24,7 @@ export class GoalOverviewComponent implements OnInit {
   newGoalName: string = '';
   newGoalAmount: number | null = null;
   newGoalDate: string = '';
+  totalAssetValue: number = 0;
 
   // 💡 2. 把原本的假資料清掉，宣告一個空的陣列來接後端資料
   goals: FinancialGoal[] = [];
@@ -31,7 +32,8 @@ export class GoalOverviewComponent implements OnInit {
   // 💡 3. 在建構子注入 GoalService 發球機
   constructor(private router: Router,
     private goalService: GoalService,
-        private exampleService: ExampleService) { }
+    private exampleService: ExampleService,
+    private assetService: AssetService) { }
 
   ngOnInit(): void {
     this.exampleService.user$.subscribe(user => {
@@ -41,6 +43,7 @@ export class GoalOverviewComponent implements OnInit {
     });
     // 💡 4. 畫面一載入，就去跟後端要資料
     this.refreshData();
+    this.loadTotalAssets();
   }
 
   // 🌟 新增一個專門用來重新整理資料的方法
@@ -52,6 +55,21 @@ export class GoalOverviewComponent implements OnInit {
       },
       error: (err) => {
         console.error('取得財務目標失敗', err);
+      }
+    });
+  }
+
+  loadTotalAssets(): void {
+    const userId = 1; // 目前寫死 1 號使用者
+
+    this.assetService.getUserAssets(userId).subscribe({
+      next: (assets: any[]) => {
+        // 加總資產金額 (請確認後端金額欄位名稱是否為 amount)
+        this.totalAssetValue = assets.reduce((sum, asset) => sum + asset.currentValue, 0);
+        console.log('目前真實總資產為：', this.totalAssetValue);
+      },
+      error: (err) => {
+        console.error('取得總資產失敗', err);
       }
     });
   }
@@ -102,6 +120,13 @@ export class GoalOverviewComponent implements OnInit {
       }
     });
   }
+
+  getGoalProgress(targetAmount: number): number {
+    if (!targetAmount || targetAmount === 0) return 0;
+    const progress = (this.totalAssetValue / targetAmount) * 100;
+    return Math.min(progress, 100); // 確保不會超過 100%
+  }
+
 
   deleteGoal(id: number | undefined, name: string): void {
     if (!id) return; // 防呆，確保有 ID
