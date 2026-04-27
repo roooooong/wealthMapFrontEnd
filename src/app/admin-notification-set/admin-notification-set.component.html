@@ -42,7 +42,7 @@
       <label class="notification-title" (click)="detail(notification.id!)">{{notification.title}}</label>
       <label class="notification-date"
         (click)="detail(notification.id!)">{{notification.scheduledDate}}</label>
-      @if(notification.scheduledDate>=gettoday){
+      @if(notification.scheduledDate>gettoday){
       <button class="notification-edit" (click)="showDialog(2,$index)"><mat-icon>edit</mat-icon></button>
       <button class="notification-delete" (click)="showDialogDelete($index)"><mat-icon>delete</mat-icon></button>
       }

@@ -5,11 +5,13 @@
     <!-- 標題 -->
     <div class="titleCss">
       <div>
-        <label class="titleFontPage1">{{ notificationList ? '系統公告' : '個人通知' }}</label>
+        <label class="titleFontPage1">{{ notificationType === "system" ? '系統公告' : '個人通知' }}</label>
       </div>
+      @if( role!='visitor'){
       <div>
-        <button class="btnList" (click)="goAnotherList()">{{ notificationList ? '個人通知列表' : '系統通知列表' }} →</button>
+        <button class="btnList" (click)="goAnotherList()">{{ notificationType === "system" ? '個人通知列表' : '系統通知列表' }} →</button>
       </div>
+    }
     </div>
   </div>
 
