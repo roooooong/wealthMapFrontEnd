@@ -18,15 +18,43 @@
   display: flex;
   justify-content: center;
 }
-.title{
-  font-size: 36px
-  ;color:#4091c9;
-  font-weight: bold;
-  letter-spacing: 0.05em
+.distance{
+   margin-top: 70px;
+    //手機
+  @media(max-width:600px) {
+    margin-top: 30px;
+  }
 }
-.illustrate{
-  color:#666;
-  letter-spacing: 0.05em
+.title {
+  font-size: 36px;
+  color: #4091c9;
+  font-weight: bold;
+  letter-spacing: 0.05em;
+
+  //手機
+  @media(max-width:600px) {
+    font-size: 32px;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-top: 40px;
+    width:330px;
+    text-align: center
+  }
+}
+
+.introduction {
+  color: #666;
+  letter-spacing: 0.05em;
+
+  //手機
+  @media(max-width:600px) {
+    font-size: 14px;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-bottom: 40px;
+    width:330px;
+    text-align: center
+  }
 }
 .subtitle {
     text-align: center;
