@@ -1,9 +1,9 @@
 <!-- <p>add-notification works!</p> -->
- @if(data.choise==1){
+@if(data.choise==1){
 <div class="head"></div>
 <div style="position: relative;margin:30px;top:15px;">
   <label style="padding:0px 10px">分類:</label>
-  <select id="tag" class="select"  [(ngModel)]="tag">
+  <select id="tag" class="select" [(ngModel)]="tag" (blur)="validate('tag')">
     <option value="" disabled selected>請選擇</option>
     <option value="功能">功能</option>
     <option value="維護">維護</option>
@@ -11,23 +11,32 @@
     <option value="公告">公告</option>
     <option value="教學">教學</option>
   </select>
+  @if (tagErrorMsg) {
+  <span class="error-msg">{{ tagErrorMsg }}</span>
+  }
   <br><br>
 
   <label style="padding:0px 10px">標題:</label>
-  <input class="title-input" [(ngModel)]="title">
+  <input class="title-input" [(ngModel)]="title" (blur)="validate('title')">
+  @if (titleErrorMsg) {
+  <span class="error-msg">{{ titleErrorMsg }}</span>
+  }
   <br><br>
 
   <label style="padding:0px 10px">排程:</label>
-  <input type="date" [min]="gettoday" [(ngModel)]="scheduledDate" style="border-radius: 5px; border: 1px solid;height: 25px;">
-
-<br><br>
+  <input type="date" [min]="gettoday" [(ngModel)]="scheduledDate" (blur)="validate('scheduledDate')"
+    class="scheduledDate-input">
+  @if (scheduledDateErrorMsg) {
+  <span class="error-msg">{{ scheduledDateErrorMsg }}</span>
+  }
+  <br><br>
   <label style="vertical-align: top;padding:0px 10px">內容:</label>
-  <textarea class="content-input" [(ngModel)]="content" ></textarea>
+  <textarea class="content-input" [(ngModel)]="content"></textarea>
 </div>
 
 <div style="position: relative;display: flex;justify-content:center;top:-15px">
-<button (click)="save()">確認</button>
-<button (click)="cancel()">取消</button>
+  <button (click)="save()">確認</button>
+  <button (click)="cancel()">取消</button>
 </div>
 }
 
@@ -35,7 +44,7 @@
 <div style="background-color: #9dcee2;height: 20px;"></div>
 <div style="position: relative;margin:30px;top:15px;">
   <label style="padding:0px 10px">分類:</label>
-  <select id="tag" style=" width: 80px;height: 25px; border-radius: 5px;border: 1px solid;" [(ngModel)]="tag">
+  <select id="tag" style=" width: 80px;height: 25px; border-radius: 5px;border: 1px solid;" [(ngModel)]="tag" (blur)="validate('tag')">
     <option value="" disabled selected>請選擇</option>
     <option value="功能">功能</option>
     <option value="維護">維護</option>
@@ -43,23 +52,31 @@
     <option value="公告">公告</option>
     <option value="教學">教學</option>
   </select>
+  @if (tagErrorMsg) {
+  <span class="error-msg">{{ tagErrorMsg }}</span>
+  }
   <br><br>
 
   <label style="padding:0px 10px">標題:</label>
-  <input class="title-input" [(ngModel)]="title">
+  <input class="title-input" [(ngModel)]="title" (blur)="validate('title')">
+  @if (titleErrorMsg) {
+  <span class="error-msg">{{ titleErrorMsg }}</span>
+  }
   <br><br>
 
   <label style="padding:0px 10px">排程:</label>
-  <input type="date" [min]="gettoday" [(ngModel)]="scheduledDate" style="border-radius: 5px; border: 1px solid;height: 25px;">
-
-<br><br>
+  <input type="date" [min]="gettoday" [(ngModel)]="scheduledDate" (blur)="validate('scheduledDate')"
+    class="scheduledDate-input">
+  @if (scheduledDateErrorMsg) {
+  <span class="error-msg">{{ scheduledDateErrorMsg }}</span>
+  }
+  <br><br>
   <label style="vertical-align: top;padding:0px 10px">內容:</label>
-  <textarea class="content-input" [(ngModel)]="content" ></textarea>
+  <textarea class="content-input" [(ngModel)]="content"></textarea>
 </div>
 
 <div style="position: relative;display: flex;justify-content:center;top:-15px">
-<button (click)="edit()">確認修改</button>
-<button (click)="cancel()">取消</button>
+  <button (click)="edit()">確認修改</button>
+  <button (click)="cancel()">取消</button>
 </div>
 }
-

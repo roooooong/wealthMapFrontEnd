@@ -22,12 +22,11 @@
     color: white; // 配合你的 Header 顏色
     user-select: none; // 防止連點時選取到文字
 
-    &:hover{
-        color:#ddf4fd;
+    &:hover {
+      color: #ddf4fd;
     }
     mat-icon {
       transition: transform 0.3s;
-
       &.rotated {
         transform: rotate(180deg);
       }
@@ -42,7 +41,7 @@
     position: absolute;
     top: calc(100% + 15px);
     right: -10px; // 稍微往左偏一點讓它置中於鈴鐺
-    top:40px;
+    top: 40px;
 
     width: 250px;
     background: white;
@@ -51,6 +50,10 @@
     z-index: 9999;
     overflow: hidden;
     color: #333;
+  }
+
+  @media(max-width:600px) {
+    right: -80px; // 稍微往左偏一點讓它置中於鈴鐺
   }
 }
 
@@ -78,7 +81,7 @@
   }
 }
 
-.unread-count{
+.unread-count {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -107,36 +110,51 @@
     margin: 0;
 
     li {
-      display: flex!important;
-      align-items: center;      /* 垂直居中 */
-      justify-content: space-between; /* 左右撐開 */
+      display: flex !important;
+      align-items: center;
+      /* 垂直居中 */
+      justify-content: space-between;
+      /* 左右撐開 */
       padding: 12px;
       border-bottom: 1px solid #f0f0f0;
       font-size: 13px;
       width: 100%;
       box-sizing: border-box;
       cursor: pointer;
-      &:hover { background:  #fedfd43a;; }
+
+      &:hover {
+        background: #fedfd43a;
+        ;
+      }
+
       display: inline-block;
       max-width: 250px;
+
       .msg-title {
-        flex: 1;                /* 💡 這是重點：讓它自動伸展並擠壓 */
-        white-space: nowrap;    /* 強制不換行 */
-        overflow: hidden;       /* 隱藏超出部分 */
-        text-overflow: ellipsis; /* 超出顯示 ... */
-        margin-right: 15px;     /* 💡 預留給右邊紅點的間距 */
+        flex: 1;
+        /* 💡 這是重點：讓它自動伸展並擠壓 */
+        white-space: nowrap;
+        /* 強制不換行 */
+        overflow: hidden;
+        /* 隱藏超出部分 */
+        text-overflow: ellipsis;
+        /* 超出顯示 ... */
+        margin-right: 15px;
+        /* 💡 預留給右邊紅點的間距 */
         font-size: 14px;
         color: #333;
       }
     }
+
     .unread-dot {
-        flex-shrink: 0;         /* 💡 絕對不被文字擠壓變形 */
-        width: 5px;
-        height: 5px;
-        background-color: #ff4d4f;
-        border-radius: 50%;
-        box-shadow: 0 0 4px rgba(255, 77, 79, 0.4);
-      }
+      flex-shrink: 0;
+      /* 💡 絕對不被文字擠壓變形 */
+      width: 5px;
+      height: 5px;
+      background-color: #ff4d4f;
+      border-radius: 50%;
+      box-shadow: 0 0 4px rgba(255, 77, 79, 0.4);
+    }
   }
 
 }
@@ -148,7 +166,10 @@
   color: #999;
   background: #fcfcfc;
   cursor: pointer;
-  &:hover { color: #4091c9; }
+
+  &:hover {
+    color: #4091c9;
+  }
 }
 
 .user-menu-container {
@@ -193,14 +214,14 @@
 }
 
 .click-menu:hover {
-  color:#ddf4fd;
+  color: #ddf4fd;
 }
 
 .custom-dropdown {
   position: absolute;
   top: calc(100% + 15px); // 與按鈕保持一點間距
   right: 0;
-  top:40px;
+  top: 40px;
   width: 150px;
   background-color: white;
   border-radius: 2px;
@@ -232,6 +253,7 @@
 
     &.logout {
       color: #e74c3c;
+
       mat-icon {
         color: #e74c3c;
       }
@@ -252,6 +274,6 @@
 
 }
 
-.demo-section + .demo-section {
+.demo-section+.demo-section {
   margin-top: 16px;
 }
