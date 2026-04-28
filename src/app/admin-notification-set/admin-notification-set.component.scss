@@ -45,6 +45,28 @@ h2 {
   }
 }
 
+.btnBack{
+  background-color: transparent;
+  border: 0px;
+  font-size: 16px;
+  color: #4091c9;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  padding-bottom: 1px;
+  border-bottom: transparent 1px solid;
+  margin-left:820px;
+  @media(max-width:600px) {
+      margin-left:150px;
+  }
+}
+
+.btnBack:hover{
+  background-color: transparent;
+  font-size: 16px;
+  border-bottom: #1368aa 1px solid;
+  color: #1368aa;
+}
+
 .notification-tag {
   background-color: #4091c9;
   color: white;
@@ -241,6 +263,9 @@ hr {
   border: none;
   height: 2px;
   background-color: #9dcee2;
+  @media(max-width:600px) {
+      margin-top:20px;
+  }
 }
 
 .titleCss {
