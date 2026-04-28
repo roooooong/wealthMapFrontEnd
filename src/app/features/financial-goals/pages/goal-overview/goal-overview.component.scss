@@ -120,16 +120,21 @@
 
             .image-wrapper {
                 width: 100%;
-                aspect-ratio: 16 / 9; // 💡 魔法屬性：讓圖片容器保持 16:9 的黃金比例
-                background: #f1f5f9; // 灰色底，圖片載入前用
-                border-radius: 8px;
-                overflow: hidden;
+                height: 180px;
+                background: transparent;
                 margin-bottom: 20px;
+                display: flex;
+                align-items: center;
+                /* 讓不同大小的圖片都在中間對齊 */
+                justify-content: center;
 
                 img {
-                    width: 100%;
-                    height: 100%;
-                    object-fit: cover; // 💡 魔法屬性：讓圖片完整填滿容器且不變形
+                    max-width: 100%;
+                    max-height: 100%;
+                    object-fit: contain;
+                    border: 1px solid #e2e8f0;
+                    border-radius: 6px;
+                    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
                 }
             }
 

@@ -101,17 +101,44 @@ export class AssetOverviewComponent implements OnInit {
   }
 
   // -------------------------------------------------------------
-  // 圓餅圖初始化 (不變)
+  // 圓餅圖初始化 (強制排序 + 質感配色)
   // -------------------------------------------------------------
   private initChart(): void {
     const ctx = document.getElementById('assetAllocationChart') as HTMLCanvasElement;
     if (!ctx) return;
     if (this.chart) this.chart.destroy();
 
-    const labels = this.allocationData.map(item => this.translateAssetType(item.type));
-    const dataValues = this.allocationData.map(item => item.totalAmount);
-    const percentages = this.allocationData.map(item => item.percentage);
-    const wmColors = ['#99B3E4', '#FFF7AE', '#bdffe0', '#fbb6c9'];
+    // 🌟 1. 定義主畫面的完美順序 (從右上角順時針)
+    const sortOrder = ['CASH', 'STOCK', 'FUND', 'BOND'];
+
+    // 🌟 2. 將後端傳來的資料強制依照我們定義的順序「重新排隊」
+    const sortedData = [...this.allocationData].sort((a, b) => {
+      const indexA = sortOrder.indexOf(a.type);
+      const indexB = sortOrder.indexOf(b.type);
+
+      // 如果遇到未知的資產類型，就把它排到最後面 (給予 999 順位)
+      const rankA = indexA === -1 ? 999 : indexA;
+      const rankB = indexB === -1 ? 999 : indexB;
+
+      return rankA - rankB;
+    });
+
+    // 🌟 3. 使用「排好隊」的資料來萃取標籤、數值和百分比
+    const labels = sortedData.map(item => this.translateAssetType(item.type));
+    const dataValues = sortedData.map(item => item.totalAmount);
+    const percentages = sortedData.map(item => item.percentage);
+
+    // 🌟 4. 魔法配色表
+    const colorMap: { [key: string]: string } = {
+      'CASH': '#1D68A2',  // 現金/存款 (深藍)
+      'STOCK': '#8FC3D9', // 股票 (淺藍)
+      'FUND': '#FDE0D3',  // 基金 (粉橘)
+      'BOND': '#F28E76'   // 債券 (珊瑚紅)
+    };
+
+    // 套用配色 (根據排好隊的資料)
+    const wmColors = sortedData.map(item => colorMap[item.type] || '#cbd5e1');
+
     const formattedTotal = this.currencyPipe.transform(this.totalAssetValue, 'TWD', 'symbol-narrow', '1.0-0');
 
     this.chart = new Chart(ctx, {
@@ -131,7 +158,7 @@ export class AssetOverviewComponent implements OnInit {
         maintainAspectRatio: false,
         cutout: '65%',
         plugins: {
-          legend: { position: 'bottom' }, // 💡 移到底部，避免卡到字
+          legend: { position: 'bottom' },
           tooltip: {
             callbacks: {
               label: (context) => {
