@@ -17,7 +17,7 @@ export class InvestmentManageComponent{
     private exampleService: ExampleService
   ) { }
   // 定義目前的頁籤狀態，預設為 'rebalance'
-  currentTab = signal<'rebalance' | 'strategy' | 'engine'>('strategy');
+  currentTab = signal<'rebalance' | 'strategy' | 'engine'>('rebalance');
 
   // 三種身分 visitor;user;admin
   role!: string;

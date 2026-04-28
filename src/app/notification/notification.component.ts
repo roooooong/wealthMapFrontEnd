@@ -17,6 +17,7 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrl: './notification.component.scss'
 })
 export class NotificationComponent {
+  role!: string;
   page: number = 1;
   constructor(
     private router: Router,
@@ -124,7 +125,7 @@ export class NotificationComponent {
       .subscribe((res:any) => {
         if(res.code===200){
           // 4. 跳轉到公告訊息詳情頁 (或彈出視窗)
-          this.router.navigate(['/system-notification', id]);
+          // this.router.navigate(['/system-notification', id]);
         }
 
       });
@@ -134,7 +135,7 @@ export class NotificationComponent {
       .subscribe((res:any) => {
         if(res.code===200){
           // 4. 跳轉到個人訊息詳情頁 (或彈出視窗)
-          this.router.navigate(['/personal-notification', id]);
+          // this.router.navigate(['/personal-notification', id]);
         }
       });
     }
@@ -228,6 +229,7 @@ export class NotificationComponent {
     const isSystem = this.router.url.includes('system-notification');
     this.notificationType=isSystem?"system":"personal";
     this.exampleService.user$.subscribe(user=>{
+      this.role = user.role; // 當角色改變，這裡會自動觸發
       if(user && user.role !== 'visitor'){
         this.userId=user.id;
 
@@ -245,6 +247,22 @@ export class NotificationComponent {
             } else {
               this.loadPersonalList();
             }
+          }
+        });
+      }
+      else{
+        this.activatedRoute.params.subscribe(params => {
+          const pageId = params['pageId'];
+
+          if (pageId) {
+            // 詳情模式
+            this.loadDetail(pageId, 'SYSTEM');
+          } else {
+            // 列表模式
+            this.page = 1;
+            if (isSystem) {
+              this.loadSystemList();
+            } 
           }
         });
       }

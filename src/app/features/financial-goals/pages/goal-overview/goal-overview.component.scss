@@ -1,4 +1,199 @@
-/* 外層主要白色容器 */
+.visitor-landing-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    /* 通用卡片樣式：白底、圓角、微陰影、互動動畫 (致敬你的範本圖) */
+    .card-base {
+        background: #ffffff;
+        border-radius: 12px;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        transition: transform 0.3s ease;
+
+        &:hover {
+            transform: translateY(-5px);
+        }
+    }
+
+    /* 1. 標題區 */
+    .header-section {
+        text-align: center;
+        margin-bottom: 40px;
+
+        .main-title {
+            color: #4091c9;
+            /* 你的品牌藍色 */
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .subtitle {
+            color: #64748b;
+            font-size: 16px;
+            max-width: 600px;
+            line-height: 1.6;
+            margin: 0 auto;
+        }
+    }
+
+    /* 2. 淺藍色提示框 */
+    .info-box-card {
+        background-color: #f0f7fb;
+        border-left: 4px solid #82b9dc;
+        padding: 20px 25px;
+        border-radius: 4px;
+        width: 100%;
+        margin-bottom: 50px;
+        color: #334155;
+
+        p {
+            font-weight: bold;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        ul {
+            margin: 0;
+            padding-left: 20px;
+
+            li {
+                margin-bottom: 8px;
+                color: #475569;
+                line-height: 1.5;
+            }
+        }
+    }
+
+    /* 3. 三欄式特色介紹卡片 (文字版) */
+    .feature-text-cards {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 30px;
+        width: 100%;
+        margin-bottom: 50px;
+
+        .card {
+            @extend .card-base; // 繼承通用樣式
+            padding: 30px 20px;
+            text-align: center;
+
+            .card-icon {
+                font-size: 48px;
+                margin-bottom: 20px;
+            }
+
+            h3 {
+                color: #1e293b;
+                font-size: 18px;
+                margin-bottom: 15px;
+            }
+
+            p {
+                color: #64748b;
+                font-size: 15px;
+                line-height: 1.6;
+                margin: 0;
+            }
+        }
+    }
+
+    /* 🌟 4. 新增的「三格圖片展示區」 */
+    .goal-showcase-images {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 30px;
+        width: 100%;
+        margin-bottom: 60px;
+
+        .image-card {
+            @extend .card-base; // 繼承通用樣式
+            padding: 20px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            .image-wrapper {
+                width: 100%;
+                height: 180px;
+                background: transparent;
+                margin-bottom: 20px;
+                display: flex;
+                align-items: center;
+                /* 讓不同大小的圖片都在中間對齊 */
+                justify-content: center;
+
+                img {
+                    max-width: 100%;
+                    max-height: 100%;
+                    object-fit: contain;
+                    border: 1px solid #e2e8f0;
+                    border-radius: 6px;
+                    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+                }
+            }
+
+            h3 {
+                color: #1e293b;
+                font-size: 18px;
+                margin-bottom: 10px;
+            }
+
+            p {
+                color: #64748b;
+                font-size: 15px;
+                line-height: 1.5;
+                margin: 0;
+            }
+        }
+    }
+
+    /* 5. 註冊按鈕 */
+    .cta-section {
+        .cta-register-btn {
+            background-color: #559ecf;
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(85, 158, 207, 0.3);
+            transition: all 0.3s ease;
+
+            &:hover {
+                background-color: #4091c9;
+                transform: translateY(-2px);
+                box-shadow: 0 6px 15px rgba(85, 158, 207, 0.4);
+            }
+        }
+    }
+}
+
+/* 響應式：螢幕變小時卡片變成直排 */
+@media (max-width: 768px) {
+    .visitor-landing-container {
+
+        .feature-text-cards,
+        .goal-showcase-images {
+            grid-template-columns: 1fr;
+        }
+    }
+}
+
+/* 響應式：螢幕變小時卡片變成直排 */
+@media (max-width: 768px) {
+    .visitor-container .feature-cards {
+        grid-template-columns: 1fr;
+    }
+}
+
 .goal-container {
     max-width: 1000px;
     margin: 40px auto;
@@ -203,46 +398,64 @@
         }
     }
 
-    /* 已登入：目標列表區塊 */
     .goals-list {
         display: grid;
         /* 💡 魔法排版：每張卡片最少 280px，空間夠就自動排成多欄 */
         grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
         gap: 20px;
-        /* 卡片之間的呼吸空間 */
-        margin-top: 10px;
+        margin-top: 20px;
 
         .goal-card {
             display: flex;
             flex-direction: column;
-            /* 讓內容由上往下排 */
             justify-content: space-between;
             padding: 24px;
             background-color: #ffffff;
             border: 1px solid #e2e8f0;
-            /* 精緻的淡灰色邊框 */
             border-radius: 12px;
-            /* 圓角卡片 */
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
-            /* 非常微弱的陰影增加立體感 */
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            /* 互動動畫 */
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 
-            /* 💡 滑鼠游標移過去時，卡片會微微浮起！ */
+            /* 滑鼠游標移過去時，卡片會微微浮起！ */
             &:hover {
                 transform: translateY(-4px);
                 box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
             }
 
-            .goal-info {
+            /* 🌟 達成 100% 時的卡片特效 (綠色邊框與微光) */
+            &.is-achieved {
+                border-color: #34d399;
+                box-shadow: 0 4px 15px rgba(16, 185, 129, 0.15);
+            }
+
+            /* 🌟 新增的標題與徽章區塊 */
+            .goal-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                border-bottom: 2px solid #f1f5f9;
+                padding-bottom: 10px;
+                margin-bottom: 12px;
+
                 h3 {
-                    margin: 0 0 12px 0;
+                    margin: 0;
                     font-size: 20px;
                     color: #2c3e50;
-                    border-bottom: 2px solid #f1f5f9;
-                    /* 標題下方加個裝飾短線 */
-                    padding-bottom: 10px;
                 }
+
+                /* 達成徽章樣式 */
+                .achieved-badge {
+                    background: #d1fae5;
+                    color: #059669;
+                    padding: 4px 10px;
+                    border-radius: 20px;
+                    font-size: 12px;
+                    font-weight: bold;
+                    animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                }
+            }
+
+            .goal-info {
 
                 .amount,
                 .date {
@@ -250,33 +463,80 @@
                     color: #475569;
                     font-size: 15px;
                 }
+
+                .amount {
+                    color: #334155;
+                    font-weight: bold;
+                }
             }
 
-            .delete-btn {
-                margin-top: 20px;
-                align-self: flex-end;
-                /* 💡 讓刪除按鈕乖乖靠在卡片的右下角 */
-                background: transparent;
-                color: #ef4444;
-                /* 紅色文字 */
-                border: 1px solid #fee2e2;
-                padding: 6px 14px;
-                border-radius: 6px;
-                cursor: pointer;
-                font-size: 13px;
-                font-weight: bold;
-                transition: all 0.2s;
+            /* 🌟 新增的進度條區塊 */
+            .progress-section {
+                margin-top: 15px;
+                padding-top: 15px;
+                border-top: 1px dashed #e2e8f0;
 
-                /* 刪除按鈕的懸停特效 */
-                &:hover {
-                    background: #ef4444;
-                    color: white;
-                    border-color: #ef4444;
+                .progress-text {
+                    display: flex;
+                    justify-content: space-between;
+                    font-size: 14px;
+                    color: #64748b;
+                    margin-bottom: 8px;
+
+                    .percent-text {
+                        font-weight: bold;
+                        color: #3b82f6;
+                    }
+                }
+
+                .progress-track {
+                    width: 100%;
+                    height: 8px;
+                    background: #f1f5f9;
+                    border-radius: 10px;
+                    overflow: hidden;
+
+                    .progress-fill {
+                        height: 100%;
+                        background: linear-gradient(90deg, #60a5fa, #3b82f6);
+                        border-radius: 10px;
+                        transition: width 0.8s ease-out;
+
+                        /* 達成 100% 時變成漸層綠色 */
+                        &.fill-success {
+                            background: linear-gradient(90deg, #34d399, #10b981);
+                        }
+                    }
+                }
+            }
+
+            /* 保留你原本的刪除按鈕樣式 */
+            .card-action {
+                display: flex;
+                justify-content: flex-end;
+                margin-top: 20px;
+
+                .delete-btn {
+                    background: transparent;
+                    color: #ef4444;
+                    border: 1px solid #fee2e2;
+                    padding: 6px 14px;
+                    border-radius: 6px;
+                    cursor: pointer;
+                    font-size: 13px;
+                    font-weight: bold;
+                    transition: all 0.2s;
+
+                    &:hover {
+                        background: #ef4444;
+                        color: white;
+                        border-color: #ef4444;
+                    }
                 }
             }
         }
 
-        /* 💡 如果沒資料，讓提示文字跨越所有欄位置中 */
+        /* 空白狀態提示 */
         .empty-state {
             grid-column: 1 / -1;
             text-align: center;
@@ -287,66 +547,93 @@
             margin-top: 10px;
         }
     }
+
+    /* 徽章彈跳動畫定義 (放在最外層即可) */
+    @keyframes popIn {
+        0% {
+            transform: scale(0);
+            opacity: 0;
+        }
+
+        80% {
+            transform: scale(1.1);
+        }
+
+        100% {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
 }
 
-.frameCss{
-  display: flex;
-  justify-content: center;
+.frameCss {
+    display: flex;
+    justify-content: center;
 }
-.distance{
-   margin-top: 70px;
+
+.distance {
+    margin-top: 70px;
+
     //手機
-  @media(max-width:600px) {
-    margin-top: 30px;
-  }
+    @media(max-width:600px) {
+        margin-top: 30px;
+    }
 }
+
 .title {
-  font-size: 36px;
-  color: #4091c9;
-  font-weight: bold;
-  letter-spacing: 0.05em;
+    font-size: 36px;
+    color: #4091c9;
+    font-weight: bold;
+    letter-spacing: 0.05em;
 
   //手機
   @media(max-width:600px) {
-    font-size: 24px;
+    font-size: 32px;
     margin-left: 5px;
     margin-right: 5px;
     margin-top: 40px;
+    width:330px;
+    text-align: center
   }
 }
-.introduction {
-  color: #666;
-  letter-spacing: 0.05em;
 
-  //手機
+.introduction {
+    color: #666;
+    letter-spacing: 0.05em;
+
+   //手機
   @media(max-width:600px) {
     font-size: 14px;
     margin-left: 5px;
     margin-right: 5px;
     margin-bottom: 40px;
+    width:330px;
+    text-align: center
   }
 }
 
 .registerbtn {
-  background: linear-gradient(135deg, #9dcee2 0%, #4091c9 100%);
-  color: white;
-  font-weight: 600;
-  padding: 16px 40px;
-  border-radius: 50px;
-  /* 圓角膠囊型 */
-  border: none;
-  letter-spacing: 0.05em;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-size: 16px;
+    background: linear-gradient(135deg, #9dcee2 0%, #4091c9 100%);
+    color: white;
+    font-weight: 600;
+    padding: 16px 40px;
+    border-radius: 50px;
+    /* 圓角膠囊型 */
+    border: none;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 16px;
 
-  @media (max-width: 600px) {
-  font-size: 14px;
-  width: 290px;
-  }
+    @media (max-width: 600px) {
+        font-size: 14px;
+        width: 290px;
+    }
 }
-.registerbtn:hover{
-  // background: linear-gradient(135deg, #4091c9 0%, #9dcee2 100%);
-  color: white;
-  transform: translateY(-2px); /* 輕微浮起 */
+
+.registerbtn:hover {
+    // background: linear-gradient(135deg, #4091c9 0%, #9dcee2 100%);
+    color: white;
+    transform: translateY(-2px);
+    /* 輕微浮起 */
 }

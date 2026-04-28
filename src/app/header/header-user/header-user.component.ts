@@ -253,7 +253,7 @@ export class HeaderUserComponent {
         // 💡 稍微延遲一點點，確保資料庫已經寫入完成
         setTimeout(() => {
           console.log('符合過濾條件：進入通知詳細頁，刷新紅點。');
-          // this.refreshUnreadCount();
+          this.refreshUnreadCount();
           console.log("重新載入panel紅點");
           this.fetchPersonalNotifications();
           this.fetchSystemNotifications();

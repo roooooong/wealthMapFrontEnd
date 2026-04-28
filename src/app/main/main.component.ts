@@ -6,13 +6,17 @@ import { ExampleService } from '../@service/example.service';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { NotificationList } from '../@interface/notification-list';
+import { AssetService } from '../features/assets/services/asset.service';
 import { HttpClientService } from '../@service/http-client.service';
 import { News } from '../@interface/news';
+import { SlicePipe } from '@angular/common';
+import { CurrencyPipe } from '@angular/common';
 
 
 @Component({
   selector: 'app-main',
-  imports: [ MatIconModule, MatButtonModule, MatMenuModule],
+  imports: [RouterLink, MatIconModule, MatButtonModule, MatMenuModule, SlicePipe, CurrencyPipe],
+  providers: [CurrencyPipe],
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss'
 })
@@ -22,10 +26,14 @@ export class MainComponent {
   role = 'visitor';
   page = 1;
 
+  realTotalAssets: number = 0;
+
   constructor(private router: Router,
     private exampleService: ExampleService,
     private httpClientService: HttpClientService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private assetService: AssetService,
+    private currencyPipe: CurrencyPipe
   ) { }
 
   notificationList!: NotificationList;
@@ -151,123 +159,128 @@ export class MainComponent {
     this.router.navigate(['/investment-manage']);
   }
 
-  initChart() {
-    // 因為admin和user都需要圖表 但原本寫在ngAfterViewInit會因為還沒拿到身分跑不出來 所以移到ngOnInit()拿完身分後
+  // ==========================================
+  // 🌟 貼上這三個新的方法 (取代舊的 initChart)
+  // ==========================================
 
-    //圓餅圖中間的字
+  loadDashboardData(): void {
+    const userId = 1; // 目前暫時寫死 1 號使用者
+
+    this.assetService.getAssetAllocation(userId).subscribe({
+      next: (data) => {
+        // 加總總資產
+        this.realTotalAssets = data.reduce((sum, item) => sum + item.totalAmount, 0);
+        // 畫圖表
+        this.initMainChart(data);
+      },
+      error: (err) => console.error('主畫面抓取資料失敗', err)
+    });
+  }
+
+  private initMainChart(allocationData: any[]): void {
+    // 注意：這裡的 id 是 'chart'，對應你原本 HTML 裡的 canvas
+    const ctx = document.getElementById('chart') as HTMLCanvasElement;
+    if (!ctx) return;
+
+    // 強制排序：現金 -> 股票 -> 基金 -> 債券
+    const sortOrder = ['CASH', 'STOCK', 'FUND', 'BOND'];
+    const sortedData = [...allocationData].sort((a, b) => {
+      const indexA = sortOrder.indexOf(a.type);
+      const indexB = sortOrder.indexOf(b.type);
+      return (indexA === -1 ? 999 : indexA) - (indexB === -1 ? 999 : indexB);
+    });
+
+    // 配色表 (與主畫面 Icon 風格一致)
+    const colorMap: { [key: string]: string } = {
+      'CASH': '#1D68A2', 'STOCK': '#8FC3D9', 'FUND': '#FDE0D3', 'BOND': '#F28E76'
+    };
+
+    const labels = sortedData.map(item => this.translateAssetType(item.type));
+    const dataValues = sortedData.map(item => item.totalAmount);
+    const wmColors = sortedData.map(item => colorMap[item.type] || '#cbd5e1');
+    const formattedTotal = this.currencyPipe.transform(this.realTotalAssets, 'TWD', 'symbol-narrow', '1.0-0');
+
+    // 圓餅圖中間的字 Plugin
     const centerTextPlugin = {
       id: 'centerText',
-      // 💡 改用 afterDatasetsDraw，確保它在圓餅圖畫完後、Tooltip 畫出來前執行
       afterDatasetsDraw: (chart: any) => {
         const { ctx, chartArea: { left, right, top, bottom } } = chart;
         ctx.save();
-
-        // 取得圓餅圖區域的中心點 (這會自動避開右側圖例空間)
         const centerX = (left + right) / 2;
         const centerY = (top + bottom) / 2;
-
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
 
-        // 繪製「總資產」字樣
-        ctx.font = '14px sans-serif';
+        ctx.font = '14px 微軟正黑體';
         ctx.fillStyle = '#666';
-        ctx.fillText('總資產', centerX, centerY - 12); // 向上偏移一點
+        ctx.fillText('總資產', centerX, centerY - 12);
 
-        // 繪製金額數字
-        ctx.font = 'bold 20px sans-serif';
-        ctx.fillStyle = '#333333';
-        ctx.fillText('$10,000,000', centerX, centerY + 12); // 向下偏移一點
+        ctx.font = 'bold 20px 微軟正黑體';
+        ctx.fillStyle = '#333';
+        ctx.fillText(formattedTotal || '$0', centerX, centerY + 12);
 
         ctx.restore();
       }
     };
 
-    // 獲取 canvas 元素
-    let ctx = document.getElementById('chart') as HTMLCanvasElement;
-
-    // 設定數據
-    let data = {
-      // x 軸文字
-      labels: ['現金', '股票', '基金', '債券'],
-      datasets: [
-        {
-          // 上方分類文字
-          // label: '金額',
-          // 數據
-          data: [1000000, 1350000, 800000, 650000],
-          // 線與邊框顏色
-          backgroundColor: [
-            // '#FFF7AE',
-            // '#99B3E4',
-            // '#bdffe0',
-            // '#fbb6c9',
-            '#1368aa',
-            '#9dcee2',
-            '#fedfd4',
-            '#f29479',
-          ],
-          //設定hover時的偏移量，滑鼠移上去表會偏移，方便觀看選種的項目
-          hoverOffset: 4,
-          // 數字越小，中間框框越小，圓環越粗（例如 '30%'）
-          cutout: '65%',
-        },
-      ],
-    };
-
-    // 創建圖表
-    let chart = new Chart(ctx, {
+    new Chart(ctx, {
       type: 'doughnut',
-      data: data,
+      data: {
+        labels: labels,
+        datasets: [{
+          data: dataValues,
+          backgroundColor: wmColors,
+          borderWidth: 0,
+          hoverOffset: 4,
+        }]
+      },
       plugins: [centerTextPlugin],
       options: {
-        responsive: true,           // 讓圖表隨容器大小伸縮
-        maintainAspectRatio: false,  // 設為 false，圖表才會完全聽從 CSS 設定的高度
-        layout: {
-          padding: 40               // 💡 增加內距，圖表視覺上會直接縮小
-        },
+        cutout: '65%',
+        responsive: true,
+        maintainAspectRatio: false,
+        layout: { padding: 40 },
         plugins: {
           legend: {
-            position: 'right',  // 💡 關鍵：設定在右邊
-            align: 'center',    // 圖例在右側垂直置中
+            position: 'right',
+            align: 'center',
             labels: {
-              boxWidth: 40,     // 圖例色塊的大小
+              boxWidth: 40,
               padding: 15,
-              // 每個圖例之間的間距
-              font: {
-                size: 12        // 文字大小
-              }
+              font: { size: 12 }
             }
           },
           tooltip: {
-            // position: 'nearest',// 預設 'average' 會出現在中心 ; 'nearest'會出現在離滑鼠最近的圓環邊緣
-            yAlign: 'bottom',  // bottom箭頭朝下 ;top朝上
-            backgroundColor: 'rgb(255, 255, 255)', // 1. 更改底色
-            titleColor: '#333',                      // 2. 標題顏色
-            bodyColor: '#666',                       // 3. 內容文字顏色
-            cornerRadius: 20,                        // 4. 更改形狀 (圓角設定，數值越大越圓)
-            padding: 12,                             // 內距，讓框框看起來不擁擠
-            borderColor: '#4091c9',                  // 5. 邊框顏色
-            borderWidth: 1,                          // 邊框寬度
-            displayColors: false,                     // 是否顯示旁邊的小色塊
-            boxPadding: 5,                           // 色塊與文字的距離
+            yAlign: 'bottom',
+            backgroundColor: 'rgb(255, 255, 255)',
+            titleColor: '#333',
+            bodyColor: '#666',
+            cornerRadius: 20,
+            padding: 12,
+            borderColor: '#4091c9',
+            borderWidth: 1,
+            displayColors: false,
+            boxPadding: 5,
             callbacks: {
-              // 💡 如果你想要自定義顯示的文字格式（例如加上錢字號）
-              label: function (context) {
-                let label = context.dataset.label || '';
-                if (label) {
-                  label += ': $';
-                }
+              label: (context) => {
+                let label = context.label || '';
+                if (label) label += ': ';
                 if (context.parsed !== null) {
-                  label += new Intl.NumberFormat('zh-TW').format(context.parsed);
+                  label += new Intl.NumberFormat('zh-TW', { style: 'currency', currency: 'TWD', maximumFractionDigits: 0 }).format(context.parsed);
                 }
                 return label;
               }
             }
-          },
+          }
         }
       }
     });
+  }
+
+  // 翻譯字典
+  translateAssetType(type: string): string {
+    const mapping: any = { 'CASH': '現金', 'STOCK': '股票', 'FUND': '基金', 'BOND': '債券' };
+    return mapping[type] || type;
   }
 
   goNewsUrl(newsUrl: string) {
@@ -342,7 +355,7 @@ export class MainComponent {
       if (this.role === 'USER' || this.role === 'ADMIN') {
         // 延遲一小段時間確保 HTML 的 <canvas id="chart"> 已經被渲染出來 (@if 判斷完成)
         setTimeout(() => {
-          // this.initChart();
+          this.loadDashboardData();
         }, 100);
       }
     });
