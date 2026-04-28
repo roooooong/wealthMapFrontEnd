@@ -31,7 +31,7 @@ export class HealthService {
 
   private apiUrl = 'http://localhost:8080/api/health';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
 
   postHealth(data: HealthRequest): Observable<HealthResponse> {
@@ -39,7 +39,11 @@ export class HealthService {
   }
 
 
-  getHealth(): Observable<any> {
-    return this.http.get(this.apiUrl);
+  getHealth(userId: number): Observable<any> {
+    return this.http.get(`http://localhost:8080/api/health/${userId}`);
+  }
+
+  calculateHealth(data: any) {
+    return this.http.post('http://localhost:8080/api/health', data);
   }
 }

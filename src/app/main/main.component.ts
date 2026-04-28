@@ -8,11 +8,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { NotificationList } from '../@interface/notification-list';
 import { HttpClientService } from '../@service/http-client.service';
 import { News } from '../@interface/news';
-import { SlicePipe } from '@angular/common';
+
 
 @Component({
   selector: 'app-main',
-  imports: [RouterLink, MatIconModule, MatButtonModule, MatMenuModule, SlicePipe],
+  imports: [ MatIconModule, MatButtonModule, MatMenuModule],
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss'
 })
@@ -342,7 +342,7 @@ export class MainComponent {
       if (this.role === 'USER' || this.role === 'ADMIN') {
         // 延遲一小段時間確保 HTML 的 <canvas id="chart"> 已經被渲染出來 (@if 判斷完成)
         setTimeout(() => {
-          this.initChart();
+          // this.initChart();
         }, 100);
       }
     });

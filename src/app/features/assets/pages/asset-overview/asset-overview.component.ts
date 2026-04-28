@@ -4,11 +4,15 @@ import { FormsModule } from '@angular/forms';
 import { Chart } from 'chart.js/auto';
 import { Router } from '@angular/router';
 
+
 // 匯入你的兩個 Service 與 Model
 import { AssetService } from '../../services/asset.service';
 import { AssetDTO, AssetAllocationDto } from '../../models/asset.model';
 import { Liability } from '../../../../@interface/liability';
 import { LiabilityService } from '../../../../@service/liability.service';
+import { HealthEventService } from '../../../../services/health-event.service';
+
+
 
 @Component({
   selector: 'app-asset-overview',
@@ -50,10 +54,13 @@ export class AssetOverviewComponent implements OnInit {
     private liabilityService: LiabilityService, // 💡 注入負債服務
     private currencyPipe: CurrencyPipe,
     private router: Router,
+    private healthEventService: HealthEventService // ⭐新增
   ) { }
 
   ngOnInit(): void {
     this.refreshData();
+    // ⭐ 通知 health 更新
+this.healthEventService.triggerRefresh();
   }
 
   // -------------------------------------------------------------
@@ -184,16 +191,21 @@ export class AssetOverviewComponent implements OnInit {
       amount: this.newAssetAmount
     };
 
-    this.assetService.addAsset(1, payload).subscribe({
-      next: () => {
-        this.showAddAssetForm = false;
-        this.newAssetName = '';
-        this.newAssetAmount = null;
-        this.refreshData();
-      },
-      error: () => alert('新增失敗')
-    });
-  }
+
+this.assetService.addAsset(1, payload).subscribe({
+  next: () => {
+    this.showAddAssetForm = false;
+    this.newAssetName = '';
+    this.newAssetAmount = null;
+
+    this.refreshData();
+
+    // ⭐⭐ 關鍵
+    this.healthEventService.triggerRefresh();
+  },
+  error: () => alert('新增失敗')
+});
+}
 
   deleteAsset(assetId: number, assetName: string): void {
     if (confirm(`確定刪除「${assetName}」嗎？`)) {
@@ -223,15 +235,18 @@ export class AssetOverviewComponent implements OnInit {
       amount: this.newLiabilityAmount
     };
 
-    this.liabilityService.addLiability(1, payload).subscribe({
-      next: () => {
-        this.showAddLiabilityForm = false;
-        this.newLiabilityName = '';
-        this.newLiabilityAmount = null;
-        this.refreshData();
-      },
-      error: () => alert('新增失敗')
-    });
+   this.liabilityService.addLiability(1, payload).subscribe({
+  next: () => {
+    this.showAddLiabilityForm = false;
+    this.newLiabilityName = '';
+    this.newLiabilityAmount = null;
+
+    this.refreshData();
+
+    // ⭐⭐ 一樣要加
+    this.healthEventService.triggerRefresh();
+  }
+});
   }
 
   //-----------------------------------------------------------------------------------------
