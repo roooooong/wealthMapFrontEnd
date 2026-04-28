@@ -82,7 +82,9 @@
 </div>
 <br class="mobile-br"><br class="mobile-br"><br class="mobile-br"><br class="mobile-br">
 <div class="notification-dateBox">
-  <label >{{notificationIdDetail?.scheduledDate.split('-')[0]}}年{{notificationIdDetail?.scheduledDate.split('-')[1]}}月{{notificationIdDetail?.scheduledDate.split('-')[2]}}日</label>
+  <label >{{notificationIdDetail?.scheduledDate}}</label>
+  <button class="btnBack" (click)="goBack()">返回列表 →</button>
+
 </div>
 <hr>
 

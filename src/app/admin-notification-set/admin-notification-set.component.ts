@@ -132,6 +132,10 @@ setAboutUs(){
     this.router.navigate(['/privacy']);
   }
 
+  goBack(){
+    this.router.navigate(['/admin/notification-set']);
+  }
+
   today = new Date();
   gettoday!: string;
 
