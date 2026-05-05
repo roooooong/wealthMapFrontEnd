@@ -163,6 +163,7 @@ export class HeaderUserComponent {
     // this.exampleService.setRole('visitor');
     this.exampleService.clearUserData(); // 這會清除 localStorage 並廣播 null
     this.router.navigate(['/main']);
+    window.location.reload();
   }
 
   today = new Date();
