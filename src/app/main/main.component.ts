@@ -28,6 +28,9 @@ export class MainComponent {
 
   realTotalAssets: number = 0;
 
+  private myChart: any;
+
+
   constructor(private router: Router,
     private exampleService: ExampleService,
     private httpClientService: HttpClientService,
@@ -182,6 +185,13 @@ export class MainComponent {
     const ctx = document.getElementById('chart') as HTMLCanvasElement;
     if (!ctx) return;
 
+    // ==========================================
+    // 🌟 老師的救命防呆機制：如果有舊圖表，先無情地銷毀它！
+    if (this.myChart) {
+      this.myChart.destroy();
+    }
+    // ==========================================
+
     // 強制排序：現金 -> 股票 -> 基金 -> 債券
     const sortOrder = ['CASH', 'STOCK', 'FUND', 'BOND'];
     const sortedData = [...allocationData].sort((a, b) => {
@@ -223,7 +233,10 @@ export class MainComponent {
       }
     };
 
-    new Chart(ctx, {
+    // ==========================================
+    // 🌟 將產生出來的新圖表，存進我們剛剛宣告的變數 this.myChart 中
+    this.myChart = new Chart(ctx, {
+      // ==========================================
       type: 'doughnut',
       data: {
         labels: labels,

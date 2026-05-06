@@ -3,6 +3,7 @@ import { CommonModule, CurrencyPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Chart } from 'chart.js/auto';
 import { Router } from '@angular/router';
+import { ExampleService } from '../../../../@service/example.service';
 
 // 匯入你的兩個 Service 與 Model
 import { AssetService } from '../../services/asset.service';
@@ -16,11 +17,11 @@ import { LiabilityService } from '../../../../@service/liability.service';
   imports: [CommonModule, FormsModule],
   templateUrl: './asset-overview.component.html',
   styleUrls: ['./asset-overview.component.scss'],
-  providers: [CurrencyPipe]
+  providers: [CurrencyPipe, ExampleService]
 })
 export class AssetOverviewComponent implements OnInit {
 
-  // --- 🌟 資產變數 ---
+  //資產變數
   userAssets: AssetDTO[] = [];
   allocationData: AssetAllocationDto[] = [];
   totalAssetValue: number = 0;
@@ -32,8 +33,10 @@ export class AssetOverviewComponent implements OnInit {
   newAssetAmount: number | null = null;
   unitPrice: number | null = null;
   unitCount: number | null = null;
+  editingAssetId: number | null = null;
+  currentUserId: number = 0;//00
 
-  // --- 🌟 負債變數 (新加入) ---
+  // 負債變數 
   userLiabilities: Liability[] = [];
   totalLiabilities: number = 0;
   showAddLiabilityForm: boolean = false;
@@ -41,7 +44,7 @@ export class AssetOverviewComponent implements OnInit {
   newLiabilityCategory: string = 'MORTGAGE'; // 預設為房貸
   newLiabilityAmount: number | null = null;
 
-  // --- 🌟 淨資產變數 (新加入) ---
+  // --- 淨資產變數 (新加入) ---
   netWorth: number = 0;
 
   private chart: Chart | null = null;
@@ -51,10 +54,18 @@ export class AssetOverviewComponent implements OnInit {
     @Inject(LiabilityService) private liabilityService: LiabilityService, // 💡 注入負債服務
     private currencyPipe: CurrencyPipe,
     private router: Router,
+    private exampleService: ExampleService
   ) { }
 
   ngOnInit(): void {
-    this.refreshData();
+    // 🌟 畫面一載入，就去問大總管現在是誰登入？
+    this.exampleService.user$.subscribe(user => {
+      if (user && user.id) {
+        this.currentUserId = user.id;
+        console.log('✅ 抓到真實使用者 ID:', this.currentUserId);
+        this.refreshData(); // 拿到真實 ID 後，才去資料庫撈他的資產
+      }
+    });
   }
 
   // -------------------------------------------------------------
@@ -100,35 +111,62 @@ export class AssetOverviewComponent implements OnInit {
     }
   }
 
-  // -------------------------------------------------------------
-  // 圓餅圖初始化 (強制排序 + 質感配色)
-  // -------------------------------------------------------------
+  // 🌟 股票代號連動方法
+  onStockIdBlur(): void {
+    if (!this.newAssetSymbol || (this.newAssetType !== 'STOCK' && this.newAssetType !== 'FUND')) {
+      return;
+    }
+
+    this.assetService.searchStock(this.newAssetSymbol).subscribe({
+      next: (res: any) => {
+        console.log('🚀 後端回傳的資料長這樣:', res);
+
+        if (res && res.data && res.data.stockName) {
+
+          this.newAssetName = res.data.stockName;
+
+        } else {
+          console.warn('⚠️ 找不到資料', res);
+          alert('找不到該股票代號，請確認後再試！');
+          this.newAssetName = '';
+
+
+          this.newAssetSymbol = '';
+        }
+      },
+      error: (err: any) => {
+        console.error('❌ 查詢股票失敗', err);
+        alert('股票查詢服務暫時異常，請稍後再試！');
+
+
+        this.newAssetSymbol = '';
+      }
+    });
+  }
+
+
+  // 圓餅圖初始化
   private initChart(): void {
     const ctx = document.getElementById('assetAllocationChart') as HTMLCanvasElement;
     if (!ctx) return;
     if (this.chart) this.chart.destroy();
 
-    // 🌟 1. 定義主畫面的完美順序 (從右上角順時針)
     const sortOrder = ['CASH', 'STOCK', 'FUND', 'BOND'];
 
-    // 🌟 2. 將後端傳來的資料強制依照我們定義的順序「重新排隊」
     const sortedData = [...this.allocationData].sort((a, b) => {
       const indexA = sortOrder.indexOf(a.type);
       const indexB = sortOrder.indexOf(b.type);
 
-      // 如果遇到未知的資產類型，就把它排到最後面 (給予 999 順位)
       const rankA = indexA === -1 ? 999 : indexA;
       const rankB = indexB === -1 ? 999 : indexB;
 
       return rankA - rankB;
     });
 
-    // 🌟 3. 使用「排好隊」的資料來萃取標籤、數值和百分比
     const labels = sortedData.map(item => this.translateAssetType(item.type));
     const dataValues = sortedData.map(item => item.totalAmount);
     const percentages = sortedData.map(item => item.percentage);
 
-    // 🌟 4. 魔法配色表
     const colorMap: { [key: string]: string } = {
       'CASH': '#1D68A2',  // 現金/存款 (深藍)
       'STOCK': '#8FC3D9', // 股票 (淺藍)
@@ -136,7 +174,6 @@ export class AssetOverviewComponent implements OnInit {
       'BOND': '#F28E76'   // 債券 (珊瑚紅)
     };
 
-    // 套用配色 (根據排好隊的資料)
     const wmColors = sortedData.map(item => colorMap[item.type] || '#cbd5e1');
 
     const formattedTotal = this.currencyPipe.transform(this.totalAssetValue, 'TWD', 'symbol-narrow', '1.0-0');
@@ -193,51 +230,127 @@ export class AssetOverviewComponent implements OnInit {
     });
   }
 
-  // -------------------------------------------------------------
   // 資產 (Asset) 相關方法
-  // -------------------------------------------------------------
-  toggleAddAssetForm(): void {
+  toggleAddAssetForm() {
     this.showAddAssetForm = !this.showAddAssetForm;
-    this.showAddLiabilityForm = false; // 💡 確保兩個表單不會同時打開
+    if (this.showAddAssetForm) {
+      this.editingAssetId = null;
+      this.resetAssetForm();
+    }
   }
 
   addAsset(): void {
+    // 1. 基礎檢查 (保留你的優良傳統)
     if (!this.newAssetName || !this.newAssetAmount) {
       alert('請填寫完整資訊');
       return;
     }
-    const payload = {
+
+    // 2. 準備包裹 Payload (保留你原本聰明的分類邏輯)
+    const payload: any = { // 這裡暫時用 any 或你的 AssetDTO，確保編譯通過
       name: this.newAssetName,
-      type: this.newAssetType,
-      amount: this.newAssetAmount
+      type: this.newAssetType
     };
 
-    this.assetService.addAsset(1, payload).subscribe({
-      next: () => {
-        this.showAddAssetForm = false;
-        this.newAssetName = '';
-        this.newAssetAmount = null;
-        this.refreshData();
-      },
-      error: () => alert('新增失敗')
-    });
-  }
+    if (this.newAssetType === 'STOCK' || this.newAssetType === 'FUND') {
+      payload.stockId = this.newAssetSymbol;
+      payload.sharesOwned = this.unitCount || 0;
+      payload.totalCost = this.newAssetAmount;
+    } else {
+      payload.amount = this.newAssetAmount;
+    }
 
-  deleteAsset(assetId: number, assetName: string): void {
-    if (confirm(`確定刪除「${assetName}」嗎？`)) {
+    if (this.editingAssetId) {
+
+      this.assetService.updateAsset(this.editingAssetId, payload).subscribe({
+        next: () => {
+          alert('修改成功！');
+          this.cancelEdit();
+          this.refreshData();
+        },
+        error: (err: any) => {
+          console.error('修改失敗', err);
+          alert('修改失敗，請看 F12 Console 報錯');
+        }
+      });
+
+    } else {
+
+      this.assetService.addAsset(this.currentUserId, payload).subscribe({
+        next: () => {
+          alert('新增成功！');
+          this.showAddAssetForm = false;
+          this.resetAssetForm();
+          this.refreshData();
+        },
+        error: (err: any) => {
+          console.error('新增失敗', err);
+          alert('新增失敗');
+        }
+      });
+
+    }
+  }
+  deleteAsset(assetId: number | undefined, assetName: string | undefined): void {
+
+    if (!assetId) {
+      console.error("無法刪除：找不到資產 ID");
+      return;
+    }
+
+    const name = assetName || '此資產'; // 給個預設名字防呆
+
+    if (confirm(`確定刪除「${name}」嗎？`)) {
       this.assetService.deleteAsset(assetId).subscribe({
-        next: () => this.refreshData(),
-        error: () => alert('刪除失敗')
+        next: () => {
+          alert('刪除成功');
+          this.refreshData(); // 重新整理畫面
+        },
+        error: (err) => {
+          console.error('刪除失敗', err);
+          alert('刪除失敗，請看 Console');
+        }
       });
     }
   }
 
-  // -------------------------------------------------------------
-  // 負債 (Liability) 相關方法 (新加入)
-  // -------------------------------------------------------------
+  editAsset(asset: any) {
+    this.editingAssetId = asset.id; // 記下 ID，進入編輯模式
+    this.showAddAssetForm = true;
+
+    // 完美對應你的變數清單
+    this.newAssetName = asset.name;
+    this.newAssetSymbol = asset.symbol;
+    this.newAssetType = asset.type;
+    this.unitPrice = asset.amount;   // 假設 amount 存的是單價
+    this.unitCount = asset.shares;   // 股數
+    this.newAssetAmount = asset.totalCost; // 總金額 (或是你看你 DTO 怎麼傳的)
+
+    // 如果你有寫計算總金額的方法，記得在這裡呼叫
+  }
+
+  cancelEdit() {
+    this.editingAssetId = null;
+    this.showAddAssetForm = false;
+    this.resetAssetForm();
+  }
+
+  resetAssetForm() {
+    this.newAssetName = '';
+    this.newAssetType = 'CASH';
+    this.newAssetSymbol = '';
+    this.unitPrice = null;
+    this.unitCount = null;
+    this.newAssetAmount = null;
+    this.editingAssetId = null;
+  }
+
+
+  // 負債 (Liability) 相關方法 
+
   toggleAddLiabilityForm(): void {
     this.showAddLiabilityForm = !this.showAddLiabilityForm;
-    this.showAddAssetForm = false; // 💡 確保兩個表單不會同時打開
+    this.showAddAssetForm = false;
   }
 
   addLiability(): void {
@@ -262,7 +375,10 @@ export class AssetOverviewComponent implements OnInit {
     });
   }
 
-  //-----------------------------------------------------------------------------------------
+  goToCashFlow(): void {
+    this.router.navigate(['/cash-flow']);
+  }
+
   notificationDay: string = '1';
   onNotifyChange() {
     if (this.isNotificationEnabled) {
@@ -274,7 +390,7 @@ export class AssetOverviewComponent implements OnInit {
   daysOptions: string[] = [
     ...Array.from({ length: 31 }, (_, i) => (i + 1).toString())
   ];
-  //-----------------------------------------------------------------------------------------
+
 
 
   deleteLiability(liabilityId: number, liabilityName: string): void {
@@ -290,9 +406,6 @@ export class AssetOverviewComponent implements OnInit {
   }
 
 
-  // -------------------------------------------------------------
-  // 工具方法
-  // -------------------------------------------------------------
   backToHome(): void {
     this.router.navigate(['/main']);
   }
