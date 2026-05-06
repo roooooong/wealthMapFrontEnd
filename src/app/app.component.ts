@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet, NavigationStart } from '@angular/router';
 import { filter } from 'rxjs/operators';
-import { HeaderAdminComponent } from './header/header-admin/header-admin.component';
+
 import { HeaderUserComponent } from './header/header-user/header-user.component';
 import { HeaderVisitorComponent } from './header/header-visitor/header-visitor.component';
 import { ExampleService } from './@service/example.service';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, HeaderAdminComponent, HeaderUserComponent, HeaderVisitorComponent,],
+  imports: [RouterOutlet,  HeaderUserComponent, HeaderVisitorComponent,],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

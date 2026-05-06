@@ -7,7 +7,7 @@ import { NotificationList, Data } from '../../@interface/notification-list';
 
 @Component({
   selector: 'app-add-notification',
-  imports: [MatDialogTitle, MatDialogContent, MatDialogActions, FormsModule],
+  imports: [FormsModule],
   templateUrl: './add-notification.component.html',
   styleUrl: './add-notification.component.scss'
 })

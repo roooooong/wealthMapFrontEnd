@@ -47,7 +47,7 @@ export const routes: Routes = [
   //有訪客頁面的
   { path: 'investment-manage', component: InvestmentManageComponent },
   { path: 'goals', component: GoalOverviewComponent },
-  { path: 'health', component: HealthComponent },
+  { path: 'health', component: HealthComponent  },
 
 
 
@@ -105,7 +105,7 @@ export const routes: Routes = [
   },
   {
     path: 'health',
-    component: HealthComponent,
+    component: HealthComponent ,
     canActivate: [authGuard],
     data: { roles: ['ADMIN', 'USER'] }
   },
