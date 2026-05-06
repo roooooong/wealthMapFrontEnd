@@ -56,6 +56,26 @@ export class Rebalance implements OnInit {
           targetPercentage: item.targetPercentage,
           suggestion: ''
         }));
+
+        if (this.portfolio) {
+          console.log(this.portfolio);
+
+          this.portfolio.forEach(s => {
+            this.httpClientService.getApi(`http://localhost:8080/api/strategy-set/quote/${s.stockId}`)
+              .subscribe({
+                next: (res: any) => {
+                  if (res.code === 200 && res.data) {
+                    s.currentPrice = res.data.currentPrice ?? 0;
+                  } else {
+                    console.warn(`股票 ${s.stockId} 回傳 code:` + res.code, res);
+                  }
+                },
+                error: (err) => {
+                  console.error(`無法獲取 ${s.stockId} 的報價`, err);
+                }
+              });
+          });
+        }
       }
     });
   }
