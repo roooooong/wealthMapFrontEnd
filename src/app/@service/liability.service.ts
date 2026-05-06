@@ -22,4 +22,8 @@ export class LiabilityService {
   deleteLiability(liabilityId: number): Observable<any> {
     return this.http.delete<any>(`${this.apiUrl}/${liabilityId}`);
   }
+
+  updateLiability(liabilityId: number, liability: Liability): Observable<Liability> {
+    return this.http.put<Liability>(`${this.apiUrl}/${liabilityId}`, liability);
+  }
 }

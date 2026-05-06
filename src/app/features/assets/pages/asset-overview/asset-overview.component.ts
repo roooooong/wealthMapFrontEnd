@@ -35,6 +35,7 @@ export class AssetOverviewComponent implements OnInit {
   unitCount: number | null = null;
   editingAssetId: number | null = null;
   currentUserId: number = 0;//00
+  editingLiabilityId: number | null = null;
 
   // 負債變數 
   userLiabilities: Liability[] = [];
@@ -119,7 +120,7 @@ export class AssetOverviewComponent implements OnInit {
 
     this.assetService.searchStock(this.newAssetSymbol).subscribe({
       next: (res: any) => {
-        console.log('🚀 後端回傳的資料長這樣:', res);
+        console.log(' 後端回傳的資料長這樣:', res);
 
         if (res && res.data && res.data.stockName) {
 
@@ -270,7 +271,7 @@ export class AssetOverviewComponent implements OnInit {
         },
         error: (err: any) => {
           console.error('修改失敗', err);
-          alert('修改失敗，請看 F12 Console 報錯');
+
         }
       });
 
@@ -308,7 +309,7 @@ export class AssetOverviewComponent implements OnInit {
         },
         error: (err) => {
           console.error('刪除失敗', err);
-          alert('刪除失敗，請看 Console');
+
         }
       });
     }
@@ -364,15 +365,44 @@ export class AssetOverviewComponent implements OnInit {
       amount: this.newLiabilityAmount
     };
 
-    this.liabilityService.addLiability(1, payload).subscribe({
-      next: () => {
-        this.showAddLiabilityForm = false;
-        this.newLiabilityName = '';
-        this.newLiabilityAmount = null;
-        this.refreshData();
-      },
-      error: () => alert('新增失敗')
-    });
+    if (this.editingLiabilityId) {
+      // 修改模式
+      this.liabilityService.updateLiability(this.editingLiabilityId, payload).subscribe({
+        next: () => {
+          this.cancelLiabilityEdit();
+          this.refreshData();
+        },
+        error: () => alert('修改失敗')
+      });
+    } else {
+      // 新增模式
+      this.liabilityService.addLiability(this.currentUserId, payload).subscribe({
+        next: () => {
+          this.showAddLiabilityForm = false;
+          this.newLiabilityName = '';
+          this.newLiabilityAmount = null;
+          this.refreshData();
+        },
+        error: () => alert('新增失敗')
+      });
+    }
+  }
+
+  editLiability(liability: Liability): void {
+    this.editingLiabilityId = liability.id!;
+    this.showAddLiabilityForm = true;
+    this.showAddAssetForm = false;
+    this.newLiabilityName = liability.name;
+    this.newLiabilityCategory = liability.category;
+    this.newLiabilityAmount = liability.amount;
+  }
+
+  cancelLiabilityEdit(): void {
+    this.editingLiabilityId = null;
+    this.showAddLiabilityForm = false;
+    this.newLiabilityName = '';
+    this.newLiabilityCategory = 'MORTGAGE';
+    this.newLiabilityAmount = null;
   }
 
   goToCashFlow(): void {

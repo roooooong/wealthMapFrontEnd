@@ -18,15 +18,15 @@ export class CashFlowOverviewComponent implements OnInit {
   cashFlows: CashFlow[] = [];
   currentUserId: number = 0;
 
-  // 新增表單變數
   showAddForm: boolean = false;
+  editingId: number | null = null; // 編輯模式用
+
   newType: 'INCOME' | 'EXPENSE' = 'INCOME';
   newCategory: string = '';
   newAmount: number | null = null;
   newDescription: string = '';
   newRecordDate: string = '';
 
-  // 統計變數
   totalIncome: number = 0;
   totalExpense: number = 0;
   netAmount: number = 0;
@@ -38,11 +38,9 @@ export class CashFlowOverviewComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    // 跟 asset-overview 一樣，訂閱 user$ 拿真實 ID
     this.exampleService.user$.subscribe(user => {
       if (user && user.id) {
         this.currentUserId = user.id;
-        console.log('✅ 抓到真實使用者 ID:', this.currentUserId);
         this.loadData();
       }
     });
@@ -62,15 +60,25 @@ export class CashFlowOverviewComponent implements OnInit {
     this.totalIncome = this.cashFlows
       .filter(cf => cf.type === 'INCOME')
       .reduce((sum, cf) => sum + cf.amount, 0);
-
     this.totalExpense = this.cashFlows
       .filter(cf => cf.type === 'EXPENSE')
       .reduce((sum, cf) => sum + cf.amount, 0);
-
     this.netAmount = this.totalIncome - this.totalExpense;
   }
 
-  addCashFlow(): void {
+  // 點編輯按鈕：帶入資料並開啟表單
+  editCashFlow(cf: CashFlow): void {
+    this.editingId = cf.id!;
+    this.showAddForm = true;
+    this.newType = cf.type as 'INCOME' | 'EXPENSE';
+    this.newCategory = cf.category;
+    this.newAmount = cf.amount;
+    this.newDescription = cf.description ?? '';
+    this.newRecordDate = cf.recordDate;
+  }
+
+  // 新增 or 修改統一入口
+  submitForm(): void {
     if (!this.newCategory || !this.newAmount || !this.newRecordDate) {
       alert('請填寫完整資訊');
       return;
@@ -80,19 +88,34 @@ export class CashFlowOverviewComponent implements OnInit {
       userId: this.currentUserId,
       type: this.newType,
       category: this.newCategory,
-      amount: Number(this.newAmount),  // 確保是數字
+      amount: Number(this.newAmount),
       description: this.newDescription,
       recordDate: this.newRecordDate
     };
 
-    this.cashFlowService.addRecord(payload).subscribe({
-      next: () => {
-        this.showAddForm = false;
-        this.resetForm();
-        this.loadData();
-      },
-      error: () => alert('新增失敗')
-    });
+    if (this.editingId) {
+      // 修改模式
+      this.cashFlowService.updateRecord(this.editingId, payload).subscribe({
+        next: () => { this.cancelForm(); this.loadData(); },
+        error: () => alert('修改失敗')
+      });
+    } else {
+      // 新增模式
+      this.cashFlowService.addRecord(payload).subscribe({
+        next: () => { this.cancelForm(); this.loadData(); },
+        error: () => alert('新增失敗')
+      });
+    }
+  }
+
+  cancelForm(): void {
+    this.showAddForm = false;
+    this.editingId = null;
+    this.newType = 'INCOME';
+    this.newCategory = '';
+    this.newAmount = null;
+    this.newDescription = '';
+    this.newRecordDate = '';
   }
 
   deleteCashFlow(id: number): void {
@@ -104,12 +127,13 @@ export class CashFlowOverviewComponent implements OnInit {
     }
   }
 
-  resetForm(): void {
-    this.newType = 'INCOME';
-    this.newCategory = '';
-    this.newAmount = null;
-    this.newDescription = '';
-    this.newRecordDate = '';
+  // 分欄用的 getter
+  get incomeList(): CashFlow[] {
+    return this.cashFlows.filter(cf => cf.type === 'INCOME');
+  }
+
+  get expenseList(): CashFlow[] {
+    return this.cashFlows.filter(cf => cf.type === 'EXPENSE');
   }
 
   backToAsset(): void {

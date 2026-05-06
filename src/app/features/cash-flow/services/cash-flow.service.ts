@@ -25,4 +25,8 @@ export class CashFlowService {
   deleteRecord(id: number): Observable<any> {
     return this.http.delete<any>(`${this.apiUrl}/delete/${id}`);
   }
+  // 修正資料
+  updateRecord(id: number, data: CashFlow): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/update/${id}`, data);
+  }
 }
