@@ -65,6 +65,13 @@
 
 <div class="frameCss" style="margin-bottom: 20px;">
   <div class="iconbox">
+    <button class="iconbtn" (click)="goToRiskTest()" style="cursor: pointer;">
+      <div class="imgAndText">
+        <img style="width: 100px;height: 70px;" src="9179 (2).png">
+        <br>
+        <label class="icon-text">風險評估</label>
+      </div>
+    </button>
     @if(role=="USER" || role=="ADMIN"){
     <button class="iconbtn" (click)="goToAssets()" style="cursor: pointer;">
       <div class="imgAndText">
@@ -74,6 +81,13 @@
       </div>
     </button>
     }
+    <button class="iconbtn" (click)="goToGoals()" style="cursor: pointer;">
+      <div class="imgAndText">
+        <img style="width: 90px;height: 80px;" src="12260 (3).png">
+        <br>
+        <label class="icon-text">財務目標</label>
+      </div>
+    </button>
     <button class="iconbtn" (click)="health()">
       <div class="imgAndText">
         <img style="width: 90px;height: 90px;" src="9274 (3).png">
@@ -86,20 +100,6 @@
         <img style="width: 120px;height: 70px;" src="9289 (1).png">
         <br>
         <label class="icon-text">投資策略</label>
-      </div>
-    </button>
-    <button class="iconbtn" (click)="goToGoals()" style="cursor: pointer;">
-      <div class="imgAndText">
-        <img style="width: 90px;height: 80px;" src="12260 (3).png">
-        <br>
-        <label class="icon-text">財務目標</label>
-      </div>
-    </button>
-    <button class="iconbtn" (click)="goToRiskTest()" style="cursor: pointer;">
-      <div class="imgAndText">
-        <img style="width: 100px;height: 70px;" src="9179 (2).png">
-        <br>
-        <label class="icon-text">風險評估</label>
       </div>
     </button>
     @if(role=="ADMIN"){
@@ -139,7 +139,7 @@
 
 
 
-<div class="frameCss">
+<div class="newsCss">
   <div style="font-size: 28px;font-weight: bold;">相關新聞</div>
 </div>
 <!-- <div class="frameCss">
