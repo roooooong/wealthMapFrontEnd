@@ -1,115 +1,110 @@
 <!-- 總列表頁 -->
 @if(page==1){
-  <br><br><br><br>
-  <div style="margin: 20px;">
-    <!-- 標題 -->
-    <div class="titleCss">
-      <div>
-        <label class="titleFontPage1">{{ notificationType === "system" ? '系統公告' : '個人通知' }}</label>
-      </div>
-      @if( role!='visitor'){
-      <div>
-        <button class="btnList" (click)="goAnotherList()">{{ notificationType === "system" ? '個人通知列表' : '系統通知列表' }} →</button>
-      </div>
+<br><br><br><br>
+<div style="margin: 20px;">
+  <!-- 標題 -->
+  <div class="titleCss">
+    <div>
+      <label class="titleFontPage1">{{ notificationType === "system" ? '系統公告' : '個人通知' }}</label>
+    </div>
+    @if( role!='visitor'){
+    <div>
+      <button class="btnList" (click)="goAnotherList()">{{ notificationType === "system" ? '個人通知列表' : '系統通知列表' }}
+        →</button>
+    </div>
     }
-    </div>
   </div>
+</div>
 
-  <hr>
-  <br>
+<hr>
+<br>
 
-  <div class="frameCss" style="margin: 20px;">
-    <div class="notification-box">
+<div class="frameCss" style="margin: 20px;">
+  <div class="notification-box">
     <!-- <div style="width: 70%; border-color: #4091c9;position: relative;left:20px;"> -->
-      @if(notificationType === "system"){
-        @if(notificationList){
-          <!-- @for(notification of notificationList.data ; track $index){
+    @if(notificationType === "system"){
+    @if(notificationList){
+    <!-- @for(notification of notificationList.data ; track $index){
             @if(notification.scheduledDate<=gettoday){ -->
-          @for(notification of pagedSystemLogs ; track $index){
-            <div class="notification">
-              <label class="notification-tag" (click)="detail(notification.id!)">{{notification.tag}}</label>
-              <label class="notification-title" (click)="detail(notification.id!)">{{notification.title}}</label>
-              <label class="notification-date"
-                (click)="detail(notification.id!)">{{notification.scheduledDate}}</label>
-            </div>
-            <!-- } -->
-          }
-        }@else{
-          <div class="no-data">目前沒有系統公告</div>
-        }
-      }@else{
-        @if (personalLogs === undefined) {
-          <div>載入中...</div>
-        } @else if(personalLogs && personalLogs.length > 0){
-          @for(notification of pagedPersonalLogs ; track $index){
-          <!-- @for(notification of personalLogs ; track $index){ -->
-            <div class="notification">
-              <label class="notification-tag" (click)="detail(notification.id!)">{{ getCategoryTag(notification.category)}}</label>
-              <label class="notification-title" (click)="detail(notification.id!)">{{notification.title}}</label>
-              <label class="notification-date" (click)="detail(notification.id!)">{{notification.alertTime| date:'yyyy-MM-dd'}}</label>
-            </div>
-          }
-        }
-        @else{
-          <div class="no-data">目前沒有個人訊息</div>
-        }
-      }
+    @for(notification of pagedSystemLogs ; track $index){
+    <div class="notification">
+      <label class="notification-tag" (click)="detail(notification.id!)">{{notification.tag}}</label>
+      <label class="notification-title" (click)="detail(notification.id!)">{{notification.title}}</label>
+      <label class="notification-date" (click)="detail(notification.id!)">{{notification.scheduledDate}}</label>
     </div>
+    <!-- } -->
+    }
+    }@else{
+    <div class="no-data">目前沒有系統公告</div>
+    }
+    }@else{
+    @if (personalLogs === undefined) {
+    <div>載入中...</div>
+    } @else if(personalLogs && personalLogs.length > 0){
+    @for(notification of pagedPersonalLogs ; track $index){
+    <!-- @for(notification of personalLogs ; track $index){ -->
+    <div class="notification">
+      <label class="notification-tag" (click)="detail(notification.id!)">{{
+        getCategoryTag(notification.category)}}</label>
+      <label class="notification-title" (click)="detail(notification.id!)">{{notification.title}}</label>
+      <label class="notification-date" (click)="detail(notification.id!)">{{notification.alertTime|
+        date:'yyyy-MM-dd'}}</label>
+    </div>
+    }
+    }
+    @else{
+    <div class="no-data">目前沒有個人訊息</div>
+    }
+    }
   </div>
+</div>
 
-  <!-- 分頁控制項 -->
-  <div class="pagination-div">
-    <div class="pagination-controls" >
-      <!-- <select [(ngModel)]="pageSize" (change)="currentPage = 1">
+<!-- 分頁控制項 -->
+<div class="pagination-div">
+  <div class="pagination-controls">
+    <!-- <select [(ngModel)]="pageSize" (change)="currentPage = 1">
         <option [ngValue]="5">5 筆 / 頁</option>
         <option [ngValue]="10">10 筆 / 頁</option>
         <option [ngValue]="20">20 筆 / 頁</option>
       </select>
       &nbsp; -->
-      <div class="pagination-btns">
-        <button [disabled]="currentPage === 1" (click)="currentPage = currentPage - 1">
-          <mat-icon>chevron_left</mat-icon>
-        </button>&nbsp;
-        <span>第 {{currentPage}} / {{totalPages}} 頁</span>&nbsp;
-        <button [disabled]="currentPage >= totalPages" (click)="currentPage = currentPage + 1">
-          <mat-icon>chevron_right</mat-icon>
-        </button>
-      </div>
+    <div class="pagination-btns">
+      <button [disabled]="currentPage === 1" (click)="currentPage = currentPage - 1">
+        <mat-icon>chevron_left</mat-icon>
+      </button>&nbsp;
+      <span>第 {{currentPage}} / {{totalPages}} 頁</span>&nbsp;
+      <button [disabled]="currentPage >= totalPages" (click)="currentPage = currentPage + 1">
+        <mat-icon>chevron_right</mat-icon>
+      </button>
     </div>
   </div>
-  <!-- 分頁控制項 -->
+</div>
+<!-- 分頁控制項 -->
 
 
 }
 <!-- 公告細節頁面 -->
 @else{
-  <br><br><br><br>
-  <div style="margin: 20px;">
-    <!-- 標題 -->
-    <div class="titleCss">
-      <div>
-        <label class="titleFontPage2">{{notificationIdDetail ? notificationIdDetail?.title : personalLogDetail?.title}}</label>
-      </div>
-      <div>
-        <button class="btnBack" (click)="goBack()">返回列表 →</button>
-      </div>
-    </div>
+<br>
+<div style="margin: 20px;">
+  <!-- 標題 -->
+  <div>
+    <h2 class="titleFontPage2">{{notificationIdDetail ? notificationIdDetail?.title : personalLogDetail?.title}}</h2>
   </div>
+</div>
+<br class="mobile-br"><br class="mobile-br"><br class="mobile-br"><br class="mobile-br">
+<div class="notification-dateBox">
+  <label>{{notificationIdDetail ? notificationIdDetail?.scheduledDate : (personalLogDetail?.alertTime| date:'yyyy-MM-dd')}}</label>
+  <button class="btnBack" (click)="goBack()">返回列表 →</button>
+</div>
+<hr>
+<br>
 
-  <hr>
-  <br>
-
-  <div class="frameCss">
-    <div style="position: relative;left:12px; width: 78%; line-height: 1.8;">
-      <div style="white-space: pre-wrap;">{{notificationIdDetail ? notificationIdDetail?.content : personalLogDetail?.content}}</div>
-    </div>
+<div class="frameCss">
+  <div style="position: relative;left:12px; width: 78%; line-height: 1.8;">
+    <div style="white-space: pre-wrap;">{{notificationIdDetail ? notificationIdDetail?.content : personalLogDetail?.content}}</div>
   </div>
-  <br><br><br><br>
-  <!-- <div class="frameCss" > -->
-  <div style="display: flex; justify-content: flex-end;margin-right: 130px;font-size: 18px;color: #4091c9;font-style: italic">
-    <label>{{notificationIdDetail ? notificationIdDetail?.scheduledDate :  (personalLogDetail?.alertTime| date:'yyyy-MM-dd')}}</label>
-    <!-- <label>{{notificationIdDetail ? notificationIdDetail?.scheduledDate :  '123'}}</label> -->
-  </div>
-  <!-- </div> -->
+</div>
+<br><br><br><br>
 }
 <br><br><br>

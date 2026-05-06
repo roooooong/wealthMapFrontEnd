@@ -36,6 +36,8 @@ export class HeaderAdminComponent {
     // this.exampleService.setRole('visitor');
     this.exampleService.clearUserData();
     this.router.navigate(['/main']);
+    //登出後清空F12的重整
+    window.location.reload();
   }
 
   ngOnInit(): void {

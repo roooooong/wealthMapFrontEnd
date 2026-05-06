@@ -3,13 +3,16 @@
   justify-content: center;
   position: relative;
 }
-.distance{
-   margin-top: 70px;
-    //手機
+
+.distance {
+  margin-top: 70px;
+
+  //手機
   @media(max-width:600px) {
     margin-top: 30px;
   }
 }
+
 .iconbox {
   position: absolute;
   box-shadow: 2px 2px 8px rgba(3, 50, 112, 0.2);
@@ -91,9 +94,74 @@
   /* 懸停時變色 */
 }
 
+/* 桌機版：預設垂直排列 */
+.chart-scroll-wrapper {
+  display: flex;
+  // flex-direction: column;
+  // gap: 40px;
+  /* 兩個圖表之間的間距 */
+  align-items: center;
+}
+
 .chart-container {
   width: 400px;
   height: 300px;
+  position: relative;
+  /* 確保 Chart.js 渲染正常 */
+}
+.top-text-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 500px;
+  height: 300px;
+  text-align: center;
+  gap: 8px;
+}
+
+.top-text-container p {
+  color: #4091c9;
+  font-weight: 500;
+}
+
+.Line-chart{
+  width:350px;
+}
+
+.Line-chartbtn{
+  margin-left: 15px;
+  margin-top: 55px;
+  color:#4091c9;
+  background-color: #ffffff;
+  border-radius: 10px;
+  border: 1px solid #4091c9;
+  font-size: 10px;
+}
+
+.Line-chartbtn:hover{
+  color:#ffffff;
+  background-color: #4091c9;
+}
+
+.time-filter-group {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 15px;
+    &.active {
+      background-color: #3b82f6; // 藍色主題
+      color: white;
+      font-weight: bold;
+    }
+  }
+
+
+.assetChangeChart{
+  margin-top: 15px;
+  //手機
+  @media(max-width:600px) {
+    margin-top: -5px;
+  }
 }
 
 .chart-center-text {
@@ -361,21 +429,21 @@
   /* 修正與旁邊文字的對齊 */
   cursor: pointer;
 
-   //手機
+  //手機
   @media(max-width:600px) {
-  font-size: 14px;
-  width: 40%;
+    font-size: 14px;
+    width: 40%;
   }
 }
 
-.notification-date{
+.notification-date {
   position: absolute;
-  right:20px;
+  right: 20px;
 
- //手機
+  //手機
   @media(max-width:600px) {
-  font-size: 12px;
-  right:10px;
+    font-size: 12px;
+    right: 10px;
   }
 
 }
@@ -414,9 +482,9 @@
   flex-direction: column;
   justify-content: space-between;
 
-   @media(max-width:600px) {
-        flex: 0 0 200px;
-        padding: 5px;
+  @media(max-width:600px) {
+    flex: 0 0 200px;
+    padding: 5px;
   }
 }
 
@@ -501,7 +569,7 @@
 
   //手機
   @media(max-width:600px) {
-      width: 100%;
+    width: 100%;
   }
 }
 
@@ -517,7 +585,7 @@
     margin-left: 5px;
     margin-right: 5px;
     margin-top: 40px;
-    width:330px;
+    width: 330px;
     text-align: center;
   }
 }
@@ -533,31 +601,65 @@
     margin-left: 5px;
     margin-right: 5px;
     margin-bottom: 40px;
-    width:330px;
+    width: 330px;
     text-align: center
   }
 }
 
-.between-visitor{
+.between-visitor {
   margin-top: 200px;
+
   //手機
   @media(max-width:600px) {
-  margin-top: 350px;
+    margin-top: 350px;
   }
 }
 
-.between-admin{
+.between-admin {
   margin-top: 200px;
+
   //手機
   @media(max-width:600px) {
-  margin-top: 650px;
+    margin-top: 650px;
   }
 }
 
-.between-user{
+.between-user {
   margin-top: 200px;
+
   //手機
   @media(max-width:600px) {
-  margin-top: 500px;
+    margin-top: 500px;
+  }
+}
+
+/* 手機版：切換為水平滑動 */
+@media (max-width: 600px) {
+  .chart-scroll-wrapper {
+    flex-direction: row;      /* 手機版：變橫向排列 */
+    overflow-x: auto;         /* 開啟水平捲動 */
+    scroll-snap-type: x mandatory; /* 強制吸附感 */
+    -webkit-overflow-scrolling: touch;
+    gap: 0;                   /* 手機版改用 padding 控制間距 */
+    padding: 0;
+    align-items: stretch;     /* 讓內容高度一致 */
+  }
+
+  .chart-container {
+    width: 350px;
+    height: 250px;
+    flex: 0 0 90%;
+    scroll-snap-align: center;
+    /* 停止時自動對齊中心 */
+    /* 手機版可以稍微調高一點 */
+    background: #fff;
+    /* 若有背景色可加強卡片感 */
+    border-radius: 12px;
+    padding: 30px;
+  }
+
+  /* 隱藏捲軸（視需求而定） */
+  .chart-scroll-wrapper::-webkit-scrollbar {
+    display: none;
   }
 }

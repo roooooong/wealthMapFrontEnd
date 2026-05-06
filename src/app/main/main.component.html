@@ -18,13 +18,38 @@
   </div>
 </div> -->
 
-<!-- 圓餅圖 -->
+
 <div class="frameCss">
-  <div class="chart-container">
-    <canvas id="chart"></canvas>
-    <div class="chart-center-text">
+  @if( hasAnyHistory ){
+  <!-- 圖的滑動層 -->
+  <div class="chart-scroll-wrapper">
+    <!-- 圓餅圖 -->
+    <div class="chart-container">
+      <canvas id="doughnutChart"></canvas>
+      <div class="chart-center-text">
+      </div>
+    </div>
+    <!-- 折線圖 -->
+    <div class="chart-container Line-chart">
+      <div class="time-filter-group">
+      <button class="Line-chartbtn" (click)="updateRange('1M')" [class.active]="currentRange === '1M'">1個月</button>
+      <button class="Line-chartbtn" (click)="updateRange('6M')" [class.active]="currentRange === '6M'">6個月</button>
+      <button class="Line-chartbtn" (click)="updateRange('1Y')" [class.active]="currentRange === '1Y'">1年</button>
+      <button class="Line-chartbtn" (click)="updateRange('3Y')" [class.active]="currentRange === '3Y'">3年</button>
+      </div>
+      <canvas id="assetChangeChart" class="assetChangeChart"></canvas>
     </div>
   </div>
+  }
+  @else{
+  <div class="top-text-container">
+    <div style="box-shadow: 2px 2px 8px rgba(3, 50, 112, 0.2);
+  border-radius: 20px;width: 500px;height:100px;">
+      <p>歡迎使用 WealthMap 個人資產與財務配置平台<br><br>
+        請立即前往「我的資產」建立資產，以顯示個人化圖表!!</p>
+    </div>
+  </div>
+  }
 </div>
 }
 
@@ -177,8 +202,7 @@
     @if(notification.scheduledDate<=gettoday){ <div class="system">
       <label class="notification-tag" (click)="detail(notification.id!)">{{notification.tag}}</label>
       <label class="notification-title" (click)="detail(notification.id!)">{{notification.title}}</label>
-      <label class="notification-date"
-        (click)="detail(notification.id!)">{{notification.scheduledDate}}</label>
+      <label class="notification-date" (click)="detail(notification.id!)">{{notification.scheduledDate}}</label>
   </div>
   }
   }
