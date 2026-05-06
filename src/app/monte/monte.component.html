@@ -7,15 +7,15 @@
 
     <!-- 左側控制區 (45%) -->
     <div class="left-controls">
-      <!-- 頂部粉紅輸入框 -->
+      <!-- 頂部藍色輸入框 -->
       <div class="top-inputs">
         <div class="input-group">
-          <label>目標金額(萬)</label>
-          <input type="number" [(ngModel)]="planParams[0].value" class="pink-box">
+          <label>目標金額(萬元)</label>
+          <input type="number" [(ngModel)]="planParams[0].value" class="blue-input">
         </div>
         <div class="input-group">
-          <label>期初投入(萬)</label>
-          <input type="number" [(ngModel)]="planParams[1].value" class="pink-box">
+          <label>期初投入(萬元)</label>
+          <input type="number" [(ngModel)]="planParams[1].value" class="blue-input">
         </div>
       </div>
 
@@ -24,21 +24,42 @@
         <div class="slider-item">
           <div class="slider-header-row">
             <label>每月投入 </label>
-            <span class="large-numerical-display">{{ planParams[2].value | number}}</span>
+            <span class="large-numerical-display">{{ (planParams[2].value/1000 | number )}} K</span>
           </div>
-          <input type="range" [(ngModel)]="planParams[2].value" min="1000" max="100000" step="1000" class="blue-slider">
+
+          <!-- 新增：滑桿與控制按鈕容器 -->
+          <div class="slider-control-wrapper">
+            <button class="btn-adjust" (click)="adjustValue(2, -1000)">−</button>
+
+            <input type="range" [(ngModel)]="planParams[2].value"
+                  min="1000" max="100000" step="1000" class="blue-slider">
+
+            <button class="btn-adjust" (click)="adjustValue(2, 1000)">+</button>
+          </div>
+
           <div class="slider-labels">
             <span>1K</span>
             <span>50K</span>
             <span>100K</span>
           </div>
         </div>
-          <div class="slider-item">
+        <div class="slider-item">
           <div class="slider-header-row">
             <label>年期 </label>
             <span class="large-numerical-display">{{ planParams[3].value }} 年</span>
           </div>
-          <input type="range" [(ngModel)]="planParams[3].value" min="1" max="40" class="blue-slider">
+
+          <!-- 新增：滑桿與控制按鈕容器 -->
+          <div class="slider-control-wrapper">
+            <button class="btn-adjust" (click)="adjustValue(3, -1)">−</button>
+
+            <input type="range" [(ngModel)]="planParams[3].value"
+                  min="1" max="40" class="blue-slider">
+
+            <button class="btn-adjust" (click)="adjustValue(3, 1)">+</button>
+          </div>
+
+          <!-- <input type="range" [(ngModel)]="planParams[3].value" min="1" max="40" class="blue-slider"> -->
           <div class="slider-labels">
             <span>1年</span>
             <span>20年</span>
@@ -55,18 +76,23 @@
         <div class="asset-grid">
           <div *ngFor="let asset of currentScenario.assets" class="input-allocation">
             <label>{{asset.type}}：</label><input type="number" [(ngModel)]="asset.percentage"
-            placeholder="請輸入投資配置(%)" class="small-input">
+            class="small-input"><label>&nbsp;%</label>
           </div>
         </div>
-        <!-- 只有加起來等於 100 才能點按鈕 -->
-        <button [disabled]="totalPercent !== 100" (click)="startSimulation()" class="btn-simulation">
-          開始模擬計算
-        </button>
 
-        <!-- 下面加一行紅字提醒 -->
-        <p *ngIf="totalPercent !== 100" style="color: red;" class="warn">
-          目前的總比例為 {{ totalPercent }}%，請調整至 100% 以進行計算。
-        </p>
+        <!-- 按鈕與警告訊息區塊 -->
+        <div class="action-container">
+
+          <!-- 下面加一行紅字提醒 -->
+          <p *ngIf="totalPercent !== 100" class="warn-text">
+            目前的總比例為 {{ totalPercent }}%，請調整至 100% 以進行計算。
+          </p>
+          <br>
+          <!-- 只有加起來等於 100 才能點按鈕 -->
+          <button [disabled]="totalPercent !== 100" (click)="startSimulation()" class="btn-simulation">
+            <span>開始模擬計算</span>
+          </button>
+        </div>
       </div>
 
     </div>

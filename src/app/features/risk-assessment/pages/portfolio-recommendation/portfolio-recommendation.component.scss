@@ -13,7 +13,7 @@
     margin-bottom: 30px;
 
     .main-title {
-        color: #2c3e50;
+        color: #4091c9;
         font-size: 28px;
         margin-bottom: 10px;
         font-weight: bold;
@@ -24,7 +24,7 @@
         font-size: 16px;
 
         strong {
-            color: #e74c3c;
+            color: #ef3c2d;
             font-size: 18px;
         }
     }
@@ -71,19 +71,19 @@
     }
 
     .col-type {
-        flex: 1.5;
+        flex: 1;
     }
 
     .col-alloc {
         flex: 1;
         text-align: center;
-        font-size: 18px;
+        // font-size: 18px;
         color: #2c3e50;
     }
 
     .col-reason {
         flex: 3;
-        font-size: 14px;
+        // font-size: 14px;
     }
 
     .badge {
@@ -91,7 +91,7 @@
         padding: 5px 10px;
         border-radius: 5px;
         font-weight: bold;
-        color: #5a7bb5;
+        color: #4091C9;
         border: 1px solid #dce4ec;
     }
 
@@ -117,7 +117,7 @@
     }
 
     .bg-blue {
-        background-color: #99B3E4;
+      background-color: #99B3E4;
     }
 
     .bg-green {
@@ -147,7 +147,8 @@
     }
 
     .btn-primary {
-        background-color: #99B3E4;
+        background-color: #9DCEE2;
+        // background-color: #4091c9;
         color: white;
 
         &:hover {

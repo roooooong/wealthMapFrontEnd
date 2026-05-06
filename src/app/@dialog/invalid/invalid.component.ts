@@ -38,4 +38,11 @@ export class InvalidComponent {
    error() {
     this.dialogRef.close();
   }
+  goLogin(){
+    this.router.navigate(['/login']);
+    this.dialogRef.close();
+  }
+  cancel(){
+    this.dialogRef.close();
+  }
 }

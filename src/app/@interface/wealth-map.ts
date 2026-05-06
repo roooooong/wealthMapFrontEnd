@@ -38,6 +38,7 @@ export interface UserInfo{
   name:string,
   email:string,
   role:string,
+  riskLevel:string,
   assets:Array<AssetDTO>,
   investments:Array<InvestmentDTO>,
   financialGoals:Array<FinancialGoalDTO>,

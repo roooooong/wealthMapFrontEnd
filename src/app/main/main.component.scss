@@ -14,7 +14,8 @@
 }
 
 .iconbox {
-  position: absolute;
+  // position: absolute;
+  position: relative;
   box-shadow: 2px 2px 8px rgba(3, 50, 112, 0.2);
   border-radius: 20px;
   flex-wrap: wrap;
@@ -448,6 +449,13 @@
 
 }
 
+.newsCss {
+  display: flex;
+  justify-content: center;
+  // margin-top: 30px;
+  // position: relative;
+}
+
 .carousel-container {
   display: flex;
   align-items: center;
@@ -607,7 +615,7 @@
 }
 
 .between-visitor {
-  margin-top: 200px;
+  margin-top: 100px;
 
   //手機
   @media(max-width:600px) {
@@ -616,7 +624,7 @@
 }
 
 .between-admin {
-  margin-top: 200px;
+  margin-top: 100px;
 
   //手機
   @media(max-width:600px) {
@@ -625,7 +633,7 @@
 }
 
 .between-user {
-  margin-top: 200px;
+  margin-top: 100px;
 
   //手機
   @media(max-width:600px) {

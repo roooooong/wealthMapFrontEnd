@@ -32,6 +32,7 @@ export class ProfileComponent {
   userId!: number;
   userName!: string;
   userEmail!: string;
+  userLevel!:string;
 
   constructor(
     private httpClientService: HttpClientService,
@@ -156,8 +157,24 @@ export class ProfileComponent {
         this.userId = user.id;
         this.userName = user.name;
         this.userEmail = user.email;
+        this.userLevel = user.riskLevel;
       }
     });
+  }
+
+  translateLevel(level: string): string {
+    if (!level) return '';
+    const upperLevel = level.toUpperCase();
+
+    // 結果翻譯
+    switch (upperLevel) {
+      case 'CONSERVATIVE': return '保守型';
+      case 'DEFENSIVE': return '穩健型';
+      // case 'BALANCED': return '平衡型';
+      case 'GROWTH': return '積極型';
+      // case 'AGGRESSIVE': return '衝刺型';
+      default: return level;
+    }
   }
 
 }

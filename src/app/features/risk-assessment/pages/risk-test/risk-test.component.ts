@@ -6,6 +6,7 @@ import { RiskService } from '../../services/risk.service';
 import { RiskAssessmentRequest } from '../../models/risk.model';
 import { MatDialog } from '@angular/material/dialog';
 import { InvalidComponent } from '../../../../@dialog/invalid/invalid.component';
+import { ExampleService } from '../../../../@service/example.service';
 
 @Component({
   selector: 'app-risk-test',
@@ -17,20 +18,35 @@ import { InvalidComponent } from '../../../../@dialog/invalid/invalid.component'
 export class RiskTestComponent {
   riskForm: FormGroup;
   isSubmitting = false;
+  role:string = 'visitor';
+  userId!:number;
 
   constructor(
     private fb: FormBuilder,
     private riskService: RiskService,
-    private router: Router
+    private router: Router,
+    private exampleService: ExampleService
   ) {
 
+    // this.riskForm = this.fb.group({
+    //   ageScore: [null, Validators.required],
+    //   knowledgeScore: [null, Validators.required],
+    //   experienceScore: [null, Validators.required],
+    //   toleranceScore: [null, Validators.required],
+    //   durationScore: [null, Validators.required],
+    //   allocationScore: [null, Validators.required]
+    // });
     this.riskForm = this.fb.group({
-      ageScore: [null, Validators.required],
-      knowledgeScore: [null, Validators.required],
-      experienceScore: [null, Validators.required],
-      toleranceScore: [null, Validators.required],
-      durationScore: [null, Validators.required],
-      allocationScore: [null, Validators.required]
+      qOneScore: [null, Validators.required],
+      qTwoScore: [null, Validators.required],
+      qThreeScore: [null, Validators.required],
+      qFourScore: [null, Validators.required],
+      qFiveScore: [null, Validators.required],
+      qSixScore: [null, Validators.required],
+      qSevenScore: [null, Validators.required],
+      qEightScore: [null, Validators.required],
+      qNineScore: [null, Validators.required],
+      qTenScore: [null, Validators.required]
     });
   }
 
@@ -47,7 +63,7 @@ readonly dialog = inject(MatDialog);
 
     // 將表單資料打包，準備送給 Spring Boot 後端
     const requestData: RiskAssessmentRequest = {
-      userId: 1, // 先寫死 1 號使用者測試
+      userId: this.role==='visitor' ? 0 : this.userId,
       ...this.riskForm.value
     };
 
@@ -60,9 +76,10 @@ readonly dialog = inject(MatDialog);
     // 呼叫 Service 打 API
     this.riskService.evaluateRisk(requestData).subscribe({
       next: (res) => {
-        alert('計算成功！即將前往結果頁');
+        // alert('計算成功！即將前往結果頁');
         // 將後端算好的結果帶到下一頁 (結果頁)
         this.router.navigate(['/risk-result'], { state: { result: res } });
+        console.log(res);
       },
       error: (err) => {
         console.error('API 呼叫失敗:', err);
@@ -93,5 +110,15 @@ readonly dialog = inject(MatDialog);
         // },3000)
       }
     })
+  }
+
+  ngOnInit(): void {
+    this.exampleService.user$.subscribe(user=>{
+      this.role = user.role; // 當角色改變，這裡會自動觸發
+      if(user && user.role !== 'visitor'){
+        this.userId=user.id;
+      }
+    });
+
   }
 }

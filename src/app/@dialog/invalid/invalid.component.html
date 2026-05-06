@@ -81,4 +81,16 @@
 </div>
 }
 
+<!-- for RickLevel page -->
+@if(data==8){
+<div class="header"></div>
+<div style="height:50px"></div>
+<label class="text">請先登入會員，才能觀看投資組合建議喔!</label>
+<div style="height:50px"></div>
+
+<div  class="btn-position">
+<button (click)="goLogin()">前往登入</button>
+<button (click)="cancel()">取消</button>
+</div>
+}
 

@@ -1,7 +1,7 @@
 import { Component, OnInit, AfterViewInit, HostListener } from '@angular/core';
 import { Chart, ChartConfiguration, registerables } from 'chart.js';
 import { HttpClient } from '@angular/common/http';
-import { FormBuilder, FormsModule, FormGroup,Validators } from '@angular/forms';
+import { FormBuilder, FormsModule, FormGroup, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { NgxEchartsDirective, NGX_ECHARTS_CONFIG } from 'ngx-echarts';
 import * as echarts from 'echarts';
@@ -9,6 +9,7 @@ import { ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { ExampleService } from '../@service/example.service';
 import { HttpClientService } from '../@service/http-client.service';
+import { filter, take } from 'rxjs/operators';
 
 interface InvestmentAsset {
   type: string;
@@ -52,16 +53,16 @@ export interface MonteResponse {
 export class MonteComponent implements OnInit, AfterViewInit {
   historyLineOption: echarts.EChartsOption = {};
   private chartInstance: echarts.ECharts | undefined;
+  role!: string;
+  userId!:number;
 
-
-  userId = 1;
-  apiUrl = `http://localhost:8080/api/monte/simulate/${this.userId}`;
+  apiUrl!: string;
   apiResult: MonteResponse | null = null;
   allocationChart: Chart<'pie'> | undefined;
 
   planParams = [
-    { label: '目標金額', value: 160 },
-    { label: '期初投入', value: 30 },
+    { label: '目標金額', value: 100 },
+    { label: '期初投入', value: 10 },
     { label: '每月投入', value: 10000 },
     { label: '年期', value: 10 }
   ];
@@ -85,14 +86,34 @@ export class MonteComponent implements OnInit, AfterViewInit {
     private cdr: ChangeDetectorRef,
     private fb: FormBuilder,
     private router: Router,
-    private exampleService:ExampleService,
-    private httpClientService:HttpClientService
+    private exampleService: ExampleService,
+    private httpClientService: HttpClientService
   ) {
     Chart.register(...registerables);
   }
 
 
   ngOnInit(): void {
+    const user = this.exampleService.currentUser; // 💡 拿快照
+    console.log(this.exampleService.currentUser);
+    // 情況 A：已經有登入資料了 (從其他頁面過來)
+    if (user && user.id !== 0) {
+      this.userId = user.id;
+      this.role = user.role;
+    }
+    // 情況 B：還沒拿到資料 (例如剛重新整理頁面)
+    else {
+      this.exampleService.user$.pipe(
+        filter(u => u && u.id !== 0),
+        take(1)
+      ).subscribe(user => {
+        if (user && user.id !== 0) {
+          this.role = user.role; // 當角色改變，這裡會自動觸發
+          this.userId = user.id;
+        }
+      });
+    }
+    this.apiUrl = `http://localhost:8080/api/monte/simulate/${this.userId}`;
     this.currentScenario.assets.sort((a, b) => b.percentage - a.percentage);
     this.renderEmptyChart();
   }
@@ -115,161 +136,161 @@ export class MonteComponent implements OnInit, AfterViewInit {
     }
   }
 
-private renderHistoryLineChart(data: YearlyData[]) {
-  const targetValue = this.planParams[0].value * 10000;
-  const years = data.map(d => `${d.year} `);
+  private renderHistoryLineChart(data: YearlyData[]) {
+    const targetValue = this.planParams[0].value * 10000;
+    const years = data.map(d => `${d.year} `);
 
-  this.historyLineOption = {
-    title: {
-      text: '投資資產增長模擬',
-      left: 'center',
-      textStyle: { fontSize: 16 }
-    },
-    tooltip: {
-      confine: true,
-      trigger: 'axis',
-      formatter: (params: any) => {
-        let html = `<div><strong>第  ${params[0].name} 年</strong></div>`;
-        params.forEach((p: any) => {
-          if (p.seriesName !== '初始投入') {
-            const formattedValue = Math.round(p.value).toLocaleString();
-            html += '<div>' + p.marker + p.seriesName + ': ' + formattedValue + '</div>';
-          }
-        });
-        return html;
-      }
-    },
-    legend: { bottom: 0,data: ['投入本金', '較佳預期', '一般表現', '較差預期'] },
-    grid: {
-      left: '5%',
-      right: '15%',
-      top: '15%',
-      bottom: '12%',
-      containLabel: true
-    },
-    xAxis: {
-      type: 'category',
-      name: '年',
-      boundaryGap: false,
-      data: years,
-      axisLine: { show: true }
-    },
-    yAxis: {
-      type: 'value',
-      name: '金額',
-      axisLine: { show: true },
-      axisTick: { show: true },
-
-      axisLabel: {
-        formatter: (value: number) => {
-          return (value / 10000).toFixed(0) + ' 萬';
-        }
-      }
-    },
-    graphic: [
-      {
-        type: 'text',
-        left: '20%',
-        bottom: '22%',
-        style: {
-          text: ` 初  始  投  入  ${Math.round(data[0].cost / 10000)}  萬`,
-          font: 'bold 16px sans-serif',
-          fill: '#666'
-        }
-      }
-    ],
-    series: [
-      {
-        name: '初始投入',
-        type: 'line',
-        data: data.map(() => data[0].cost),
-        symbol: 'none',
-        lineStyle: { width: 0 },
-        areaStyle: {
-          color: 'rgba(200, 200, 200, 0.4)',
-          origin: 'start'
-        },
-        z: 10,
-        tooltip: { show: false }
+    this.historyLineOption = {
+      title: {
+        text: '投資資產增長模擬',
+        left: 'center',
+        textStyle: { fontSize: 16 }
       },
-      {
-        name: '投入本金',
-        type: 'line',
-        data: data.map(d => d.cost),
-        symbol: 'circle',
-        smooth: true,
-        markPoint: {
-          symbol: 'none',
-          data: [{
-            coord: [data.length - 1, data[data.length - 1]!.confidenceHigh],
-            value: Math.round(data[data.length - 1]!.confidenceHigh / 10000) + ' 萬',
-            label: { show: true, position: 'right', color: '#67c23a', fontWeight: 'bold', formatter: '{c}' }
-          }]
-        }
-      },
-      {
-        name: '較佳預期',
-        type: 'line',
-        data: data.map(d => d.confidenceHigh),
-        itemStyle: { color: '#67c23a' },
-        symbol: 'none',
-        smooth: true
-      },
-      {
-        name: '一般表現',
-        type: 'line',
-        data: data.map(d => d.val),
-        itemStyle: { color: '#f5b041' },
-        symbol: 'none',
-        smooth: true
-      },
-      {
-        name: '較差預期',
-        type: 'line',
-        data: data.map(d => d.confidenceLow),
-        itemStyle: { color: '#f56c6c' },
-        symbol: 'none',
-        smooth: true,
-        markLine: {
-          symbol: ['none', 'none'],
-          silent: true,
-          data: [
-            {
-              yAxis: targetValue,
-              label: {
-                show: true,
-                position: 'end',
-                formatter: (params: any) => `目標金額\n \n ${params.value / 10000} 萬`,
-                valueIndex: 0,
-                color: '#000',
-                fontWeight: 'bold',
-                fontSize: 14,
-                backgroundColor: 'rgba(255,255,255,0.7)',
-                padding: [2, 4]
-              },
-              lineStyle: {
-                color: '#3858cc',
-                type: 'solid',
-                width: 2
-              }
+      tooltip: {
+        confine: true,
+        trigger: 'axis',
+        formatter: (params: any) => {
+          let html = `<div><strong>第  ${params[0].name} 年</strong></div>`;
+          params.forEach((p: any) => {
+            if (p.seriesName !== '初始投入') {
+              const formattedValue = Math.round(p.value).toLocaleString();
+              html += '<div>' + p.marker + p.seriesName + ': ' + formattedValue + '</div>';
             }
-          ]
+          });
+          return html;
         }
-      }
-    ]as any,
-  };
-  this.cdr.detectChanges();
+      },
+      legend: { bottom: 0, data: ['投入本金', '較佳預期', '一般表現', '較差預期'] },
+      grid: {
+        left: '5%',
+        right: '15%',
+        top: '15%',
+        bottom: '12%',
+        containLabel: true
+      },
+      xAxis: {
+        type: 'category',
+        name: '年',
+        boundaryGap: false,
+        data: years,
+        axisLine: { show: true }
+      },
+      yAxis: {
+        type: 'value',
+        name: '金額',
+        axisLine: { show: true },
+        axisTick: { show: true },
+
+        axisLabel: {
+          formatter: (value: number) => {
+            return (value / 10000).toFixed(0) + ' 萬';
+          }
+        }
+      },
+      graphic: [
+        {
+          type: 'text',
+          left: '20%',
+          bottom: '22%',
+          style: {
+            text: ` 初  始  投  入  ${Math.round(data[0].cost / 10000)}  萬`,
+            font: 'bold 16px sans-serif',
+            fill: '#666'
+          }
+        }
+      ],
+      series: [
+        {
+          name: '初始投入',
+          type: 'line',
+          data: data.map(() => data[0].cost),
+          symbol: 'none',
+          lineStyle: { width: 0 },
+          areaStyle: {
+            color: 'rgba(200, 200, 200, 0.4)',
+            origin: 'start'
+          },
+          z: 10,
+          tooltip: { show: false }
+        },
+        {
+          name: '投入本金',
+          type: 'line',
+          data: data.map(d => d.cost),itemStyle: { color: '#4091C9' },
+          symbol: 'circle',
+          smooth: true,
+          markPoint: {
+            symbol: 'none',
+            data: [{
+              coord: [data.length - 1, data[data.length - 1]!.confidenceHigh],
+              value: Math.round(data[data.length - 1]!.confidenceHigh / 10000) + ' 萬',
+              label: { show: true, position: 'right', color: '#4091C9', fontWeight: 'bold', formatter: '{c}' }
+            }]
+          }
+        },
+        {
+          name: '較佳預期',
+          type: 'line',
+          data: data.map(d => d.confidenceHigh),
+          itemStyle: { color: '#67c23a' },
+          symbol: 'none',
+          smooth: true
+        },
+        {
+          name: '一般表現',
+          type: 'line',
+          data: data.map(d => d.val),
+          itemStyle: { color: '#f5b041' },
+          symbol: 'none',
+          smooth: true
+        },
+        {
+          name: '較差預期',
+          type: 'line',
+          data: data.map(d => d.confidenceLow),
+          itemStyle: { color: '#f56c6c' },
+          symbol: 'none',
+          smooth: true,
+          markLine: {
+            symbol: ['none', 'none'],
+            silent: true,
+            data: [
+              {
+                yAxis: targetValue,
+                label: {
+                  show: true,
+                  position: 'end',
+                  formatter: (params: any) => `目標金額\n \n ${params.value / 10000} 萬`,
+                  valueIndex: 0,
+                  color: '#000',
+                  fontWeight: 'bold',
+                  fontSize: 14,
+                  backgroundColor: 'rgba(255,255,255,0.7)',
+                  padding: [2, 4]
+                },
+                lineStyle: {
+                  color: '#033270',
+                  type: 'solid',
+                  width: 2
+                }
+              }
+            ]
+          }
+        }
+      ] as any,
+    };
+    this.cdr.detectChanges();
   }
   private getEndPoint(index: number, value: number, color: string) {
-  return {
-    symbol: 'none',
-    data: [{
-      coord: [index, value],
-      value: Math.round(value / 10000) + ' 萬',
-      label: { show: true, position: 'right', color: color, fontWeight: 'bold' }
-    }]
-  };
-}
+    return {
+      symbol: 'none',
+      data: [{
+        coord: [index, value],
+        value: Math.round(value / 10000) + ' 萬',
+        label: { show: true, position: 'right', color: color, fontWeight: 'bold' }
+      }]
+    };
+  }
 
   private renderEmptyChart() {
     this.historyLineOption = { title: { text: '（等待數據中...）', left: 'center', top: '40%' } };
@@ -305,7 +326,7 @@ private renderHistoryLineChart(data: YearlyData[]) {
   }
 
   startSimulation() {
-    const userId = 1; // 假設 ID
+    // const userId = 1; // 假設 ID
     const payload = {
       initialAmount: this.planParams[1].value * 10000,
       monthly: this.planParams[2].value,
@@ -319,18 +340,18 @@ private renderHistoryLineChart(data: YearlyData[]) {
       }
     };
 
-    this.http.post<MonteResponse>(`http://localhost:8080/api/monte/simulate/1`, payload)
-    .subscribe({
-      next: (res) => {
-        this.apiResult = res;
-        console.log('模擬成功！', res);
-        this.renderHistoryLineChart(res.trajectories);
-        this.cdr.detectChanges();
-      },
-      error: (err) => {
-        console.error('串接失敗', err);
-      }
-    });
+    this.http.post<MonteResponse>(this.apiUrl, payload)
+      .subscribe({
+        next: (res) => {
+          this.apiResult = res;
+          console.log('模擬成功！', res);
+          this.renderHistoryLineChart(res.trajectories);
+          this.cdr.detectChanges();
+        },
+        error: (err) => {
+          console.error('串接失敗', err);
+        }
+      });
   }
 
   @HostListener('window:resize')
@@ -341,4 +362,24 @@ private renderHistoryLineChart(data: YearlyData[]) {
   get totalPercent() {
     return this.currentScenario.assets.reduce((sum, asset) => sum + asset.percentage, 0);
   }
+
+ /**
+ * 調整滑桿數值
+ * @param index planParams 的索引
+ * @param step 調整的級距 (正數增加，負數減少)
+ */
+  adjustValue(index: number, step: number) {
+    const param = this.planParams[index];
+    const newValue = param.value + step;
+
+    // 取得 input 的邊界限制 (或者你直接寫死)
+    const min = index===2 ? 1000 : 1;
+    const max = index===2 ? 100000 : 40;
+
+    // 確保數值在範圍內
+    if (newValue >= min && newValue <= max) {
+      param.value = newValue;
+    }
+  }
+
 }

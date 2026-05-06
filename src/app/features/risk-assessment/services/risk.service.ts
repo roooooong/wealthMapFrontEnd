@@ -18,7 +18,11 @@ export class RiskService {
     checkHasTested(userId: number): Observable<any> {
         return this.http.get<any>(`${this.apiUrl}/user/${userId}`);
     }
-    getRecommendations(userId: number) {
-        return this.http.get<any>(`http://localhost:8080/api/portfolio/recommend/${userId}`);
+    // getRecommendations(userId: number) {
+    //     return this.http.get<any>(`http://localhost:8080/api/portfolio/recommend/${userId}`);
+    // }
+    getRecommendations(level: string) {
+        return this.http.get<any>(`http://localhost:8080/api/portfolio/recommend/${level}`);
     }
+
 }
