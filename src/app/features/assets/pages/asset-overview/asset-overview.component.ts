@@ -202,25 +202,60 @@ export class AssetOverviewComponent implements OnInit {
   }
 
   addAsset(): void {
-    if (!this.newAssetName || !this.newAssetAmount) {
-      alert('請填寫完整資訊');
-      return;
-    }
-    const payload = {
-      name: this.newAssetName,
-      type: this.newAssetType,
-      amount: this.newAssetAmount
-    };
+    if(this.newAssetType === 'STOCK'|| this.newAssetType === 'FUND'){
+      if (!this.newAssetName || !this.newAssetAmount || !this.newAssetSymbol) {
+        alert('請填寫完整資訊');
+        return;
+      }
+      const payload = {
+        name: this.newAssetName,
+        type: this.newAssetType,
+        symbol:this.newAssetSymbol,
+        amount: this.newAssetAmount
+      };
 
-    this.assetService.addAsset(1, payload).subscribe({
-      next: () => {
-        this.showAddAssetForm = false;
-        this.newAssetName = '';
-        this.newAssetAmount = null;
-        this.refreshData();
-      },
-      error: () => alert('新增失敗')
-    });
+      this.assetService.addAsset(1, payload).subscribe({
+        next: () => {
+          this.showAddAssetForm = false;
+          this.newAssetName = '';
+          this.newAssetAmount = null;
+          this.newAssetSymbol = '';
+          this.refreshData();
+        },
+        error: () => alert('新增失敗')
+      });
+    }
+    else{
+      if (!this.newAssetName || !this.newAssetAmount) {
+        alert('請填寫完整資訊');
+        return;
+      }
+      const payload = {
+        name: this.newAssetName,
+        type: this.newAssetType,
+        amount: this.newAssetAmount
+      };
+
+      this.assetService.addAsset(1, payload).subscribe({
+        next: () => {
+          this.showAddAssetForm = false;
+          this.newAssetName = '';
+          this.newAssetAmount = null;
+          this.refreshData();
+        },
+        error: () => alert('新增失敗')
+      });
+    }
+
+    // this.assetService.addAsset(1, payload).subscribe({
+    //   next: () => {
+    //     this.showAddAssetForm = false;
+    //     this.newAssetName = '';
+    //     this.newAssetAmount = null;
+    //     this.refreshData();
+    //   },
+    //   error: () => alert('新增失敗')
+    // });
   }
 
   deleteAsset(assetId: number, assetName: string): void {
