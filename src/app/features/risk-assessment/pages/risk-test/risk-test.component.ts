@@ -1,4 +1,4 @@
-import { Component, inject} from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -50,8 +50,8 @@ export class RiskTestComponent {
     });
   }
 
-readonly dialog = inject(MatDialog);
-  submitTest(no:number) {
+  readonly dialog = inject(MatDialog);
+  submitTest(no: number) {
     if (this.riskForm.invalid) {
       this.riskForm.markAllAsTouched();
       // alert('您還有題目未作答喔！請確認 6 題都已選擇。');
@@ -66,9 +66,6 @@ readonly dialog = inject(MatDialog);
       userId: this.role==='visitor' ? 0 : this.userId,
       ...this.riskForm.value
     };
-
-
-
 
 
     console.log('準備傳給後端的資料:', requestData);
@@ -90,13 +87,13 @@ readonly dialog = inject(MatDialog);
   }
 
 
-  showDialog(no:number) {
+  showDialog(no: number) {
     // 單選
     //let dialogRef 是宣告一個變數 讓系統知道我們現在要接收哪個dialog
     //(要開啟的dialog頁面的名稱, {要傳遞的值和設定})
     let dialogRef = this.dialog.open(InvalidComponent, {
       // data: {choise:choise,id:this.notificationList.data[index].id},
-      data:no,
+      data: no,
       width: '250px',
       height: '180px'
     });

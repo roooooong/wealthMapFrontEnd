@@ -9,9 +9,12 @@
     <div class="header-section">
         <div class="title-area">
             <h1 class="main-title">我的資產與負債</h1>
-            <p class="subtitle">全面掌握您的財富分佈，做出更明智的理財決策。</p>
+
         </div>
         <div class="action-buttons">
+            <button class="add-btn cash-flow-btn" (click)="goToCashFlow()">
+                + 收支管理
+            </button>
             <button class="add-btn asset-btn" (click)="toggleAddAssetForm()">+ 新增資產</button>
             <button class="add-btn liability-btn" (click)="toggleAddLiabilityForm()">+ 新增負債</button>
         </div>
@@ -20,7 +23,7 @@
     <div class="overview-layout">
 
         <div class="chart-panel">
-            <h3>財務健康概況</h3>
+            <h3>資產概況</h3>
 
             <div class="net-worth-summary">
                 <div class="summary-item">
@@ -54,7 +57,7 @@
 
             @if(showAddAssetForm) {
             <div class="add-form-card asset-theme">
-                <h4>🟢 新增資產</h4>
+                <h4>{{ editingAssetId ? '✏️ 修改資產' : '🟢 新增資產' }}</h4>
                 <div class="form-row">
                     <div class="form-group">
                         <label>資產名稱</label>
@@ -68,6 +71,7 @@
                             <option value="STOCK">股票</option>
                             <option value="FUND">基金</option>
                             <option value="BOND">債券</option>
+                            <option value="SALARY">薪資</option>
                         </select>
                     </div>
                 </div>
@@ -76,12 +80,15 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label>資產代號</label>
-                        <input type="text" [(ngModel)]="newAssetSymbol" placeholder="若是股票請輸入代號 (如: 2330)">
+
+                        <input type="text" [(ngModel)]="newAssetSymbol" (blur)="onStockIdBlur()"
+                            (keyup.enter)="onStockIdBlur()" placeholder="請先輸入代號 (如: 2330)，系統將自動帶出名稱">
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
                         <label>目前股價/淨值</label>
+
                         <input type="number" [(ngModel)]="unitPrice" (input)="calculateTotal()" placeholder="輸入每股市價">
                     </div>
                     <div class="form-group">
@@ -99,8 +106,15 @@
                             [readonly]="newAssetType === 'STOCK' || newAssetType === 'FUND'">
                     </div>
                     <div class="form-action">
-                        <button class="submit-btn" (click)="addAsset()">確認新增</button>
+                        <button class="submit-btn" (click)="addAsset()">
+                            {{ editingAssetId ? '確認修改' : '確認新增' }}
+                        </button>
+
+                        @if(editingAssetId) {
+                        <button class="cancel-btn" (click)="cancelEdit()">取消編輯</button>
+                        } @else {
                         <button class="cancel-btn" (click)="toggleAddAssetForm()">取消</button>
+                        }
                     </div>
                 </div>
             </div>
@@ -171,14 +185,18 @@
                     @for(asset of userAssets; track asset.id) {
                     <div class="detail-card">
                         <div class="card-info">
-                            <div class="item-name">{{ asset.assetName }}</div>
-                            <span class="tag asset-tag">{{ translateAssetType(asset.assetType) }}</span>
+
+                            <div class="item-name">{{ asset.name }}</div>
+
+                            <span class="tag asset-tag">{{ translateAssetType(asset.type) }}</span>
                         </div>
                         <div class="card-action">
                             <span class="amount">{{ asset.currentValue | currency:'TWD':'symbol-narrow':'1.0-0'
                                 }}</span>
-                            <button class="icon-btn delete"
-                                (click)="deleteAsset(asset.id, asset.assetName)">🗑️</button>
+
+                            <button class="icon-btn edit" (click)="editAsset(asset)">✏️</button>
+
+                            <button class="icon-btn delete" (click)="deleteAsset(asset.id, asset.name)">🗑️</button>
                         </div>
                     </div>
                     } @empty {

@@ -25,6 +25,7 @@ import { MonteComponent } from './monte/monte.component';
 import { GoalOverviewComponent } from './features/financial-goals/pages/goal-overview/goal-overview.component';
 import { SseDemoComponent } from './sse-demo/sse-demo.component';
 import { PortfolioRecommendationComponent } from './features/risk-assessment/pages/portfolio-recommendation/portfolio-recommendation.component';
+import { CashFlowOverviewComponent } from './features/cash-flow/pages/cash-flow-overview/cash-flow-overview.component';
 
 export const routes: Routes = [
 
@@ -124,6 +125,12 @@ export const routes: Routes = [
   {
     path: 'portfolio-recommendation',
     component: PortfolioRecommendationComponent,
+    canActivate: [authGuard],
+    data: { roles: ['ADMIN', 'USER'] }
+  },
+  {
+    path: 'cash-flow',
+    component: CashFlowOverviewComponent,
     canActivate: [authGuard],
     data: { roles: ['ADMIN', 'USER'] }
   },

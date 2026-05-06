@@ -34,6 +34,9 @@ export class MainComponent {
   realTotalAssets: number = 0;
   hasAnyHistory: boolean = false;
 
+  private myChart: any;
+
+
   constructor(private router: Router,
     private exampleService: ExampleService,
     private httpClientService: HttpClientService,
@@ -172,6 +175,13 @@ export class MainComponent {
   // 這行能解決「Canvas is already in use」的報錯
   Chart.getChart(canvasId)?.destroy();
 
+
+    // ==========================================
+    // 🌟 老師的救命防呆機制：如果有舊圖表，先無情地銷毀它！
+    if (this.myChart) {
+      this.myChart.destroy();
+    }
+    // ==========================================
 
     // 強制排序：現金 -> 股票 -> 基金 -> 債券
     const sortOrder = ['CASH', 'STOCK', 'FUND', 'BOND'];

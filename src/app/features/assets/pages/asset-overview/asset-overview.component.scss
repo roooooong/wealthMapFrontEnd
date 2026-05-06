@@ -94,6 +94,16 @@
                 }
             }
         }
+
+        .cash-flow-btn {
+            background-color: #5a9fd4;
+            color: #ffffff;
+            border: none;
+
+            &:hover {
+                background-color: #2c7ab0;
+            }
+        }
     }
 }
 
@@ -276,7 +286,8 @@
                     }
                 }
             }
-//---------------------------------------------------------
+
+            //---------------------------------------------------------
             // Toggle
             .toggle-container {
                 display: flex;
@@ -307,15 +318,15 @@
                     height: 0;
 
 
-                    &:checked + .slider {
+                    &:checked+.slider {
                         background-color: #4a90e2;
                     }
 
-                    &:focus + .slider {
+                    &:focus+.slider {
                         box-shadow: 0 0 1px #4a90e2;
                     }
 
-                    &:checked + .slider:before {
+                    &:checked+.slider:before {
                         transform: translateX(22px);
                     }
                 }
@@ -344,11 +355,11 @@
                     background-color: white;
                     transition: .4s;
                     border-radius: 50%;
-                    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
                 }
             }
 
-              .notification-container {
+            .notification-container {
                 display: flex;
                 align-items: center;
                 justify-content: flex-start;
@@ -378,7 +389,10 @@
                         background: white;
                         cursor: pointer;
                         outline: none;
-                        &:focus { border-color: #4a90e2; }
+
+                        &:focus {
+                            border-color: #4a90e2;
+                        }
                     }
 
                     .label {
@@ -386,24 +400,34 @@
                         color: #555;
                         white-space: nowrap;
                     }
-                  }
-              }
+                }
+            }
 
-              @keyframes fadeIn {
-                  from { opacity: 0; transform: translateX(-5px); }
-                  to { opacity: 1; transform: translateX(0); }
-              }
-              .form-group.remind {
+            @keyframes fadeIn {
+                from {
+                    opacity: 0;
+                    transform: translateX(-5px);
+                }
+
+                to {
+                    opacity: 1;
+                    transform: translateX(0);
+                }
+            }
+
+            .form-group.remind {
                 margin-top: 10px;
-              }
-              .form-action.liability {
+            }
+
+            .form-action.liability {
                 display: flex;
                 justify-content: flex-end;
                 gap: 12px;
                 margin-top: 5px;
                 width: 100%;
-              }
-// ---------------------------------------------------------------------------------------
+            }
+
+            // ---------------------------------------------------------------------------------------
 
             .form-action {
                 display: flex;
@@ -556,7 +580,8 @@
 
         /* 負債金額顯示紅色 */
 
-        .icon-btn.delete {
+        .icon-btn.delete,
+        .icon-btn.edit {
             background: none;
             border: none;
             cursor: pointer;
