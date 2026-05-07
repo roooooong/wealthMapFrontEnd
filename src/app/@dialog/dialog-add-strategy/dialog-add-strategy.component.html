@@ -29,7 +29,7 @@
             <span class="label">當前乖離</span>
             <span class="value" [class.danger]="currentBias < -2">
               {{ currentBias > 0 ? '+' : '' }}
-              {{ currentBias | number:'1.2-2' }}%
+              {{ currentBias*100 | number:'1.2-2' }}%
             </span>
           </div>
         }
