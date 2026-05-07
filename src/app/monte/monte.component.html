@@ -75,8 +75,9 @@
         <h3>投資配置(總共100%)</h3>
         <div class="asset-grid">
           <div *ngFor="let asset of currentScenario.assets" class="input-allocation">
-            <label>{{asset.type}}：</label><input type="number" [(ngModel)]="asset.percentage"
-            class="small-input"><label>&nbsp;%</label>
+            <label>{{asset.type}}:&nbsp;</label>
+            <input type="number" [(ngModel)]="asset.percentage" class="small-input">
+            <label>&nbsp;%</label>
           </div>
         </div>
 
