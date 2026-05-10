@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs'; // 
-import { map, tap } from 'rxjs/operators'; // 
+import { Observable, of } from 'rxjs'; //
+import { map, tap } from 'rxjs/operators'; //
 import { AssetDTO, AssetType, AssetAllocationDto } from '../models/asset.model';
 
 
@@ -28,13 +28,16 @@ export class AssetService {
 
     getUserAssets(userId: number): Observable<AssetDTO[]> {
         return this.http.get<any[]>(`${this.apiUrl}/user/${userId}`).pipe(
+          // backendAssets = 後端 AssetDTO
             map(backendAssets => {
                 return backendAssets.map(item => ({
                     id: item.id,
                     name: item.name,                  // 🌟 修正：改用 name
                     type: item.type as AssetType,     // 🌟 修正：改用 type
+                    symbol: item.stockId,
                     currentValue: item.amount,
-                    totalCost: item.amount,           // 🌟 修正：把原本的 cost 改成 totalCost
+                    shares: item.sharesOwned,
+                    cost: item.cost,
                     returnPercentage: 0,
                 }));
             })
@@ -57,10 +60,15 @@ export class AssetService {
     getAssetAllocation(userId: number): Observable<AssetAllocationDto[]> {
         return this.getUserAssets(userId).pipe(
             map(assets => {
+                // 1. 先過濾掉不屬於「資產配置」範疇的類型
+                const filteredAssets = assets.filter(asset =>
+                    asset.type !== 'INCOME' && asset.type !== 'EXPENSE'
+                );
+
                 const allocationMap = new Map<AssetType, number>();
                 let totalAllAssets = 0;
 
-                assets.forEach(asset => {
+                filteredAssets.forEach(asset => {
                     const assetTypeKey = asset.type as AssetType;
                     const currentTypeTotal = allocationMap.get(assetTypeKey) || 0;
 

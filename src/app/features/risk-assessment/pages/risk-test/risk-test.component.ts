@@ -54,7 +54,6 @@ export class RiskTestComponent {
   submitTest(no: number) {
     if (this.riskForm.invalid) {
       this.riskForm.markAllAsTouched();
-      // alert('您還有題目未作答喔！請確認 6 題都已選擇。');
       this.showDialog(no);
       return;
     }
@@ -73,7 +72,6 @@ export class RiskTestComponent {
     // 呼叫 Service 打 API
     this.riskService.evaluateRisk(requestData).subscribe({
       next: (res) => {
-        // alert('計算成功！即將前往結果頁');
         // 將後端算好的結果帶到下一頁 (結果頁)
         this.router.navigate(['/risk-result'], { state: { result: res } });
         console.log(res);

@@ -6,6 +6,8 @@ export enum AssetType {
     STOCK = 'STOCK',
     FUND = 'FUND',
     BOND = 'BOND',
+    INCOME = 'INCOME',
+    EXPENSE = 'EXPENSE'
 }
 
 // 2. 嚴格對齊後端 Spring Boot 接收格式的 DTO
@@ -14,13 +16,13 @@ export interface AssetDTO {
 
     // 🌟 基礎共用屬性 (必須與後端 Java 變數名稱 100% 吻合)
     name: string;             // (已從 assetName 改為 name)
-    type: AssetType | string; // (已從 assetType 改為 type) 
+    type: AssetType | string; // (已從 assetType 改為 type)
     amount?: number;          // 現金類專用：總金額
 
     // 🌟 動態資產專屬屬性 (股票/基金)
     stockId?: string;         // 對應後端 Java 的 @JsonProperty("stockId")
     sharesOwned?: number;     // 對應後端的 double sharesOwned (持有股數)
-    totalCost?: number;       // 對應後端的 double totalCost (總成本)
+    cost?: number;       // 對應後端的 double cost (總成本)
 
     // 💡 以下為前端顯示與試算輔助用，創建表單時非必填 (?)
     currentValue?: number;    // 目前市值 (未來由股價 API 算好傳回)
