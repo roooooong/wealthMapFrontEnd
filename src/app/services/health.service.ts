@@ -28,7 +28,13 @@ interface HealthResponse {
   providedIn: 'root'
 })
 export class HealthService {
+  getAssetGrowth(userId: number) {
 
+    return this.http.get<any[]>(
+      `http://localhost:8080/api/health/growth/${userId}`
+    );
+
+  }
   private apiUrl = 'http://localhost:8080/api/health';
 
   constructor(private http: HttpClient) { }
@@ -46,4 +52,6 @@ export class HealthService {
   calculateHealth(data: any) {
     return this.http.post('http://localhost:8080/api/health', data);
   }
+
+
 }

@@ -2,10 +2,10 @@
 .dashboard {
   width: 100%;
   min-height: 100vh;
-
   background: #ffffff;
-
   box-sizing: border-box;
+  display: flex;
+  justify-content: center;
 }
 
 .dashboard:not(.visitor-mode) {
@@ -25,97 +25,6 @@
   align-items: center;
 }
 
-.main-layout {
-  display: flex;
-  gap: 30px;
-  width: 100%;
-}
-
-/* ===== 左側 ===== */
-.left-panel {
-  flex: 1;
-  min-width: 320px;
-}
-
-
-.right-panel {
-  flex: 2;
-  display: flex;
-  flex-direction: column;
-  gap: 25px;
-}
-
-.top-content {
-  display: flex;
-  gap: 20px;
-}
-
-.gauge-box,
-.radar-box {
-  width: 100%;
-  height: 300px;
-}
-
-.gauge-left {
-  margin-top: -20px;
-  height: 250px;
-  display: flex;
-  justify-content: center;
-}
-
-.type-card {
-  background: #f2f2f2;
-  border-radius: 20px;
-  padding: 60px 40px;
-  height: 100%;
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  text-align: center;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-}
-
-/* 小標題 */
-.type-subtitle {
-  font-size: 18px;
-  color: #444;
-  margin-bottom: 14px;
-  text-align: center;
-}
-
-/* 主標題（超大字） */
-.type-main {
-  font-size: 64px;
-  font-weight: 800;
-  letter-spacing: 4px;
-
-  color: #1f2937;
-  margin-bottom: 20px;
-}
-
-/* 綠色裝飾（像設計稿） */
-.type-main::after {
-  content: '✔';
-  color: #4091C9;
-  margin-left: 10px;
-}
-
-/* 描述 */
-.type-desc {
-  font-size: 16px;
-  color: #666;
-  line-height: 1.8;
-}
-
-/* ===== 右側 ===== */
-.right-panel {
-  flex: 2;
-  display: flex;
-  flex-direction: column;
-  gap: 25px;
-}
-
 /* 卡片 */
 .card {
   background: #f2f2f2;
@@ -127,8 +36,8 @@
 
 /* Header（綠條） */
 .card-header {
-  background: linear-gradient(135deg, #9dcee2 0%, #4091c9 100%);
-  color: white;
+
+  color: #4091C9;
 
   padding: 12px;
   border-radius: 12px;
@@ -137,11 +46,6 @@
   font-weight: bold;
 
   margin-bottom: 15px;
-}
-
-/* 圖表 */
-.chart-container {
-  height: 280px;
 }
 
 .chart {
@@ -162,13 +66,6 @@
   .dashboard {
     flex-direction: column;
   }
-}
-
-.metrics-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr); // 2欄
-  gap: 20px;
-  margin-top: 20px;
 }
 
 .metric-card {
@@ -353,4 +250,334 @@
   justify-content: center;
 
   color: #999;
+}
+
+/* ===== 新版健康頁 ===== */
+
+.health-layout {
+  width: 100%;
+
+  max-width: 1400px;
+
+  margin: 0 auto;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 30px;
+
+  padding: 30px;
+
+  box-sizing: border-box;
+}
+
+/* ===== 最上面儀表板 ===== */
+
+.top-score-card {
+  background: #f5f5f5;
+
+  border-radius: 24px;
+
+  padding: 30px;
+
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.score-title {
+  font-size: 20px;
+  font-weight: bold;
+
+  color: #444;
+
+  margin-bottom: 20px;
+}
+
+.gauge-wrapper {
+  width: 420px;
+  height: 320px;
+}
+
+/* ===== 三個指標 ===== */
+
+.metrics-row {
+  display: flex;
+
+  justify-content: center;
+
+  gap: 25px;
+
+  margin-top: 20px;
+
+  flex-wrap: wrap;
+}
+
+.metrics-row .metric-card {
+  flex: 1;
+
+  min-width: 260px;
+
+  max-width: 340px;
+}
+
+/* ===== 結果分析 ===== */
+
+.analysis {
+  padding: 20px;
+
+  font-size: 16px;
+
+  line-height: 2;
+}
+
+.health-tip {
+
+  position: absolute;
+
+  top: 25px;
+  right: 25px;
+
+  background: linear-gradient(135deg, #9dcee2 0%, #4091c9 100%);
+
+  color: white;
+
+  padding: 8px 16px;
+
+  border-radius: 30px;
+
+  font-size: 14px;
+  font-weight: bold;
+
+  cursor: pointer;
+
+  box-shadow: 0 6px 15px rgba(64, 145, 201, 0.25);
+}
+
+::ng-deep .mat-mdc-tooltip .mdc-tooltip__surface {
+  white-space: pre-line !important;
+
+  line-height: 1.6;
+
+  font-size: 13px;
+
+  padding: 8px 12px;
+
+  max-width: 220px;
+
+  text-align: left;
+
+  border-radius: 10px;
+}
+
+
+.analysis {
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  text-align: center;
+
+  height: 100%;
+}
+
+.analysis ul {
+
+  list-style-position: inside;
+
+  padding-left: 0;
+
+  margin: 0 auto;
+
+  text-align: left;
+}
+
+.analysis li {
+
+  margin-bottom: 12px;
+}
+
+
+/* ===== 上方左右布局 ===== */
+
+.top-section {
+
+  display: flex;
+
+  gap: 30px;
+
+  align-items: stretch;
+
+  margin-bottom: 30px;
+}
+
+/* 左邊：儀表板 */
+
+.top-score-card {
+
+  flex: 1;
+
+  background: #f5f5f5;
+
+  border-radius: 24px;
+
+  padding: 30px;
+
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  position: relative;
+}
+
+/* 右邊：結果分析 */
+
+.analysis-card {
+
+  flex: 1;
+
+  background: #f5f5f5;
+
+  border-radius: 24px;
+
+  padding: 30px;
+
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+
+  display: flex;
+
+  flex-direction: column;
+}
+
+.analysis-header {
+
+  font-size: 26px;
+
+  font-weight: bold;
+
+  color: #4091c9;
+
+  margin-bottom: 25px;
+
+  text-align: center;
+}
+
+.analysis {
+
+  font-size: 16px;
+
+  line-height: 2;
+
+  color: #444;
+
+  flex: 1;
+}
+
+.analysis ul {
+
+  padding-left: 20px;
+}
+
+.analysis li {
+
+  margin-bottom: 15px;
+}
+
+/* RWD */
+
+@media (max-width: 992px) {
+
+  .top-section {
+
+    flex-direction: column;
+  }
+}
+
+
+.trend-card {
+
+  background: #f8f8f8;
+
+  border-radius: 24px;
+
+  padding: 30px;
+
+  width: 90%;
+
+  max-width: 1200px;
+
+  margin: 40px auto 0;
+
+  box-shadow: 0 10px 30px rgba(64, 145, 201, 0.2);
+}
+
+.trend-filter {
+
+  display: flex;
+
+  gap: 15px;
+
+  margin-bottom: 20px;
+
+}
+
+.trend-filter button {
+
+  border: 2px solid #4091C9;
+
+  background: white;
+
+  color: #4091C9;
+
+  border-radius: 30px;
+
+  padding: 8px 20px;
+
+  font-size: 16px;
+
+  cursor: pointer;
+
+  transition: 0.3s;
+
+}
+
+.trend-filter button.active {
+
+  background: #4091C9;
+
+  color: white;
+
+}
+
+.trend-chart {
+
+  width: 100%;
+
+  height: 320px;
+
+}
+
+.trend-title {
+
+  text-align: center;
+
+  margin-top: 10px;
+
+  font-size: 22px;
+
+  font-weight: bold;
+
+  color: #1e293b;
+
 }
