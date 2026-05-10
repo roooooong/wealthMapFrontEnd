@@ -85,7 +85,8 @@ export class Rebalance implements OnInit {
    */
   addAsset() {
     const dialogRef = this.dialog.open(DialogAddRebalanceComponent, {
-      width: '450px'
+      width: '450px',
+      data: { existingSymbols: this.portfolio.map(p => p.stockId) }
     });
 
     dialogRef.afterClosed().subscribe(result => {

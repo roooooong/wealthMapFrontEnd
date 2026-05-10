@@ -8,8 +8,8 @@
       <label>選擇持股 : </label>
       <select [(ngModel)]="newAsset.stockId" (change)="onStockChange()">
         <option value="" disabled>-- 請選擇股票 --</option>
-        @for (s of userHolding; track $index) {
-          <option [value]="s">{{ s }}</option>
+        @for (s of filteredStocks; track $index) {
+          <option [value]="s.symbol">{{ s.symbol }}</option>
         }
       </select>
       <div class="alertText">{{ alertSymbol }}</div>
@@ -32,7 +32,7 @@
       <div class="form-row">
         <div class="form-group">
           <label>目前持股數 (股)</label>
-          <input type="number" [(ngModel)]="newAsset.sharesOwned" placeholder="0">
+          <input type="number" [(ngModel)]="newAsset.sharesOwned" name="sharesOwned">
         </div>
         <div class="form-group">
           <label>目標佔比 (%)</label>

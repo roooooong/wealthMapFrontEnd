@@ -172,11 +172,21 @@ code {
   border:1.5px solid beige;
 }
 
-/* 當偏差值小於 -2 時觸發的樣式 */
-.bias-alert.danger {
+.suggestion-tag {
+  padding: 4px 12px;
+  border-radius: 20px;
+  color: white;
+  font-weight: bold;
+}
+
+/* 需要調整時（買進/賣出）延用橘紅，保持警示感 */
+.tag-adjust {
   background-color: #F29479;
-  border-radius: 10px;
-  // color:#CB1B16;
+}
+
+/* 比例正確時，改用綠色，代表「完成/健康」 */
+.tag-balanced {
+  background-color: #48bb78;
 }
 
 

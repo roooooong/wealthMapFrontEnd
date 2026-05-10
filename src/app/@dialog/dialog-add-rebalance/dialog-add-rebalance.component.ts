@@ -1,8 +1,8 @@
 import { Component, inject, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from "@angular/forms";
 import { MAT_DIALOG_DATA, MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
 import { HttpClientService } from '../../@service/http-client.service';
-import { CommonModule } from '@angular/common';
 import { ExampleService } from '../../@service/example.service';
 
 @Component({
@@ -19,20 +19,16 @@ import { ExampleService } from '../../@service/example.service';
   styleUrl: './dialog-add-rebalance.component.scss'
 })
 export class DialogAddRebalanceComponent implements OnInit {
-  constructor(
-    private exampleService: ExampleService,
-    private httpClientService: HttpClientService
-  ) {}
-
-  readonly dialogRef = inject(MatDialogRef<DialogAddRebalanceComponent>);
+  private readonly dialogRef = inject(MatDialogRef<DialogAddRebalanceComponent>);
+  private readonly httpClientService = inject(HttpClientService);
+  private readonly exampleService = inject(ExampleService);
   readonly data = inject<any>(MAT_DIALOG_DATA);
 
   userId!: number;
-  userHolding: string[] = [];
+  filteredStocks: any[] = [];
   currentPrice: number = 0;
   isLoading: boolean = false;
 
-  // 再平衡專用資料結構
   newAsset = {
     stockId: '',
     sharesOwned: 0,
@@ -46,17 +42,35 @@ export class DialogAddRebalanceComponent implements OnInit {
     this.exampleService.user$.subscribe(user => {
       if (user && user.id !== 0) {
         this.userId = user.id;
-        this.httpClientService.getApi(`http://localhost:8080/api/strategy-set/user/available-stocks/${this.userId}`)
-          .subscribe((res: any) => {
-            if (res) this.userHolding = res;
-          });
+        // 抓取所有資產，並過濾掉已經在主頁面清單中的股票
+        const apiUrl = `http://localhost:8080/api/assets/user/${this.userId}`;
+        this.httpClientService.getApi(`http://localhost:8080/api/assets/user/${this.userId}`).subscribe((res: any) => {
+          if (res && Array.isArray(res)) {
+            const existing = this.data?.existingSymbols || [];
+            this.filteredStocks = res.filter((stock: any) => !existing.includes(stock.symbol));
+          }
+        });
       }
     });
   }
 
   onStockChange() {
-    if (!this.newAsset.stockId) return;
+    if (!this.newAsset.stockId) {
+    this.currentPrice = 0;
+    this.newAsset.sharesOwned = 0;
+    return;
+  }
+
+  // 【新增這段】：在清單中找到被選中的股票物件
+  const selectedAsset = this.filteredStocks.find(s => s.symbol === this.newAsset.stockId);
+
+  if (selectedAsset) {
+    this.newAsset.sharesOwned = selectedAsset.sharesOwned || 0;
+    console.log('已自動填入股數:', this.newAsset.sharesOwned);
+  }
     this.isLoading = true;
+    const quoteUrl = `http://localhost:8080/api/strategy-set/quote/${this.newAsset.stockId}`;
+    // 獲取即時報價
     this.httpClientService.getApi(`http://localhost:8080/api/strategy-set/quote/${this.newAsset.stockId}`)
       .subscribe((res: any) => {
         if (res.code === 200) {
@@ -84,7 +98,6 @@ export class DialogAddRebalanceComponent implements OnInit {
       return;
     }
 
-    // 回傳完整資料給主頁面
     this.dialogRef.close({
       ...this.newAsset,
       currentPrice: this.currentPrice
