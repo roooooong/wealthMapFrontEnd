@@ -9,6 +9,10 @@
   z-index: 1000;
   /* 確保不會被其他元件蓋住 */
 
+  :host-context(.scrolled) & {
+    bottom: 5px; /* 往下一點點，配合變扁後的空間 */
+  }
+
   @media(max-width:600px) {
     left: 70px;
   }
@@ -182,6 +186,10 @@
   display: inline-block;
   z-index: 1000;
   /* 確保不會被其他元件蓋住 */
+
+  :host-context(.scrolled) & {
+    bottom: 5px;
+  }
 
   //手機
   @media(max-width:600px) {

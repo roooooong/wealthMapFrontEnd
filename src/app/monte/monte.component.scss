@@ -6,7 +6,7 @@
   // max-width: 1200px;
   // padding:10px;
   // background-color: #ffffff;
-  max-width: 1200px;
+  max-width: 85%;
   margin: 0 auto;
   padding: 20px;
   background-color: #ffffff;
@@ -27,10 +27,14 @@
     // align-items: flex-start;
     display: flex;
     flex-direction: row; // 預設橫向排列
-    gap: 30px;
+    gap: 40px;
     border-radius: 16px;
     padding: 30px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    display: flex;
+    justify-content: center;
+    position: relative;
+
 
     // 響應式：手機版改為縱向
     @media (max-width: 600px) {
@@ -45,22 +49,33 @@
 
     .top-inputs {
       display: flex;
-      gap: 40px;
-      margin-bottom: 40px;
+      gap: 30px;
+      margin-bottom: 10px;
+
 
       .blue-input {
-        background-color: #9DCEE2;
+        background-color: #d3eefa;
         border: none;
-        padding: 5px;
-        width: 45%;
+        // border: 1px solid #4091c9;
+        padding: 5px 15px 5px 15px;
+        width: 70%;
         height: 20px;
-        margin-top: 15px;
-        border-radius: 5px;
+        margin-top: 10px;
+        border-radius: 20px;
         font-size: 16px;
+
+        //移除數字輸入框的小箭頭
+        &::-webkit-inner-spin-button,
+        &::-webkit-outer-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
 
         &:focus {
           outline: none;
-          background-color: lighten( #9DCEE2, 10%);
+          background-color: white;
+          border: 1px solid #4091c9; // 灰色邊框 (這是一個質感的淺灰色)
+          // box-shadow: 0 0 0 2px rgba(203, 213, 225, 0.2); // 選配：加一點淡淡的灰色光暈更專業
         }
       }
     }
@@ -69,7 +84,7 @@
 
 
     .slider-item {
-      margin-bottom: 30px; // 每個滑軌區塊的間距
+      margin-bottom: 10px; // 每個滑軌區塊的間距
 
       .slider-labels {
         display: flex;
@@ -95,13 +110,13 @@
         margin-bottom: 10px;
 
         label {
-          font-weight: bold;
+          // font-weight: bold;
           font-size: 16px;
-          color: #333;
+          // color: #333;
         }
 
         .large-numerical-display {
-          font-size: 20px;
+          font-size: 18px;
           font-weight: bold;
           color: #004085;
         }
@@ -143,12 +158,13 @@
 
         .blue-slider {
           flex-grow: 1; // 讓滑桿自動填滿中間剩餘空間
+
           /* 原有的 .blue-slider 樣式保持不變 */
           &::-webkit-slider-thumb {
             appearance: none;
             width: 28px;
             height: 28px;
-            background: #4091C9;
+            background: #4091c9;
             border: 4px solid #FFF;
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
             border-radius: 50%;
@@ -163,7 +179,7 @@
       width: 100%;
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 10px 20px;
+      gap: 10px 5px;
       align-items: end;
     }
 
@@ -178,26 +194,50 @@
     .input-allocation label {
       white-space: nowrap;
       // margin-right: 15px;
-      min-width: 45px;
+      min-width: 35px;
       font-size: 16px;
+      gap: 2px;
       // align-self: center;
     }
 
     .small-input {
-      background-color: #9DCEE2;
-      border: none;
-      padding: 10px;
-      width: 30%;
-      height: 20px;
+      // background-color: #9DCEE2;
+      // border: none;
+      padding: 5px 15px 5px 15px;
+
+      // background-color: #f0f7fa;
+      border: 1px solid #4091c9;
+      // width: 30%;
+      height: 15px;
       border-radius: 5px;
       font-size: 16px;
       transition: background 0.3s;
+      background-color: #d3eefa;
+      border: none;
+      // border: 1px solid #4091c9;
+      height: 20px;
+      border-radius: 20px;
+      font-size: 16px;
+      width: 50px;
+
+      //移除數字輸入框的小箭頭
+      &::-webkit-inner-spin-button,
+      &::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
 
       &:focus {
         outline: none;
-        background-color: lighten( #9DCEE2, 10%);
+        background-color: white;
+        border: 1px solid #4091c9; // 灰色邊框 (這是一個質感的淺灰色)
+        // box-shadow: 0 0 0 2px rgba(203, 213, 225, 0.2); // 選配：加一點淡淡的灰色光暈更專業
       }
 
+      @media (max-width: 600px) {
+              padding: 10px 10px;
+
+      }
 
     }
   }
@@ -207,7 +247,7 @@
     display: flex;
     flex-direction: column;
     align-items: center; // 按鈕水平置中
-    margin-top: 40px;
+    margin-top: 20px;
     gap: 15px;
   }
 
@@ -235,7 +275,7 @@
     // 懸停效果
     &:not(:disabled):hover {
       transform: translateY(-3px);
-      box-shadow: 0 8px 20px rgba(184, 134, 11, 0.25);
+      // box-shadow: 0 8px 20px rgba(184, 134, 11, 0.25);
       filter: brightness(1.05);
     }
 
@@ -253,16 +293,34 @@
   }
 
   .warn-text {
-    color: #cb1b16;
+    color: #ef3c2d;
     font-size: 14px;
     font-weight: 500;
-    margin: 0;
+    margin: 10px 0px 0px 10px;
     animation: fadeIn 0.3s ease-in;
+
+    /* 預設隱藏但佔位 */
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    /* 加一點淡入動畫更專業 */
+
+    &.show-warn {
+      visibility: visible;
+      opacity: 1;
+    }
   }
 
   @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-5px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+      opacity: 0;
+      transform: translateY(-5px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
 
@@ -329,7 +387,7 @@
       padding: 20px;
       border-radius: 8px;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-      height: 400px;
+      height: 421px;
       margin-bottom: 20px;
 
       .actual-chart {
@@ -346,3 +404,44 @@
   }
 }
 
+.info-banner {
+  width: 75%;
+  /* 建議跟你的 hr 寬度一致 */
+  margin: 0 auto 10px auto;
+  background-color: #f0f7fa;
+  /* 淺藍色背景 */
+  border-left: 5px solid #9dcee2;
+  /* 左側藍色邊條 */
+  padding: 15px 20px;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.info-header {
+  color: #2c3e50;
+  margin-bottom: 8px;
+  font-size: 16px;
+}
+
+.info-content {
+  color: #5d6d7e;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.info-content ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.info-content li {
+  margin-bottom: 5px;
+}
+
+.area {
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  border-top: 5px solid #9dcee2;
+  padding: 15px 20px;
+}

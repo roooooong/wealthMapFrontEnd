@@ -30,7 +30,7 @@
 
 .iconbtn {
   border: none;
-  margin: 12px 30px;
+  margin: 12px 20px;
   background-color: white;
   cursor: pointer;
 
@@ -110,6 +110,7 @@
   position: relative;
   /* 確保 Chart.js 渲染正常 */
 }
+
 .top-text-container {
   display: flex;
   flex-direction: column;
@@ -126,23 +127,31 @@
   font-weight: 500;
 }
 
-.Line-chart{
-  width:350px;
+.Line-chart {
+  width: 350px;
 }
 
-.Line-chartbtn{
+.Line-chartbtn {
   margin-left: 15px;
   margin-top: 55px;
-  color:#4091c9;
+  color: #4091c9;
   background-color: #ffffff;
   border-radius: 10px;
   border: 1px solid #4091c9;
   font-size: 10px;
   cursor: pointer;
+
+  &.active {
+    background-color: #4091c9;
+    color: #fff;
+  }
+  &:hover {
+    background-color: #4091c9;
+  }
 }
 
-.Line-chartbtn:hover{
-  color:#ffffff;
+.Line-chartbtn:hover {
+  color: #ffffff;
   background-color: #4091c9;
 }
 
@@ -150,16 +159,18 @@
   display: flex;
   gap: 8px;
   margin-bottom: 15px;
-    &.active {
-      background-color: #3b82f6; // 藍色主題
-      color: white;
-      font-weight: bold;
-    }
+
+  &.active {
+    background-color: #3b82f6; // 藍色主題
+    color: white;
+    font-weight: bold;
   }
+}
 
 
-.assetChangeChart{
+.assetChangeChart {
   margin-top: 15px;
+
   //手機
   @media(max-width:600px) {
     margin-top: -5px;
@@ -619,39 +630,44 @@
   margin-top: 100px;
 
   //手機
-  @media(max-width:600px) {
-    margin-top: 350px;
-  }
+  // @media(max-width:600px) {
+  //   margin-top: 350px;
+  // }
 }
 
 .between-admin {
   margin-top: 100px;
 
   //手機
-  @media(max-width:600px) {
-    margin-top: 650px;
-  }
+  // @media(max-width:600px) {
+  //   margin-top: 650px;
+  // }
 }
 
 .between-user {
   margin-top: 100px;
 
   //手機
-  @media(max-width:600px) {
-    margin-top: 500px;
-  }
+  // @media(max-width:600px) {
+  //   margin-top: 500px;
+  // }
 }
 
 /* 手機版：切換為水平滑動 */
 @media (max-width: 600px) {
   .chart-scroll-wrapper {
-    flex-direction: row;      /* 手機版：變橫向排列 */
-    overflow-x: auto;         /* 開啟水平捲動 */
-    scroll-snap-type: x mandatory; /* 強制吸附感 */
+    flex-direction: row;
+    /* 手機版：變橫向排列 */
+    overflow-x: auto;
+    /* 開啟水平捲動 */
+    scroll-snap-type: x mandatory;
+    /* 強制吸附感 */
     -webkit-overflow-scrolling: touch;
-    gap: 0;                   /* 手機版改用 padding 控制間距 */
+    gap: 0;
+    /* 手機版改用 padding 控制間距 */
     padding: 0;
-    align-items: stretch;     /* 讓內容高度一致 */
+    align-items: stretch;
+    /* 讓內容高度一致 */
   }
 
   .chart-container {

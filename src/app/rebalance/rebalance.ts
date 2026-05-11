@@ -5,6 +5,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { HttpClientService } from '../@service/http-client.service';
 import { ExampleService } from '../@service/example.service';
 import { DialogAddRebalanceComponent } from '../@dialog/dialog-add-rebalance/dialog-add-rebalance.component';
+import { MatIconModule } from '@angular/material/icon';
 
 interface PortfolioItem {
   id?: number;          // 資料庫主鍵
@@ -18,7 +19,7 @@ interface PortfolioItem {
 @Component({
   selector: 'app-rebalance',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatDialogModule],
+  imports: [CommonModule, FormsModule, MatDialogModule,MatIconModule],
   templateUrl: './rebalance.html',
   styleUrl: './rebalance.scss'
 })

@@ -158,14 +158,15 @@
       background: linear-gradient(135deg, #9dcee2 0%, #4091c9 100%);
       color: white;
       font-weight: 600;
-      padding: 16px 40px;
+      padding: 12px 25px;
       border-radius: 50px;
       /* 圓角膠囊型 */
       border: none;
-      letter-spacing: 0.5em;
+      text-indent: 0.2em; /* 🌟 加上這一行，完美置中 */
+      letter-spacing: 0.2em;
       cursor: pointer;
       transition: all 0.3s ease;
-      font-size: 20px;
+      font-size: 18px;
 
       &:hover {
         color: white;

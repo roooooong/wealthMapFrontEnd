@@ -1,3 +1,18 @@
+<div class="info-banner">
+  <div class="info-header">
+    <mat-icon style="vertical-align: middle;">info_outline</mat-icon>&nbsp;
+    <strong>投資成長模擬說明</strong>
+  </div>
+  <div class="info-content">
+    <ul>
+      <li>
+        <strong>蒙地卡羅(Monte Carlo) :</strong>
+        透過1,000 次的隨機市場走勢模擬，將風險視覺化，從「較佳預期」到「較差預期」，提供使用者制定更具韌性的資產配置。
+      </li>
+    </ul>
+  </div>
+</div>
+
 <div class="monte-container">
   <!-- 1. 頂部標題 -->
   <!-- <h1 class="main-title">投資計劃模擬</h1> -->
@@ -8,22 +23,29 @@
     <!-- 左側控制區 (45%) -->
     <div class="left-controls">
       <!-- 頂部藍色輸入框 -->
-      <div class="top-inputs">
-        <div class="input-group">
-          <label>目標金額(萬元)</label>
-          <input type="number" [(ngModel)]="planParams[0].value" class="blue-input">
-        </div>
-        <div class="input-group">
-          <label>期初投入(萬元)</label>
-          <input type="number" [(ngModel)]="planParams[1].value" class="blue-input">
+      <div class="area">
+        <label style="font-size: 18px; font-weight: bold;">投資目標</label>
+        <hr style="border-top: 1px solid #9dcee2;margin: 15px 0;">
+
+        <div class="top-inputs">
+          <div class="input-group">
+            <label>目標金額(萬元)</label>
+            <input type="number" [(ngModel)]="planParams[0].value" class="blue-input">
+          </div>
+          <div class="input-group">
+            <label>期初投入(萬元)</label>
+            <input type="number" [(ngModel)]="planParams[1].value" class="blue-input">
+          </div>
         </div>
       </div>
-
+      <br>
       <!-- 滑軌區 (先放滑軌) -->
-      <div class="slider-section">
+      <div class="area">
+        <label style="font-size: 18px; font-weight: bold;">投入計畫</label>
+        <hr style="border-top: 1px solid #9dcee2;margin: 15px 0;">
         <div class="slider-item">
           <div class="slider-header-row">
-            <label>每月投入 </label>
+            <label>每月投入</label>
             <span class="large-numerical-display">{{ (planParams[2].value/1000 | number )}} K</span>
           </div>
 
@@ -31,8 +53,8 @@
           <div class="slider-control-wrapper">
             <button class="btn-adjust" (click)="adjustValue(2, -1000)">−</button>
 
-            <input type="range" [(ngModel)]="planParams[2].value"
-                  min="1000" max="100000" step="1000" class="blue-slider">
+            <input type="range" [(ngModel)]="planParams[2].value" min="1000" max="100000" step="1000"
+              class="blue-slider">
 
             <button class="btn-adjust" (click)="adjustValue(2, 1000)">+</button>
           </div>
@@ -43,9 +65,10 @@
             <span>100K</span>
           </div>
         </div>
+        <!-- <hr style="border-top: 1px dashed #9dcee2;"> -->
         <div class="slider-item">
           <div class="slider-header-row">
-            <label>年期 </label>
+            <label>年期</label>
             <span class="large-numerical-display">{{ planParams[3].value }} 年</span>
           </div>
 
@@ -53,8 +76,7 @@
           <div class="slider-control-wrapper">
             <button class="btn-adjust" (click)="adjustValue(3, -1)">−</button>
 
-            <input type="range" [(ngModel)]="planParams[3].value"
-                  min="1" max="40" class="blue-slider">
+            <input type="range" [(ngModel)]="planParams[3].value" min="1" max="40" class="blue-slider">
 
             <button class="btn-adjust" (click)="adjustValue(3, 1)">+</button>
           </div>
@@ -68,33 +90,39 @@
         </div>
       </div>
       <!-- ------------ -->
+      <br>
 
 
       <!-- 投資配置 (放在滑軌下面) -->
-      <div class="allocation-section">
-        <h3>投資配置(總共100%)</h3>
+      <div class="area">
+        <label style="font-size: 18px; font-weight: bold;">投資配置 (總共100%)</label>
+        <hr style="border-top: 1px solid #9dcee2;margin: 15px 0;">
         <div class="asset-grid">
           <div *ngFor="let asset of currentScenario.assets" class="input-allocation">
             <label>{{asset.type}}:&nbsp;</label>
             <input type="number" [(ngModel)]="asset.percentage" class="small-input">
             <label>&nbsp;%</label>
           </div>
+          <!-- <br> -->
         </div>
 
-        <!-- 按鈕與警告訊息區塊 -->
-        <div class="action-container">
-
-          <!-- 下面加一行紅字提醒 -->
-          <p *ngIf="totalPercent !== 100" class="warn-text">
-            目前的總比例為 {{ totalPercent }}%，請調整至 100% 以進行計算。
-          </p>
-          <br>
-          <!-- 只有加起來等於 100 才能點按鈕 -->
-          <button [disabled]="totalPercent !== 100" (click)="startSimulation()" class="btn-simulation">
-            <span>開始模擬計算</span>
-          </button>
-        </div>
       </div>
+      <!-- 下面加一行紅字提醒 -->
+      <p class="warn-text" [class.show-warn]="totalPercent !== 100">
+          目前的總比例為 {{ totalPercent }}%，請調整至 100% 以進行計算。
+        </p>
+      <!-- 按鈕與警告訊息區塊 -->
+      <div class="action-container">
+        <!-- 只有加起來等於 100 才能點按鈕 -->
+        <button [disabled]="totalPercent !== 100" (click)="startSimulation()" class="btn-simulation">
+          <span>開始模擬計算</span>
+        </button>
+
+
+      </div>
+      <br>
+
+
 
     </div>
 
@@ -105,11 +133,11 @@
         <div echarts [options]="historyLineOption" class="actual-chart"></div>
       </div>
       <div class="market-detail">本系統採用 蒙地卡羅(Monte Carlo)模擬演算法，透過隨機市場路徑抽樣，整合資產報酬率、波動率（標準差）與通膨因子，模擬未來可能的資產成長曲線。
-      <ul>
-        <li>  較佳預期：取 90th 百分位數(較佳的 10% 情境)</li>
-        <li>  一般表現：取 50th 百分位數(中位數)</li>
-        <li>  較差預期：取 10th 百分位數(較差的 10% 情境)</li>
-      </ul>
+        <ul>
+          <li> 較佳預期：取 90th 百分位數(較佳的 10% 情境)</li>
+          <li> 一般表現：取 50th 百分位數(中位數)</li>
+          <li> 較差預期：取 10th 百分位數(較差的 10% 情境)</li>
+        </ul>
         <p>※ 本模擬僅供參考，不構成投資建議，實際投資結果仍受市場波動影響。</p>
       </div>
     </div>

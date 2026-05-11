@@ -2,7 +2,7 @@
 <button (click)="register()">註 冊</button> -->
 <div class="app-wrapper">
   @if (showHeader) {
-  <div class="frameCss">
+  <div class="frameCss" [class.scrolled]="isScrolled">
     <div class="headerCss">
 
       <label class="logo" (click)="home()">WM</label>

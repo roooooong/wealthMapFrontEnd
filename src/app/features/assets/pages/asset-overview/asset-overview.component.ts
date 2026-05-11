@@ -355,20 +355,18 @@ export class AssetOverviewComponent implements OnInit {
     }
   }
 
-  editAsset(asset: any) {
-    console.log(asset);
-    this.editingAssetId = asset.id; // 記下 ID，進入編輯模式
+  editAsset(asset: any): void {
+    this.editingAssetId = asset.id;
     this.showAddAssetForm = true;
 
-    // 完美對應你的變數清單
     this.newAssetName = asset.name;
-    this.newAssetSymbol = asset.symbol;
     this.newAssetType = asset.type;
-    this.unitPrice = asset.cost;   // 假設 amount 存的是單價
-    this.unitCount = asset.shares;   // 股數
-    this.newAssetAmount = asset.currentValue; // 總金額
-
-    // 如果你有寫計算總金額的方法，記得在這裡呼叫
+    this.newAssetSymbol = asset.stockId ?? '';
+    this.unitCount = asset.sharesOwned ?? null;
+    this.unitPrice = asset.sharesOwned && asset.totalCost
+      ? asset.totalCost / asset.sharesOwned
+      : asset.amount ?? null;
+    this.newAssetAmount = asset.totalCost ?? asset.amount ?? null;
   }
 
   cancelEdit() {

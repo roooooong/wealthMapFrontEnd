@@ -1,3 +1,7 @@
+:host {
+  display: block;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
 .registerBtn {
   background-color: #ffffff;
   color: rgb(0, 0, 0);
@@ -10,6 +14,10 @@
   border-radius: 5px;
   font-size: 16px;
   cursor: pointer;
+
+  /* 🌟 關鍵：增加平滑轉場 */
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  /* 🌟 設定縮放中心點為右側 */
 
   @media(max-width:600px){
   right: 20px;
@@ -32,6 +40,9 @@
   font-size: 16px;
   cursor: pointer;
 
+  /* 🌟 關鍵：增加平滑轉場 */
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+
   @media(max-width:600px){
   right: 120px;
   top: 15px;
@@ -45,6 +56,25 @@
 }
 
 .registerBtn:hover {
+  background-color: #075591;
+  color: white;
+}
+
+/* 🌟 當 Header 捲動變扁時 (.scrolled) */
+:host-context(.scrolled) {
+  .loginBtn, .registerBtn {
+    transform: scale(0.9); /* 🌟 稍微縮小，看起來更精緻 */
+    height: 28px;        /* 🌟 高度稍微縮一點點 */
+    top:10px;
+
+    @media(max-width:600px){
+  top: 20px;
+  }
+  }
+}
+
+/* Hover 效果保持不變 */
+.loginBtn:hover, .registerBtn:hover {
   background-color: #075591;
   color: white;
 }

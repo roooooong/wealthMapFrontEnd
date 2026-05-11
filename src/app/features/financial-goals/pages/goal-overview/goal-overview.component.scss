@@ -637,3 +637,19 @@
     transform: translateY(-2px);
     /* 輕微浮起 */
 }
+
+.edit-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 6px 12px;
+    border-radius: 6px;
+    color: #4091c9;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.2s;
+
+    &:hover {
+        background: #e3edf7;
+    }
+}

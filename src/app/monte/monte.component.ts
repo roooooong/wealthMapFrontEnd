@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 import { ExampleService } from '../@service/example.service';
 import { HttpClientService } from '../@service/http-client.service';
 import { filter, take } from 'rxjs/operators';
+import { MatIconModule } from '@angular/material/icon';
 
 interface InvestmentAsset {
   type: string;
@@ -43,7 +44,7 @@ export interface MonteResponse {
 @Component({
   selector: 'app-monte',
   standalone: true,
-  imports: [CommonModule, FormsModule, NgxEchartsDirective],
+  imports: [CommonModule, FormsModule, NgxEchartsDirective, MatIconModule],
   templateUrl: './monte.component.html',
   styleUrls: ['./monte.component.scss'],
   providers: [
@@ -54,7 +55,7 @@ export class MonteComponent implements OnInit, AfterViewInit {
   historyLineOption: echarts.EChartsOption = {};
   private chartInstance: echarts.ECharts | undefined;
   role!: string;
-  userId!:number;
+  userId!: number;
 
   apiUrl!: string;
   apiResult: MonteResponse | null = null;
@@ -142,19 +143,62 @@ export class MonteComponent implements OnInit, AfterViewInit {
 
     this.historyLineOption = {
       title: {
-        text: '投資資產增長模擬',
+        text: '投資資產成長模擬',
         left: 'center',
-        textStyle: { fontSize: 16 }
+        top: '5%', // 稍微留白
+        textStyle: {
+          fontSize: 16,           // 放大一點點
+          // color: '#033270',       // 使用你的 UI 深藍色
+          fontFamily: 'sans-serif'
+        },
+
       },
+      // tooltip: {
+      //   confine: true,
+      //   trigger: 'axis',
+      //   formatter: (params: any) => {
+      //     let html = `<div><strong>第  ${params[0].name} 年</strong></div>`;
+      //     params.forEach((p: any) => {
+      //       if (p.seriesName !== '初始投入') {
+      //         const formattedValue = Math.round(p.value).toLocaleString();
+      //         html += '<div>' + p.marker + p.seriesName + ': ' + formattedValue + '</div>';
+      //       }
+      //     });
+      //     return html;
+      //   }
+      // },
       tooltip: {
+        // 樣式設定
+        backgroundColor: 'rgba(255, 255, 255, 0.98)', // 純白背景
+        borderColor: '#4091c9',                       // 藍色邊框
+        borderWidth: 1,
+        padding: 12,                                  // 內距
+        borderRadius: 15,                             // 圓角 (ECharts 屬名為 borderRadius)
+        textStyle: {
+          color: '#666',                              // 內文顏色
+          fontSize: 14
+        },
         confine: true,
         trigger: 'axis',
         formatter: (params: any) => {
-          let html = `<div><strong>第  ${params[0].name} 年</strong></div>`;
+          // 標題部分：對應 titleColor: '#333'
+          let html = `<div style="color: #333; font-weight: bold; margin-bottom: 8px;">第 ${params[0].name} 年</div>`;
+
           params.forEach((p: any) => {
             if (p.seriesName !== '初始投入') {
+              // 數值處理：使用你原本的格式化方式
               const formattedValue = Math.round(p.value).toLocaleString();
-              html += '<div>' + p.marker + p.seriesName + ': ' + formattedValue + '</div>';
+
+              // 列表項目樣式
+              html += `
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px; margin: 4px 0;">
+            <span style="display: flex; align-items: center;">
+              ${p.marker} <!-- ECharts 自動生成的圓點 -->
+              <span style="margin-left: 5px;">${p.seriesName}</span>
+            </span>
+            <span style="font-weight: bold; color: #333;">${formattedValue}</span>
+          </div>
+        `;
             }
           });
           return html;
@@ -191,7 +235,7 @@ export class MonteComponent implements OnInit, AfterViewInit {
         {
           type: 'text',
           left: '20%',
-          bottom: '22%',
+          bottom: '18%',
           style: {
             text: ` 初  始  投  入  ${Math.round(data[0].cost / 10000)}  萬`,
             font: 'bold 16px sans-serif',
@@ -216,7 +260,7 @@ export class MonteComponent implements OnInit, AfterViewInit {
         {
           name: '投入本金',
           type: 'line',
-          data: data.map(d => d.cost),itemStyle: { color: '#4091C9' },
+          data: data.map(d => d.cost), itemStyle: { color: '#4091C9' },
           symbol: 'circle',
           smooth: true,
           markPoint: {
@@ -293,7 +337,7 @@ export class MonteComponent implements OnInit, AfterViewInit {
   }
 
   private renderEmptyChart() {
-    this.historyLineOption = { title: { text: '（等待數據中...）', left: 'center', top: '40%' } };
+    this.historyLineOption = { title: { text: '等待數據中...', left: 'center', top: '50%' } };
   }
 
   private renderAllocationChart(): void {
@@ -363,18 +407,18 @@ export class MonteComponent implements OnInit, AfterViewInit {
     return this.currentScenario.assets.reduce((sum, asset) => sum + asset.percentage, 0);
   }
 
- /**
- * 調整滑桿數值
- * @param index planParams 的索引
- * @param step 調整的級距 (正數增加，負數減少)
- */
+  /**
+  * 調整滑桿數值
+  * @param index planParams 的索引
+  * @param step 調整的級距 (正數增加，負數減少)
+  */
   adjustValue(index: number, step: number) {
     const param = this.planParams[index];
     const newValue = param.value + step;
 
     // 取得 input 的邊界限制 (或者你直接寫死)
-    const min = index===2 ? 1000 : 1;
-    const max = index===2 ? 100000 : 40;
+    const min = index === 2 ? 1000 : 1;
+    const max = index === 2 ? 100000 : 40;
 
     // 確保數值在範圍內
     if (newValue >= min && newValue <= max) {

@@ -9,13 +9,14 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogAddStrategyComponent } from '../@dialog/dialog-add-strategy/dialog-add-strategy.component';
 import { AUTO_STYLE } from '@angular/animations';
 import { filter, take } from 'rxjs/operators';
+import { MatIconModule } from '@angular/material/icon';
 
 
 @Component({
   selector: 'app-strategy-list',
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,MatIconModule
   ],
   templateUrl: './strategy-list.component.html',
   styleUrl: './strategy-list.component.scss'

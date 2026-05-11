@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet, NavigationStart } from '@angular/router';
 import { filter } from 'rxjs/operators';
 
@@ -8,7 +8,7 @@ import { ExampleService } from './@service/example.service';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet,  HeaderUserComponent, HeaderVisitorComponent,],
+  imports: [RouterOutlet, HeaderUserComponent, HeaderVisitorComponent,],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
@@ -21,14 +21,23 @@ export class AppComponent {
   constructor(
     private router: Router,
     private exampleService: ExampleService,) {
-      this.router.events.pipe(
+    this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event: any) => {
       // 設定你不想要顯示 Header 的路徑 (例如 /login)
       const hideHeaderRoutes = ['/login', '/register'];
       this.showHeader = !hideHeaderRoutes.includes(event.urlAfterRedirects);
     });
-     }
+  }
+
+  isScrolled = false;
+
+  // 監聽視窗捲動事件
+  @HostListener('window:scroll', [])
+  onWindowScroll() {
+    // 當捲動超過 50px 時，將變數設為 true
+    this.isScrolled = window.scrollY > 20;
+  }
 
   login() {
     this.router.navigate(['/login']);
@@ -38,7 +47,7 @@ export class AppComponent {
   }
 
   home() {
-      this.router.navigate(['/main']);
+    this.router.navigate(['/main']);
   }
 
   setAboutUs() {
@@ -62,7 +71,7 @@ export class AppComponent {
     //   console.log('MainComponent 收到身分變更：', this.role);
     // });
 
-    this.exampleService.user$.subscribe(user=>{
+    this.exampleService.user$.subscribe(user => {
       this.role = user.role;
     });
     console.log('現在身分', this.role);
