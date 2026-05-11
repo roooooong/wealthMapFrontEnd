@@ -208,6 +208,16 @@ export class AssetOverviewComponent implements OnInit {
         plugins: {
           legend: { position: 'bottom' },
           tooltip: {
+            yAlign: 'bottom',
+            backgroundColor: 'rgb(255, 255, 255)',
+            titleColor: '#333',
+            bodyColor: '#666',
+            cornerRadius: 20,
+            padding: 12,
+            borderColor: '#4091c9',
+            borderWidth: 1,
+            displayColors: false,
+            boxPadding: 5,
             callbacks: {
               label: (context) => {
                 const value = context.raw as number;
@@ -294,7 +304,7 @@ export class AssetOverviewComponent implements OnInit {
 
       this.assetService.updateAsset(this.editingAssetId, payload).subscribe({
         next: () => {
-          alert('修改成功！');
+          // alert('修改成功！');
           this.cancelEdit();
           this.refreshData();
         },
@@ -308,7 +318,7 @@ export class AssetOverviewComponent implements OnInit {
 
       this.assetService.addAsset(this.currentUserId, payload).subscribe({
         next: () => {
-          alert('新增成功！');
+          // alert('新增成功！');
           this.showAddAssetForm = false;
           this.resetAssetForm();
           this.refreshData();
@@ -333,7 +343,7 @@ export class AssetOverviewComponent implements OnInit {
     if (confirm(`確定刪除「${name}」嗎？`)) {
       this.assetService.deleteAsset(assetId).subscribe({
         next: () => {
-          alert('刪除成功');
+          // alert('刪除成功');
           this.refreshData(); // 重新整理畫面
         },
         error: (err) => {
@@ -500,7 +510,7 @@ export class AssetOverviewComponent implements OnInit {
 
       this.assetService.updateAsset(this.editingAssetId, payload).subscribe({
         next: () => {
-          alert('修改成功！');
+          // alert('修改成功！');
           this.cancelEdit();
           this.refreshData();
         },
@@ -514,7 +524,7 @@ export class AssetOverviewComponent implements OnInit {
 
       this.assetService.addAsset(this.currentUserId, payload).subscribe({
         next: () => {
-          alert('新增成功！');
+          // alert('新增成功！');
           this.showAddAssetForm = false;
           this.resetAssetForm();
           this.refreshData();
