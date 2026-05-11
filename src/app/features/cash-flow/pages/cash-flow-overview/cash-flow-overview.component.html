@@ -1,0 +1,132 @@
+<div class="cashflow-container">
+
+    <div class="top-nav-bar">
+        <button class="back-btn" (click)="backToAsset()">〈 上一頁</button>
+    </div>
+
+    <!-- 標題 + 新增按鈕並排 -->
+    <div class="header-section">
+        <h1 class="main-title">收支管理</h1>
+        <button class="add-btn add-cashflow-btn" (click)="showAddForm = !showAddForm; editingId = null">
+            + 新增收支
+        </button>
+    </div>
+
+    <!-- 統計摘要 -->
+    <div class="summary-row">
+        <div class="summary-card income">
+            <span class="label">總收入</span>
+            <span class="amount">{{ totalIncome | currency:'TWD':'symbol-narrow':'1.0-0' }}</span>
+        </div>
+        <div class="summary-card expense">
+            <span class="label">總支出</span>
+            <span class="amount">{{ totalExpense | currency:'TWD':'symbol-narrow':'1.0-0' }}</span>
+        </div>
+        <div class="summary-card net">
+            <span class="label">結餘</span>
+            <span class="amount" [ngClass]="{'positive': netAmount >= 0, 'negative': netAmount < 0}">
+                {{ netAmount | currency:'TWD':'symbol-narrow':'1.0-0' }}
+            </span>
+        </div>
+    </div>
+
+    <!-- 新增/編輯表單 -->
+    @if(showAddForm) {
+    <div class="add-form-card">
+        <h4>{{ editingId ? '✏️ 修改收支' : '🟢 新增收支' }}</h4>
+        <div class="form-row">
+            <div class="form-group">
+                <label>類型</label>
+                <select [(ngModel)]="newType">
+                    <option value="INCOME">收入</option>
+                    <option value="EXPENSE">支出</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>分類</label>
+                <input type="text" [(ngModel)]="newCategory" placeholder="例如：薪水、餐飲、交通">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label>金額</label>
+                <input type="number" [(ngModel)]="newAmount" placeholder="輸入金額">
+            </div>
+            <div class="form-group">
+                <label>日期</label>
+                <input type="date" [(ngModel)]="newRecordDate">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label>備註</label>
+                <input type="text" [(ngModel)]="newDescription" placeholder="選填">
+            </div>
+        </div>
+        <div class="form-action">
+            <button class="submit-btn" (click)="submitForm()">
+                {{ editingId ? '確認修改' : '確認新增' }}
+            </button>
+            <button class="cancel-btn" (click)="cancelForm()">取消</button>
+        </div>
+    </div>
+    }
+
+    <!-- 收入 / 支出 左右分欄 -->
+    <div class="split-list">
+
+        <div class="list-section">
+            <h3>🟢 收入明細</h3>
+            <div class="items-container">
+                @for(cf of incomeList; track cf.id) {
+                <div class="detail-card income-card">
+                    <div class="card-info">
+                        <div class="item-name">{{ cf.category }}</div>
+                        <span class="tag income-tag">收入</span>
+                        <span class="date-text">{{ cf.recordDate }}</span>
+                        @if(cf.description) {
+                        <span class="desc-text">{{ cf.description }}</span>
+                        }
+                    </div>
+                    <div class="card-action">
+                        <span class="amount income-text">+{{ cf.amount | currency:'TWD':'symbol-narrow':'1.0-0'
+                            }}</span>
+                        <button class="icon-btn edit" (click)="editCashFlow(cf)">✏️</button>
+                        <button class="icon-btn delete" (click)="deleteCashFlow(cf.id!)">🗑️</button>
+                    </div>
+                </div>
+                } @empty {
+                <div class="empty-list-state">尚無收入紀錄</div>
+                }
+            </div>
+        </div>
+
+        <div class="list-section">
+            <h3>🔴 支出明細</h3>
+            <div class="items-container">
+                @for(cf of expenseList; track cf.id) {
+                <div class="detail-card expense-card">
+                    <div class="card-info">
+                        <div class="item-name">{{ cf.category }}</div>
+                        <span class="tag expense-tag">支出</span>
+                        <span class="date-text">{{ cf.recordDate }}</span>
+                        @if(cf.description) {
+                        <span class="desc-text">{{ cf.description }}</span>
+                        }
+                    </div>
+                    <div class="card-action">
+                        <span class="amount expense-text">-{{ cf.amount | currency:'TWD':'symbol-narrow':'1.0-0'
+                            }}</span>
+                        <button class="icon-btn edit" (click)="editCashFlow(cf)">✏️</button>
+                        <button class="icon-btn delete" (click)="deleteCashFlow(cf.id!)">🗑️</button>
+                    </div>
+                </div>
+                } @empty {
+                <div class="empty-list-state">尚無支出紀錄</div>
+                }
+            </div>
+        </div>
+
+    </div>
+
+</div>

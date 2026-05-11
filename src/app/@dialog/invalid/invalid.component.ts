@@ -45,4 +45,12 @@ export class InvalidComponent {
   cancel(){
     this.dialogRef.close();
   }
+
+  switchConfirm(){
+    this.dialogRef.close(true);
+  }
+
+  switchCancel(){
+    this.dialogRef.close(false);
+  }
 }

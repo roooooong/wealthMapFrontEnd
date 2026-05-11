@@ -6,6 +6,8 @@ import { StrategyResponse } from '../../models/risk.model';
 import { ExampleService } from '../../../../@service/example.service';
 import { InvalidComponent } from '../../../../@dialog/invalid/invalid.component';
 import { MatDialog } from '@angular/material/dialog';
+import { RiskService } from '../../services/risk.service';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-risk-result',
@@ -20,38 +22,89 @@ export class RiskResultComponent implements OnInit, AfterViewInit {
   resultData: StrategyResponse | null = null;
   private chart: Chart | null = null;
   role:string = 'visitor';
+  riskLevel!:string;
+
 
   constructor(
     private router: Router,
-    private exampleService: ExampleService) {
+    private exampleService: ExampleService,
+    private riskService: RiskService) {
     const navigation = this.router.getCurrentNavigation();
 
     if (navigation?.extras.state) {
       // 接收 result 或 data
-      this.resultData = navigation.extras.state['result'].data || navigation.extras.state['data'];
+      this.resultData = navigation.extras.state['result'].data;
     }
   }
 
   ngOnInit(): void {
     // 防呆
-    if (!this.resultData) {
-      alert('無評估資料，請重新進行測驗。');
-      this.router.navigate(['/risk-test']);
-    }
-    this.exampleService.user$.subscribe(user=>{
-      this.role = user.role;
+    // if (!this.resultData) {
+    //   alert('無評估資料，請重新進行測驗。');
+    //   this.router.navigate(['/risk-test']);
+    // }
+    this.exampleService.user$.pipe(take(1)).subscribe(user=>{
+      if (user && user.id && user.id !== 0) {
+        this.role = user.role;
+        this.riskLevel = user.riskLevel;
+
+        const newLevelFromTest = this.resultData?.['userLevel'];
+
+        // 只有「測驗結果存在」且「與目前個人檔案不同」才執行
+        if (newLevelFromTest && user.riskLevel !== newLevelFromTest) {
+          console.log('偵測到風險等級不一致，執行更新...');
+          this.exampleService.reloadUserContext();
+        }
+      }
+      console.log('現在身分是:'+this.role+',評估類型為:'+this.riskLevel);
+      // 如果 constructor 沒拿到資料 (代表不是剛測完跳轉過來的)
+      if (!this.resultData) {
+        if (this.role !== 'visitor' && this.riskLevel) {
+          // --- 情況 B：會員，回顧舊有紀錄 ---
+          this.fetchRiskStrategy(user.id, this.riskLevel);
+        } else {
+          alert('無評估資料，請重新進行測驗。');
+          this.router.navigate(['/risk-test']);
+        }
+      }else{
+
+        console.log('測驗完結果。');
+      }
+
+    });
+  }
+
+  private fetchRiskStrategy(userId:number,level: string): void {
+    console.log('會員，回顧舊有紀錄');
+    this.riskService.getRiskResultByLevel(userId, level).subscribe({
+      next: (res) => {
+        this.resultData = res.data;
+        setTimeout(() => this.initChart(), 300);
+      },
+      error: (err) => this.router.navigate(['/risk-test'])
     });
   }
 
   ngAfterViewInit(): void {
     if (this.resultData) {
       this.initChart();
+      // setTimeout(() => this.initChart(), 300);
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this.chart) {
+      this.chart.destroy();
     }
   }
 
   private initChart(): void {
     const ctx = document.getElementById('allocationChart') as HTMLCanvasElement;
     if (!ctx || !this.resultData) return;
+
+    if (this.chart) {
+      this.chart.destroy();
+    }
 
     const labels = Object.keys(this.resultData.allocation);
     const dataValues = Object.values(this.resultData.allocation) as number[];

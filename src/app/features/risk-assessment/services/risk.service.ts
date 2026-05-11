@@ -11,9 +11,13 @@ export class RiskService {
     private apiUrl = 'http://localhost:8080/api/risk';
 
     constructor(private http: HttpClient) { }
-
+    //Risk Test頁面計算分數
     evaluateRisk(requestData: RiskAssessmentRequest): Observable<any> {
         return this.http.post<any>(`${this.apiUrl}/evaluate`, requestData);
+    }
+    //藉由riskLevel，抓取投資組合建議
+    getRiskResultByLevel(userId: number,level: string): Observable<any>  {
+      return this.http.get<any>(`${this.apiUrl}/last-riskresult?user_id=${userId}&level=${level}`);
     }
     checkHasTested(userId: number): Observable<any> {
         return this.http.get<any>(`${this.apiUrl}/user/${userId}`);

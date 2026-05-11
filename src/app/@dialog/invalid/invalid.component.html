@@ -1,4 +1,4 @@
-@if(data==1){
+@if(data==1 || data.no == 1){
 <div class="header"></div>
 <div style="height:50px"></div>
 <label class="text">有題目尚未填寫!</label>
@@ -10,7 +10,7 @@
 </div>
 }
 
-@if(data==2){
+@if(data==2 || data.no == 2){
 <div class="header"></div>
 <div style="height:50px"></div>
 <label class="text">註冊成功!</label>
@@ -21,7 +21,7 @@
 <!-- <button (click)="cancel()">取消</button> -->
 </div>
 }
-@if(data==3){
+@if(data==3 || data.no == 3){
 <div class="header"></div>
 <div style="height:50px"></div>
 <label class="text">臨時密碼以傳送至Email</label>
@@ -33,7 +33,7 @@
 </div>
 }
 
-@if(data==4){
+@if(data==4 || data.no == 4){
 <div class="header"></div>
 <div style="height:50px"></div>
 <label class="text">登入成功，請立即修改密碼</label>
@@ -45,7 +45,7 @@
 </div>
 }
 
-@if(data==5){
+@if(data==5 || data.no == 5){
 <div class="header"></div>
 <div style="height:50px"></div>
 <label class="text">密碼修改成功</label>
@@ -57,7 +57,7 @@
 </div>
 }
 
-@if(data==6){
+@if(data==6 || data.no == 6){
 <div class="header"></div>
 <div style="height:50px"></div>
 <label class="text">舊密碼輸入錯誤!</label>
@@ -69,7 +69,7 @@
 </div>
 }
 
-@if(data==7){
+@if(data==7 || data.no == 7){
 <div class="header"></div>
 <div style="height:50px"></div>
 <label class="text">Email 或 密碼 輸入錯誤!</label>
@@ -82,7 +82,7 @@
 }
 
 <!-- for RickLevel page -->
-@if(data==8){
+@if(data==8 || data.no == 8){
 <div class="header"></div>
 <div style="height:50px"></div>
 <label class="text">請先登入會員，才能觀看投資組合建議喔!</label>
@@ -91,6 +91,19 @@
 <div  class="btn-position">
 <button (click)="goLogin()">前往登入</button>
 <button (click)="cancel()">取消</button>
+</div>
+}
+
+<!-- for Admin User Management-->
+@if(data.no==9){
+<div class="header"></div>
+<div style="height:50px"></div>
+<label class="text">您確定要 {{data.action}} 使用者 {{data.name}} 嗎？</label>
+<div style="height:50px"></div>
+
+<div  class="btn-position">
+<button (click)="switchConfirm()">確認</button>
+<button (click)="switchCancel()">取消</button>
 </div>
 }
 

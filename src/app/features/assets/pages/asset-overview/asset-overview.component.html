@@ -1,215 +1,310 @@
 <div class="asset-container">
 
-    <div class="top-nav-bar">
+  <!-- <div class="top-nav-bar">
         <button class="back-btn" (click)="backToHome()">
             <span class="icon-chevron">〈</span> 回首頁
         </button>
+    </div> -->
+
+  <div class="header-section">
+    <div class="title-area">
+      <h1 class="main-title">我的資產與負債</h1>
+
+    </div>
+    <div class="action-buttons">
+      <!-- <button class="add-btn cash-flow-btn" (click)="goToCashFlow()"> + 收支管理</button> -->
+      <button class="add-btn asset-btn" (click)="toggleAddCashflowForm()"> + 收支管理</button>
+      <button class="add-btn asset-btn" (click)="toggleAddAssetForm()">+ 新增資產</button>
+      <button class="add-btn liability-btn" (click)="toggleAddLiabilityForm()">+ 新增負債</button>
+    </div>
+  </div>
+
+  <div class="overview-layout">
+
+    <!-- 左半邊 -->
+    <div class="chart-panel">
+      <h3>資產概況</h3>
+
+      <div class="net-worth-summary">
+        <div class="summary-item">
+          <span class="label">總資產</span>
+          <span class="amount asset-text">{{ totalAssetValue | currency:'TWD':'symbol-narrow':'1.0-0'
+            }}</span>
+        </div>
+        <div class="summary-item">
+          <span class="label">總負債</span>
+          <span class="amount liability-text">- {{ totalLiabilities | currency:'TWD':'symbol-narrow':'1.0-0'
+            }}</span>
+        </div>
+        <div class="summary-item total">
+          <span class="label">淨資產</span>
+          <span class="amount" [ngClass]="{'positive': netWorth >= 0, 'negative': netWorth < 0}">
+            {{ netWorth | currency:'TWD':'symbol-narrow':'1.0-0' }}
+          </span>
+        </div>
+      </div>
+
+      <div class="chart-wrapper">
+        @if(userAssets.length === 0) {
+        <div class="empty-chart-state">尚無資產資料可繪圖</div>
+        } @else {
+        <canvas id="assetAllocationChart"></canvas>
+        }
+      </div>
     </div>
 
-    <div class="header-section">
-        <div class="title-area">
-            <h1 class="main-title">我的資產與負債</h1>
-            <p class="subtitle">全面掌握您的財富分佈，做出更明智的理財決策。</p>
-        </div>
-        <div class="action-buttons">
-            <button class="add-btn asset-btn" (click)="toggleAddAssetForm()">+ 新增資產</button>
-            <button class="add-btn liability-btn" (click)="toggleAddLiabilityForm()">+ 新增負債</button>
-        </div>
-    </div>
+    <!-- 右半邊 -->
+    <div class="details-panel">
 
-    <div class="overview-layout">
-
-        <div class="chart-panel">
-            <h3>財務健康概況</h3>
-
-            <div class="net-worth-summary">
-                <div class="summary-item">
-                    <span class="label">總資產</span>
-                    <span class="amount asset-text">{{ totalAssetValue | currency:'TWD':'symbol-narrow':'1.0-0'
-                        }}</span>
-                </div>
-                <div class="summary-item">
-                    <span class="label">總負債</span>
-                    <span class="amount liability-text">- {{ totalLiabilities | currency:'TWD':'symbol-narrow':'1.0-0'
-                        }}</span>
-                </div>
-                <div class="summary-item total">
-                    <span class="label">淨資產</span>
-                    <span class="amount" [ngClass]="{'positive': netWorth >= 0, 'negative': netWorth < 0}">
-                        {{ netWorth | currency:'TWD':'symbol-narrow':'1.0-0' }}
-                    </span>
-                </div>
-            </div>
-
-            <div class="chart-wrapper">
-                @if(userAssets.length === 0) {
-                <div class="empty-chart-state">尚無資產資料可繪圖</div>
-                } @else {
-                <canvas id="assetAllocationChart"></canvas>
-                }
-            </div>
+      @if(showAddAssetForm) {
+      <div class="add-form-card asset-theme">
+        <h4>{{ editingAssetId ? '修改資產' : '新增資產' }}</h4>
+        <div class="form-row">
+          <div class="form-group">
+            <label>資產名稱</label>
+            <input type="text" [(ngModel)]="newAssetName" placeholder="例如：台積電、國泰活存">
+          </div>
+          <div class="form-group">
+            <label>資產類別</label>
+            <select [(ngModel)]="newAssetType" (change)="newAssetAmount = null; unitPrice = null; unitCount = null;">
+              <option value="CASH">現金/存款</option>
+              <option value="STOCK">股票</option>
+              <option value="FUND">基金</option>
+              <option value="BOND">債券</option>
+              <option value="SALARY">薪資</option>
+            </select>
+          </div>
         </div>
 
-        <div class="details-panel">
-
-            @if(showAddAssetForm) {
-            <div class="add-form-card asset-theme">
-                <h4>🟢 新增資產</h4>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>資產名稱</label>
-                        <input type="text" [(ngModel)]="newAssetName" placeholder="例如：台積電、國泰活存">
-                    </div>
-                    <div class="form-group">
-                        <label>資產類別</label>
-                        <select [(ngModel)]="newAssetType"
-                            (change)="newAssetAmount = null; unitPrice = null; unitCount = null;">
-                            <option value="CASH">現金/存款</option>
-                            <option value="STOCK">股票</option>
-                            <option value="FUND">基金</option>
-                            <option value="BOND">債券</option>
-                        </select>
-                    </div>
-                </div>
-
-                @if(newAssetType === 'STOCK' || newAssetType === 'FUND') {
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>資產代號</label>
-                        <input type="text" [(ngModel)]="newAssetSymbol" placeholder="若是股票請輸入代號 (如: 2330)">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>目前股價/淨值</label>
-                        <input type="number" [(ngModel)]="unitPrice" (input)="calculateTotal()" placeholder="輸入每股市價">
-                    </div>
-                    <div class="form-group">
-                        <label>擁有股數/單位</label>
-                        <input type="number" [(ngModel)]="unitCount" (input)="calculateTotal()" placeholder="輸入總股數">
-                    </div>
-                </div>
-                }
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>總金額</label>
-                        <input type="number" [(ngModel)]="newAssetAmount"
-                            [placeholder]="(newAssetType === 'STOCK' || newAssetType === 'FUND') ? '自動計算總金額' : '輸入總金額'"
-                            [readonly]="newAssetType === 'STOCK' || newAssetType === 'FUND'">
-                    </div>
-                    <div class="form-action">
-                        <button class="submit-btn" (click)="addAsset()">確認新增</button>
-                        <button class="cancel-btn" (click)="toggleAddAssetForm()">取消</button>
-                    </div>
-                </div>
-            </div>
+        @if(newAssetType === 'STOCK' || newAssetType === 'FUND') {
+        <div class="form-row">
+          <div class="form-group">
+            <label>資產代號</label>
+            @if(newAssetType === 'STOCK' ){
+            <input type="text" [(ngModel)]="newAssetSymbol" (blur)="onStockIdBlur()" (keyup.enter)="onStockIdBlur()"
+              placeholder="請先輸入代號 (如: 2330)，系統將自動帶出名稱">
+            }@else{
+            <input type="text" [(ngModel)]="newAssetSymbol" (blur)="onStockIdBlur()" (keyup.enter)="onStockIdBlur()"
+              placeholder="請輸入完整代碼">
             }
 
-            @if(showAddLiabilityForm) {
-            <div class="add-form-card liability-theme">
-                <h4>🔴 新增負債</h4>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>負債名稱</label>
-                        <input type="text" [(ngModel)]="newLiabilityName" placeholder="例如：玉山房貸、信貸">
-                    </div>
-                    <div class="form-group">
-                        <label>負債類別</label>
-                        <select [(ngModel)]="newLiabilityCategory">
-                            <option value="MORTGAGE">房貸</option>
-                            <option value="CAR_LOAN">車貸</option>
-                            <option value="PERSONAL_LOAN">信貸</option>
-                            <option value="OTHER">其他</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>總金額</label>
-                        <input type="number" [(ngModel)]="newLiabilityAmount" placeholder="輸入剩餘欠款金額">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <div class="toggle-container">
-                            <label class="switch">
-                                <input type="checkbox" [(ngModel)]="isNotificationEnabled" (change)="onNotifyChange()">
-                                <span class="slider round"></span>
-                            </label>
-                            <span class="status-text">{{ isNotificationEnabled ? '開啟繳款通知' : '關閉繳款通知' }}</span>
-                        </div>
-                    </div>
-                    <div class="form-group remind">
-                        @if(isNotificationEnabled) {
-                        <div class="date-select-group">
-                            <span class="label"> 每月 </span>
-                            <select [(ngModel)]="notificationDay" class="date-select">
-                                @for(day of daysOptions; track day) {
-                                <option [value]="day">{{ day }}{{ day === '月底' ? '' : '日' }}</option>
-                                }
-                            </select>
-                            <span class="label"> 提醒 </span>
-                        </div>
-                        }
-                    </div>
-                </div>
-                <div class="form-row ">
-                    <div class="form-action liability">
-                        <button class="submit-btn" (click)="addLiability()">確認新增</button>
-                        <button class="cancel-btn" (click)="toggleAddLiabilityForm()">取消</button>
-                    </div>
-                </div>
 
-            </div>
-
-            }
-
-            <div class="list-section">
-                <h3>🟢 資產明細</h3>
-                <div class="items-container">
-                    @for(asset of userAssets; track asset.id) {
-                    <div class="detail-card">
-                        <div class="card-info">
-                            <div class="item-name">{{ asset.assetName }}</div>
-                            <span class="tag asset-tag">{{ translateAssetType(asset.assetType) }}</span>
-                        </div>
-                        <div class="card-action">
-                            <span class="amount">{{ asset.currentValue | currency:'TWD':'symbol-narrow':'1.0-0'
-                                }}</span>
-                            <button class="icon-btn delete"
-                                (click)="deleteAsset(asset.id, asset.assetName)">🗑️</button>
-                        </div>
-                    </div>
-                    } @empty {
-                    <div class="empty-list-state">尚無資產明細</div>
-                    }
-                </div>
-            </div>
-
-            <div class="list-section mt-4">
-                <h3>🔴 負債明細</h3>
-                <div class="items-container">
-                    @for(liability of userLiabilities; track liability.id) {
-                    <div class="detail-card">
-                        <div class="card-info">
-                            <div class="item-name">{{ liability.name }}</div>
-                            <span class="tag liability-tag">{{ translateLiabilityType(liability.category) }}</span>
-                        </div>
-                        <div class="card-action">
-                            <span class="amount liability-text">{{ liability.amount |
-                                currency:'TWD':'symbol-narrow':'1.0-0' }}</span>
-                            <button class="icon-btn delete"
-                                (click)="deleteLiability(liability.id!, liability.name)">🗑️</button>
-                        </div>
-                    </div>
-                    } @empty {
-                    <div class="empty-list-state">太棒了，目前沒有任何負債！</div>
-                    }
-                </div>
-            </div>
-
+          </div>
         </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>成本基準/平均成本</label>
+
+            <input type="number" [(ngModel)]="unitPrice" (input)="calculateTotal()" placeholder="輸入每股/單位的平均成本價">
+          </div>
+          <div class="form-group">
+            <label>擁有股數/單位</label>
+            <input type="number" [(ngModel)]="unitCount" (input)="calculateTotal()" placeholder="輸入總股數">
+          </div>
+        </div>
+        }
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>總金額</label>
+            <input type="number" [(ngModel)]="newAssetAmount"
+              [placeholder]="(newAssetType === 'STOCK' || newAssetType === 'FUND') ? '自動計算總金額' : '輸入總金額'"
+              [readonly]="newAssetType === 'STOCK' || newAssetType === 'FUND'">
+          </div>
+          <div class="form-action">
+            <button class="submit-btn" (click)="addAsset()">
+              {{ editingAssetId ? '確認修改' : '確認新增' }}
+            </button>
+
+            @if(editingAssetId) {
+            <button class="cancel-btn" (click)="cancelEdit()">取消編輯</button>
+            } @else {
+            <button class="cancel-btn" (click)="toggleAddAssetForm()">取消</button>
+            }
+          </div>
+        </div>
+      </div>
+      }
+
+      @if(showAddLiabilityForm) {
+      <div class="add-form-card liability-theme">
+        <h4>{{ editingLiabilityId ? '修改負債' : '新增負債' }}</h4>
+        <div class="form-row">
+          <div class="form-group">
+            <label>負債名稱</label>
+            <input type="text" [(ngModel)]="newLiabilityName" placeholder="例如：玉山房貸、信貸">
+          </div>
+          <div class="form-group">
+            <label>負債類別</label>
+            <select [(ngModel)]="newLiabilityCategory">
+              <option value="MORTGAGE">房貸</option>
+              <option value="CAR_LOAN">車貸</option>
+              <option value="PERSONAL_LOAN">信貸</option>
+              <option value="OTHER">其他</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>總金額</label>
+            <input type="number" [(ngModel)]="newLiabilityAmount" placeholder="輸入剩餘欠款金額">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <div class="toggle-container">
+              <label class="switch">
+                <input type="checkbox" [(ngModel)]="isNotificationEnabled" (change)="onNotifyChange()">
+                <span class="slider round"></span>
+              </label>
+              <span class="status-text">{{ isNotificationEnabled ? '開啟繳款通知' : '關閉繳款通知' }}</span>
+            </div>
+          </div>
+          <div class="form-group remind">
+            @if(isNotificationEnabled) {
+            <div class="date-select-group">
+              <span class="label"> 每月 </span>
+              <select [(ngModel)]="notificationDay" class="date-select">
+                @for(day of daysOptions; track day) {
+                <option [value]="day">{{ day }}{{ day === '月底' ? '' : '日' }}</option>
+                }
+              </select>
+              <span class="label"> 提醒 </span>
+            </div>
+            }
+          </div>
+        </div>
+        <div class="form-row ">
+          <div class="form-action liability">
+            <button class="submit-btn" (click)="addLiability()">
+              {{ editingLiabilityId ? '確認修改' : '確認新增' }}
+            </button>
+            <button class="cancel-btn" (click)="cancelLiabilityEdit()">取消</button>
+          </div>
+        </div>
+
+      </div>
+
+      }
+
+      @if(showAddCashflowForm) {
+      <div class="add-form-card asset-theme">
+        <h4>{{ editingAssetId ? '修改收支' : '新增收支' }}</h4>
+        <div class="form-row">
+          <div class="form-group">
+            <label>收支名稱</label>
+            <input type="text" [(ngModel)]="newAssetName" placeholder="例如:月薪、股息">
+          </div>
+          <div class="form-group">
+            <label>收支類別</label>
+            <select [(ngModel)]="newAssetType" (change)="newAssetAmount = null; unitPrice = null; unitCount = null;">
+              <option value="INCOME">收入</option>
+              <option value="EXPENSE">支出</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>金額</label>
+            <input type="number" [(ngModel)]="newAssetAmount" [placeholder]="'輸入金額'">
+          </div>
+          <div class="form-action">
+            <button class="submit-btn" (click)="addCashflow()">
+              {{ editingAssetId ? '確認修改' : '確認新增' }}
+            </button>
+
+            @if(editingAssetId) {
+            <button class="cancel-btn" (click)="cancelEdit()">取消編輯</button>
+            } @else {
+            <button class="cancel-btn" (click)="toggleAddCashflowForm()">取消</button>
+            }
+          </div>
+        </div>
+      </div>
+      }
+
+      <div class="list-section">
+        <h3>收入 / 支出</h3>
+        <div class="items-container">
+          @for(cashflow of userCashflow; track cashflow.id) {
+          @if(cashflow.type === "INCOME" || cashflow.type === "EXPENSE"){
+          <div class="detail-card">
+            <div class="card-info">
+              <div class="item-name">{{ cashflow.name }}</div>
+              @if(cashflow.type === "INCOME"){
+              <span class="tag asset-tag">{{ translateAssetType(cashflow.type) }}</span>
+              }@else{
+              <span class="tag liability-tag">{{ translateAssetType(cashflow.type) }}</span>
+              }
+
+            </div>
+            <div class="card-action">
+              @if(cashflow.type === "INCOME"){
+              <span class="amount">{{ cashflow.currentValue | currency:'TWD':'symbol-narrow':'1.0-0'}}</span>
+              }@else{
+              <span class="amount liability-text">{{ cashflow.currentValue | currency:'TWD':'symbol-narrow':'1.0-0'}}</span>
+              }
+              <img src="/edit.png" (click)="editCashFlow(cashflow)" class="edit-delete-btn">
+              <img src="/delete.png" (click)="deleteCashFlow(cashflow.id, cashflow.name)" class="edit-delete-btn">
+            </div>
+          </div>
+          }
+          } @empty {
+          <div class="empty-list-state">尚無紀錄總收入及總支出</div>
+          }
+        </div>
+      </div>
+
+      <div class="list-section">
+        <h3>資產明細</h3>
+        <div class="items-container">
+          @for(asset of userAssets; track asset.id) {
+          <div class="detail-card">
+            <div class="card-info">
+
+              <div class="item-name">{{ asset.name }}</div>
+
+              <span class="tag asset-tag">{{ translateAssetType(asset.type) }}</span>
+            </div>
+            <div class="card-action">
+              <span class="amount">{{ asset.currentValue | currency:'TWD':'symbol-narrow':'1.0-0'
+                }}</span>
+              <img src="/edit.png" (click)="editAsset(asset)" class="edit-delete-btn">
+              <img src="/delete.png" (click)="deleteAsset(asset.id, asset.name)" class="edit-delete-btn">
+              <!-- <button class="icon-btn edit" (click)="editAsset(asset)">✏️</button>
+              <button class="icon-btn delete" (click)="deleteAsset(asset.id, asset.name)">🗑️</button> -->
+            </div>
+          </div>
+          } @empty {
+          <div class="empty-list-state">尚無資產明細</div>
+          }
+        </div>
+      </div>
+
+      <div class="list-section mt-4">
+        <h3>負債明細</h3>
+        <div class="items-container">
+          @for(liability of userLiabilities; track liability.id) {
+          <div class="detail-card">
+            <div class="card-info">
+              <div class="item-name">{{ liability.name }}</div>
+              <span class="tag liability-tag">{{ translateLiabilityType(liability.category) }}</span>
+            </div>
+            <div class="card-action">
+              <span class="amount liability-text">
+                {{ liability.amount | currency:'TWD':'symbol-narrow':'1.0-0' }}
+              </span>
+              <img src="/edit.png" (click)="editLiability(liability)" class="edit-delete-btn">
+              <img src="/delete.png" (click)="deleteLiability(liability.id!, liability.name)" class="edit-delete-btn">
+            </div>
+          </div>
+          } @empty {
+          <div class="empty-list-state">太棒了，目前沒有任何負債！</div>
+          }
+        </div>
+      </div>
+
     </div>
+  </div>
 
 </div>

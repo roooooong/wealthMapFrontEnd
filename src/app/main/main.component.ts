@@ -29,10 +29,14 @@ export class MainComponent {
   page = 1;
   userId!: number;
   currentIndex = 0; // 目前顯示的新聞索引
+  riskLevel!:string;
 
 
   realTotalAssets: number = 0;
   hasAnyHistory: boolean = false;
+
+  private myChart: any;
+
 
   constructor(private router: Router,
     private exampleService: ExampleService,
@@ -109,7 +113,12 @@ export class MainComponent {
   }
 
   goToRiskTest() {
-    this.router.navigate(['/risk-cover']);
+    if(this.role!=='visitor' && this.riskLevel){
+      this.router.navigate(['/risk-result']);
+    }else{
+      this.router.navigate(['/risk-cover']);
+    }
+
   }
 
   goToAssets() {
@@ -172,6 +181,13 @@ export class MainComponent {
   // 這行能解決「Canvas is already in use」的報錯
   Chart.getChart(canvasId)?.destroy();
 
+
+    // ==========================================
+    // 🌟 老師的救命防呆機制：如果有舊圖表，先無情地銷毀它！
+    if (this.myChart) {
+      this.myChart.destroy();
+    }
+    // ==========================================
 
     // 強制排序：現金 -> 股票 -> 基金 -> 債券
     const sortOrder = ['CASH', 'STOCK', 'FUND', 'BOND'];
@@ -474,6 +490,7 @@ refreshChart(data: any[]) {
         if (user && user.id && user.id !== 0) {
           this.role = user.role;
           this.userId = user.id;
+          this.riskLevel = user.riskLevel;
 
           // 當身分正確時，統籌呼叫所有圖表數據
           if (this.role === 'USER' || this.role === 'ADMIN') {

@@ -1,10 +1,13 @@
 <!-- <p>profile works!</p> -->
 <br>
-<div style="margin: 20px 20px 0px 20px;">
-  <div style="display: flex;align-items:baseline;">
+<div class="titleFrame">
+  <div class="title-container">
     <span class="name">Hi,{{userName}}</span>
     @if(userLevel){
-      <span class="type">[{{ translateLevel(userLevel)}}]</span>
+      <a routerLink="/risk-test" routerLinkActive="risk-test-link" [title]="'點擊重新進行風險評估'" class="type">
+        [{{ translateLevel(userLevel)}}]
+      </a>
+      <!-- <span class="type">[{{ translateLevel(userLevel)}}]</span> -->
     }
   </div>
 </div>
@@ -15,12 +18,14 @@
   <div class="form-container">
     <div class="form-group">
       <label>暱稱</label>
-      <input type="text" [(ngModel)]="userName" readonly>
+      {{userName}}
+      <!-- <input type="text" [(ngModel)]="userName" readonly> -->
     </div>
 
     <div class="form-group">
       <label>Email</label>
-      <input style="background-color: #f7f7f7;" [(ngModel)]="userEmail" readonly>
+      {{userEmail}}
+      <!-- <input style="background-color: #f7f7f7;" [(ngModel)]="userEmail" readonly> -->
     </div>
 
     @if(changePwd){
@@ -65,8 +70,8 @@
   </div>
 </div>
 <br><br>
-<div style="display: flex;align-items:baseline;">
+<!-- <div style="display: flex;align-items:baseline;">
   <a routerLink="/risk-test" routerLinkActive="risk-test-link" class="newTest">重新測驗【風險屬性評估表】>>></a>
-</div>
+</div> -->
 <br>
 
