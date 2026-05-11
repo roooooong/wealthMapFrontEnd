@@ -77,5 +77,15 @@ export interface StrategySettingDTO{
   symbol:string,
   buyThreshold:number,
   sellThreshold:number,
-  isActive:boolean,
+  isActive:boolean
+}
+
+//管理者的使用者清單
+export interface UserAdminViewDTO{
+  id:number,
+  name:string,
+  email:string,
+  role:string,
+  riskLevel:string,
+  enabled:boolean
 }

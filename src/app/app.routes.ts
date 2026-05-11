@@ -26,6 +26,7 @@ import { GoalOverviewComponent } from './features/financial-goals/pages/goal-ove
 import { SseDemoComponent } from './sse-demo/sse-demo.component';
 import { PortfolioRecommendationComponent } from './features/risk-assessment/pages/portfolio-recommendation/portfolio-recommendation.component';
 import { CashFlowOverviewComponent } from './features/cash-flow/pages/cash-flow-overview/cash-flow-overview.component';
+import { AdminUserManagementComponent } from './admin-user-management/admin-user-management.component';
 
 export const routes: Routes = [
 
@@ -63,6 +64,7 @@ export const routes: Routes = [
       { path: "notification-set", component: AdminNotificationSetComponent },
       { path: "notification-set/:pageId", component: AdminNotificationSetComponent },
       { path: 'news', component: AdminNewsComponent },
+      { path: 'user-management', component: AdminUserManagementComponent },
     ]
   },
 

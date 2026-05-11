@@ -1,0 +1,233 @@
+.frameCss {
+  display: flex;
+  justify-content: center;
+  // position: relative;
+}
+
+.titleCss {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  width: 80%;
+  margin: 0 auto;
+}
+
+.title {
+  font-size: 42px;
+  font-weight: bold;
+  letter-spacing: 5px;
+
+  // margin-left: 120px;
+  @media(max-width:600px) {
+    font-size: 24px;
+    // position: absolute;
+    left: 30px
+  }
+}
+
+@media (max-width: 600px) {
+  .mobile-br {
+    display: none;
+  }
+}
+
+hr {
+  width: 80%;
+  border: none;
+  height: 2px;
+  background-color: #9dcee2;
+}
+
+.user-list-box {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 80%;
+}
+
+
+/* 列表單項 */
+.list-item {
+  // position: relative;
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  border-bottom: 1px solid #b6e4f6;
+  margin-bottom: 10px;
+  border-radius: 15px;
+  transition: all 0.3s ease;
+}
+
+.list-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(64, 145, 201, 0.2);
+}
+
+.row-hidden {
+  opacity: 0.7;
+  background-color: #fafafa;
+}
+
+.item-id-tag, .item-id-tag-disabled {
+  border-radius: 10px;
+  padding: 3px 10px;
+  margin-right: 15px;
+  font-size: 14px;
+  color: white;
+  display: inline-block;
+  // min-width: 60px;
+  text-align: center;
+}
+.item-id-tag { background-color: #4091c9; }
+.item-id-tag-disabled { background-color: #ccc; }
+
+/* 文字與標籤樣式 */
+.item-tag, .item-tag-disabled {
+  border-radius: 5px;
+  padding: 3px 10px;
+  margin-right: 15px;
+  font-size: 14px;
+  color: white;
+  display: inline-block;
+  // min-width: 60px;
+  text-align: center;
+}
+.item-tag { background-color: #4091c9; }
+.item-tag-disabled { background-color: #ccc; }
+
+.item-name, .item-name-disabled {
+  font-weight: 600;
+  width: 150px;
+}
+.item-name-disabled { color: #858585; }
+
+.item-email, .item-email-disabled {
+  flex: 1;
+  color: #666;
+}
+.item-email-disabled { color: #ccc; }
+
+/* 💡 新增：管理員專屬橘色樣式 */
+.admin-tag {
+  background-color: #F28E76 !important; /* 橘色 */
+  box-shadow: 0 2px 4px rgba(255, 152, 0, 0.3); /* 增加一點點發光感 */
+}
+
+/* 開關組件 (對標新聞管理) */
+.sw-container {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  gap: 10px;
+  // position: absolute;
+  // right: 15px;
+}
+
+.wealth-switch {
+  position: relative;
+  width: 46px;
+  height: 24px;
+}
+
+.wealth-switch input { opacity: 0; width: 0; height: 0; }
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #ccc;
+  transition: .4s;
+  border-radius: 24px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px; width: 18px;
+  left: 3px; bottom: 3px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider { background-color: #4091c9; }
+input:checked + .slider:before { transform: translateX(22px); }
+
+.sw-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #4091c9;
+  min-width: 50px;
+}
+.sw-label.is-hidden { color: #999; }
+
+
+// 分頁控制項
+
+.pagination-div {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  width: 80%;
+  margin: 0 auto;
+}
+
+.pagination-controls {
+  padding: 5px;
+  border-radius: 8px;
+  gap: 10px;
+}
+
+.pagination-controls span {
+  font-size: 16px;
+  font-weight: bold;
+  color: #4091c9;
+}
+
+.pagination-select {
+  padding: 5px;
+  border-radius: 4px;
+  border: 1px solid #4091c9;
+
+  @media(max-width:600px) {
+    display: none;
+  }
+}
+
+.pagination-controls button {
+  background-color: white;
+  border: 1px solid #4091c9;
+  color: #4091c9;
+  padding: 3px 5px;
+  border-radius: 70px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.pagination-controls button:hover:not(:disabled) {
+  background: #4091c9;
+  color: white;
+}
+
+.pagination-controls button:disabled {
+  border-color: #ccc;
+  color: #ccc;
+  cursor: not-allowed;
+}
+
+.pagination-btns {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+
+/* RWD 手機版調整 */
+@media(max-width:600px) {
+  .admin-title { font-size: 24px; margin-left: 10px; margin-top: 60px; }
+  .quantity-info, .pagination-select, .sw-label { display: none; }
+  .list-box { width: 95%; }
+  .item-name { width: 80px; font-size: 14px; }
+  .item-email { display: none; } /* 手機版隱藏 Email 以防重疊 */
+  .sw-container { right: 5px; }
+}

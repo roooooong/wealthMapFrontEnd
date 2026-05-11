@@ -1,0 +1,74 @@
+
+<br><br><br><br>
+<div  style="margin: 20px;">
+  <!-- 標題 -->
+  <div class="titleCss">
+    <div>
+      <label class="title">用戶管理</label>
+    </div>
+    <div>
+      <select [(ngModel)]="pageSize" (change)="currentPage = 1" class="pagination-select">
+        <option [ngValue]="5">5 筆 / 頁</option>
+        <option [ngValue]="10">10 筆 / 頁</option>
+        <option [ngValue]="20">20 筆 / 頁</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<hr>
+<br>
+
+<div class="frameCss" style="margin: 20px;">
+  <div class="user-list-box">
+    @if (userList && userList.length > 0) {
+    @for(user of pagedUserLogs ; track $index){
+    <div class="list-item" [class.row-hidden]="!user.enabled">
+
+      <!-- 根據狀態切換樣式 (對標新聞 hidden 的邏輯) -->
+      <span [class]="user.enabled ? 'item-id-tag' : 'item-tag-disabled'">{{user.id}}</span>
+      <span [class]="user.enabled ? 'item-name' : 'item-name-disabled'">{{user.name}}</span>
+      <span [class]="user.enabled ? 'item-tag' : 'item-tag-disabled'"
+            [class.admin-tag]="user.enabled && user.role === 'ADMIN'">{{ user.role }}</span>
+      <span [class]="user.enabled ? 'item-email' : 'item-email-disabled'">{{user.email}}</span>
+
+
+      <div class="sw-container">
+        <label class="wealth-switch">
+          <!-- 注意：user.enabled 為 true 代表開啟 -->
+          <input type="checkbox" [checked]="user.enabled" (click)="onToggle(user)">
+          <span class="slider"></span>
+        </label>
+        <span class="sw-label" [class.is-hidden]="!user.enabled">
+          {{ user.enabled ? '使用中' : '已停用' }}
+        </span>
+      </div>
+    </div>
+
+    }
+  } @else if (userList && userList.length === 0) {
+    <div class="no-data">目前暫無用戶資料</div>
+  } @else {
+    <div class="loading">載入中...</div>
+  }
+  </div>
+</div>
+<br>
+<!-- 分頁控制項 -->
+  <div class="pagination-div">
+    <div class="pagination-controls" >
+      <div class="pagination-btns">
+        <button [disabled]="currentPage === 1" (click)="currentPage = currentPage - 1">
+          <mat-icon>chevron_left</mat-icon>
+        </button>&nbsp;
+        <span>第 {{currentPage}} / {{totalPages}} 頁</span>&nbsp;
+        <button [disabled]="currentPage >= totalPages" (click)="currentPage = currentPage + 1">
+          <mat-icon>chevron_right</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+<!-- 分頁控制項 -->
+
+
+<br><br><br>
