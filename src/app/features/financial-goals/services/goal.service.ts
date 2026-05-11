@@ -8,6 +8,7 @@ export interface FinancialGoal {
   targetAmount: number;
   currentAmount: number;
   targetDate: string;
+  assetId?: number | null;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -30,4 +31,10 @@ export class GoalService {
   deleteGoal(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${id}`);
   }
+
+  //修改目標
+  updateGoal(id: number, goal: FinancialGoal): Observable<FinancialGoal> {
+    return this.http.put<FinancialGoal>(`${this.apiUrl}/${id}`, goal);
+  }
+
 }

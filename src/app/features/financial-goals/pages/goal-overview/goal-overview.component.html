@@ -98,13 +98,26 @@
 
     @if(showAddForm) {
     <div class="add-form-card">
+        <h4>{{ editingGoalId ? '✏️ 修改目標' : '🎯 新增目標' }}</h4>
         <div class="form-group">
             <input type="text" [(ngModel)]="newGoalName" placeholder="目標名稱 (例：買車、旅遊)">
             <input type="number" [(ngModel)]="newGoalAmount" placeholder="目標金額 (例：500000)">
             <input type="date" [(ngModel)]="newGoalDate">
+
+            <!-- 資產綁定下拉選單 -->
+            <select [(ngModel)]="newGoalAssetId">
+                <option [ngValue]="null">不指定（使用總資產）</option>
+                @for(asset of userAssets; track asset.id) {
+                <option [ngValue]="asset.id">
+                    {{ asset.name }}（{{ asset.currentValue | currency:'TWD':'symbol-narrow':'1.0-0' }}）
+                </option>
+                }
+            </select>
         </div>
         <div class="form-actions">
-            <button class="save-btn" (click)="saveGoal()">儲存目標</button>
+            <button class="save-btn" (click)="saveGoal()">
+                {{ editingGoalId ? '確認修改' : '儲存目標' }}
+            </button>
             <button class="cancel-btn" (click)="toggleAddForm()">取消</button>
         </div>
     </div>
@@ -112,11 +125,11 @@
 
     <div class="goals-list">
         @for(goal of goals; track $index) {
-        <div class="goal-card" [class.is-achieved]="getGoalProgress(goal.targetAmount) >= 100">
+        <div class="goal-card" [class.is-achieved]="getGoalProgress(goal) >= 100">
 
             <div class="goal-header">
                 <h3>{{ goal.goalName }}</h3>
-                @if (getGoalProgress(goal.targetAmount) >= 100) {
+                @if (getGoalProgress(goal) >= 100) {
                 <span class="achieved-badge">🎉 達成！</span>
                 }
             </div>
@@ -124,22 +137,24 @@
             <div class="goal-info">
                 <p class="amount">目標金額：{{ goal.targetAmount | currency:'TWD':'symbol-narrow':'1.0-0' }}</p>
                 <p class="date">預計達成：{{ goal.targetDate }}</p>
+                <p class="bound-asset">追蹤資產：{{ getBoundAssetName(goal.assetId) }}</p>
             </div>
 
             <div class="progress-section">
                 <div class="progress-text">
                     <span>目前進度</span>
-                    <span class="percent-text">{{ getGoalProgress(goal.targetAmount) | number:'1.0-1' }}%</span>
+                    <span class="percent-text">{{ getGoalProgress(goal) | number:'1.0-1' }}%</span>
                 </div>
 
                 <div class="progress-track">
-                    <div class="progress-fill" [style.width.%]="getGoalProgress(goal.targetAmount)"
-                        [class.fill-success]="getGoalProgress(goal.targetAmount) >= 100">
+                    <div class="progress-fill" [style.width.%]="getGoalProgress(goal)"
+                        [class.fill-success]="getGoalProgress(goal) >= 100">
                     </div>
                 </div>
             </div>
 
             <div class="card-action">
+                <button class="edit-btn" (click)="editGoal(goal)">✏️ 編輯</button>
                 <button class="delete-btn" (click)="deleteGoal(goal.id, goal.goalName)">🗑️ 刪除</button>
             </div>
         </div>
