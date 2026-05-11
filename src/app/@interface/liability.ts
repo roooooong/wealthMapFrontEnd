@@ -3,4 +3,5 @@ export interface Liability {
     name: string;      // 負債名稱 (例如：房貸)
     category: string;  // 負債類別
     amount: number;    // 負債金額
+    monthlyPayment?: number | null;  // 月還款
 }

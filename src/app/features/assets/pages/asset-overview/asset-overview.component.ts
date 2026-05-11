@@ -48,6 +48,7 @@ export class AssetOverviewComponent implements OnInit {
   newLiabilityName: string = '';
   newLiabilityCategory: string = 'MORTGAGE'; // 預設為房貸
   newLiabilityAmount: number | null = null;
+  newLiabilityPayment: number | null = null; //貸款月還款
 
   // --- 淨資產變數 (新加入) ---
   netWorth: number = 0;
@@ -268,7 +269,7 @@ export class AssetOverviewComponent implements OnInit {
       if (!this.newAssetName || !this.newAssetAmount || !this.newAssetSymbol) {
         alert('請填寫完整資訊');
         return;
-      } else if(this.userAssets.filter(s=>s.stockId === this.newAssetSymbol)){
+      } else if(!this.editingAssetId && this.userAssets.filter(s=>s.stockId === this.newAssetSymbol)){
         const isConfirmed = confirm(`${this.newAssetName} 已設置過，確定要再新增該項目嗎?`);
 
         if (!isConfirmed) {
@@ -403,7 +404,8 @@ export class AssetOverviewComponent implements OnInit {
     const payload: Liability = {
       name: this.newLiabilityName,
       category: this.newLiabilityCategory,
-      amount: this.newLiabilityAmount
+      amount: this.newLiabilityAmount,
+      monthlyPayment: this.newLiabilityPayment
     };
 
     if (this.editingLiabilityId) {
@@ -422,6 +424,7 @@ export class AssetOverviewComponent implements OnInit {
           this.showAddLiabilityForm = false;
           this.newLiabilityName = '';
           this.newLiabilityAmount = null;
+          this.newLiabilityPayment = null;
           this.refreshData();
         },
         error: () => alert('新增失敗')
@@ -436,6 +439,7 @@ export class AssetOverviewComponent implements OnInit {
     this.newLiabilityName = liability.name;
     this.newLiabilityCategory = liability.category;
     this.newLiabilityAmount = liability.amount;
+    this.newLiabilityPayment = liability.monthlyPayment!;
   }
 
   cancelLiabilityEdit(): void {
@@ -444,6 +448,7 @@ export class AssetOverviewComponent implements OnInit {
     this.newLiabilityName = '';
     this.newLiabilityCategory = 'MORTGAGE';
     this.newLiabilityAmount = null;
+    this.newLiabilityPayment = null;
   }
 
   notificationDay: string = '1';
@@ -549,11 +554,12 @@ export class AssetOverviewComponent implements OnInit {
   }
 
   cancelCashFlow(): void {
-    this.editingLiabilityId = null;
-    this.showAddLiabilityForm = false;
-    this.newLiabilityName = '';
-    this.newLiabilityCategory = 'MORTGAGE';
-    this.newLiabilityAmount = null;
+    this.editingAssetId = null;
+    this.showAddCashflowForm = false;
+
+    this.newAssetName =  '';
+    this.newAssetType = '';
+    this.newAssetAmount = null;
   }
 
   deleteCashFlow(assetId: number | undefined, assetName: string | undefined): void {
