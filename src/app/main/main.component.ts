@@ -512,6 +512,7 @@ refreshChart(data: any[]) {
                         this.loadDashboardData();
                         //載入折線圖數據
                         this.assetChangeChart(assetHistory);
+                        this.updateRange('1M');
                       }, 150); // 稍微延長一點延遲，確保 Canvas 穩定
 
                     }

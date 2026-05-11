@@ -84,7 +84,7 @@ export class NotificationComponent {
   // 3. 取得詳情資料 (page = 2)
   loadDetail(id: number, type: 'SYSTEM' | 'PERSONAL') {
     //如果是訪客身分，絕對不准傳 userId 給後端
-  if (this.role === 'visitor' || !localStorage.getItem('token')) {
+  if(type === 'SYSTEM' && (this.role === 'visitor' || !localStorage.getItem('token'))) {
     // 訪客只能看「純系統公告」，不帶 userId 參數
     const pureEndpoint = `http://localhost:8080/api/notifications/${id}`;
     this.httpClientService.getApi(pureEndpoint).subscribe((res: any) => {
