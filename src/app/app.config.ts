@@ -1,10 +1,12 @@
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { ApplicationConfig, importProvidersFrom, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 
 import { authInterceptor } from './@interceptors/auth.interceptors';
+import { NgxEchartsModule } from 'ngx-echarts';
+import * as echarts from 'echarts';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -13,5 +15,16 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withInterceptors([authInterceptor])),
     provideHttpClient(), // 注入攔截器
     //provideEchartsCore({ echarts })
+
+     provideHttpClient(),
+    importProvidersFrom(
+      NgxEchartsModule.forRoot({
+        echarts: () => echarts
+      })
+    )
   ]
+
+
 };
+
+

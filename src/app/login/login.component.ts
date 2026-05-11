@@ -1,6 +1,6 @@
 import { Router, RouterLink } from '@angular/router';
 import { Component, Input, inject } from '@angular/core';
-import { HeaderComponent } from "../header/header.component";
+
 import { FormsModule } from '@angular/forms';
 import { WealthService } from '../wealthservice.service';
 import { HttpClient } from '@angular/common/http';
@@ -13,7 +13,7 @@ import { filter, take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
-  imports: [HeaderComponent, FormsModule, RouterLink, MatIconModule],
+  imports: [FormsModule, RouterLink, MatIconModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })

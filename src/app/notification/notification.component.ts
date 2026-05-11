@@ -29,7 +29,7 @@ export class NotificationComponent {
   notificationList!: NotificationList|null;
   notificationIdDetail!: any|null;
   userId!:number;
-  personalLogs!:PersonalNotification[];
+  personalLogs:PersonalNotification[]=[];
   personalLogDetail!:PersonalNotification|null;
   notificationType!:string;
   //分頁設定
@@ -190,6 +190,9 @@ export class NotificationComponent {
   // 取值函數，用法就像一個變數，但背後其實執行了一個函數。
   // 取得當前頁面要顯示的資料 (以 personalLogs 為例)
   get pagedPersonalLogs() {
+    if (!this.personalLogs) {
+      return [];
+    }
     const startIndex = (this.currentPage - 1) * this.pageSize;
     return this.personalLogs.slice(startIndex, startIndex + this.pageSize);
   }
@@ -262,7 +265,7 @@ export class NotificationComponent {
             this.page = 1;
             if (isSystem) {
               this.loadSystemList();
-            } 
+            }
           }
         });
       }

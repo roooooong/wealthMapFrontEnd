@@ -35,9 +35,9 @@ export class HeaderAdminComponent {
     // 之後要清空使用者資料
     // this.exampleService.setRole('visitor');
     this.exampleService.clearUserData();
+     // 清空 Console
+    console.clear();
     this.router.navigate(['/main']);
-    //登出後清空F12的重整
-    window.location.reload();
   }
 
   ngOnInit(): void {
