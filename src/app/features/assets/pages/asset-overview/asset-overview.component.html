@@ -158,17 +158,17 @@
           <div class="form-group">
             <div class="toggle-container">
               <label class="switch">
-                <input type="checkbox" [(ngModel)]="isNotificationEnabled" (change)="onNotifyChange()">
+                <input type="checkbox" [(ngModel)]="newLiabilityNotifyEnabled" (change)="onNotifyChange()">
                 <span class="slider round"></span>
               </label>
-              <span class="status-text">{{ isNotificationEnabled ? '開啟繳款通知' : '關閉繳款通知' }}</span>
+              <span class="status-text">{{ newLiabilityNotifyEnabled ? '開啟繳款通知' : '關閉繳款通知' }}</span>
             </div>
           </div>
           <div class="form-group remind">
-            @if(isNotificationEnabled) {
+            @if(newLiabilityNotifyEnabled) {
             <div class="date-select-group">
               <span class="label"> 每月 </span>
-              <select [(ngModel)]="notificationDay" class="date-select">
+              <select [(ngModel)]="newLiabilitydueDay" class="date-select">
                 @for(day of daysOptions; track day) {
                 <option [value]="day">{{ day }}{{ day === '月底' ? '' : '日' }}</option>
                 }

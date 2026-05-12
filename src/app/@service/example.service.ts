@@ -42,28 +42,6 @@ export class ExampleService {
       console.log('建構子偵測到 Token，啟動 reloadUserContext');
     }
   }
-  // private roleSource = new BehaviorSubject<string>('visitor');
-
-  // // 💡 2. 暴露一個 Observable 讓所有組件監聽
-  // role$ = this.roleSource.asObservable();
-
-  // // 💡 3. 登入成功時呼叫此方法
-  // setRole(newRole: string) {
-  //   localStorage.setItem(this.ROLE_KEY, newRole); // 存入 localStorage
-  //   this.roleSource.next(newRole);
-  // }
-
-  // // 獲取目前數值 (同步)
-  // get currentRole() {
-  //   return this.roleSource.value;
-  // }
-
-  // // 登出時清除
-  // clearRole() {
-  //   localStorage.removeItem(this.ROLE_KEY);
-  //   localStorage.removeItem('token'); // 同時清除 token
-  //   this.roleSource.next('visitor');
-  // }
 
 
 

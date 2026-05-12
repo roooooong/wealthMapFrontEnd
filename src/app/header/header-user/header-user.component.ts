@@ -34,7 +34,7 @@ export class HeaderUserComponent {
     private exampleService: ExampleService,
     private httpClientService: HttpClientService,
     private activatedRoute: ActivatedRoute,
-    // private cdr: ChangeDetectorRef //因為未讀數量html讀不到才注入的
+    private cdr: ChangeDetectorRef //因為未讀數量html讀不到才注入的
   ) { }
 
   notificationList!: NotificationList;
@@ -79,9 +79,13 @@ export class HeaderUserComponent {
         if (res && res.code === 200) {
           this.systemUnreadCount = res.data.systemCount;
           this.personalUnreadCount = res.data.personalCount;
-          // this.cdr.detectChanges(); // 💡 強制更新畫面
+          this.cdr.detectChanges(); // 💡 強制更新畫面
         }
       });
+  }
+
+  get totalUnreadCount(): number {
+    return this.systemUnreadCount + this.personalUnreadCount;
   }
 
   isMenuOpen = false;
@@ -306,6 +310,8 @@ export class HeaderUserComponent {
         // 如果是個人訊息，也可以順便刷新個人列表
         this.fetchPersonalNotifications();
         this.fetchSystemNotifications();
+        // 強制檢查畫面，讓紅點立刻亮起來
+        this.cdr.markForCheck();
         // const newMessage: SseMessage = {
         //   id: Date.now(),
         //   content: data,
