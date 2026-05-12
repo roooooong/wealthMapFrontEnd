@@ -65,8 +65,8 @@
     </div> -->
 
     <div class="frameCss" style="margin-top: 20px;">
-  <button class="registerbtn" (click)="goRegister()">註冊，開始使用「 WealthMap 個人資產與財務配置平台! 」</button>
-</div>
+        <button class="registerbtn" (click)="goRegister()">註冊，開始使用「 WealthMap 個人資產與財務配置平台! 」</button>
+    </div>
 
 </div>
 }
@@ -108,9 +108,11 @@
             <select [(ngModel)]="newGoalAssetId">
                 <option [ngValue]="null">不指定（使用總資產）</option>
                 @for(asset of userAssets; track asset.id) {
+                @if(asset.type !== 'INCOME' && asset.type !== 'EXPENSE') {
                 <option [ngValue]="asset.id">
                     {{ asset.name }}（{{ asset.currentValue | currency:'TWD':'symbol-narrow':'1.0-0' }}）
                 </option>
+                }
                 }
             </select>
         </div>
@@ -125,18 +127,21 @@
 
     <div class="goals-list">
         @for(goal of goals; track $index) {
-        <div class="goal-card" [class.is-achieved]="getGoalProgress(goal) >= 100">
+        <div class="goal-card" [class.is-achieved]="getGoalProgress(goal) >= 100"
+            [class.is-overdue]="goal.targetDate < today && getGoalProgress(goal) < 100">
 
             <div class="goal-header">
                 <h3>{{ goal.goalName }}</h3>
                 @if (getGoalProgress(goal) >= 100) {
-                <span class="achieved-badge">🎉 達成！</span>
+                <span class="achieved-badge"> 達成！</span>
                 }
             </div>
 
             <div class="goal-info">
                 <p class="amount">目標金額：{{ goal.targetAmount | currency:'TWD':'symbol-narrow':'1.0-0' }}</p>
-                <p class="date">預計達成：{{ goal.targetDate }}</p>
+                <p class="date">預計達成：{{ goal.targetDate }}@if(goal.targetDate < today && getGoalProgress(goal) < 100) {
+                        <span class="overdue-badge"> ⚠️ 已逾期</span>
+                        }</p>
                 <p class="bound-asset">追蹤資產：{{ getBoundAssetName(goal.assetId) }}</p>
             </div>
 

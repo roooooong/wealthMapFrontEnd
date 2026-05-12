@@ -32,6 +32,9 @@ export class GoalOverviewComponent implements OnInit {
   userAssets: any[] = []; // 資產下拉選單用
   totalAssetValue: number = 0;
 
+  //目標過期時間
+  today: string = new Date().toISOString().split('T')[0]; // 格式 "2026-05-08"
+
   constructor(
     private router: Router,
     private goalService: GoalService,
@@ -126,9 +129,12 @@ export class GoalOverviewComponent implements OnInit {
     let currentValue = this.totalAssetValue; // 預設用總資產
 
     if (goal.assetId) {
-      // 有綁定資產，找那筆資產的 currentValue
-      const boundAsset = this.userAssets.find(a => a.id === goal.assetId);
-      currentValue = boundAsset ? boundAsset.currentValue : 0;
+      const boundAsset = this.userAssets.find(
+        a => a.id === goal.assetId &&
+          a.type !== 'INCOME' &&
+          a.type !== 'EXPENSE'
+      );
+      currentValue = boundAsset ? boundAsset.currentValue : this.totalAssetValue;
     }
 
     return Math.min((currentValue / goal.targetAmount) * 100, 100);
@@ -154,4 +160,12 @@ export class GoalOverviewComponent implements OnInit {
   backToHome(): void { this.router.navigate(['/main']); }
   goRegister(): void { this.router.navigate(['/register']); }
   goToLogin(): void { this.router.navigate(['/login']); }
+
+  isOverdue(targetDate: string): boolean {
+    if (!targetDate) return false;
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const target = new Date(targetDate);
+    return target < today && this.getGoalProgress({ targetDate } as any) < 100;
+  }
 }

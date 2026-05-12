@@ -14,12 +14,12 @@ export enum AssetType {
 export interface AssetDTO {
     id?: number;              // 新增時不帶 ID，由後端生成
 
-    // 🌟 基礎共用屬性 (必須與後端 Java 變數名稱 100% 吻合)
+    // 基礎共用屬性 (必須與後端 Java 變數名稱 100% 吻合)
     name: string;             // (已從 assetName 改為 name)
     type: AssetType | string; // (已從 assetType 改為 type)
     amount?: number;          // 現金類專用：總金額
 
-    // 🌟 動態資產專屬屬性 (股票/基金)
+    // 動態資產專屬屬性 (股票/基金)
     stockId?: string;         // 對應後端 Java 的 @JsonProperty("stockId")
     sharesOwned?: number;     // 對應後端的 double sharesOwned (持有股數)
     cost?: number;       // 對應後端的 double cost (總成本)

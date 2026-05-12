@@ -28,15 +28,15 @@ export class AssetService {
 
     getUserAssets(userId: number): Observable<AssetDTO[]> {
         return this.http.get<any[]>(`${this.apiUrl}/user/${userId}`).pipe(
-          // backendAssets = 後端 AssetDTO
+            // backendAssets = 後端 AssetDTO
             map(backendAssets => {
                 return backendAssets.map(item => ({
                     id: item.id,
                     name: item.name,
                     type: item.type as AssetType,
                     amount: item.amount,
-                    currentValue: item.totalCost ?? item.amount,
-                    totalCost: item.totalCost ?? item.amount,
+                    currentValue: item.cost ?? item.amount,
+                    cost: item.cost ?? item.amount,
                     stockId: item.stockId,
                     sharesOwned: item.sharesOwned,
                     returnPercentage: 0,
