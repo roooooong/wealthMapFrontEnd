@@ -96,16 +96,26 @@ export class LoginComponent {
             this.exampleService.setUserData(login.data.token); // login.data.token 為 token // add by carly
 
             this.exampleService.user$.pipe(
-              filter(u => u && u.id !== 0), // 確保拿到真正的資料才跳轉
+              filter(u => u && u.id !== 0 && u.enabled !== undefined), // 確保拿到真正的資料才跳轉
               take(1)                       // 執行完跳轉後自動斷開訂閱
             ).subscribe(newUser => {
               console.log(newUser);
               this.role = newUser.role;
-              console.log(this.role);
+              console.log('enabled 的型別:', typeof newUser.enabled);
+              const isAccountEnabled = newUser.enabled;
               // if(this.role==="USER" || this.role==="visitor"){
+              if (isAccountEnabled === true || isAccountEnabled === 1){
+                console.log("進入main");
+                this.router.navigate(['/main']);
+              }else{
+                console.log("驗證失敗，帳戶已停用");
+                this.showDialog(10);
+                this.exampleService.clearUserData(); // 這會清除 localStorage 並廣播 null
+                // // 清空 Console
+                console.clear();
 
-              console.log("進入main");
-              this.router.navigate(['/main']);
+              }
+
               // }else if(this.role==="ADMIN"){
               // console.log("進入admin main");
               // this.router.navigate(['/admin/main']);
@@ -195,6 +205,31 @@ export class LoginComponent {
               sessionStorage.setItem('token', relogin.data.token);
             }
 
+            this.exampleService.user$.pipe(
+              filter(u => u && u.id !== 0 && u.enabled !== undefined), // 確保拿到真正的資料才跳轉
+              take(1)                       // 執行完跳轉後自動斷開訂閱
+            ).subscribe(newUser => {
+              console.log(newUser);
+              this.role = newUser.role;
+              const isAccountEnabled = newUser.enabled;
+              // if(this.role==="USER" || this.role==="visitor"){
+              if (isAccountEnabled === true || isAccountEnabled === 1){
+                this.showDialog(4);
+              }else{
+                console.log("驗證失敗，帳戶已停用");
+                this.showDialog(10);
+                this.exampleService.clearUserData(); // 這會清除 localStorage 並廣播 null
+                // // 清空 Console
+                console.clear();
+
+              }
+
+              // }else if(this.role==="ADMIN"){
+              // console.log("進入admin main");
+              // this.router.navigate(['/admin/main']);
+              // }
+            });
+
             // 💡 優先使用後端回傳的角色，如果沒有才用 'user'
             //   const role = relogin.role || (relogin.data && relogin.data.role) || 'USER';
             //   this.exampleService.setRole(role);
@@ -202,11 +237,11 @@ export class LoginComponent {
             //   this.router.navigate(['/profile']);
             // }
 
-            this.exampleService.user$.subscribe(newUser => {
-              this.role = newUser.role;
-              console.log(this.role);
-            });
-            this.showDialog(4);
+            // this.exampleService.user$.subscribe(newUser => {
+            //   this.role = newUser.role;
+            //   console.log(this.role);
+            // });
+            // this.showDialog(4);
           }
           else {
             console.log('登入失敗', relogin.code);

@@ -364,11 +364,9 @@ export class AssetOverviewComponent implements OnInit {
     this.newAssetName = asset.name;
     this.newAssetType = asset.type;
     this.newAssetSymbol = asset.stockId ?? '';
-    this.unitCount = asset.sharesOwned ?? null;
-    this.unitPrice = asset.sharesOwned && asset.totalCost
-      ? asset.totalCost / asset.sharesOwned
-      : asset.amount ?? null;
-    this.newAssetAmount = asset.totalCost ?? asset.amount ?? null;
+    this.unitCount = asset.sharesOwned;
+    this.unitPrice = asset.cost ?? null;
+    this.newAssetAmount = asset.amount ?? null;
   }
 
   cancelEdit() {
@@ -401,6 +399,11 @@ export class AssetOverviewComponent implements OnInit {
       alert('請填寫完整資訊');
       return;
     }
+
+    if ( this.newLiabilityNotifyEnabled && !this.newLiabilitydueDay) {
+      alert('請選擇繳款日期');
+      return;
+    }
     const payload: Liability = {
       name: this.newLiabilityName,
       category: this.newLiabilityCategory,
@@ -428,7 +431,7 @@ export class AssetOverviewComponent implements OnInit {
           this.newLiabilityAmount = null;
           this.newLiabilityPayment = null;
           this.newLiabilityNotifyEnabled= false;
-          this.newLiabilitydueDay = null;
+          this.newLiabilitydueDay = 1;
           this.refreshData();
         },
         error: () => alert('新增失敗，請通知開發者。')
@@ -445,7 +448,7 @@ export class AssetOverviewComponent implements OnInit {
     this.newLiabilityAmount = liability.amount;
     this.newLiabilityPayment = liability.monthlyPayment!;
     this.newLiabilityNotifyEnabled= liability.notifyEnabled;
-    this.newLiabilitydueDay = liability.dueDay!;
+    this.newLiabilitydueDay = liability.dueDay==null ? 1 : liability.dueDay;
   }
 
   cancelLiabilityEdit(): void {
@@ -456,7 +459,7 @@ export class AssetOverviewComponent implements OnInit {
     this.newLiabilityAmount = null;
     this.newLiabilityPayment = null;
     this.newLiabilityNotifyEnabled= false;
-    this.newLiabilitydueDay = null;
+    this.newLiabilitydueDay = 1;
   }
 
 
@@ -519,8 +522,8 @@ export class AssetOverviewComponent implements OnInit {
 
       this.assetService.updateAsset(this.editingAssetId, payload).subscribe({
         next: () => {
-
           this.cancelCashFlow();
+          this.refreshData();
         },
         error: (err: any) => {
           console.error('修改失敗，請通知開發者。', err);

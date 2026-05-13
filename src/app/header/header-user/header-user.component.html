@@ -1,6 +1,6 @@
 <!-- <p>header-user works!</p> -->
 <div class="user-notification-container">
-  <div class="notification-trigger" (click)="toggleNotification($event)">z
+  <div class="notification-trigger" (click)="toggleNotification($event)">
     <!-- Angular模板 [matBadge]="systemUnreadCount 直接讀取未讀取數 >0 鈴鐺會有紅點 -->
       <div [matBadge]="totalUnreadCount"
          [matBadgeHidden]="totalUnreadCount === 0"

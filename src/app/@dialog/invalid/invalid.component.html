@@ -107,3 +107,14 @@
 </div>
 }
 
+@if(data==10 || data.no == 10){
+<div class="header"></div>
+<div style="height:50px"></div>
+<label class="text">該帳戶已被停用。</label>
+<div style="height:50px"></div>
+
+<div  class="btn-position">
+<button (click)="error()">確認</button>
+<!-- <button (click)="cancel()">取消</button> -->
+</div>
+}
