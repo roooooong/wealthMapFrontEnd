@@ -540,6 +540,7 @@ export class AssetOverviewComponent implements OnInit {
           this.newAssetName =  '';
           this.newAssetType = '';
           this.newAssetAmount = null;
+          this.refreshData();
         },
         error: (err: any) => {
           console.error('新增失敗', err);
