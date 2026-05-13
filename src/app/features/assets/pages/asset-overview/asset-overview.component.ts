@@ -271,7 +271,9 @@ export class AssetOverviewComponent implements OnInit {
       if (!this.newAssetName || !this.newAssetAmount || !this.newAssetSymbol) {
         alert('請填寫完整資訊');
         return;
-      } else if(!this.editingAssetId && this.userAssets.filter(s=>s.stockId === this.newAssetSymbol)){
+      }
+      const isExistStock = this.userAssets.some(s => s.stockId === this.newAssetSymbol);
+      if(!this.editingAssetId && isExistStock){
         const isConfirmed = confirm(`${this.newAssetName} 已設置過，確定要再新增該項目嗎?`);
 
         if (!isConfirmed) {
