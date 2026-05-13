@@ -25,12 +25,22 @@
     <div class="card-top">
       <div class="left-side">
         <span class="stock-tag">{{ asset.stockId }}</span>
-        <span class="status-badge"
+        @if(!asset.suggestion){
+          <span class="status-badge"
+              [style.background-color]="'#CCE6F0'"
+              [style.color]="'#1368AA'"
+              style="font-size: 12px; border-radius: 10px; padding: 2px 8px; font-weight: bold;">
+            {{  '持有中' }}
+          </span>
+        }@else{
+          <span class="status-badge"
               [style.background-color]="asset.suggestion === '持股符合佔比' ? '#c6f6d5' : '#fed7d7'"
               [style.color]="asset.suggestion === '持股符合佔比' ? '#2f855a' : '#c53030'"
               style="font-size: 12px; border-radius: 10px; padding: 2px 8px; font-weight: bold;">
-          {{ asset.suggestion || '持有中' }}
-        </span>
+            {{ asset.suggestion }}
+          </span>
+        }
+
       </div>
       <div class="edit-actions">
         <img src="/delete.png" (click)="onDelete($index)" class="edit-delete-btn" style="width: 20px;">
