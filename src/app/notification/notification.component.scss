@@ -109,6 +109,13 @@
   }
 }
 
+.titleFontPage-box{
+width: 83%;
+margin: 0 auto;
+@media(max-width:600px) {
+    width: 92%;
+  }
+}
 .btnBack{
   background: none;
   border: none;
@@ -217,7 +224,6 @@ h2 {
   letter-spacing: 5px;
   font-size: 28px;
   position: absolute;
-  margin-left: 120px;
 
   @media(max-width:600px) {
     font-size: 24px;

@@ -44,20 +44,37 @@ export class GoalOverviewComponent implements OnInit {
 
   ngOnInit(): void {
     this.exampleService.user$.subscribe(user => {
-      if (user) {
-        this.role = user.role || 'visitor'; // ✅ 不管有沒有 id 都先更新 role
-      }
+      // if (user) {
+      //   this.role = user.role || 'visitor'; // ✅ 不管有沒有 id 都先更新 role
+      // }
       if (user && user.id) {
-        this.currentUserId = user.id;
-        this.refreshData();
-        this.loadAssets();
+        if (user && user.id && user.id !== 0) {
+          this.role = user.role;
+          this.currentUserId = user.id;
+          // this.refreshData();
+          this.loadAssets();
+        }
       }
     });
   }
 
   refreshData(): void {
     this.goalService.getGoals(this.currentUserId).subscribe({
-      next: (data) => { this.goals = data; },
+      next: (data) => {
+        // this.goals = data;
+        this.goals = data.sort((a, b) => {
+          const progressA = this.getGoalProgress(a);
+          const progressB = this.getGoalProgress(b);
+
+          // 如果一個完成了，一個沒完成，沒完成的排前面
+          if (progressA >= 100 && progressB < 100) return 1;
+          if (progressA < 100 && progressB >= 100) return -1;
+
+          // 如果狀態一樣，則按日期排序
+          return new Date(a.targetDate).getTime() - new Date(b.targetDate).getTime();
+        });
+      },
+
       error: (err) => console.error('取得財務目標失敗', err)
     });
   }
@@ -67,6 +84,7 @@ export class GoalOverviewComponent implements OnInit {
       next: (assets: any[]) => {
         this.userAssets = assets;
         this.totalAssetValue = assets.reduce((sum, a) => sum + a.currentValue, 0);
+        this.refreshData();
       },
       error: (err) => console.error('取得資產失敗', err)
     });
