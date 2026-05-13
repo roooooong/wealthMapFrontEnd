@@ -51,7 +51,9 @@ export interface AssetDTO{
   name:string,
   symbol:string,
   type:string,
-  amount:number
+  amount:number,
+  shares:number,
+  cost:number
 }
 
 export interface InvestmentDTO{

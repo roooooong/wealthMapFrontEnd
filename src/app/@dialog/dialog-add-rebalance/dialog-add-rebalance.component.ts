@@ -4,6 +4,7 @@ import { FormsModule } from "@angular/forms";
 import { MAT_DIALOG_DATA, MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
 import { HttpClientService } from '../../@service/http-client.service';
 import { ExampleService } from '../../@service/example.service';
+import { AssetDTO } from '../../@interface/wealth-map';
 
 @Component({
   selector: 'app-dialog-add-rebalance',
@@ -37,47 +38,77 @@ export class DialogAddRebalanceComponent implements OnInit {
 
   alertSymbol: string = "";
   alertInput: string = "";
+  assets:AssetDTO[] =[];
+  totalAmount: number = 0;
 
   ngOnInit(): void {
     this.exampleService.user$.subscribe(user => {
       if (user && user.id !== 0) {
         this.userId = user.id;
+        // 儲存所有原始資產，供計算使用
+        this.assets = user.assets || [];
         // 抓取所有資產，並過濾掉已經在主頁面清單中的股票
-        const apiUrl = `http://localhost:8080/api/assets/user/${this.userId}`;
-        this.httpClientService.getApi(`http://localhost:8080/api/assets/user/${this.userId}`).subscribe((res: any) => {
-          if (res && Array.isArray(res)) {
-            const existing = this.data?.existingSymbols || [];
-            this.filteredStocks = res.filter((stock: any) => !existing.includes(stock.symbol));
-          }
+        const apiUrl = `http://localhost:8080/api/assets/rebalance/available-stocks/${this.userId}`;
+        this.httpClientService.getApi(apiUrl).subscribe((res: any) => {
+          if(!res) return;
+          this.filteredStocks = res;
         });
       }
     });
+
+    const apiUrl = `http://localhost:8080/api/assets/user/${this.userId}`;
   }
 
   onStockChange() {
     if (!this.newAsset.stockId) {
-    this.currentPrice = 0;
-    this.newAsset.sharesOwned = 0;
-    return;
-  }
+      this.currentPrice = 0;
+      this.newAsset.sharesOwned = 0;
+      return;
+    }
 
-  // 【新增這段】：在清單中找到被選中的股票物件
-  const selectedAsset = this.filteredStocks.find(s => s.symbol === this.newAsset.stockId);
+    // 1. 從 allAssets 中過濾出所有符合該 symbol 的股票資產
+    const matchingAssets = this.assets.filter(
+      a => a.type === 'STOCK' && a.symbol === this.newAsset.stockId
+    );
 
-  if (selectedAsset) {
-    this.newAsset.sharesOwned = selectedAsset.sharesOwned || 0;
-    console.log('已自動填入股數:', this.newAsset.sharesOwned);
-  }
+    const totalShares = matchingAssets.reduce((sum, current) => sum + current.shares, 0);
+    console.log(matchingAssets);
+    console.log('股數'+totalShares);
+
+    // 這裡先預設為 0，等拿到現價後在 subscribe 裡計算比較準確
+    this.newAsset.sharesOwned = totalShares || 0;
+
+    // 【新增這段】：在清單中找到被選中的股票物件
+    // const selectedAsset = this.filteredStocks.find(s => s.symbol === this.newAsset.stockId);
+
+    // if (selectedAsset) {
+    //   this.newAsset.sharesOwned = selectedAsset.sharesOwned || 0;
+    //   console.log('已自動填入股數:', this.newAsset.sharesOwned);
+    // }
     this.isLoading = true;
-    const quoteUrl = `http://localhost:8080/api/strategy-set/quote/${this.newAsset.stockId}`;
-    // 獲取即時報價
     this.httpClientService.getApi(`http://localhost:8080/api/strategy-set/quote/${this.newAsset.stockId}`)
-      .subscribe((res: any) => {
-        if (res.code === 200) {
-          this.currentPrice = res.data.currentPrice;
+    .subscribe((res: any) => {
+      if (res.code === 200) {
+        this.currentPrice = res.data.currentPrice;
+        //計算股數：總資產額 / 當前市價
+        if (this.currentPrice > 0) {
+          this.totalAmount = this.newAsset.sharesOwned * this.currentPrice;
         }
-        this.isLoading = false;
-      });
+
+      }
+
+      this.isLoading = false;
+    });
+
+    // const quoteUrl = `http://localhost:8080/api/strategy-set/quote/${this.newAsset.stockId}`;
+    // // 獲取即時報價
+    // this.httpClientService.getApi(`http://localhost:8080/api/strategy-set/quote/${this.newAsset.stockId}`)
+    //   .subscribe((res: any) => {
+    //     if (res.code === 200) {
+    //       this.currentPrice = res.data.currentPrice;
+    //     }
+    //     this.isLoading = false;
+    //   });
   }
 
   cancel() {

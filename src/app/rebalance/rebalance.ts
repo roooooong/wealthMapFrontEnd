@@ -109,14 +109,15 @@ export class Rebalance implements OnInit {
         this.httpClientService.postApi('http://localhost:8080/api/rebalance/save', payload).subscribe({
           next: (savedItem: any) => {
             // 存檔成功後，將資料壓入畫面陣列
-            this.portfolio.push({
-              id: savedItem.id,
-              stockId: result.stockId,
-              currentPrice: result.currentPrice || 0,
-              sharesOwned: result.sharesOwned,
-              targetPercentage: result.targetPercentage,
-              suggestion: ''
-            });
+            // this.portfolio.push({
+            //   id: savedItem.id,
+            //   stockId: result.stockId,
+            //   currentPrice: result.currentPrice || 0,
+            //   sharesOwned: result.sharesOwned,
+            //   targetPercentage: result.targetPercentage,
+            //   suggestion: ''
+            // });
+            this.loadPortfolioFromDb();
           },
           error: (err) => {
             console.error('儲存失敗：', err);

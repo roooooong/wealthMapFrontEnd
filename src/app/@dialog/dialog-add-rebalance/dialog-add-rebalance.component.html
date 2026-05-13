@@ -9,7 +9,7 @@
       <select [(ngModel)]="newAsset.stockId" (change)="onStockChange()">
         <option value="" disabled>-- 請選擇股票 --</option>
         @for (s of filteredStocks; track $index) {
-          <option [value]="s.symbol">{{ s.symbol }}</option>
+          <option [value]="s">{{ s }}</option>
         }
       </select>
       <div class="alertText">{{ alertSymbol }}</div>
@@ -24,7 +24,7 @@
           </div>
           <div class="info-item">
             <span class="label">目前市值</span>
-            <span class="value">{{ (currentPrice * newAsset.sharesOwned) | number }}</span>
+            <span class="value">{{ totalAmount | number }}</span>
           </div>
         }
       </div>
