@@ -164,7 +164,7 @@ export class HealthComponent implements OnInit {
 
                 type: 'line',
 
-                smooth: true,
+                smooth: false,
 
                 symbol: 'circle',
 
