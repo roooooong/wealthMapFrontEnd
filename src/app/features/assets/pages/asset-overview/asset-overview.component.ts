@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule, CurrencyPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Chart } from 'chart.js/auto';
@@ -20,7 +20,8 @@ import { LiabilityService } from '../../../../@service/liability.service';
   providers: [CurrencyPipe, ExampleService]
 })
 export class AssetOverviewComponent implements OnInit {
-
+  // 取得 HTML 中的標記元件
+  @ViewChild('formTop') formTopElement!: ElementRef;
   //資產變數
   userAssets: AssetDTO[] = [];
   allocationData: AssetAllocationDto[] = [];
@@ -365,6 +366,8 @@ export class AssetOverviewComponent implements OnInit {
   editAsset(asset: any): void {
     this.editingAssetId = asset.id;
     this.showAddAssetForm = true;
+    this.showAddLiabilityForm = false;
+    this.showAddCashflowForm = false;
 
     this.newAssetName = asset.name;
     this.newAssetType = asset.type;
@@ -372,6 +375,9 @@ export class AssetOverviewComponent implements OnInit {
     this.unitCount = asset.sharesOwned;
     this.unitPrice = asset.cost ?? null;
     this.newAssetAmount = asset.amount ?? null;
+
+    // 新增滾動方法
+    this.scrollToForm();
   }
 
   cancelEdit() {
@@ -397,6 +403,7 @@ export class AssetOverviewComponent implements OnInit {
   toggleAddLiabilityForm(): void {
     this.showAddLiabilityForm = !this.showAddLiabilityForm;
     this.showAddAssetForm = false;
+    this.showAddCashflowForm = false;
   }
 
   addLiability(): void {
@@ -448,12 +455,16 @@ export class AssetOverviewComponent implements OnInit {
     this.editingLiabilityId = liability.id!;
     this.showAddLiabilityForm = true;
     this.showAddAssetForm = false;
+    this.showAddCashflowForm = false;
     this.newLiabilityName = liability.name;
     this.newLiabilityCategory = liability.category;
     this.newLiabilityAmount = liability.amount;
     this.newLiabilityPayment = liability.monthlyPayment!;
     this.newLiabilityNotifyEnabled= liability.notifyEnabled;
     this.newLiabilitydueDay = liability.dueDay==null ? 1 : liability.dueDay;
+
+    // 新增滾動方法
+    this.scrollToForm();
   }
 
   cancelLiabilityEdit(): void {
@@ -561,11 +572,16 @@ export class AssetOverviewComponent implements OnInit {
   editCashFlow(asset: any): void {
     this.editingAssetId = asset.id; // 記下 ID，進入編輯模式
     this.showAddCashflowForm = true;
+    this.showAddLiabilityForm = false;
+    this.showAddAssetForm = false;
 
     // 完美對應你的變數清單
     this.newAssetName = asset.name;
     this.newAssetType = asset.type;
     this.newAssetAmount = asset.currentValue; // 總金額
+
+    // 新增滾動方法
+    this.scrollToForm();
   }
 
   cancelCashFlow(): void {
@@ -628,5 +644,17 @@ export class AssetOverviewComponent implements OnInit {
       case 'OTHER': return '其他';
       default: return type;
     }
+  }
+
+  // 新增滾動方法
+  scrollToForm() {
+    setTimeout(() => {
+      if (this.formTopElement) {
+        this.formTopElement.nativeElement.scrollIntoView({
+          behavior: 'smooth', // 平滑滾動
+          block: 'start'      // 對齊頂部
+        });
+      }
+    }, 100); // 延遲 100 毫秒確保 DOM 已渲染
   }
 }

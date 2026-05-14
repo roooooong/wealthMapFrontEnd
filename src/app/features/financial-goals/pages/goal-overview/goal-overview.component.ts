@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef  } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule, CurrencyPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -15,6 +15,8 @@ import { AssetService } from '../../../assets/services/asset.service';
   providers: [CurrencyPipe]
 })
 export class GoalOverviewComponent implements OnInit {
+  // 取得 HTML 中的標記元件
+  @ViewChild('formTop') formTopElement!: ElementRef;
 
   role: string = 'visitor';
   isLoggedIn: boolean = true;
@@ -102,6 +104,8 @@ export class GoalOverviewComponent implements OnInit {
     this.newGoalAmount = goal.targetAmount;
     this.newGoalDate = goal.targetDate;
     this.newGoalAssetId = goal.assetId ?? null;
+    // 新增滾動方法
+    this.scrollToForm();
   }
 
   saveGoal(): void {
@@ -185,5 +189,17 @@ export class GoalOverviewComponent implements OnInit {
     today.setHours(0, 0, 0, 0);
     const target = new Date(targetDate);
     return target < today && this.getGoalProgress({ targetDate } as any) < 100;
+  }
+
+  // 新增滾動方法
+  scrollToForm() {
+    setTimeout(() => {
+      if (this.formTopElement) {
+        this.formTopElement.nativeElement.scrollIntoView({
+          behavior: 'smooth', // 平滑滾動
+          block: 'start'      // 對齊頂部
+        });
+      }
+    }, 100); // 延遲 100 毫秒確保 DOM 已渲染
   }
 }
