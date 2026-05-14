@@ -141,9 +141,8 @@ export class HealthComponent implements OnInit {
 
             yAxis: {
               type: 'value',
-
-              min: -100,
-              max: 100,
+              min: 'dataMin',
+              max: 'dataMax',
 
               interval: 20,
 
@@ -293,22 +292,50 @@ export class HealthComponent implements OnInit {
 
         this.analysisList = data.advice ?? [];
 
-        if (score >= 85) {
+        if (score === 0) {
+
+          this.healthLevel = '危機';
+
+          this.healthLevelClass = 'crisis';
+
+          this.analysisList = [
+            '目前財務狀況已進入高風險區間',
+            '建議立即降低負債與固定支出',
+            '優先建立緊急預備金',
+            '避免高風險投資與額外借貸'
+          ];
+
+        }
+        else if (score >= 85) {
+
           this.healthLevel = '非常健康';
+
           this.healthLevelClass = 'excellent';
+
         }
         else if (score >= 60) {
+
           this.healthLevel = '穩定';
+
           this.healthLevelClass = 'good';
+
         }
         else if (score >= 40) {
+
           this.healthLevel = '注意';
+
           this.healthLevelClass = 'warning';
+
         }
         else {
+
           this.healthLevel = '警告';
+
           this.healthLevelClass = 'danger';
+
         }
+
+
         this.healthTipText =
           '90~100：財務非常健康\n' +
           '60~89：財務穩定\n' +
