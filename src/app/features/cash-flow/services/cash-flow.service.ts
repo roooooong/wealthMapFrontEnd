@@ -7,7 +7,7 @@ import { CashFlow } from '../model/cash-flow.model';
   providedIn: 'root'
 })
 export class CashFlowService {
-  private apiUrl = 'https://backend-production-b9bbb.up.railway.app/api/cash-flows';
+  private apiUrl = 'https://wealthmapbackend-production-412c.up.railway.app/api/cash-flows';
 
   constructor(private http: HttpClient) { }
 

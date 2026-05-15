@@ -85,7 +85,7 @@ export class AdminNotificationSetComponent {
   }
   fetchNotificationDetail(id: number) {
   this.notificationIdDetail = null; // 抓取前先清空，避免畫面閃爍
-  this.httpClientService.getApi(`https://backend-production-b9bbb.up.railway.app/api/notifications/${id}`)
+  this.httpClientService.getApi(`https://wealthmapbackend-production-412c.up.railway.app/api/notifications/${id}`)
     .subscribe((res: any) => {
       if (res && res.data) {
         this.notificationIdDetail = res.data;
@@ -102,7 +102,7 @@ detail(pageId: number) {
   // detail(pageId: number) {
   //   this.notificationIdDetail = null;
   //   this.page = 2;
-  //   this.httpClientService.getApi(`https://backend-production-b9bbb.up.railway.app/api/notifications/${pageId}`)
+  //   this.httpClientService.getApi(`https://wealthmapbackend-production-412c.up.railway.app/api/notifications/${pageId}`)
   //     .subscribe((notificationIdDetail: any) => {
   //       if (notificationIdDetail && notificationIdDetail.data) {
   //         console.log(notificationIdDetail.data);
@@ -160,7 +160,7 @@ setAboutUs(){
     console.log(this.activatedRoute.snapshot.paramMap.get('pageId'));
 
     //取得公告列表
-    this.httpClientService.getApi(`https://backend-production-b9bbb.up.railway.app/api/notifications/list`)
+    this.httpClientService.getApi(`https://wealthmapbackend-production-412c.up.railway.app/api/notifications/list`)
       .subscribe((notificationList: any) => {
         console.log(notificationList);
         this.notificationList = notificationList;

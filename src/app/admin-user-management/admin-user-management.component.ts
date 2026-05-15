@@ -66,7 +66,7 @@ export class AdminUserManagementComponent {
   }
 
   fetchUsers(){
-    this.httpClientService.getApi(`https://backend-production-b9bbb.up.railway.app/api/auth/user-list`)
+    this.httpClientService.getApi(`https://wealthmapbackend-production-412c.up.railway.app/api/auth/user-list`)
     .subscribe((res: any) => {
       this.userList = res.data.filter(((item:any) => item.id !== this.userId));
       // this.userList = res.data;
@@ -103,8 +103,8 @@ export class AdminUserManagementComponent {
       const originalState = !user.enabled;
       //如果有值傳遞出來
       if (isConfirm) {
-        console.log(`https://backend-production-b9bbb.up.railway.app/api/auth/${user.id}/enabled`);
-        this.httpClientService.patchApi(`https://backend-production-b9bbb.up.railway.app/api/auth/${user.id}/enabled`, {})
+        console.log(`https://wealthmapbackend-production-412c.up.railway.app/api/auth/${user.id}/enabled`);
+        this.httpClientService.patchApi(`https://wealthmapbackend-production-412c.up.railway.app/api/auth/${user.id}/enabled`, {})
           .subscribe({
             next: () => {
               user.enabled = !user.enabled; // 更新前端狀態

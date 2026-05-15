@@ -38,7 +38,7 @@ export class NotificationComponent {
 
   // fetchNotificationDetail(id: number) {
   //   this.notificationIdDetail = null; // 抓取前先清空，避免畫面閃爍
-  //   this.httpClientService.getApi(`https://backend-production-b9bbb.up.railway.app/api/notifications/${id}`)
+  //   this.httpClientService.getApi(`https://wealthmapbackend-production-412c.up.railway.app/api/notifications/${id}`)
   //   .subscribe((res: any) => {
   //     if (res && res.data) {
   //       this.notificationIdDetail = res.data;
@@ -62,7 +62,7 @@ export class NotificationComponent {
 
   // 1. 取得系統公告列表 (page = 1)
   loadSystemList() {
-    this.httpClientService.getApi(`https://backend-production-b9bbb.up.railway.app/api/notifications/list`)
+    this.httpClientService.getApi(`https://wealthmapbackend-production-412c.up.railway.app/api/notifications/list`)
     .subscribe((res: any) => {
       this.notificationList = res; // 這裡對應你原本的變數
       this.personalLogs = [];     // 清空另一邊的資料，確保畫面不衝突
@@ -73,7 +73,7 @@ export class NotificationComponent {
   loadPersonalList() {
     // 假設你有從 ExampleService 或 Session 取得 userId
     const userId = this.userId;
-      this.httpClientService.getApi(`https://backend-production-b9bbb.up.railway.app/api/notifications/${userId}/personal-list`)
+      this.httpClientService.getApi(`https://wealthmapbackend-production-412c.up.railway.app/api/notifications/${userId}/personal-list`)
       .subscribe((res: any) => {
         this.personalLogs = res.data; // 儲存個人通知陣列
         this.notificationList = null;  // 清空系統公告
@@ -86,7 +86,7 @@ export class NotificationComponent {
     //如果是訪客身分，絕對不准傳 userId 給後端
   if(type === 'SYSTEM' && (this.role === 'visitor' || !localStorage.getItem('token'))) {
     // 訪客只能看「純系統公告」，不帶 userId 參數
-    const pureEndpoint = `https://backend-production-b9bbb.up.railway.app/api/notifications/${id}`;
+    const pureEndpoint = `https://wealthmapbackend-production-412c.up.railway.app/api/notifications/${id}`;
     this.httpClientService.getApi(pureEndpoint).subscribe((res: any) => {
        // 只顯示內容，不呼叫 markAsRead
        this.notificationIdDetail = res.data;
@@ -101,8 +101,8 @@ export class NotificationComponent {
 
     // 根據 type 決定去哪一個 Endpoint 抓資料
     const endpoint = type === 'SYSTEM'
-      ? `https://backend-production-b9bbb.up.railway.app/api/notifications/${id}`
-      : `https://backend-production-b9bbb.up.railway.app/api/notifications/${this.userId}/personal-list`; // 假設個人詳情 API 路徑
+      ? `https://wealthmapbackend-production-412c.up.railway.app/api/notifications/${id}`
+      : `https://wealthmapbackend-production-412c.up.railway.app/api/notifications/${this.userId}/personal-list`; // 假設個人詳情 API 路徑
 
     this.httpClientService.getApi(endpoint).subscribe((res: any) => {
       if (res && res.data) {
@@ -140,7 +140,7 @@ export class NotificationComponent {
   }
 
     if(type==='SYSTEM'){
-      this.httpClientService.postApi(`https://backend-production-b9bbb.up.railway.app/api/notifications/read?userId=${this.userId}&notificationId=${id}`, {})
+      this.httpClientService.postApi(`https://wealthmapbackend-production-412c.up.railway.app/api/notifications/read?userId=${this.userId}&notificationId=${id}`, {})
       .subscribe((res:any) => {
         if(res.code===200){
           // 4. 跳轉到公告訊息詳情頁 (或彈出視窗)
@@ -150,7 +150,7 @@ export class NotificationComponent {
       });
     }else if(type==='PERSONAL'){
       // 呼叫個人訊息已讀 API (假設路徑如下)
-      this.httpClientService.patchApi(`https://backend-production-b9bbb.up.railway.app/api/notifications/${id}/read`, {})
+      this.httpClientService.patchApi(`https://wealthmapbackend-production-412c.up.railway.app/api/notifications/${id}/read`, {})
       .subscribe((res:any) => {
         if(res.code===200){
           // 4. 跳轉到個人訊息詳情頁 (或彈出視窗)
@@ -296,7 +296,7 @@ export class NotificationComponent {
 
     // //取得公告列表
     // if(isSystem){
-    //   this.httpClientService.getApi(`https://backend-production-b9bbb.up.railway.app/api/notifications/list`)
+    //   this.httpClientService.getApi(`https://wealthmapbackend-production-412c.up.railway.app/api/notifications/list`)
     //   .subscribe((notificationList: any) => {
     //     console.log(notificationList);
     //     this.notificationList = notificationList;
@@ -304,7 +304,7 @@ export class NotificationComponent {
 
     //   });
     // }else{
-    //   this.httpClientService.getApi(`https://backend-production-b9bbb.up.railway.app/api/notifications/${this.userId}/personal-list`)
+    //   this.httpClientService.getApi(`https://wealthmapbackend-production-412c.up.railway.app/api/notifications/${this.userId}/personal-list`)
     //   .subscribe((personalLogs: any) => {
     //     console.log(personalLogs);
     //     this.personalLogs = personalLogs;

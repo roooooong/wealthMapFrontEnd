@@ -48,7 +48,7 @@ export class DialogAddRebalanceComponent implements OnInit {
         // 儲存所有原始資產，供計算使用
         this.assets = user.assets || [];
         // 抓取所有資產，並過濾掉已經在主頁面清單中的股票
-        const apiUrl = `https://backend-production-b9bbb.up.railway.app/api/assets/rebalance/available-stocks/${this.userId}`;
+        const apiUrl = `https://wealthmapbackend-production-412c.up.railway.app/api/assets/rebalance/available-stocks/${this.userId}`;
         this.httpClientService.getApi(apiUrl).subscribe((res: any) => {
           if(!res) return;
           this.filteredStocks = res;
@@ -56,7 +56,7 @@ export class DialogAddRebalanceComponent implements OnInit {
       }
     });
 
-    const apiUrl = `https://backend-production-b9bbb.up.railway.app/api/assets/user/${this.userId}`;
+    const apiUrl = `https://wealthmapbackend-production-412c.up.railway.app/api/assets/user/${this.userId}`;
   }
 
   onStockChange() {
@@ -87,7 +87,7 @@ export class DialogAddRebalanceComponent implements OnInit {
       //   console.log('已自動填入股數:', this.newAsset.sharesOwned);
       // }
       this.isLoading = true;
-      this.httpClientService.getApi(`http://localhost:8080/api/strategy-set/quote/${this.newAsset.stockId}`)
+      this.httpClientService.getApi(`http://wealthmapbackend-production-412c.up.railway.app/api/strategy-set/quote/${this.newAsset.stockId}`)
       .subscribe((res: any) => {
         if (res.code === 200) {
           this.currentPrice = res.data.currentPrice;
@@ -102,9 +102,9 @@ export class DialogAddRebalanceComponent implements OnInit {
 
     }
 
-    // const quoteUrl = `https://backend-production-b9bbb.up.railway.app/api/strategy-set/quote/${this.newAsset.stockId}`;
+    // const quoteUrl = `https://wealthmapbackend-production-412c.up.railway.app/api/strategy-set/quote/${this.newAsset.stockId}`;
     // // 獲取即時報價
-    // this.httpClientService.getApi(`https://backend-production-b9bbb.up.railway.app/api/strategy-set/quote/${this.newAsset.stockId}`)
+    // this.httpClientService.getApi(`https://wealthmapbackend-production-412c.up.railway.app/api/strategy-set/quote/${this.newAsset.stockId}`)
     //   .subscribe((res: any) => {
     //     if (res.code === 200) {
     //       this.currentPrice = res.data.currentPrice;

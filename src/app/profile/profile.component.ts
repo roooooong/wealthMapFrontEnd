@@ -132,7 +132,7 @@ export class ProfileComponent {
         newPassword: this.newPassword
       };
       //為了寫error 所以改成next的方式
-      this.httpClientService.postApi(`https://backend-production-b9bbb.up.railway.app/api/auth/change-password`, newpwd, { headers })
+      this.httpClientService.postApi(`https://wealthmapbackend-production-412c.up.railway.app/api/auth/change-password`, newpwd, { headers })
         .subscribe({
           next: (changePwd: any) => {
             if (changePwd.code == 200) {

@@ -130,7 +130,7 @@ export class ExampleService {
    * 透過 Email 取得完整資料的私有方法
    */
   private fetchFullUserInfo(email: string) {
-    this.httpClientService.getApi(`https://backend-production-b9bbb.up.railway.app/api/users/details?email=${email}`)
+    this.httpClientService.getApi(`https://wealthmapbackend-production-412c.up.railway.app/api/users/details?email=${email}`)
     .subscribe((info:any) => {
       // 把這份完整的使用者資訊存進 Service 或是 sessionStorage
       if(info.code===200){

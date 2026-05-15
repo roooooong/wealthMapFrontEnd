@@ -80,7 +80,7 @@ export class LoginComponent {
         password: this.password
       };
       console.log('格式正確，執行登入 API');
-      this.httpClientService.postApi(`https://backend-production-b9bbb.up.railway.app/api/auth/login`, loginData)
+      this.httpClientService.postApi(`https://wealthmapbackend-production-412c.up.railway.app/api/auth/login`, loginData)
         .subscribe((login: any) => {
           if (login.code == 200) {
             console.log('登入成功');
@@ -145,7 +145,7 @@ export class LoginComponent {
   send() {
     this.validate('email');
     if (!this.emailErrorMsg) {
-      this.httpClientService.getApi(`https://backend-production-b9bbb.up.railway.app/api/auth/send-mail?to=${this.email}`)
+      this.httpClientService.getApi(`https://wealthmapbackend-production-412c.up.railway.app/api/auth/send-mail?to=${this.email}`)
         .subscribe((sendEmail: any) => {
           if (sendEmail.code == 200) {
             this.showDialog(3);
@@ -191,7 +191,7 @@ export class LoginComponent {
         password: this.password
       };
       console.log('格式正確，執行登入 API');
-      this.httpClientService.postApi(`https://backend-production-b9bbb.up.railway.app/api/auth/login`, loginData)
+      this.httpClientService.postApi(`https://wealthmapbackend-production-412c.up.railway.app/api/auth/login`, loginData)
         .subscribe((relogin: any) => {
           if (relogin.code == 200) {
             console.log('登入成功');

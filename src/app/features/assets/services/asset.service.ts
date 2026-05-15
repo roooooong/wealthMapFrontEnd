@@ -18,7 +18,7 @@ export interface TwStockList {
 })
 export class AssetService {
 
-    private apiUrl = 'https://backend-production-b9bbb.up.railway.app/api/assets';
+    private apiUrl = 'https://wealthmapbackend-production-412c.up.railway.app/api/assets';
     // 用來存放查過的股票，格式：{ "2330": "台積電" }
     private stockCache = new Map<string, string>();
 
@@ -48,11 +48,11 @@ export class AssetService {
     updateAsset(id: number, payload: any): Observable<any> {
 
         // 注意：這裡的 URL 請配合你檔案中原本的寫法
-        // 如果你有宣告 baseUrl (例如 this.apiUrl = 'https://backend-production-b9bbb.up.railway.app/api/assets')
+        // 如果你有宣告 baseUrl (例如 this.apiUrl = 'https://wealthmapbackend-production-412c.up.railway.app/api/assets')
         // 那就寫成 return this.http.put(`${this.apiUrl}/${id}`, payload);
 
         // 如果你是直接寫死網址，就用下面這行：
-        return this.http.put(`https://backend-production-b9bbb.up.railway.app/api/assets/${id}`, payload);
+        return this.http.put(`https://wealthmapbackend-production-412c.up.railway.app/api/assets/${id}`, payload);
     }
     addAsset(userId: number, assetData: any): Observable<any> {
         return this.http.post<any>(`${this.apiUrl}/${userId}`, assetData);
@@ -125,7 +125,7 @@ export class AssetService {
             });
         }
 
-        return this.http.get<any>(`https://backend-production-b9bbb.up.railway.app/api/assets/search-stock/${symbol}`).pipe(
+        return this.http.get<any>(`https://wealthmapbackend-production-412c.up.railway.app/api/assets/search-stock/${symbol}`).pipe(
             tap(res => {
                 // 如果後端有查到資料，我們就偷偷把它抄進小本子裡備用
                 if (res && res.code === 200 && res.data) {
