@@ -8,7 +8,7 @@ import { RiskAssessmentRequest } from '../models/risk.model';
 })
 export class RiskService {
     // TODO: 更新為實際後端 API 網址
-    private apiUrl = 'https://backend-production-b9bbb.up.railway.app/api/risk';
+    private apiUrl = 'https://wealthmapbackend-production-85e8.up.railway.app/api/risk';
 
     constructor(private http: HttpClient) { }
     //Risk Test頁面計算分數
@@ -23,10 +23,10 @@ export class RiskService {
         return this.http.get<any>(`${this.apiUrl}/user/${userId}`);
     }
     // getRecommendations(userId: number) {
-    //     return this.http.get<any>(`https://backend-production-b9bbb.up.railway.app/api/portfolio/recommend/${userId}`);
+    //     return this.http.get<any>(`https://wealthmapbackend-production-85e8.up.railway.app/api/portfolio/recommend/${userId}`);
     // }
     getRecommendations(level: string) {
-        return this.http.get<any>(`https://backend-production-b9bbb.up.railway.app/api/portfolio/recommend/${level}`);
+        return this.http.get<any>(`https://wealthmapbackend-production-85e8.up.railway.app/api/portfolio/recommend/${level}`);
     }
 
 }

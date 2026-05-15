@@ -70,7 +70,7 @@ export class MainComponent {
 
   fetchNotificationDetail(id: number) {
     this.notificationIdDetail = null; // 抓取前先清空，避免畫面閃爍
-    this.httpClientService.getApi(`https://backend-production-b9bbb.up.railway.app/api/notifications/${id}`)
+    this.httpClientService.getApi(`https://wealthmapbackend-production-85e8.up.railway.app/api/notifications/${id}`)
       .subscribe((res: any) => {
         if (res && res.data) {
           this.notificationIdDetail = res.data;
@@ -474,7 +474,7 @@ refreshChart(data: any[]) {
       const pageId = params['pageId']; // 確保這裡的名稱跟 AppRoutingModule 定義一致
 
       //取得公告列表
-      this.httpClientService.getApi(`https://backend-production-b9bbb.up.railway.app/api/notifications/list`)
+      this.httpClientService.getApi(`https://wealthmapbackend-production-85e8.up.railway.app/api/notifications/list`)
         .subscribe((notificationList: any) => {
           // console.log(notificationList);
           this.notificationList = notificationList;
@@ -498,12 +498,12 @@ refreshChart(data: any[]) {
           // 當身分正確時，統籌呼叫所有圖表數據
           if (this.role === 'USER' || this.role === 'ADMIN') {
             //同步使用者總資產(用於折線圖)
-            this.httpClientService.postApi(`https://backend-production-b9bbb.up.railway.app/api/asset-history/sync/${this.userId}`)
+            this.httpClientService.postApi(`https://wealthmapbackend-production-85e8.up.railway.app/api/asset-history/sync/${this.userId}`)
               .subscribe((totalasset: any) => {
                 console.log('同步userid=', this.userId, '的資產');
 
                 //取得使用者總資產(用於折線圖)
-                this.httpClientService.getApi(`https://backend-production-b9bbb.up.railway.app/api/asset-history/${this.userId}`)
+                this.httpClientService.getApi(`https://wealthmapbackend-production-85e8.up.railway.app/api/asset-history/${this.userId}`)
                   .subscribe((assetHistory: any) => {
                     console.log('取得userid=', this.userId, '的總資產變化', assetHistory);
                     if (assetHistory && assetHistory.length > 0) {
@@ -534,7 +534,7 @@ refreshChart(data: any[]) {
 
 
     // 取得前台新聞列表
-    this.httpClientService.getApi(`https://backend-production-b9bbb.up.railway.app/api/news/user/list`)
+    this.httpClientService.getApi(`https://wealthmapbackend-production-85e8.up.railway.app/api/news/user/list`)
       .subscribe((news: any) => {
         console.log('使用者的新聞列表', news);
         this.newsList = news;

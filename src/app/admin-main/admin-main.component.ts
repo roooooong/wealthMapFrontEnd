@@ -54,7 +54,7 @@ export class AdminMainComponent {
 
    fetchNotificationDetail(id: number) {
     this.notificationIdDetail = null; // 抓取前先清空，避免畫面閃爍
-    this.httpClientService.getApi(`https://backend-production-b9bbb.up.railway.app/api/notifications/${id}`)
+    this.httpClientService.getApi(`https://wealthmapbackend-production-85e8.up.railway.app/api/notifications/${id}`)
       .subscribe((res: any) => {
         if (res && res.data) {
           this.notificationIdDetail = res.data;
@@ -187,7 +187,7 @@ ngAfterViewInit() {
       const pageId = params['pageId']; // 確保這裡的名稱跟 AppRoutingModule 定義一致
 
       //取得系統公告列表
-      this.httpClientService.getApi(`https://backend-production-b9bbb.up.railway.app/api/notifications/list`)
+      this.httpClientService.getApi(`https://wealthmapbackend-production-85e8.up.railway.app/api/notifications/list`)
         .subscribe((notificationList: any) => {
           console.log(notificationList);
           this.notificationList = notificationList;
@@ -220,7 +220,7 @@ ngAfterViewInit() {
     // }, 8000);
 
     // 取得前台新聞列表
-    this.httpClientService.getApi(`https://backend-production-b9bbb.up.railway.app/api/news/user/list`)
+    this.httpClientService.getApi(`https://wealthmapbackend-production-85e8.up.railway.app/api/news/user/list`)
       .subscribe((news: any) => {
         console.log('使用者的新聞列表', news);
         this.newsList = news;

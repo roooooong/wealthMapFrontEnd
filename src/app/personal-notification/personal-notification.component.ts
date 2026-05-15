@@ -22,7 +22,7 @@ export class PersonalNotificationComponent {
 
   fetchNotificationDetail(id: number) {
   this.notificationIdDetail = null; // 抓取前先清空，避免畫面閃爍
-  this.httpClientService.getApi(`https://backend-production-b9bbb.up.railway.app/api/notifications/${id}`)
+  this.httpClientService.getApi(`https://wealthmapbackend-production-85e8.up.railway.app/api/notifications/${id}`)
     .subscribe((res: any) => {
       if (res && res.data) {
         this.notificationIdDetail = res.data;
@@ -44,7 +44,7 @@ today = new Date();
     console.log(this.activatedRoute.snapshot.paramMap.get('pageId'));
 
     //取得公告列表
-    this.httpClientService.getApi(`https://backend-production-b9bbb.up.railway.app/api/notifications/list`)
+    this.httpClientService.getApi(`https://wealthmapbackend-production-85e8.up.railway.app/api/notifications/list`)
       .subscribe((notificationList: any) => {
         console.log(notificationList);
         this.notificationList = notificationList;

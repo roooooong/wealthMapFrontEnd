@@ -118,7 +118,7 @@ export class RegisterComponent {
         password: this.password
       };
       console.log('格式正確，執行登入 API');
-      this.httpClientService.postApi(`https://backend-production-b9bbb.up.railway.app/api/auth/register`, registerData)
+      this.httpClientService.postApi(`https://wealthmapbackend-production-85e8.up.railway.app/api/auth/register`, registerData)
         .subscribe((register: any) => {
           if (register.code == 409) {
             console.log('已註冊過');
@@ -135,7 +135,7 @@ export class RegisterComponent {
               password: this.password
             };
 
-            this.httpClientService.postApi(`https://backend-production-b9bbb.up.railway.app/api/auth/login`, loginData)
+            this.httpClientService.postApi(`https://wealthmapbackend-production-85e8.up.railway.app/api/auth/login`, loginData)
               .subscribe((login: any) => {
                 if (login.code == 200) {
                   // 3. 執行你 LoginComponent 裡那套完整的登入邏輯

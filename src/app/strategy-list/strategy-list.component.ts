@@ -88,7 +88,7 @@ export class StrategyListComponent {
     }
     console.log(updatedStrategy);
     // 這裡執行 API 更新邏輯
-    this.httpClientService.putApi(`https://backend-production-b9bbb.up.railway.app/api/strategy-set/${updatedStrategy.id}`,updatedStrategy)
+    this.httpClientService.putApi(`https://wealthmapbackend-production-85e8.up.railway.app/api/strategy-set/${updatedStrategy.id}`,updatedStrategy)
     .subscribe((res:any) => {
       console.log(res);
       if (res && res.code === 200) {
@@ -152,7 +152,7 @@ export class StrategyListComponent {
   onDelete(index: number){
 
 
-    this.httpClientService.delApi(`https://backend-production-b9bbb.up.railway.app/api/strategy-set/${this.strategies[index].id}`)
+    this.httpClientService.delApi(`https://wealthmapbackend-production-85e8.up.railway.app/api/strategy-set/${this.strategies[index].id}`)
     .subscribe((res:any) => {
       if (res.code === 200) {
         // 畫面移除這張卡片
@@ -216,7 +216,7 @@ export class StrategyListComponent {
 
     // 針對每筆 symbol 去抓取報價
     this.strategies.forEach(s => {
-      this.httpClientService.getApi(`https://backend-production-b9bbb.up.railway.app/api/strategy-set/quote/${s.symbol}`)
+      this.httpClientService.getApi(`https://wealthmapbackend-production-85e8.up.railway.app/api/strategy-set/quote/${s.symbol}`)
         .subscribe({
           next: (res: any) => {
             if (res.code===200 && res.data) {
