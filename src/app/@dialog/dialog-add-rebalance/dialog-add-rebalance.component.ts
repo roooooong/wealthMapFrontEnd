@@ -74,7 +74,7 @@ export class DialogAddRebalanceComponent implements OnInit {
           );
       const totalShares = matchingAssets.reduce((sum, current) => sum + current.shares, 0);
       console.log(matchingAssets);
-      console.log('股數'+totalShares);
+      console.log('股 數'+totalShares);
 
       // 這裡先預設為 0，等拿到現價後在 subscribe 裡計算比較準確
       this.newAsset.sharesOwned = totalShares || 0;
