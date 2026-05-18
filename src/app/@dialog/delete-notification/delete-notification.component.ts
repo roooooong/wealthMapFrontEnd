@@ -19,7 +19,7 @@ export class DeleteNotificationComponent {
   readonly data = inject<any>(MAT_DIALOG_DATA);
 
   delete() {
-    this.httpClientService.delApi(`https://backend-production-b9bbb.up.railway.app/api/notifications/${this.id}`)
+    this.httpClientService.delApi(`https://wealthmapbackend-production-85e8.up.railway.app/api/notifications/${this.id}`)
       .subscribe((del: any) => {
         if (del.code == 200) {
           console.log('刪除成功');
@@ -34,7 +34,7 @@ export class DeleteNotificationComponent {
   }
 
   ngOnInit(): void {
-    this.httpClientService.getApi(`https://backend-production-b9bbb.up.railway.app/api/notifications/list`)
+    this.httpClientService.getApi(`https://wealthmapbackend-production-85e8.up.railway.app/api/notifications/list`)
       .subscribe((editNotificationList: any) => {
         console.log(editNotificationList.data[this.data]);
         this.id = editNotificationList.data[this.data].id;

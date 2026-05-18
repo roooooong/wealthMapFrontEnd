@@ -49,7 +49,7 @@ export class DialogAddStrategyComponent {
     this.exampleService.user$.subscribe(user => {
       if (user && user.id !== 0) {
         this.userId = user.id;
-        this.httpClientService.getApi(`https://backend-production-b9bbb.up.railway.app/api/strategy-set/user/available-stocks/${this.userId}`)
+        this.httpClientService.getApi(`https://wealthmapbackend-production-85e8.up.railway.app/api/strategy-set/user/available-stocks/${this.userId}`)
         .subscribe((res:any) => {
           if(!res) return;
           this.userHolding = res;
@@ -74,7 +74,7 @@ export class DialogAddStrategyComponent {
 
 
 
-    this.httpClientService.getApi(`https://backend-production-b9bbb.up.railway.app/api/strategy-set/quote/${symbol}`)
+    this.httpClientService.getApi(`https://wealthmapbackend-production-85e8.up.railway.app/api/strategy-set/quote/${symbol}`)
     .subscribe((res:any) => {
       console.log(res);
       if (res.code === 200) {
@@ -127,7 +127,7 @@ export class DialogAddStrategyComponent {
 
     console.log(this.newStrategy);
     // 這裡執行 API 更新邏輯
-    this.httpClientService.postApi(`https://backend-production-b9bbb.up.railway.app/api/strategy-set/user/${this.userId}`,this.newStrategy)
+    this.httpClientService.postApi(`https://wealthmapbackend-production-85e8.up.railway.app/api/strategy-set/user/${this.userId}`,this.newStrategy)
     .subscribe((res:any) => {
       if (res.code === 200) {
         this.exampleService.reloadUserContext();
