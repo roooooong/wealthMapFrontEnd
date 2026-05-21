@@ -5,9 +5,9 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class WealthService {
-  private readonly API_BASE = 'http://localhost:8080/api';
+  private readonly API_BASE = 'https://wealthmapbackend-production-5c68.up.railway.app/api';
   private readonly USERS_API_URL = `${this.API_BASE}/users`;
-  private readonly PUBLIC_API_URL = `${this.API_BASE}/wealthmap`; // 依照 Controller 的路徑
+  private readonly PUBLIC_API_URL = `${this.API_BASE}/wealthmap`; // 依�E Controller 皁E��征E
 
   constructor(private http: HttpClient) {}
 
@@ -18,16 +18,16 @@ export class WealthService {
   //   return this.http.post(`${this.PUBLIC_API_URL}/register`, data);
   // }
 
-  // 取得所有使用者
+  // 取得所有使用老E
   getAllUsers(): Observable<any[]> {
     return this.http.get<any[]>(`${this.USERS_API_URL}/users`);
   }
 
-  // 新增使用者
+  // 新增使用老E
   createUser(user: any): Observable<any> {
     return this.http.post(`${this.USERS_API_URL}/add-users`, user);
   }
-  //忘記密碼
+  //忘記寁E��
   forgotPassword(email: string): Observable<any> {
     return this.http.post(`${this.USERS_API_URL}/forgot-password`, { email });
   }

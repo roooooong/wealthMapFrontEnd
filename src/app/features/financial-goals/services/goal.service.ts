@@ -13,26 +13,26 @@ export interface FinancialGoal {
 
 @Injectable({ providedIn: 'root' })
 export class GoalService {
-  private apiUrl = 'http://localhost:8080/api/goals';
+  private apiUrl = 'https://wealthmapbackend-production-5c68.up.railway.app/api/goals';
 
   constructor(private http: HttpClient) { }
 
-  // 取得使用者所有目標
+  // 取得使用老E��有目樁E
   getGoals(userId: number): Observable<FinancialGoal[]> {
     return this.http.get<FinancialGoal[]>(`${this.apiUrl}/user/${userId}`);
   }
 
-  // 新增目標
+  // 新增目樁E
   addGoal(userId: number, goal: FinancialGoal): Observable<FinancialGoal> {
     return this.http.post<FinancialGoal>(`${this.apiUrl}/${userId}`, goal);
   }
 
-  // 刪除目標
+  // 刪除目樁E
   deleteGoal(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${id}`);
   }
 
-  //修改目標
+  //修改目樁E
   updateGoal(id: number, goal: FinancialGoal): Observable<FinancialGoal> {
     return this.http.put<FinancialGoal>(`${this.apiUrl}/${id}`, goal);
   }

@@ -11,13 +11,13 @@ describe('DialogAddRebalanceComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      // Standalone 組件應放在 imports
+      // Standalone 絁E��應放在 imports
       imports: [
         DialogAddRebalanceComponent,
         HttpClientTestingModule
       ],
       providers: [
-        // 提供 Mock 物件以符合 Angular 注入系統
+        // 提侁EMock 物件以符吁EAngular 注入系統
         { provide: MatDialogRef, useValue: { close: () => {} } },
         { provide: MAT_DIALOG_DATA, useValue: {} },
         {

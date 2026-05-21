@@ -31,11 +31,11 @@ export class HealthService {
   getAssetGrowth(userId: number) {
 
     return this.http.get<any[]>(
-      `http://localhost:8080/api/health/growth/${userId}`
+      `https://wealthmapbackend-production-5c68.up.railway.app/api/health/growth/${userId}`
     );
 
   }
-  private apiUrl = 'http://localhost:8080/api/health';
+  private apiUrl = 'https://wealthmapbackend-production-5c68.up.railway.app/api/health';
 
   constructor(private http: HttpClient) { }
 
@@ -46,11 +46,11 @@ export class HealthService {
 
 
   getHealth(userId: number): Observable<any> {
-    return this.http.get(`http://localhost:8080/api/health/${userId}`);
+    return this.http.get(`https://wealthmapbackend-production-5c68.up.railway.app/api/health/${userId}`);
   }
 
   calculateHealth(data: any) {
-    return this.http.post('http://localhost:8080/api/health', data);
+    return this.http.post('https://wealthmapbackend-production-5c68.up.railway.app/api/health', data);
   }
 
 

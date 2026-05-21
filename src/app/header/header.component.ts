@@ -8,6 +8,6 @@ import { Component } from '@angular/core';
 })
 export class HeaderComponent {
 
-// 三種身分 visitor;user;admin
+// 三種身刁Evisitor;user;admin
   role :string = "visitor";
 }

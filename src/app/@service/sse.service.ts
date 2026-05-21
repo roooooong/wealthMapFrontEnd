@@ -12,11 +12,11 @@ export class SseService {
   getServerSentEvent(userId: string): Observable<string> {
     return new Observable(observer => {
       // 連接到後端
-      // const eventSource = new EventSource(`http://localhost:8080/api/sse/subscribe/${userId}`);
-      const eventSource = new EventSource(`http://localhost:8080/api/sse/subscribe/${userId}`,{ withCredentials: true });
+      // const eventSource = new EventSource(`https://wealthmapbackend-production-5c68.up.railway.app/api/sse/subscribe/${userId}`);
+      const eventSource = new EventSource(`https://wealthmapbackend-production-5c68.up.railway.app/api/sse/subscribe/${userId}`,{ withCredentials: true });
 
 
-      // 監聽後端自定義的 'message' 事件
+      // 監聽後端自定義皁E'message' 事件
       eventSource.addEventListener('message', event => {
         this._zone.run(() => {
           observer.next(event.data);
@@ -40,7 +40,7 @@ export class SseService {
       };
 
 
-      // 當 Observable 被 unsubscribe 時關閉連線
+      // 當 Observable 被 unsubscribe 時關閉連緁E
       return () => eventSource.close();
     });
   }
