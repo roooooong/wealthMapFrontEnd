@@ -8,7 +8,7 @@ import { RiskAssessmentRequest } from '../models/risk.model';
 })
 export class RiskService {
     // TODO: 更新為實際後端 API 網址
-    private apiUrl = 'http://localhost:8080/api/risk';
+    private apiUrl = 'https://wealthmapbackend-production-5c68.up.railway.app/api/risk';
 
     constructor(private http: HttpClient) { }
     //Risk Test頁面計算分數
@@ -16,17 +16,17 @@ export class RiskService {
         return this.http.post<any>(`${this.apiUrl}/evaluate`, requestData);
     }
     //藉由riskLevel，抓取投資組合建議
-    getRiskResultByLevel(userId: number,level: string): Observable<any>  {
-      return this.http.get<any>(`${this.apiUrl}/last-riskresult?user_id=${userId}&level=${level}`);
+    getRiskResultByLevel(userId: number, level: string): Observable<any> {
+        return this.http.get<any>(`${this.apiUrl}/last-riskresult?user_id=${userId}&level=${level}`);
     }
     checkHasTested(userId: number): Observable<any> {
         return this.http.get<any>(`${this.apiUrl}/user/${userId}`);
     }
     // getRecommendations(userId: number) {
-    //     return this.http.get<any>(`http://localhost:8080/api/portfolio/recommend/${userId}`);
+    //     return this.http.get<any>(`https://wealthmapbackend-production-5c68.up.railway.app/api/portfolio/recommend/${userId}`);
     // }
     getRecommendations(level: string) {
-        return this.http.get<any>(`http://localhost:8080/api/portfolio/recommend/${level}`);
+        return this.http.get<any>(`https://wealthmapbackend-production-5c68.up.railway.app/api/portfolio/recommend/${level}`);
     }
 
 }

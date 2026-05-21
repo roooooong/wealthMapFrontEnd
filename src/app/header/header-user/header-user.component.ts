@@ -52,7 +52,7 @@ export class HeaderUserComponent {
   // 點擊系統公告列表的時候，觸發已讀和換網址
   detail(pageId: number) {
     // 1. 呼叫已讀 API (POST)
-    this.httpClientService.postApi(`http://localhost:8080/api/notifications/read?userId=${this.userId}&notificationId=${pageId}`, {})
+    this.httpClientService.postApi(`https://wealthmapbackend-production-5c68.up.railway.app/api/notifications/read?userId=${this.userId}&notificationId=${pageId}`, {})
       .subscribe(() => {
         this.router.navigate(['/system-notification', pageId]);
       });
@@ -61,7 +61,7 @@ export class HeaderUserComponent {
   // 個人提醒的點擊處理
   detailPersonal(logId: number) {
     // 1. 呼叫個人訊息已讀 API (假設路徑如下)
-    this.httpClientService.patchApi(`http://localhost:8080/api/notifications/${logId}/read`, {})
+    this.httpClientService.patchApi(`https://wealthmapbackend-production-5c68.up.railway.app/api/notifications/${logId}/read`, {})
       .subscribe(() => {
         this.router.navigate(['/personal-notification', logId]);
       });
@@ -73,8 +73,8 @@ export class HeaderUserComponent {
     if (!this.userId) return;
 
     //新增個人訊息未讀 by Carly
-    this.httpClientService.getApi(`http://localhost:8080/api/notifications/unread-count-new?userId=${this.userId}`)
-      // this.httpClientService.getApi(`http://localhost:8080/api/notifications/unread-count-new?userId=1`)
+    this.httpClientService.getApi(`https://wealthmapbackend-production-5c68.up.railway.app/api/notifications/unread-count-new?userId=${this.userId}`)
+      // this.httpClientService.getApi(`https://wealthmapbackend-production-5c68.up.railway.app/api/notifications/unread-count-new?userId=1`)
       .subscribe((res: any) => {
         if (res && res.code === 200) {
           this.systemUnreadCount = res.data.systemCount;
@@ -110,7 +110,7 @@ export class HeaderUserComponent {
 
   fetchNotificationDetail(id: number) {
     this.notificationIdDetail = null; // 抓取前先清空，避免畫面閃爍
-    this.httpClientService.getApi(`http://localhost:8080/api/notifications/${id}`)
+    this.httpClientService.getApi(`https://wealthmapbackend-production-5c68.up.railway.app/api/notifications/${id}`)
       .subscribe((res: any) => {
         if (res && res.data) {
           this.notificationIdDetail = res.data;
@@ -121,7 +121,7 @@ export class HeaderUserComponent {
 
   //取得當前使用者的公告列表(含以讀未讀狀態)
   fetchSystemNotifications() {
-    this.httpClientService.getApi(`http://localhost:8080/api/notifications/list-with-status?userId=${this.userId}`)
+    this.httpClientService.getApi(`https://wealthmapbackend-production-5c68.up.railway.app/api/notifications/list-with-status?userId=${this.userId}`)
       .subscribe((notificationList: any) => {
         console.log('使用者的公告列表', notificationList);
         this.notificationList = notificationList;
@@ -137,7 +137,7 @@ export class HeaderUserComponent {
 
 
     // 記得加上你提到的 channel=WEB_PUSH 篩選 (假設後端有提供此過濾)
-    this.httpClientService.getApi(`http://localhost:8080/api/notifications/${this.userId}/personal-list`)
+    this.httpClientService.getApi(`https://wealthmapbackend-production-5c68.up.railway.app/api/notifications/${this.userId}/personal-list`)
       .subscribe((res: any) => {
         if (res && res.code === 200) {
           this.personalNotificationList = res.data;
@@ -171,7 +171,7 @@ export class HeaderUserComponent {
     // 之後要清空使用者資料
     // this.exampleService.setRole('visitor');
     this.exampleService.clearUserData(); // 這會清除 localStorage 並廣播 null
-     // 清空 Console
+    // 清空 Console
     console.clear();
     this.router.navigate(['/main']);
   }

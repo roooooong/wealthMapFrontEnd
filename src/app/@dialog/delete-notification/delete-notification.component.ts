@@ -11,7 +11,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 export class DeleteNotificationComponent {
 
   id!: number;
-  constructor(private httpClientService: HttpClientService) {}
+  constructor(private httpClientService: HttpClientService) { }
 
   //讓這個dialogRef全域變數 等於你後面宣告的DialogComponent 後面要去做關閉才知道要關閉哪個dialog
   readonly dialogRef = inject(MatDialogRef<DeleteNotificationComponent>);
@@ -19,7 +19,7 @@ export class DeleteNotificationComponent {
   readonly data = inject<any>(MAT_DIALOG_DATA);
 
   delete() {
-    this.httpClientService.delApi(`http://localhost:8080/api/notifications/${this.id}`)
+    this.httpClientService.delApi(`https://wealthmapbackend-production-5c68.up.railway.app/api/notifications/${this.id}`)
       .subscribe((del: any) => {
         if (del.code == 200) {
           console.log('刪除成功');
@@ -34,7 +34,7 @@ export class DeleteNotificationComponent {
   }
 
   ngOnInit(): void {
-    this.httpClientService.getApi(`http://localhost:8080/api/notifications/list`)
+    this.httpClientService.getApi(`https://wealthmapbackend-production-5c68.up.railway.app/api/notifications/list`)
       .subscribe((editNotificationList: any) => {
         console.log(editNotificationList.data[this.data]);
         this.id = editNotificationList.data[this.data].id;

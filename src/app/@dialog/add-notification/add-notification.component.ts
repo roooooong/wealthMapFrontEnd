@@ -73,7 +73,7 @@ export class AddNotificationComponent {
     this.validate('scheduledDate');
 
     if (!this.tagErrorMsg && !this.titleErrorMsg && !this.scheduledDateErrorMsg) {
-      this.httpClientService.postApi(`http://localhost:8080/api/notifications/save`, this.notificationList)
+      this.httpClientService.postApi(`https://wealthmapbackend-production-5c68.up.railway.app/api/notifications/save`, this.notificationList)
         .subscribe((save: any) => {
           if (save.code == 200) {
             console.log('通知儲存成功');
@@ -95,7 +95,7 @@ export class AddNotificationComponent {
     this.validate('scheduledDate');
 
     if (!this.tagErrorMsg && !this.titleErrorMsg && !this.scheduledDateErrorMsg) {
-      this.httpClientService.putApi(`http://localhost:8080/api/notifications/update`, this.editNotificationList)
+      this.httpClientService.putApi(`https://wealthmapbackend-production-5c68.up.railway.app/api/notifications/update`, this.editNotificationList)
         .subscribe((save: any) => {
           if (save.code == 200) {
             console.log('更新成功');
@@ -139,7 +139,7 @@ export class AddNotificationComponent {
 
     if (this.data.choise == 2) {
       //取得修改公告列表
-      this.httpClientService.getApi(`http://localhost:8080/api/notifications/list`)
+      this.httpClientService.getApi(`https://wealthmapbackend-production-5c68.up.railway.app/api/notifications/list`)
         .subscribe((editNotificationList: any) => {
           console.log(editNotificationList.data[this.data.index]);
           this.id = editNotificationList.data[this.data.index].id;

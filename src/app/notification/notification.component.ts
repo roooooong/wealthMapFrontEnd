@@ -26,19 +26,19 @@ export class NotificationComponent {
     private activatedRoute: ActivatedRoute
   ) { }
 
-  notificationList!: NotificationList|null;
-  notificationIdDetail!: any|null;
-  userId!:number;
-  personalLogs:PersonalNotification[]=[];
-  personalLogDetail!:PersonalNotification|null;
-  notificationType!:string;
+  notificationList!: NotificationList | null;
+  notificationIdDetail!: any | null;
+  userId!: number;
+  personalLogs: PersonalNotification[] = [];
+  personalLogDetail!: PersonalNotification | null;
+  notificationType!: string;
   //分頁設定
-  currentPage!:number;
-  pageSize!:number;
+  currentPage!: number;
+  pageSize!: number;
 
   // fetchNotificationDetail(id: number) {
   //   this.notificationIdDetail = null; // 抓取前先清空，避免畫面閃爍
-  //   this.httpClientService.getApi(`http://localhost:8080/api/notifications/${id}`)
+  //   this.httpClientService.getApi(`https://wealthmapbackend-production-5c68.up.railway.app/api/notifications/${id}`)
   //   .subscribe((res: any) => {
   //     if (res && res.data) {
   //       this.notificationIdDetail = res.data;
@@ -54,26 +54,26 @@ export class NotificationComponent {
   ////change by carly
   detail(id: number) {
     const currentPath = this.router.url.includes('system-notification')
-                        ? 'system-notification'
-                        : 'personal-notification';
+      ? 'system-notification'
+      : 'personal-notification';
 
     this.router.navigate([currentPath, id]);
   }
 
   // 1. 取得系統公告列表 (page = 1)
   loadSystemList() {
-    this.httpClientService.getApi(`http://localhost:8080/api/notifications/list`)
-    .subscribe((res: any) => {
-      this.notificationList = res; // 這裡對應你原本的變數
-      this.personalLogs = [];     // 清空另一邊的資料，確保畫面不衝突
-    });
+    this.httpClientService.getApi(`https://wealthmapbackend-production-5c68.up.railway.app/api/notifications/list`)
+      .subscribe((res: any) => {
+        this.notificationList = res; // 這裡對應你原本的變數
+        this.personalLogs = [];     // 清空另一邊的資料，確保畫面不衝突
+      });
   }
 
   // 2. 取得個人通知列表 (page = 1)
   loadPersonalList() {
     // 假設你有從 ExampleService 或 Session 取得 userId
     const userId = this.userId;
-      this.httpClientService.getApi(`http://localhost:8080/api/notifications/${userId}/personal-list`)
+    this.httpClientService.getApi(`https://wealthmapbackend-production-5c68.up.railway.app/api/notifications/${userId}/personal-list`)
       .subscribe((res: any) => {
         this.personalLogs = res.data; // 儲存個人通知陣列
         this.notificationList = null;  // 清空系統公告
@@ -84,16 +84,16 @@ export class NotificationComponent {
   // 3. 取得詳情資料 (page = 2)
   loadDetail(id: number, type: 'SYSTEM' | 'PERSONAL') {
     //如果是訪客身分，絕對不准傳 userId 給後端
-  if(type === 'SYSTEM' && (this.role === 'visitor' || !localStorage.getItem('token'))) {
-    // 訪客只能看「純系統公告」，不帶 userId 參數
-    const pureEndpoint = `http://localhost:8080/api/notifications/${id}`;
-    this.httpClientService.getApi(pureEndpoint).subscribe((res: any) => {
-       // 只顯示內容，不呼叫 markAsRead
-       this.notificationIdDetail = res.data;
-       this.page = 2;
-    });
-    return; // 阻止後面的邏輯跑掉
-  }
+    if (type === 'SYSTEM' && (this.role === 'visitor' || !localStorage.getItem('token'))) {
+      // 訪客只能看「純系統公告」，不帶 userId 參數
+      const pureEndpoint = `https://wealthmapbackend-production-5c68.up.railway.app/api/notifications/${id}`;
+      this.httpClientService.getApi(pureEndpoint).subscribe((res: any) => {
+        // 只顯示內容，不呼叫 markAsRead
+        this.notificationIdDetail = res.data;
+        this.page = 2;
+      });
+      return; // 阻止後面的邏輯跑掉
+    }
 
     this.notificationIdDetail = null; // 清空舊資料避免閃爍
     this.personalLogDetail = null;
@@ -101,62 +101,62 @@ export class NotificationComponent {
 
     // 根據 type 決定去哪一個 Endpoint 抓資料
     const endpoint = type === 'SYSTEM'
-      ? `http://localhost:8080/api/notifications/${id}`
-      : `http://localhost:8080/api/notifications/${this.userId}/personal-list`; // 假設個人詳情 API 路徑
+      ? `https://wealthmapbackend-production-5c68.up.railway.app/api/notifications/${id}`
+      : `https://wealthmapbackend-production-5c68.up.railway.app/api/notifications/${this.userId}/personal-list`; // 假設個人詳情 API 路徑
 
     this.httpClientService.getApi(endpoint).subscribe((res: any) => {
       if (res && res.data) {
-        if(type === 'SYSTEM'){
+        if (type === 'SYSTEM') {
           this.notificationIdDetail = res.data;
-        }else if(type === 'PERSONAL'){
-          this.personalLogs = res.data.map((item:any) => {
-            if(item.content){
+        } else if (type === 'PERSONAL') {
+          this.personalLogs = res.data.map((item: any) => {
+            if (item.content) {
               item.content = item.content.replace(/\\n/g, '\n');
             }
             return item;
           });
-          this.personalLogDetail=this.personalLogs.find(s => s.id===+id)||null;
+          this.personalLogDetail = this.personalLogs.find(s => s.id === +id) || null;
           console.log(this.personalLogs);
         }
 
         this.page = 2; // 成功抓到資料後切換到詳情頁
 
         // 💡 額外加碼：如果是個人通知且未讀，可以在這裡順便觸發「標記已讀」
-        if (type === 'PERSONAL' && ! this.personalLogDetail?.read) {
-          this.markAsRead(id,'PERSONAL');
-        }else if(type==='SYSTEM'){
-          this.markAsRead(id,'SYSTEM');
+        if (type === 'PERSONAL' && !this.personalLogDetail?.read) {
+          this.markAsRead(id, 'PERSONAL');
+        } else if (type === 'SYSTEM') {
+          this.markAsRead(id, 'SYSTEM');
         }
       }
     });
   }
 
-  markAsRead(id:number, type: 'SYSTEM' | 'PERSONAL'){
+  markAsRead(id: number, type: 'SYSTEM' | 'PERSONAL') {
 
     // 如果是訪客，或者 userId 不存在，直接 return 不做動作
-  if (this.role === 'visitor' || !this.userId || this.userId === 0) {
-    console.log('訪客模式：不記錄已讀狀態');
-    return;
-  }
+    if (this.role === 'visitor' || !this.userId || this.userId === 0) {
+      console.log('訪客模式：不記錄已讀狀態');
+      return;
+    }
 
-    if(type==='SYSTEM'){
-      this.httpClientService.postApi(`http://localhost:8080/api/notifications/read?userId=${this.userId}&notificationId=${id}`, {})
-      .subscribe((res:any) => {
-        if(res.code===200){
-          // 4. 跳轉到公告訊息詳情頁 (或彈出視窗)
-          // this.router.navigate(['/system-notification', id]);
-        }
+    if (type === 'SYSTEM') {
+      this.httpClientService.postApi(`https://wealthmapbackend-production-5c68.up.railway.app/api/notifications/read?userId=${this.userId}&notificationId=${id}`, {})
+        .subscribe((res: any) => {
+          if (res.code === 200) {
+            // 4. 跳轉到公告訊息詳情頁 (或彈出視窗)
+            // this.router.navigate(['/system-notification', id]);
+          }
 
-      });
-    }else if(type==='PERSONAL'){
+        });
+    } else if (type === 'PERSONAL') {
       // 呼叫個人訊息已讀 API (假設路徑如下)
-      this.httpClientService.patchApi(`http://localhost:8080/api/notifications/${id}/read`, {})
-      .subscribe((res:any) => {
-        if(res.code===200){
-          // 4. 跳轉到個人訊息詳情頁 (或彈出視窗)
-          // this.router.navigate(['/personal-notification', id]);
-        }
-      });
+      this.httpClientService.patchApi(`https://wealthmapbackend-production-5c68.up.railway.app/api/notifications/${id}/read`, {})
+        .subscribe((res: any) => {
+          if (res.code === 200) {
+            // 4. 跳轉到個人訊息詳情頁 (或彈出視窗)
+            // this.router.navigate(['/personal-notification', id]);
+          }
+        });
     }
   }
 
@@ -168,18 +168,18 @@ export class NotificationComponent {
     }
   }
 
-  goAnotherList(){
+  goAnotherList() {
     const goAnotherPath = this.router.url.includes('system-notification')
-                        ? 'personal-notification'
-                        : 'system-notification';
+      ? 'personal-notification'
+      : 'system-notification';
 
     this.router.navigate([goAnotherPath]);
   }
 
-  goBack(){
+  goBack() {
     const goPath = this.router.url.includes('system-notification')
-                        ? 'system-notification'
-                        : 'personal-notification';
+      ? 'system-notification'
+      : 'personal-notification';
 
     this.router.navigate([goPath]);
   }
@@ -187,7 +187,7 @@ export class NotificationComponent {
   today = new Date();
   gettoday!: string;
 
-  initTodayDate(){
+  initTodayDate() {
     if ((new Date().getMonth() + 1) < 10) {
       if (new Date().getDate() < 10) {
         this.gettoday = new Date().getFullYear() + '-0' + (new Date().getMonth() + 1) + '-0' + new Date().getDate()
@@ -249,11 +249,11 @@ export class NotificationComponent {
     //change by carly  --start
     // 透過 URL 判斷目前是哪一類
     const isSystem = this.router.url.includes('system-notification');
-    this.notificationType=isSystem?"system":"personal";
-    this.exampleService.user$.subscribe(user=>{
+    this.notificationType = isSystem ? "system" : "personal";
+    this.exampleService.user$.subscribe(user => {
       this.role = user.role; // 當角色改變，這裡會自動觸發
-      if(user && user.role !== 'visitor'){
-        this.userId=user.id;
+      if (user && user.role !== 'visitor') {
+        this.userId = user.id;
 
         this.activatedRoute.params.subscribe(params => {
           const pageId = params['pageId'];
@@ -272,7 +272,7 @@ export class NotificationComponent {
           }
         });
       }
-      else{
+      else {
         this.activatedRoute.params.subscribe(params => {
           const pageId = params['pageId'];
 
@@ -296,7 +296,7 @@ export class NotificationComponent {
 
     // //取得公告列表
     // if(isSystem){
-    //   this.httpClientService.getApi(`http://localhost:8080/api/notifications/list`)
+    //   this.httpClientService.getApi(`https://wealthmapbackend-production-5c68.up.railway.app/api/notifications/list`)
     //   .subscribe((notificationList: any) => {
     //     console.log(notificationList);
     //     this.notificationList = notificationList;
@@ -304,7 +304,7 @@ export class NotificationComponent {
 
     //   });
     // }else{
-    //   this.httpClientService.getApi(`http://localhost:8080/api/notifications/${this.userId}/personal-list`)
+    //   this.httpClientService.getApi(`https://wealthmapbackend-production-5c68.up.railway.app/api/notifications/${this.userId}/personal-list`)
     //   .subscribe((personalLogs: any) => {
     //     console.log(personalLogs);
     //     this.personalLogs = personalLogs;

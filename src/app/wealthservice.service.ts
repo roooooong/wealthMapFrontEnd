@@ -5,11 +5,11 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class WealthService {
-  private readonly API_BASE = 'http://localhost:8080/api';
+  private readonly API_BASE = 'https://wealthmapbackend-production-5c68.up.railway.app/api';
   private readonly USERS_API_URL = `${this.API_BASE}/users`;
   private readonly PUBLIC_API_URL = `${this.API_BASE}/wealthmap`; // 依照 Controller 的路徑
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   // login(data: any): Observable<any> {
   //   return this.http.post(`${this.PUBLIC_API_URL}/login`, data);

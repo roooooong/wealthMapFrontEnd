@@ -15,7 +15,7 @@ import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-main',
-  imports: [RouterLink, MatIconModule, MatButtonModule, MatMenuModule, SlicePipe, CurrencyPipe,RouterLinkActive],
+  imports: [RouterLink, MatIconModule, MatButtonModule, MatMenuModule, SlicePipe, CurrencyPipe, RouterLinkActive],
   providers: [CurrencyPipe],
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss'
@@ -29,7 +29,7 @@ export class MainComponent {
   page = 1;
   userId!: number;
   currentIndex = 0; // 目前顯示的新聞索引
-  riskLevel!:string;
+  riskLevel!: string;
 
 
   realTotalAssets: number = 0;
@@ -70,7 +70,7 @@ export class MainComponent {
 
   fetchNotificationDetail(id: number) {
     this.notificationIdDetail = null; // 抓取前先清空，避免畫面閃爍
-    this.httpClientService.getApi(`http://localhost:8080/api/notifications/${id}`)
+    this.httpClientService.getApi(`https://wealthmapbackend-production-5c68.up.railway.app/api/notifications/${id}`)
       .subscribe((res: any) => {
         if (res && res.data) {
           this.notificationIdDetail = res.data;
@@ -113,9 +113,9 @@ export class MainComponent {
   }
 
   goToRiskTest() {
-    if(this.role!=='visitor' && this.riskLevel){
+    if (this.role !== 'visitor' && this.riskLevel) {
       this.router.navigate(['/risk-result']);
-    }else{
+    } else {
       this.router.navigate(['/risk-cover']);
     }
 
@@ -174,12 +174,12 @@ export class MainComponent {
   private initMainChart(allocationData: any[]): void {
     //解決舊的圖表還佔著畫布導致錯誤的問題
     const canvasId = 'doughnutChart';
-  const ctx = document.getElementById(canvasId) as HTMLCanvasElement;
-  if (!ctx) return;
+    const ctx = document.getElementById(canvasId) as HTMLCanvasElement;
+    if (!ctx) return;
 
-  // 2. 🌟 關鍵修正：直接從 Chart.js 的全域管理池中找出 ID '4' (或任何 ID) 的圖表並摧毀
-  // 這行能解決「Canvas is already in use」的報錯
-  Chart.getChart(canvasId)?.destroy();
+    // 2. 🌟 關鍵修正：直接從 Chart.js 的全域管理池中找出 ID '4' (或任何 ID) 的圖表並摧毀
+    // 這行能解決「Canvas is already in use」的報錯
+    Chart.getChart(canvasId)?.destroy();
 
 
     // ==========================================
@@ -297,15 +297,15 @@ export class MainComponent {
   assetChangeChart(assetHistory: any[]) {
     //解決舊的圖表還佔著畫布導致錯誤的問題
     const canvasId = 'assetChangeChart'; // 確保這跟你的 HTML id 一致
-  const ctx2 = document.getElementById(canvasId) as HTMLCanvasElement;
+    const ctx2 = document.getElementById(canvasId) as HTMLCanvasElement;
 
-  if (!ctx2) return;
+    if (!ctx2) return;
 
-  // 🌟 關鍵修正：直接從 Chart.js 的全域清單中找出這個畫布上的圖表並銷毀
-  const existingChart = Chart.getChart(canvasId);
-  if (existingChart) {
-    existingChart.destroy();
-  }
+    // 🌟 關鍵修正：直接從 Chart.js 的全域清單中找出這個畫布上的圖表並銷毀
+    const existingChart = Chart.getChart(canvasId);
+    if (existingChart) {
+      existingChart.destroy();
+    }
 
 
     const labels = assetHistory.map(item => item.recordDate.slice(5));
@@ -389,50 +389,50 @@ export class MainComponent {
     });
   }
 
-fullHistoryData: any[] = []; // 儲存從後端拿到的所有原始數據
-currentRange: string = '1M';
+  fullHistoryData: any[] = []; // 儲存從後端拿到的所有原始數據
+  currentRange: string = '1M';
 
-updateRange(range: string) {
-  this.currentRange = range;
-  const now = new Date();
-  let startDate = new Date();
+  updateRange(range: string) {
+    this.currentRange = range;
+    const now = new Date();
+    let startDate = new Date();
 
-  // 根據選擇計算起始點
-  switch (range) {
-    case '1M': startDate.setMonth(now.getMonth() - 1); break;
-    case '6M': startDate.setMonth(now.getMonth() - 6); break;
-    case '1Y': startDate.setFullYear(now.getFullYear() - 1); break;
-    case '3Y': startDate.setFullYear(now.getFullYear() - 3); break;
+    // 根據選擇計算起始點
+    switch (range) {
+      case '1M': startDate.setMonth(now.getMonth() - 1); break;
+      case '6M': startDate.setMonth(now.getMonth() - 6); break;
+      case '1Y': startDate.setFullYear(now.getFullYear() - 1); break;
+      case '3Y': startDate.setFullYear(now.getFullYear() - 3); break;
+    }
+
+    // 1. 過濾數據
+    const filteredData = this.fullHistoryData.filter(item => {
+      return new Date(item.recordDate) >= startDate;
+    });
+
+    // 2. 更新圖表
+    this.refreshChart(filteredData);
+    console.log(range);
   }
 
-  // 1. 過濾數據
-  const filteredData = this.fullHistoryData.filter(item => {
-    return new Date(item.recordDate) >= startDate;
-  });
+  refreshChart(data: any[]) {
+    const labels = data.map(item => item.recordDate.slice(5)); // 取月-日
+    const dataValues = data.map(item => item.totalAmount);
 
-  // 2. 更新圖表
-  this.refreshChart(filteredData);
-  console.log(range);
-}
-
-refreshChart(data: any[]) {
-  const labels = data.map(item => item.recordDate.slice(5)); // 取月-日
-  const dataValues = data.map(item => item.totalAmount);
-
-  // 更新 Chart.js 物件的數據
-  if (this.myLineChart) {
-    this.myLineChart.data.labels = labels;
-    this.myLineChart.data.datasets[0].data = dataValues;
-    this.myLineChart.update(); // 🌟 關鍵：調用 update() 會有平滑動畫效果
-  } else {
-    this.assetChangeChart(data); // 第一次初始化
+    // 更新 Chart.js 物件的數據
+    if (this.myLineChart) {
+      this.myLineChart.data.labels = labels;
+      this.myLineChart.data.datasets[0].data = dataValues;
+      this.myLineChart.update(); // 🌟 關鍵：調用 update() 會有平滑動畫效果
+    } else {
+      this.assetChangeChart(data); // 第一次初始化
+    }
   }
-}
 
   goNewsUrl(newsUrl: string) {
     window.open(newsUrl, '_blank');
   }
-  userManagement(){
+  userManagement() {
     this.router.navigate(['/admin/user-management']);
   }
 
@@ -474,7 +474,7 @@ refreshChart(data: any[]) {
       const pageId = params['pageId']; // 確保這裡的名稱跟 AppRoutingModule 定義一致
 
       //取得公告列表
-      this.httpClientService.getApi(`http://localhost:8080/api/notifications/list`)
+      this.httpClientService.getApi(`https://wealthmapbackend-production-5c68.up.railway.app/api/notifications/list`)
         .subscribe((notificationList: any) => {
           // console.log(notificationList);
           this.notificationList = notificationList;
@@ -490,51 +490,51 @@ refreshChart(data: any[]) {
     });
 
     this.exampleService.user$.subscribe(user => {
-        if (user && user.id && user.id !== 0) {
-          this.role = user.role;
-          this.userId = user.id;
-          this.riskLevel = user.riskLevel;
+      if (user && user.id && user.id !== 0) {
+        this.role = user.role;
+        this.userId = user.id;
+        this.riskLevel = user.riskLevel;
 
-          // 當身分正確時，統籌呼叫所有圖表數據
-          if (this.role === 'USER' || this.role === 'ADMIN') {
-            //同步使用者總資產(用於折線圖)
-            this.httpClientService.postApi(`http://localhost:8080/api/asset-history/sync/${this.userId}`)
-              .subscribe((totalasset: any) => {
-                console.log('同步userid=', this.userId, '的資產');
+        // 當身分正確時，統籌呼叫所有圖表數據
+        if (this.role === 'USER' || this.role === 'ADMIN') {
+          //同步使用者總資產(用於折線圖)
+          this.httpClientService.postApi(`https://wealthmapbackend-production-5c68.up.railway.app/api/asset-history/sync/${this.userId}`)
+            .subscribe((totalasset: any) => {
+              console.log('同步userid=', this.userId, '的資產');
 
-                //取得使用者總資產(用於折線圖)
-                this.httpClientService.getApi(`http://localhost:8080/api/asset-history/${this.userId}`)
-                  .subscribe((assetHistory: any) => {
-                    console.log('取得userid=', this.userId, '的總資產變化', assetHistory);
-                    if (assetHistory && assetHistory.length > 0) {
-                      this.hasAnyHistory = true;
-                      this.fullHistoryData = assetHistory;
+              //取得使用者總資產(用於折線圖)
+              this.httpClientService.getApi(`https://wealthmapbackend-production-5c68.up.railway.app/api/asset-history/${this.userId}`)
+                .subscribe((assetHistory: any) => {
+                  console.log('取得userid=', this.userId, '的總資產變化', assetHistory);
+                  if (assetHistory && assetHistory.length > 0) {
+                    this.hasAnyHistory = true;
+                    this.fullHistoryData = assetHistory;
 
-                      setTimeout(() => {
-                        //載入圓餅圖數據
-                        this.loadDashboardData();
-                        //載入折線圖數據
-                        this.assetChangeChart(assetHistory);
-                        this.updateRange('1M');
-                      }, 150); // 稍微延長一點延遲，確保 Canvas 穩定
+                    setTimeout(() => {
+                      //載入圓餅圖數據
+                      this.loadDashboardData();
+                      //載入折線圖數據
+                      this.assetChangeChart(assetHistory);
+                      this.updateRange('1M');
+                    }, 150); // 稍微延長一點延遲，確保 Canvas 穩定
 
-                    }
-                    else {
-                      this.hasAnyHistory = false;
-                    }
-                  });
-              });
-          }
-        }else {
-      // 登出時的基礎清理 (雖然有重整頁面，但在寫一次比較保險)
-      this.role = 'visitor';
-      this.hasAnyHistory = false;
+                  }
+                  else {
+                    this.hasAnyHistory = false;
+                  }
+                });
+            });
+        }
+      } else {
+        // 登出時的基礎清理 (雖然有重整頁面，但在寫一次比較保險)
+        this.role = 'visitor';
+        this.hasAnyHistory = false;
       }
-      });
+    });
 
 
     // 取得前台新聞列表
-    this.httpClientService.getApi(`http://localhost:8080/api/news/user/list`)
+    this.httpClientService.getApi(`https://wealthmapbackend-production-5c68.up.railway.app/api/news/user/list`)
       .subscribe((news: any) => {
         console.log('使用者的新聞列表', news);
         this.newsList = news;

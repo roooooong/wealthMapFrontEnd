@@ -19,7 +19,7 @@ export class ExampleService {
   // 2026-04-08 by carly
 
   // 1. 建立一個包含完整資訊的 Subject，預設值為 null (代表未登入)
-  private userSource = new BehaviorSubject<UserInfo| any>(this.getInitialUser());
+  private userSource = new BehaviorSubject<UserInfo | any>(this.getInitialUser());
 
   // 2. 暴露 Observable 讓元件監聽
   user$ = this.userSource.asObservable();
@@ -86,7 +86,7 @@ export class ExampleService {
     if (token) {
       try {
         const email = this.decodeToken(token).sub; // 💡 與 setUserData 保持一致
-        console.log("email:"+email);
+        console.log("email:" + email);
         if (email) {
           console.log("正在重新補水資料，Email:", email);
           this.fetchFullUserInfo(email); // 重新跑一次 API，全域資料就更新了
@@ -130,25 +130,25 @@ export class ExampleService {
    * 透過 Email 取得完整資料的私有方法
    */
   private fetchFullUserInfo(email: string) {
-    this.httpClientService.getApi(`http://localhost:8080/api/users/details?email=${email}`)
-    .subscribe((info:any) => {
-      // 把這份完整的使用者資訊存進 Service 或是 sessionStorage
-      if(info.code===200){
-        console.log('已取得完整使用者資料', info.data);
-        console.log('使用者原本的資料', this.userSource.value);
+    this.httpClientService.getApi(`https://wealthmapbackend-production-5c68.up.railway.app/api/users/details?email=${email}`)
+      .subscribe((info: any) => {
+        // 把這份完整的使用者資訊存進 Service 或是 sessionStorage
+        if (info.code === 200) {
+          console.log('已取得完整使用者資料', info.data);
+          console.log('使用者原本的資料', this.userSource.value);
 
-        // 把後端的資料合併到目前的狀態中
-        const updatedUser: UserInfo = {
-          ...this.userSource.value, // 保留 token
-          ...info.data,              // 覆蓋後端給的 id, email, name, assets...
-        };
-        // 更新你的 BehaviorSubject，這樣全 App 都拿得到最新資料
-        this.userSource.next(updatedUser);
-        sessionStorage.setItem('role', JSON.stringify(this.userSource.value.role));
-        // sessionStorage.setItem('user_payload', JSON.stringify(this.userSource.value));
+          // 把後端的資料合併到目前的狀態中
+          const updatedUser: UserInfo = {
+            ...this.userSource.value, // 保留 token
+            ...info.data,              // 覆蓋後端給的 id, email, name, assets...
+          };
+          // 更新你的 BehaviorSubject，這樣全 App 都拿得到最新資料
+          this.userSource.next(updatedUser);
+          sessionStorage.setItem('role', JSON.stringify(this.userSource.value.role));
+          // sessionStorage.setItem('user_payload', JSON.stringify(this.userSource.value));
 
-      }
-    });
+        }
+      });
   }
 
   /**

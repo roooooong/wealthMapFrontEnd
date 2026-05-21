@@ -12,8 +12,8 @@ export class SseService {
   getServerSentEvent(userId: string): Observable<string> {
     return new Observable(observer => {
       // 連接到後端
-      // const eventSource = new EventSource(`http://localhost:8080/api/sse/subscribe/${userId}`);
-      const eventSource = new EventSource(`http://localhost:8080/api/sse/subscribe/${userId}`,{ withCredentials: true });
+      // const eventSource = new EventSource(`https://wealthmapbackend-production-5c68.up.railway.app/api/sse/subscribe/${userId}`);
+      const eventSource = new EventSource(`https://wealthmapbackend-production-5c68.up.railway.app/api/sse/subscribe/${userId}`, { withCredentials: true });
 
 
       // 監聽後端自定義的 'message' 事件

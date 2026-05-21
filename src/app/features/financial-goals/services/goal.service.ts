@@ -13,7 +13,7 @@ export interface FinancialGoal {
 
 @Injectable({ providedIn: 'root' })
 export class GoalService {
-  private apiUrl = 'http://localhost:8080/api/goals';
+  private apiUrl = 'https://wealthmapbackend-production-5c68.up.railway.app/api/goals';
 
   constructor(private http: HttpClient) { }
 

@@ -114,7 +114,7 @@ export class MonteComponent implements OnInit, AfterViewInit {
         }
       });
     }
-    this.apiUrl = `http://localhost:8080/api/monte/simulate/${this.userId}`;
+    this.apiUrl = `https://wealthmapbackend-production-5c68.up.railway.app/api/monte/simulate/${this.userId}`;
     this.currentScenario.assets.sort((a, b) => b.percentage - a.percentage);
     this.renderEmptyChart();
   }

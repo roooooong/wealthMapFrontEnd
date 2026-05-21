@@ -10,7 +10,7 @@ import { NotificationList } from '../@interface/notification-list';
   styleUrl: './personal-notification.component.scss'
 })
 export class PersonalNotificationComponent {
- page: number = 1;
+  page: number = 1;
   constructor(
     private router: Router,
     private httpClientService: HttpClientService,
@@ -21,22 +21,22 @@ export class PersonalNotificationComponent {
   notificationIdDetail!: any;
 
   fetchNotificationDetail(id: number) {
-  this.notificationIdDetail = null; // 抓取前先清空，避免畫面閃爍
-  this.httpClientService.getApi(`http://localhost:8080/api/notifications/${id}`)
-    .subscribe((res: any) => {
-      if (res && res.data) {
-        this.notificationIdDetail = res.data;
-        this.page=2;
-      }
-    });
-}
+    this.notificationIdDetail = null; // 抓取前先清空，避免畫面閃爍
+    this.httpClientService.getApi(`https://wealthmapbackend-production-5c68.up.railway.app/api/notifications/${id}`)
+      .subscribe((res: any) => {
+        if (res && res.data) {
+          this.notificationIdDetail = res.data;
+          this.page = 2;
+        }
+      });
+  }
 
-// 點擊事件：現在只負責換網址
-detail(pageId: number) {
-  this.router.navigate(['/notification', pageId]);
-}
+  // 點擊事件：現在只負責換網址
+  detail(pageId: number) {
+    this.router.navigate(['/notification', pageId]);
+  }
 
-today = new Date();
+  today = new Date();
   gettoday!: string;
 
   ngOnInit(): void {
@@ -44,25 +44,25 @@ today = new Date();
     console.log(this.activatedRoute.snapshot.paramMap.get('pageId'));
 
     //取得公告列表
-    this.httpClientService.getApi(`http://localhost:8080/api/notifications/list`)
+    this.httpClientService.getApi(`https://wealthmapbackend-production-5c68.up.railway.app/api/notifications/list`)
       .subscribe((notificationList: any) => {
         console.log(notificationList);
         this.notificationList = notificationList;
       })
 
     this.activatedRoute.params.subscribe(params => {
-    const pageId = params['pageId']; // 確保這裡的名稱跟 AppRoutingModule 定義一致
+      const pageId = params['pageId']; // 確保這裡的名稱跟 AppRoutingModule 定義一致
 
-    //page=1 -> 公告列表 http://localhost:4200/admin-notification-set
-    //page=2 -> 公告詳情 http://localhost:4200/admin-notification-set/pageId (後面會接pageId)
-    if (pageId) {
-      // this.page = 2;
-      this.fetchNotificationDetail(pageId);
-    } else {
-      this.page = 1;
-      this.notificationIdDetail = null;
-    }
-  });
+      //page=1 -> 公告列表 http://localhost:4200/admin-notification-set
+      //page=2 -> 公告詳情 http://localhost:4200/admin-notification-set/pageId (後面會接pageId)
+      if (pageId) {
+        // this.page = 2;
+        this.fetchNotificationDetail(pageId);
+      } else {
+        this.page = 1;
+        this.notificationIdDetail = null;
+      }
+    });
 
     //取得今天日期
     if ((new Date().getMonth() + 1) < 10) {

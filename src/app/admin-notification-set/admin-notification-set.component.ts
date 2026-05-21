@@ -18,7 +18,7 @@ import { FormsModule } from '@angular/forms';
 export class AdminNotificationSetComponent {
   userName: string = "Admin";
   add: boolean = false;
-  page:number = 1;
+  page: number = 1;
   constructor(
     private router: Router,
     private httpClientService: HttpClientService,
@@ -28,8 +28,8 @@ export class AdminNotificationSetComponent {
   notificationList!: NotificationList;
   notificationIdDetail!: any;
   //分頁設定
-  currentPage!:number;
-  pageSize!:number;
+  currentPage!: number;
+  pageSize!: number;
 
   //系統通知假資料
   // notificationList = [
@@ -84,25 +84,25 @@ export class AdminNotificationSetComponent {
     })
   }
   fetchNotificationDetail(id: number) {
-  this.notificationIdDetail = null; // 抓取前先清空，避免畫面閃爍
-  this.httpClientService.getApi(`http://localhost:8080/api/notifications/${id}`)
-    .subscribe((res: any) => {
-      if (res && res.data) {
-        this.notificationIdDetail = res.data;
-        this.page=2;
-      }
-    });
-}
+    this.notificationIdDetail = null; // 抓取前先清空，避免畫面閃爍
+    this.httpClientService.getApi(`https://wealthmapbackend-production-5c68.up.railway.app/api/notifications/${id}`)
+      .subscribe((res: any) => {
+        if (res && res.data) {
+          this.notificationIdDetail = res.data;
+          this.page = 2;
+        }
+      });
+  }
 
-// 點擊事件：現在只負責換網址
-detail(pageId: number) {
-  this.router.navigate(['/admin/notification-set', pageId]);
-}
+  // 點擊事件：現在只負責換網址
+  detail(pageId: number) {
+    this.router.navigate(['/admin/notification-set', pageId]);
+  }
 
   // detail(pageId: number) {
   //   this.notificationIdDetail = null;
   //   this.page = 2;
-  //   this.httpClientService.getApi(`http://localhost:8080/api/notifications/${pageId}`)
+  //   this.httpClientService.getApi(`https://wealthmapbackend-production-5c68.up.railway.app/api/notifications/${pageId}`)
   //     .subscribe((notificationIdDetail: any) => {
   //       if (notificationIdDetail && notificationIdDetail.data) {
   //         console.log(notificationIdDetail.data);
@@ -112,27 +112,27 @@ detail(pageId: number) {
   //     })
   //   this.router.navigate(['/admin-notification-set',pageId]);
   // }
-setAboutUs(){
+  setAboutUs() {
     console.log("AboutUs");
     this.router.navigate(['/information']);
   }
 
-  setNotification(){
+  setNotification() {
     console.log("Notify");
     this.router.navigate(['/notification']);
   }
 
-  setService(){
+  setService() {
     console.log("Term of Service");
     this.router.navigate(['/service']);
   }
 
-  setPrivacyPolicy(){
+  setPrivacyPolicy() {
     console.log("Privacy Policy");
     this.router.navigate(['/privacy']);
   }
 
-  goBack(){
+  goBack() {
     this.router.navigate(['/admin/notification-set']);
   }
 
@@ -141,7 +141,7 @@ setAboutUs(){
 
   get pagedSystemLogs() {
     const startIndex = (this.currentPage - 1) * this.pageSize;
-    return  this.notificationList?.data.slice(startIndex, startIndex + this.pageSize);
+    return this.notificationList?.data.slice(startIndex, startIndex + this.pageSize);
   }
 
   // 總頁數
@@ -160,25 +160,25 @@ setAboutUs(){
     console.log(this.activatedRoute.snapshot.paramMap.get('pageId'));
 
     //取得公告列表
-    this.httpClientService.getApi(`http://localhost:8080/api/notifications/list`)
+    this.httpClientService.getApi(`https://wealthmapbackend-production-5c68.up.railway.app/api/notifications/list`)
       .subscribe((notificationList: any) => {
         console.log(notificationList);
         this.notificationList = notificationList;
       })
 
     this.activatedRoute.params.subscribe(params => {
-    const pageId = params['pageId']; // 確保這裡的名稱跟 AppRoutingModule 定義一致
+      const pageId = params['pageId']; // 確保這裡的名稱跟 AppRoutingModule 定義一致
 
-    //page=1 -> 公告列表 http://localhost:4200/admin-notification-set
-    //page=2 -> 公告詳情 http://localhost:4200/admin-notification-set/pageId (後面會接pageId)
-    if (pageId) {
-      // this.page = 2;
-      this.fetchNotificationDetail(pageId);
-    } else {
-      this.page = 1;
-      this.notificationIdDetail = null;
-    }
-  });
+      //page=1 -> 公告列表 http://localhost:4200/admin-notification-set
+      //page=2 -> 公告詳情 http://localhost:4200/admin-notification-set/pageId (後面會接pageId)
+      if (pageId) {
+        // this.page = 2;
+        this.fetchNotificationDetail(pageId);
+      } else {
+        this.page = 1;
+        this.notificationIdDetail = null;
+      }
+    });
 
     //取得今天日期
     if ((new Date().getMonth() + 1) < 10) {

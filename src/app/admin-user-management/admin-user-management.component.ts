@@ -23,11 +23,11 @@ export class AdminUserManagementComponent {
     private exampleService: ExampleService
   ) { }
   //分頁設定
-  currentPage!:number;
-  pageSize!:number;
-  userList:UserAdminViewDTO[]=[];
-  userId!:number;
-  role!:string;
+  currentPage!: number;
+  pageSize!: number;
+  userList: UserAdminViewDTO[] = [];
+  userId!: number;
+  role!: string;
 
   readonly dialog = inject(MatDialog);
 
@@ -37,7 +37,7 @@ export class AdminUserManagementComponent {
       return [];
     }
     const startIndex = (this.currentPage - 1) * this.pageSize;
-    return  this.userList.slice(startIndex, startIndex + this.pageSize);
+    return this.userList.slice(startIndex, startIndex + this.pageSize);
   }
 
   // 總頁數
@@ -65,30 +65,30 @@ export class AdminUserManagementComponent {
 
   }
 
-  fetchUsers(){
-    this.httpClientService.getApi(`http://localhost:8080/api/auth/user-list`)
-    .subscribe((res: any) => {
-      this.userList = res.data.filter(((item:any) => item.id !== this.userId));
-      // this.userList = res.data;
-      console.log(this.userList);
-    });
+  fetchUsers() {
+    this.httpClientService.getApi(`https://wealthmapbackend-production-5c68.up.railway.app/api/auth/user-list`)
+      .subscribe((res: any) => {
+        this.userList = res.data.filter(((item: any) => item.id !== this.userId));
+        // this.userList = res.data;
+        console.log(this.userList);
+      });
   }
 
-  onToggle(user:UserAdminViewDTO){
+  onToggle(user: UserAdminViewDTO) {
 
     const action = user.enabled ? '停用' : '啟用';
 
-    this.showDialog(9,user,action);
+    this.showDialog(9, user, action);
 
   }
 
-  showDialog(no:number,user:UserAdminViewDTO,actionText:string) {
+  showDialog(no: number, user: UserAdminViewDTO, actionText: string) {
     // 單選
     //let dialogRef 是宣告一個變數 讓系統知道我們現在要接收哪個dialog
     //(要開啟的dialog頁面的名稱, {要傳遞的值和設定})
     let dialogRef = this.dialog.open(InvalidComponent, {
       // data: {choise:choise,id:this.notificationList.data[index].id},
-      data:{
+      data: {
         no: no,
         name: user.name,
         action: actionText
@@ -103,8 +103,8 @@ export class AdminUserManagementComponent {
       const originalState = !user.enabled;
       //如果有值傳遞出來
       if (isConfirm) {
-        console.log(`http://localhost:8080/api/auth/${user.id}/enabled`);
-        this.httpClientService.patchApi(`http://localhost:8080/api/auth/${user.id}/enabled`, {})
+        console.log(`https://wealthmapbackend-production-5c68.up.railway.app/api/auth/${user.id}/enabled`);
+        this.httpClientService.patchApi(`https://wealthmapbackend-production-5c68.up.railway.app/api/auth/${user.id}/enabled`, {})
           .subscribe({
             next: () => {
               user.enabled = !user.enabled; // 更新前端狀態

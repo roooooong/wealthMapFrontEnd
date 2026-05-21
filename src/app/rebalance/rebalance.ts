@@ -19,7 +19,7 @@ interface PortfolioItem {
 @Component({
   selector: 'app-rebalance',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatDialogModule,MatIconModule],
+  imports: [CommonModule, FormsModule, MatDialogModule, MatIconModule],
   templateUrl: './rebalance.html',
   styleUrl: './rebalance.scss'
 })
@@ -47,7 +47,7 @@ export class Rebalance implements OnInit {
    */
   loadPortfolioFromDb() {
     console.log(this.userId);
-    this.httpClientService.getApi(`http://localhost:8080/api/rebalance/list/${this.userId}`).subscribe((res: any) => {
+    this.httpClientService.getApi(`https://wealthmapbackend-production-5c68.up.railway.app/api/rebalance/list/${this.userId}`).subscribe((res: any) => {
       if (res && Array.isArray(res)) {
         this.portfolio = res.map((item: any) => ({
           id: item.id,
@@ -62,7 +62,7 @@ export class Rebalance implements OnInit {
           console.log(this.portfolio);
 
           this.portfolio.forEach(s => {
-            this.httpClientService.getApi(`http://localhost:8080/api/strategy-set/quote/${s.stockId}`)
+            this.httpClientService.getApi(`https://wealthmapbackend-production-5c68.up.railway.app/api/strategy-set/quote/${s.stockId}`)
               .subscribe({
                 next: (res: any) => {
                   if (res.code === 200 && res.data) {
@@ -106,7 +106,7 @@ export class Rebalance implements OnInit {
         };
         console.log(payload);
 
-        this.httpClientService.postApi('http://localhost:8080/api/rebalance/save', payload).subscribe({
+        this.httpClientService.postApi('https://wealthmapbackend-production-5c68.up.railway.app/api/rebalance/save', payload).subscribe({
           next: (savedItem: any) => {
             // 存檔成功後，將資料壓入畫面陣列
             // this.portfolio.push({
@@ -170,7 +170,7 @@ export class Rebalance implements OnInit {
     const item = this.portfolio[index];
     if (confirm(`確定要移除 ${item.stockId} 嗎？`)) {
       if (item.id) {
-        this.httpClientService.delApi(`http://localhost:8080/api/rebalance/delete/${item.id}`).subscribe(() => {
+        this.httpClientService.delApi(`https://wealthmapbackend-production-5c68.up.railway.app/api/rebalance/delete/${item.id}`).subscribe(() => {
           this.portfolio.splice(index, 1);
         });
       } else {

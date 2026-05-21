@@ -52,9 +52,9 @@ export class AdminMainComponent {
     this.router.navigate(['/admin/news']);
   }
 
-   fetchNotificationDetail(id: number) {
+  fetchNotificationDetail(id: number) {
     this.notificationIdDetail = null; // 抓取前先清空，避免畫面閃爍
-    this.httpClientService.getApi(`http://localhost:8080/api/notifications/${id}`)
+    this.httpClientService.getApi(`https://wealthmapbackend-production-5c68.up.railway.app/api/notifications/${id}`)
       .subscribe((res: any) => {
         if (res && res.data) {
           this.notificationIdDetail = res.data;
@@ -94,89 +94,89 @@ export class AdminMainComponent {
     this.newscurrentIndex = (this.newscurrentIndex - 1 + this.newsList.length) % this.newsList.length;
   }
 
-ngAfterViewInit() {
+  ngAfterViewInit() {
     // 確認是使用者後才會生成圓餅圖
 
-      // 獲取 canvas 元素
-      let ctx = document.getElementById('chart') as HTMLCanvasElement;
+    // 獲取 canvas 元素
+    let ctx = document.getElementById('chart') as HTMLCanvasElement;
 
-      // 設定數據
-      let data = {
-        // x 軸文字
-        labels: ['現金', '股票', '基金', '債券'],
-        datasets: [
-          {
-            // 上方分類文字
-            // label: '金額',
-            // 數據
-            data: [1000000, 1350000, 800000, 650000],
-            // 線與邊框顏色
-            backgroundColor: [
-              // '#FFF7AE',
-              // '#99B3E4',
-              // '#bdffe0',
-              // '#fbb6c9',
-              '#1368aa',
-              '#9dcee2',
-              '#fedfd4',
-              '#f29479',
-            ],
-            //設定hover時的偏移量，滑鼠移上去表會偏移，方便觀看選種的項目
-            hoverOffset: 4,
-          },
-        ],
-      };
+    // 設定數據
+    let data = {
+      // x 軸文字
+      labels: ['現金', '股票', '基金', '債券'],
+      datasets: [
+        {
+          // 上方分類文字
+          // label: '金額',
+          // 數據
+          data: [1000000, 1350000, 800000, 650000],
+          // 線與邊框顏色
+          backgroundColor: [
+            // '#FFF7AE',
+            // '#99B3E4',
+            // '#bdffe0',
+            // '#fbb6c9',
+            '#1368aa',
+            '#9dcee2',
+            '#fedfd4',
+            '#f29479',
+          ],
+          //設定hover時的偏移量，滑鼠移上去表會偏移，方便觀看選種的項目
+          hoverOffset: 4,
+        },
+      ],
+    };
 
-      // 創建圖表
-      let chart = new Chart(ctx, {
-        type: 'doughnut',
-        data: data,
-        options: {
-          responsive: true,           // 讓圖表隨容器大小伸縮
-          maintainAspectRatio: false,  // 設為 false，圖表才會完全聽從 CSS 設定的高度
-          layout: {
-            padding: 40               // 💡 增加內距，圖表視覺上會直接縮小
+    // 創建圖表
+    let chart = new Chart(ctx, {
+      type: 'doughnut',
+      data: data,
+      options: {
+        responsive: true,           // 讓圖表隨容器大小伸縮
+        maintainAspectRatio: false,  // 設為 false，圖表才會完全聽從 CSS 設定的高度
+        layout: {
+          padding: 40               // 💡 增加內距，圖表視覺上會直接縮小
+        },
+        plugins: {
+          legend: {
+            position: 'right',  // 💡 關鍵：設定在右邊
+            align: 'center',    // 圖例在右側垂直置中
+            labels: {
+              boxWidth: 40,     // 圖例色塊的大小
+              padding: 15,
+              // 每個圖例之間的間距
+              font: {
+                size: 12        // 文字大小
+              }
+            }
           },
-          plugins: {
-            legend: {
-              position: 'right',  // 💡 關鍵：設定在右邊
-              align: 'center',    // 圖例在右側垂直置中
-              labels: {
-                boxWidth: 40,     // 圖例色塊的大小
-                padding: 15,
-                // 每個圖例之間的間距
-                font: {
-                  size: 12        // 文字大小
+          tooltip: {
+            backgroundColor: 'rgb(255, 255, 255)', // 1. 更改底色
+            titleColor: '#333',                      // 2. 標題顏色
+            bodyColor: '#666',                       // 3. 內容文字顏色
+            cornerRadius: 20,                        // 4. 更改形狀 (圓角設定，數值越大越圓)
+            padding: 12,                             // 內距，讓框框看起來不擁擠
+            borderColor: '#4091c9',                  // 5. 邊框顏色
+            borderWidth: 1,                          // 邊框寬度
+            displayColors: false,                     // 是否顯示旁邊的小色塊
+            boxPadding: 5,                           // 色塊與文字的距離
+            callbacks: {
+              // 💡 如果你想要自定義顯示的文字格式（例如加上錢字號）
+              label: function (context) {
+                let label = context.dataset.label || '';
+                if (label) {
+                  label += ': $';
                 }
-              }
-            },
-            tooltip: {
-              backgroundColor: 'rgb(255, 255, 255)', // 1. 更改底色
-              titleColor: '#333',                      // 2. 標題顏色
-              bodyColor: '#666',                       // 3. 內容文字顏色
-              cornerRadius: 20,                        // 4. 更改形狀 (圓角設定，數值越大越圓)
-              padding: 12,                             // 內距，讓框框看起來不擁擠
-              borderColor: '#4091c9',                  // 5. 邊框顏色
-              borderWidth: 1,                          // 邊框寬度
-              displayColors: false,                     // 是否顯示旁邊的小色塊
-              boxPadding: 5,                           // 色塊與文字的距離
-              callbacks: {
-                // 💡 如果你想要自定義顯示的文字格式（例如加上錢字號）
-                label: function (context) {
-                  let label = context.dataset.label || '';
-                  if (label) {
-                    label += ': $';
-                  }
-                  if (context.parsed !== null) {
-                    label += new Intl.NumberFormat('zh-TW').format(context.parsed);
-                  }
-                  return label;
+                if (context.parsed !== null) {
+                  label += new Intl.NumberFormat('zh-TW').format(context.parsed);
                 }
+                return label;
               }
-            },
-          }
+            }
+          },
         }
-      });
+      }
+    });
   }
   today = new Date();
   gettoday!: string;
@@ -187,7 +187,7 @@ ngAfterViewInit() {
       const pageId = params['pageId']; // 確保這裡的名稱跟 AppRoutingModule 定義一致
 
       //取得系統公告列表
-      this.httpClientService.getApi(`http://localhost:8080/api/notifications/list`)
+      this.httpClientService.getApi(`https://wealthmapbackend-production-5c68.up.railway.app/api/notifications/list`)
         .subscribe((notificationList: any) => {
           console.log(notificationList);
           this.notificationList = notificationList;
@@ -220,7 +220,7 @@ ngAfterViewInit() {
     // }, 8000);
 
     // 取得前台新聞列表
-    this.httpClientService.getApi(`http://localhost:8080/api/news/user/list`)
+    this.httpClientService.getApi(`https://wealthmapbackend-production-5c68.up.railway.app/api/news/user/list`)
       .subscribe((news: any) => {
         console.log('使用者的新聞列表', news);
         this.newsList = news;

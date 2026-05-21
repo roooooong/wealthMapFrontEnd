@@ -33,7 +33,7 @@ export class AdminNewsComponent {
     const nextStatus = !news.hidden;
     console.log("id", news.id, "nextStatus", nextStatus);
 
-    this.httpClientService.postApi(`http://localhost:8080/api/news/${news.id}/hide?hide=${nextStatus}`)
+    this.httpClientService.postApi(`https://wealthmapbackend-production-5c68.up.railway.app/api/news/${news.id}/hide?hide=${nextStatus}`)
       .subscribe((res: any) => {
         console.log('有成功嗎?', res);
         news.hidden = nextStatus;
@@ -41,7 +41,7 @@ export class AdminNewsComponent {
   }
 
   fetchNews() {
-    this.httpClientService.getApi(`http://localhost:8080/api/news/admin/list`).subscribe({
+    this.httpClientService.getApi(`https://wealthmapbackend-production-5c68.up.railway.app/api/news/admin/list`).subscribe({
       next: (data: any) => {
         this.newsList = data; // 更新陣列，HTML 會自動重新渲染
         console.log('✅ 數據已與伺服器同步');
@@ -62,7 +62,7 @@ export class AdminNewsComponent {
     if (this.p < 1) this.p = 1;
 
     // Spring Boot 頁碼從 0 開始，所以要 p - 1
-    const url = `http://localhost:8080/api/news/admin/list?page=${this.p - 1}&size=${this.itemsPerPage}`;
+    const url = `https://wealthmapbackend-production-5c68.up.railway.app/api/news/admin/list?page=${this.p - 1}&size=${this.itemsPerPage}`;
 
     this.httpClientService.getApi(url).subscribe({
       next: (res: any) => {

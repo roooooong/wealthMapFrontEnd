@@ -32,7 +32,7 @@ export class ProfileComponent {
   userId!: number;
   userName!: string;
   userEmail!: string;
-  userLevel!:string;
+  userLevel!: string;
 
   constructor(private router: Router,
     private httpClientService: HttpClientService,
@@ -109,7 +109,7 @@ export class ProfileComponent {
     })
   }
 
-  goToRiskResult(){
+  goToRiskResult() {
     this.router.navigate(['/risk-result']);
   }
 
@@ -132,7 +132,7 @@ export class ProfileComponent {
         newPassword: this.newPassword
       };
       //為了寫error 所以改成next的方式
-      this.httpClientService.postApi(`http://localhost:8080/api/auth/change-password`, newpwd, { headers })
+      this.httpClientService.postApi(`https://wealthmapbackend-production-5c68.up.railway.app/api/auth/change-password`, newpwd, { headers })
         .subscribe({
           next: (changePwd: any) => {
             if (changePwd.code == 200) {

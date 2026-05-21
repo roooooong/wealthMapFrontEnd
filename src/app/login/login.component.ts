@@ -36,7 +36,7 @@ export class LoginComponent {
     private httpClientService: HttpClientService,
     private exampleService: ExampleService) {
   }
-  goHome(){
+  goHome() {
     this.router.navigate(['/main']);
   }
 
@@ -80,7 +80,7 @@ export class LoginComponent {
         password: this.password
       };
       console.log('格式正確，執行登入 API');
-      this.httpClientService.postApi(`http://localhost:8080/api/auth/login`, loginData)
+      this.httpClientService.postApi(`https://wealthmapbackend-production-5c68.up.railway.app/api/auth/login`, loginData)
         .subscribe((login: any) => {
           if (login.code == 200) {
             console.log('登入成功');
@@ -104,10 +104,10 @@ export class LoginComponent {
               console.log('enabled 的型別:', typeof newUser.enabled);
               const isAccountEnabled = newUser.enabled;
               // if(this.role==="USER" || this.role==="visitor"){
-              if (isAccountEnabled === true || isAccountEnabled === 1){
+              if (isAccountEnabled === true || isAccountEnabled === 1) {
                 console.log("進入main");
                 this.router.navigate(['/main']);
-              }else{
+              } else {
                 console.log("驗證失敗，帳戶已停用");
                 this.showDialog(10);
                 this.exampleService.clearUserData(); // 這會清除 localStorage 並廣播 null
@@ -145,7 +145,7 @@ export class LoginComponent {
   send() {
     this.validate('email');
     if (!this.emailErrorMsg) {
-      this.httpClientService.getApi(`http://localhost:8080/api/auth/send-mail?to=${this.email}`)
+      this.httpClientService.getApi(`https://wealthmapbackend-production-5c68.up.railway.app/api/auth/send-mail?to=${this.email}`)
         .subscribe((sendEmail: any) => {
           if (sendEmail.code == 200) {
             this.showDialog(3);
@@ -191,7 +191,7 @@ export class LoginComponent {
         password: this.password
       };
       console.log('格式正確，執行登入 API');
-      this.httpClientService.postApi(`http://localhost:8080/api/auth/login`, loginData)
+      this.httpClientService.postApi(`https://wealthmapbackend-production-5c68.up.railway.app/api/auth/login`, loginData)
         .subscribe((relogin: any) => {
           if (relogin.code == 200) {
             console.log('登入成功');
@@ -213,9 +213,9 @@ export class LoginComponent {
               this.role = newUser.role;
               const isAccountEnabled = newUser.enabled;
               // if(this.role==="USER" || this.role==="visitor"){
-              if (isAccountEnabled === true || isAccountEnabled === 1){
+              if (isAccountEnabled === true || isAccountEnabled === 1) {
                 this.showDialog(4);
-              }else{
+              } else {
                 console.log("驗證失敗，帳戶已停用");
                 this.showDialog(10);
                 this.exampleService.clearUserData(); // 這會清除 localStorage 並廣播 null

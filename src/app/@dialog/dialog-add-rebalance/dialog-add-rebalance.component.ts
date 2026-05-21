@@ -38,7 +38,7 @@ export class DialogAddRebalanceComponent implements OnInit {
 
   alertSymbol: string = "";
   alertInput: string = "";
-  assets:AssetDTO[] =[];
+  assets: AssetDTO[] = [];
   totalAmount: number = 0;
 
   ngOnInit(): void {
@@ -48,15 +48,15 @@ export class DialogAddRebalanceComponent implements OnInit {
         // 儲存所有原始資產，供計算使用
         this.assets = user.assets || [];
         // 抓取所有資產，並過濾掉已經在主頁面清單中的股票
-        const apiUrl = `http://localhost:8080/api/assets/rebalance/available-stocks/${this.userId}`;
+        const apiUrl = `https://wealthmapbackend-production-5c68.up.railway.app/api/assets/rebalance/available-stocks/${this.userId}`;
         this.httpClientService.getApi(apiUrl).subscribe((res: any) => {
-          if(!res) return;
+          if (!res) return;
           this.filteredStocks = res;
         });
       }
     });
 
-    const apiUrl = `http://localhost:8080/api/assets/user/${this.userId}`;
+    const apiUrl = `https://wealthmapbackend-production-5c68.up.railway.app/api/assets/user/${this.userId}`;
   }
 
   onStockChange() {
@@ -66,15 +66,15 @@ export class DialogAddRebalanceComponent implements OnInit {
       return;
     }
 
-    if(this.assets.some(a => a.type === 'STOCK' && a.symbol === this.newAsset.stockId )){
+    if (this.assets.some(a => a.type === 'STOCK' && a.symbol === this.newAsset.stockId)) {
 
       // 1. 從 allAssets 中過濾出所有符合該 symbol 的股票資產
       const matchingAssets = this.assets.filter(
-            a => a.type === 'STOCK' && a.symbol === this.newAsset.stockId
-          );
+        a => a.type === 'STOCK' && a.symbol === this.newAsset.stockId
+      );
       const totalShares = matchingAssets.reduce((sum, current) => sum + current.shares, 0);
       console.log(matchingAssets);
-      console.log('股數'+totalShares);
+      console.log('股數' + totalShares);
 
       // 這裡先預設為 0，等拿到現價後在 subscribe 裡計算比較準確
       this.newAsset.sharesOwned = totalShares || 0;
@@ -87,25 +87,25 @@ export class DialogAddRebalanceComponent implements OnInit {
       //   console.log('已自動填入股數:', this.newAsset.sharesOwned);
       // }
       this.isLoading = true;
-      this.httpClientService.getApi(`http://localhost:8080/api/strategy-set/quote/${this.newAsset.stockId}`)
-      .subscribe((res: any) => {
-        if (res.code === 200) {
-          this.currentPrice = res.data.currentPrice;
-          //計算股數：總資產額 / 當前市價
-          if (this.currentPrice > 0) {
-            this.totalAmount = this.newAsset.sharesOwned * this.currentPrice;
+      this.httpClientService.getApi(`https://wealthmapbackend-production-5c68.up.railway.app/api/strategy-set/quote/${this.newAsset.stockId}`)
+        .subscribe((res: any) => {
+          if (res.code === 200) {
+            this.currentPrice = res.data.currentPrice;
+            //計算股數：總資產額 / 當前市價
+            if (this.currentPrice > 0) {
+              this.totalAmount = this.newAsset.sharesOwned * this.currentPrice;
+            }
+
           }
 
-        }
-
-        this.isLoading = false;
-      });
+          this.isLoading = false;
+        });
 
     }
 
-    // const quoteUrl = `http://localhost:8080/api/strategy-set/quote/${this.newAsset.stockId}`;
+    // const quoteUrl = `https://wealthmapbackend-production-5c68.up.railway.app/api/strategy-set/quote/${this.newAsset.stockId}`;
     // // 獲取即時報價
-    // this.httpClientService.getApi(`http://localhost:8080/api/strategy-set/quote/${this.newAsset.stockId}`)
+    // this.httpClientService.getApi(`https://wealthmapbackend-production-5c68.up.railway.app/api/strategy-set/quote/${this.newAsset.stockId}`)
     //   .subscribe((res: any) => {
     //     if (res.code === 200) {
     //       this.currentPrice = res.data.currentPrice;
