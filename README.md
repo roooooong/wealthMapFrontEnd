@@ -1,63 +1,33 @@
-<<<<<<< HEAD
-# Wealthmap
-=======
-# WealthMap
->>>>>>> origin/rong
+# WealthMap 個人財務與資產配置平台
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.0.5.
+全方位的資產配置、多元的投資策略，陪使用者在理財的路上，讓資產隨市場穩健進化。
 
-## Development server
+---
+## 核心功能亮點 (Features)
 
-To start a local development server, run:
+*   **我的資產：** 記錄個人資產、負債明細，並有收支紀錄功能，為本系統最重要的功能。紀錄內容將提供其他功能使用。
+*   **風險評估：** 透過10個問題，幫助使用者了解自己的投資性格，並給予投資建議。
+*   **財務目標：** 設定目標日期與金額，連結我的資產中紀錄的特定資產，由系統協助追蹤完成率，並提供視覺化進度條。
+*   **財務健康：** 透過三大指標:流動性、負債比、儲蓄率，計算使用者財務健康分數，並有結果分析供使用者了解自己的財務狀況。
+*   **投資策略：** 三個投資策略:「資產再平衡」、「加減碼策略」、「投資成長模擬」，供使用者進行投資規劃。
+    *   **資產再平衡：** 用來校準投資比例，透過「賣高、買低」，確保投資組合不會因為市場波動而偏離原本軌道。
+    *   **加減碼策略：** 動態的投資策略，是根據市場行情高低來調整扣款金額的方式。
+    *   **投資成長模擬：** 透過「蒙地卡羅模擬」，評估使用者的資產在不同市場波動下的成長機率，幫助使用者掌握投資策略的達成度與風險。
+      
+---
+##  技術棧 (Tech Stack)
 
-```bash
-ng serve
-```
+*   **核心框架：** Angular 19 (TypeScript)
+*   **狀態管理與非同步：** RxJS
+*   **UI 元件庫：** Tailwind CSS / Angular Material / PrimeNG
+*   **數據視覺化：** Chart.js / ngx-echarts
+  
+---
+##  個人貢獻 (Team & Contributions)
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+本專案為團隊協作開發，以下為我的核心負責範圍：
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+*   系統整體UI/UX，並實作 RWD 響應式佈局。
+*   RxJS 資料流處理(身分串接)。
+*   處理圖表即時渲染。
+*   負責頁面 : 首頁、登入/註冊/忘記密碼、系統公告、新聞管理、個人檔案、關於我們/隱私政策/服務條款、投資策略-投資成長模擬
