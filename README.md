@@ -19,7 +19,7 @@
 
 *   **核心框架：** Angular 19 (TypeScript)
 *   **狀態管理與非同步：** RxJS
-*   **UI 元件庫：** Tailwind CSS / Angular Material / PrimeNG
+*   **UI 元件庫：** Angular Material / PrimeNG
 *   **數據視覺化：** Chart.js / ngx-echarts
   
 ---
